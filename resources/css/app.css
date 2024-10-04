@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+    .sidebar-icon {
+        @apply h-6 w-6;
+    }
+
+    .sidebar-text {
+        @apply ml-3 whitespace-nowrap;
+    }
+
+    .sidebar-link {
+        @apply flex items-center px-4 py-3 hover:bg-indigo-700;
+    }
+}
+
