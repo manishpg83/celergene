@@ -5,9 +5,10 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Entity;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 class EntityManager extends Component
-{
+{   use WithPagination;
     public $entities;
     public $entity;
     public $isEditing = false;
