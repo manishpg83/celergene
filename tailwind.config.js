@@ -7,7 +7,13 @@ module.exports = {
       // Add any other paths where you use Tailwind classes
     ],
     theme: {
-      extend: {},
+      extend: {
+        colors: {
+          'custom-black': '#27282A',
+          'custom-black-table': '#1E1F20',
+          'custom-white': '#F5F5F5',
+        },
+      },
     },
     plugins: [],
   }

@@ -8,34 +8,53 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 
 class EntityManager extends Component
-{   use WithPagination;
+{
+    use WithPagination;
+
     public $entities;
-    public $entity;
+    public $entityId;
+    public $company_name;
+    public $address;
+    public $country;
+    public $postal_code;
+    public $business_reg_number;
+    public $vat_number;
+    public $bank_account_name;
+    public $bank_account_number;
+    public $currency;
+    public $bank_name;
+    public $bank_address;
+    public $bank_swift_code;
+    public $bank_iban_number;
+    public $bank_code;
+    public $bank_branch_code;
+    public $is_active;
+
     public $isEditing = false;
     public $confirmingDeletion = false;
 
     protected $rules = [
-        'entity.company_name' => 'required|string|max:255',
-        'entity.address' => 'required|string',
-        'entity.country' => 'required|string|max:100',
-        'entity.postal_code' => 'required|string|max:20',
-        'entity.business_reg_number' => 'nullable|string|max:50',
-        'entity.vat_number' => 'nullable|string|max:50',
-        'entity.bank_account_name' => 'required|string|max:255',
-        'entity.bank_account_number' => 'required|string|max:50',
-        'entity.currency' => 'required|string|size:3',
-        'entity.bank_name' => 'required|string|max:255',
-        'entity.bank_address' => 'required|string',
-        'entity.bank_swift_code' => 'nullable|string|max:11',
-        'entity.bank_iban_number' => 'nullable|string|max:34',
-        'entity.bank_code' => 'nullable|string|max:255',
-        'entity.bank_branch_code' => 'nullable|string|max:255',
-        'entity.is_active' => 'boolean',
+        'company_name' => 'required|string|max:255',
+        'address' => 'required|string',
+        'country' => 'required|string|max:100',
+        'postal_code' => 'required|string|max:20',
+        'business_reg_number' => 'nullable|string|max:50',
+        'vat_number' => 'nullable|string|max:50',
+        'bank_account_name' => 'required|string|max:255',
+        'bank_account_number' => 'required|string|max:50',
+        'currency' => 'required|string|size:3',
+        'bank_name' => 'required|string|max:255',
+        'bank_address' => 'required|string',
+        'bank_swift_code' => 'nullable|string|max:11',
+        'bank_iban_number' => 'nullable|string|max:34',
+        'bank_code' => 'nullable|string|max:255',
+        'bank_branch_code' => 'nullable|string|max:255',
+        'is_active' => 'boolean',
     ];
 
     public function mount()
     {
-        $this->resetEntity();
+        $this->resetFields();
         $this->loadEntities();
     }
 
@@ -49,21 +68,61 @@ class EntityManager extends Component
         $this->entities = Entity::all();
     }
 
-    public function resetEntity()
+    public function resetFields()
     {
-        $this->entity = new Entity();
-        $this->entity->is_active = true;
+        $this->reset([
+            'entityId',
+            'company_name',
+            'address',
+            'country',
+            'postal_code',
+            'business_reg_number',
+            'vat_number',
+            'bank_account_name',
+            'bank_account_number',
+            'currency',
+            'bank_name',
+            'bank_address',
+            'bank_swift_code',
+            'bank_iban_number',
+            'bank_code',
+            'bank_branch_code',
+            'is_active'
+        ]);
+        $this->is_active = true;
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function create()
     {
-        $this->resetEntity();
+        $this->resetFields();
         $this->isEditing = true;
     }
 
     public function edit(Entity $entity)
     {
-        $this->entity = $entity;
+        $this->entityId = $entity->id;
+        $this->company_name = $entity->company_name;
+        $this->address = $entity->address;
+        $this->country = $entity->country;
+        $this->postal_code = $entity->postal_code;
+        $this->business_reg_number = $entity->business_reg_number;
+        $this->vat_number = $entity->vat_number;
+        $this->bank_account_name = $entity->bank_account_name;
+        $this->bank_account_number = $entity->bank_account_number;
+        $this->currency = $entity->currency;
+        $this->bank_name = $entity->bank_name;
+        $this->bank_address = $entity->bank_address;
+        $this->bank_swift_code = $entity->bank_swift_code;
+        $this->bank_iban_number = $entity->bank_iban_number;
+        $this->bank_code = $entity->bank_code;
+        $this->bank_branch_code = $entity->bank_branch_code;
+        $this->is_active = $entity->is_active;
+
         $this->isEditing = true;
     }
 
@@ -71,11 +130,34 @@ class EntityManager extends Component
     {
         $this->validate();
 
-        if (!$this->entity->id) {
-            $this->entity->created_by = Auth::id();
+        $entity = $this->entityId ? Entity::find($this->entityId) : new Entity();
+        $entity->fill($this->only([
+            'company_name',
+            'address',
+            'country',
+            'postal_code',
+            'business_reg_number',
+            'vat_number',
+            'bank_account_name',
+            'bank_account_number',
+            'currency',
+            'bank_name',
+            'bank_address',
+            'bank_swift_code',
+            'bank_iban_number',
+            'bank_code',
+            'bank_branch_code',
+            'is_active'
+        ]));
+
+        if (Auth::check()) {
+            $entity->created_by = Auth::id();
+        } else {
+            session()->flash('error', 'You must be logged in to create an entity.');
+            return;
         }
 
-        $this->entity->save();
+        $entity->save();
         $this->isEditing = false;
         $this->loadEntities();
         session()->flash('message', 'Entity saved successfully.');
@@ -83,13 +165,14 @@ class EntityManager extends Component
 
     public function confirmDelete(Entity $entity)
     {
-        $this->entity = $entity;
+        $this->entityId = $entity->id;
         $this->confirmingDeletion = true;
     }
 
     public function delete()
     {
-        $this->entity->delete();
+        $entity = Entity::find($this->entityId);
+        $entity->delete();
         $this->confirmingDeletion = false;
         $this->loadEntities();
         session()->flash('message', 'Entity deleted successfully.');
@@ -106,6 +189,6 @@ class EntityManager extends Component
     public function cancel()
     {
         $this->isEditing = false;
-        $this->resetEntity();
+        $this->resetFields();
     }
 }
