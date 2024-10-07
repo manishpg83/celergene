@@ -11,7 +11,7 @@ class EntityManager extends Component
 {
     use WithPagination;
 
-    public $entities;
+    private $entities; // Change to private
     public $entityId;
     public $company_name;
     public $address;
@@ -29,7 +29,9 @@ class EntityManager extends Component
     public $bank_code;
     public $bank_branch_code;
     public $is_active;
-
+    public $search = '';
+    public $status = 'all'; // Default status
+    public $perPage = 5; // Default perPage
     public $isEditing = false;
     public $confirmingDeletion = false;
 
@@ -54,18 +56,48 @@ class EntityManager extends Component
 
     public function mount()
     {
-        $this->resetFields();
-        $this->loadEntities();
+        $this->search = '';
+        $this->status = 'all';
+        $this->perPage = 5;
     }
 
     public function render()
     {
-        return view('livewire.admin.entity-manager');
+        $query = Entity::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('company_name', 'LIKE', '%' . $this->search . '%')
+                             ->orWhere('country', 'LIKE', '%' . $this->search . '%'); // You can add more fields as necessary
+                });
+            });
+
+        // Filter by status if it's not 'all'
+        if ($this->status !== 'all') {
+            $query->where('is_active', $this->status === 'active');
+        }
+
+        $this->entities = $query->paginate($this->perPage);
+
+        return view('livewire.admin.entity-manager', [
+            'entities' => $this->entities,
+        ]);
     }
 
-    public function loadEntities()
+    public function updatedPerPage($value)
     {
-        $this->entities = Entity::all();
+        $this->perPage = $value; // Update perPage value
+        $this->resetPage(); // Reset pagination
+    }
+
+    public function updatedStatus($value)
+    {
+        $this->status = $value; // Update status value
+        $this->resetPage(); // Reset pagination
+    }
+
+    public function getEntities()
+    {
+        return $this->entities;
     }
 
     public function resetFields()
@@ -159,7 +191,7 @@ class EntityManager extends Component
 
         $entity->save();
         $this->isEditing = false;
-        $this->loadEntities();
+
         notyf()->success('Entity saved successfully.');
     }
 
@@ -174,7 +206,7 @@ class EntityManager extends Component
         $entity = Entity::find($this->entityId);
         $entity->delete();
         $this->confirmingDeletion = false;
-        $this->loadEntities();
+
         notyf()->success('Entity deleted successfully.');
     }
 
@@ -182,7 +214,7 @@ class EntityManager extends Component
     {
         $entity->is_active = !$entity->is_active;
         $entity->save();
-        $this->loadEntities();
+
         notyf()->success('Entity status updated successfully.');
     }
 

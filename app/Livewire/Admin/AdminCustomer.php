@@ -67,7 +67,7 @@ class AdminCustomer extends Component
     public function create()
     {
         $this->resetInputFields();
-        $this->showForm = true; // Show the create form
+        $this->showForm = true;
     }
 
     public function store()
