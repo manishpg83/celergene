@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
@@ -12,8 +13,23 @@ class VendorTable extends Component
 
     public $searchVendor = '';
     public $status = 'all';
+    public $vendorToDelete = null;
+    public $vendorToEdit = null;
+    public $showDeleteModal = false;
+    public $showEditModal = false;
+    public $editingVendorStatus = '';
 
-    protected $queryString = [];
+    public $editingVendor = [
+        'id' => '',
+        'name' => '',
+        'email' => '',
+        'status' => ''
+    ];
+
+    protected $queryString = [
+        'searchVendor' => ['except' => ''],
+        'status' => ['except' => 'all'],
+    ];
 
     public function updatingSearchVendor()
     {
@@ -40,13 +56,58 @@ class VendorTable extends Component
         }
     }
 
+    public function editVendor($vendorId)
+    {
+        $vendor = Vendor::find($vendorId);
+        if ($vendor) {
+            $this->editingVendor = [
+                'id' => $vendor->id,
+                'name' => $vendor->name,
+                'email' => $vendor->email,
+                'status' => $vendor->status
+            ];
+            $this->showEditModal = true;
+        }
+    }
+
+    public function confirmDelete($vendorId)
+    {
+        $this->vendorToDelete = $vendorId;
+        $this->showDeleteModal = true;
+    }
+
+    public function saveVendor()
+    {
+        $vendor = Vendor::find($this->editingVendor['id']);
+        if ($vendor) {
+            $vendor->update([
+                'name' => $this->editingVendor['name'],
+                'email' => $this->editingVendor['email'],
+                'status' => $this->editingVendor['status']
+            ]);
+            session()->flash('success', 'Vendor updated successfully.');
+            $this->showEditModal = false;
+            $this->editingVendor = ['id' => '', 'name' => '', 'email' => '', 'status' => ''];
+        }
+    }
+
+    public function deleteVendor()
+    {
+        if ($this->vendorToDelete) {
+            Vendor::destroy($this->vendorToDelete);
+            session()->flash('success', 'Vendor deleted successfully.');
+            $this->vendorToDelete = null;
+            $this->showDeleteModal = false;
+        }
+    }
+
     public function render()
     {
         $vendors = Vendor::query()
             ->when($this->searchVendor, function (Builder $query) {
                 $query->where(function ($subQuery) {
                     $subQuery->where('name', 'like', '%' . $this->searchVendor . '%')
-                             ->orWhere('email', 'like', '%' . $this->searchVendor . '%');
+                        ->orWhere('email', 'like', '%' . $this->searchVendor . '%');
                 });
             })
             ->when($this->status !== 'all', function (Builder $query) {

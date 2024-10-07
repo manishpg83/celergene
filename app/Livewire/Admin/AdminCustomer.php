@@ -9,7 +9,12 @@ use Livewire\WithPagination;
 class AdminCustomer extends Component
 {
     use WithPagination;
+
+    public $confirmingDeletion = false;
+
     public $showForm = false;
+    public $showEditForm = false; // New property for edit modal
+    public $customer_id; // New property for the customer being edited
     public $customer_type, $salutation, $first_name, $last_name, $mobile_number, $email;
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;
     public $payment_term_actual, $credit_rating, $allow_consignment = false;
@@ -20,7 +25,7 @@ class AdminCustomer extends Component
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
 
     public $search = '';
-    public $perPage = 1;
+    public $perPage = 10; // Set default items per page
 
     protected $rules = [
         'customer_type' => 'required|string',
@@ -51,48 +56,54 @@ class AdminCustomer extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->showForm = true; // Show the create form
     }
 
     public function store()
     {
         $this->validate();
 
-        Customer::create([
-            'customer_type' => $this->customer_type,
-            'salutation' => $this->salutation,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'mobile_number' => $this->mobile_number,
-            'email' => $this->email,
-            'company_name' => $this->company_name,
-            'business_reg_number' => $this->business_reg_number,
-            'vat_number' => $this->vat_number,
-            'payment_term_display' => $this->payment_term_display,
-            'payment_term_actual' => $this->payment_term_actual,
-            'credit_rating' => $this->credit_rating,
-            'allow_consignment' => $this->allow_consignment,
-            'must_receive_payment_before_delivery' => $this->must_receive_payment_before_delivery,
-            'billing_address' => $this->billing_address,
-            'billing_country' => $this->billing_country,
-            'billing_postal_code' => $this->billing_postal_code,
-            'shipping_address_receiver_name_1' => $this->shipping_address_receiver_name_1,
-            'shipping_address_1' => $this->shipping_address_1,
-            'shipping_country_1' => $this->shipping_country_1,
-            'shipping_postal_code_1' => $this->shipping_postal_code_1,
-            'shipping_address_receiver_name_2' => $this->shipping_address_receiver_name_2,
-            'shipping_address_2' => $this->shipping_address_2,
-            'shipping_country_2' => $this->shipping_country_2,
-            'shipping_postal_code_2' => $this->shipping_postal_code_2,
-            'shipping_address_receiver_name_3' => $this->shipping_address_receiver_name_3,
-            'shipping_address_3' => $this->shipping_address_3,
-            'shipping_country_3' => $this->shipping_country_3,
-            'shipping_postal_code_3' => $this->shipping_postal_code_3,
-            'created_by' => auth()->guard('admin')->id(),
-        ]);
+        Customer::create($this->customerData());
 
         session()->flash('message', 'Customer created successfully.');
 
         $this->resetInputFields();
+    }
+
+    public function edit($id)
+    {
+        $this->showEditForm = true; // Show the edit modal
+        $this->customer_id = $id; // Set the customer id
+        $customer = Customer::find($id);
+
+        $this->fill($customer->toArray());
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $customer = Customer::find($this->customer_id);
+        $customer->update($this->customerData());
+
+        session()->flash('message', 'Customer updated successfully.');
+
+        $this->resetInputFields();
+        $this->showEditForm = false; // Hide the edit modal
+    }
+
+    public function confirmDelete(Customer $customer)
+    {
+        $this->customer_id = $customer->id;
+        $this->confirmingDeletion = true;
+    }
+
+    public function delete()
+    {
+        $customer = Customer::find($this->customer_id);
+        $customer->delete();
+        $this->confirmingDeletion = false;
+        session()->flash('message', 'Entity deleted successfully.');
     }
 
     public function resetInputFields()
@@ -126,5 +137,41 @@ class AdminCustomer extends Component
         $this->shipping_address_3 = '';
         $this->shipping_country_3 = '';
         $this->shipping_postal_code_3 = '';
+    }
+
+    private function customerData()
+    {
+        return [
+            'customer_type' => $this->customer_type,
+            'salutation' => $this->salutation,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'mobile_number' => $this->mobile_number,
+            'email' => $this->email,
+            'company_name' => $this->company_name,
+            'business_reg_number' => $this->business_reg_number,
+            'vat_number' => $this->vat_number,
+            'payment_term_display' => $this->payment_term_display,
+            'payment_term_actual' => $this->payment_term_actual,
+            'credit_rating' => $this->credit_rating,
+            'allow_consignment' => $this->allow_consignment,
+            'must_receive_payment_before_delivery' => $this->must_receive_payment_before_delivery,
+            'billing_address' => $this->billing_address,
+            'billing_country' => $this->billing_country,
+            'billing_postal_code' => $this->billing_postal_code,
+            'shipping_address_receiver_name_1' => $this->shipping_address_receiver_name_1,
+            'shipping_address_1' => $this->shipping_address_1,
+            'shipping_country_1' => $this->shipping_country_1,
+            'shipping_postal_code_1' => $this->shipping_postal_code_1,
+            'shipping_address_receiver_name_2' => $this->shipping_address_receiver_name_2,
+            'shipping_address_2' => $this->shipping_address_2,
+            'shipping_country_2' => $this->shipping_country_2,
+            'shipping_postal_code_2' => $this->shipping_postal_code_2,
+            'shipping_address_receiver_name_3' => $this->shipping_address_receiver_name_3,
+            'shipping_address_3' => $this->shipping_address_3,
+            'shipping_country_3' => $this->shipping_country_3,
+            'shipping_postal_code_3' => $this->shipping_postal_code_3,
+            'created_by' => auth()->guard('admin')->id(),
+        ];
     }
 }
