@@ -1,10 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\VendorController;
-use App\Http\Controllers\Admin\AdminEntityController;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Route;
+
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Guest routes
@@ -25,5 +28,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         // Entity management
         Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
+
+        // Customer management
+        Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
     });
 });

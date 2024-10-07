@@ -19,6 +19,7 @@ class Vendor extends Authenticatable
         'password',
         'shop_name',
         'status',
+        'created_by',
     ];
 
     protected $hidden = [
@@ -29,4 +30,8 @@ class Vendor extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function creator()
+    {
+        return $this->belongsTo(Admin::class, 'created_by');
+    }
 }

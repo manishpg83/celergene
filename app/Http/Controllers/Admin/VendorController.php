@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vendor;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+
 
 class VendorController extends Controller
 {
     public function index()
     {
-        $vendors = Vendor::with('roles')->paginate(10);
-        return view('admin.vendors.index', compact('vendors'));
+
+        return view('admin.vendors.index');
     }
 
-    public function edit(Vendor $vendor)
+   /*  public function edit(Vendor $vendor)
     {
         $roles = Role::where('guard_name', 'vendor')->get();
         return view('admin.vendors.edit', compact('vendor', 'roles'));
@@ -32,5 +30,5 @@ class VendorController extends Controller
 
         return redirect()->route('admin.vendors.index')
             ->with('success', 'Vendor permissions updated successfully');
-    }
+    } */
 }

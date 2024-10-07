@@ -9,11 +9,11 @@
 </head>
 <body class="bg-gray-50">
     <div class="flex h-screen overflow-hidden">
-        @include('layouts.sidebar')
+        @include('vendor.layouts.sidebar')
         <div class="flex flex-col flex-1 overflow-hidden">
-            @include('layouts.navbar')
-            <main class="flex-1 mt-2  overflow-x-hidden overflow-y-auto bg-slate-50 p-2">
-                <div class="container mx-auto py-8">
+            @include('vendor.layouts.navbar')
+            <main class="flex-1 mt-2  overflow-x-hidden overflow-y-auto bg-slate-50 p-4">
+                <div class="container mx-auto p-4 py-8">
                     @yield('content')
                 </div>
             </main>
