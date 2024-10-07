@@ -5,7 +5,10 @@
                 {{ session('message') }}
             </div>
         @endif
-
+        <button wire:click="create"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded focus:outline-none focus:shadow-outline">
+            Add Entity
+        </button>
         <div class="flex items-center mb-4 space-x-4">
             <div class="flex-grow flex space-x-4">
                 <select wire:model.live="perPage" class="border p-2 rounded">
