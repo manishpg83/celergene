@@ -13,6 +13,7 @@ class VendorTable extends Component
 
     public $searchVendor = '';
     public $status = 'all';
+    public $perPage = 5; // Set default items per page
     public $vendorToDelete = null;
     public $vendorToEdit = null;
     public $showDeleteModal = false;
@@ -45,6 +46,7 @@ class VendorTable extends Component
     {
         $this->searchVendor = '';
         $this->status = 'all';
+        $this->perPage = 5;
     }
 
     public function toggleStatus($vendorId)
@@ -54,6 +56,7 @@ class VendorTable extends Component
             $vendor->status = $vendor->status === 'active' ? 'inactive' : 'active';
             $vendor->save();
         }
+        notyf()->success('Vendor Status updated successfully.');
     }
 
     public function editVendor($vendorId)
@@ -85,7 +88,7 @@ class VendorTable extends Component
                 'email' => $this->editingVendor['email'],
                 'status' => $this->editingVendor['status']
             ]);
-            session()->flash('success', 'Vendor updated successfully.');
+            notyf()->success('Vendor updated successfully.');
             $this->showEditModal = false;
             $this->editingVendor = ['id' => '', 'name' => '', 'email' => '', 'status' => ''];
         }
@@ -95,7 +98,7 @@ class VendorTable extends Component
     {
         if ($this->vendorToDelete) {
             Vendor::destroy($this->vendorToDelete);
-            session()->flash('success', 'Vendor deleted successfully.');
+            notyf()->success('Vendor deleted successfully.');
             $this->vendorToDelete = null;
             $this->showDeleteModal = false;
         }
@@ -113,7 +116,7 @@ class VendorTable extends Component
             ->when($this->status !== 'all', function (Builder $query) {
                 $query->where('status', $this->status);
             })
-            ->paginate(10);
+            ->paginate($this->perPage);
 
         return view('livewire.admin.vendor-table', [
             'vendors' => $vendors,

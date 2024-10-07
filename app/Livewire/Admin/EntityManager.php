@@ -153,14 +153,14 @@ class EntityManager extends Component
         if (Auth::check()) {
             $entity->created_by = Auth::id();
         } else {
-            session()->flash('error', 'You must be logged in to create an entity.');
+            notyf()->error('You must be logged in to create an entity.');
             return;
         }
 
         $entity->save();
         $this->isEditing = false;
         $this->loadEntities();
-        session()->flash('message', 'Entity saved successfully.');
+        notyf()->success('Entity saved successfully.');
     }
 
     public function confirmDelete(Entity $entity)
@@ -175,7 +175,7 @@ class EntityManager extends Component
         $entity->delete();
         $this->confirmingDeletion = false;
         $this->loadEntities();
-        session()->flash('message', 'Entity deleted successfully.');
+        notyf()->success('Entity deleted successfully.');
     }
 
     public function toggleActive(Entity $entity)
@@ -183,7 +183,7 @@ class EntityManager extends Component
         $entity->is_active = !$entity->is_active;
         $entity->save();
         $this->loadEntities();
-        session()->flash('message', 'Entity status updated successfully.');
+        notyf()->success('Entity status updated successfully.');
     }
 
     public function cancel()

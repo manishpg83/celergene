@@ -38,7 +38,7 @@ class AddVendor extends Component
         try {
             // Check if the user is authenticated
             if (!Auth::check()) {
-                session()->flash('error', 'You must be logged in to create an entity.');
+                notyf()->error('You must be logged in to create an entity.');
                 return;
             }
 
@@ -56,19 +56,18 @@ class AddVendor extends Component
                 if (!empty($validRoles)) {
                     $vendor->syncRoles($validRoles);
                 } else {
-                    session()->flash('error', 'Invalid role(s) provided.');
+                    notyf()->error('Invalid role(s) provided.');
                     return;
                 }
             }
 
             $this->reset(['name', 'email', 'password', 'roles', 'password_confirmation']);
 
-            // Flash success message
-            session()->flash('success', 'Vendor added successfully!');
+            notyf()->success('Vendor added successfully!');
             return redirect()->route('admin.vendors.index');
         } catch (\Exception $e) {
             Log::error('Error creating vendor', ['error' => $e->getMessage()]);
-            session()->flash('error', 'There was an error adding the vendor.');
+            notyf()->error('There was an error adding the vendor.');
         }
     }
 

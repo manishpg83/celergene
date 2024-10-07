@@ -25,7 +25,7 @@ class AdminCustomer extends Component
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
 
     public $search = '';
-    public $perPage = 10; // Set default items per page
+    public $perPage = 5; // Set default items per page
 
     protected $rules = [
         'customer_type' => 'required|string',
@@ -42,10 +42,21 @@ class AdminCustomer extends Component
         'shipping_country_1' => 'required|string',
     ];
 
+    public function updatingSearch()
+    {
+        $this->resetPage(); // Reset pagination when the search input changes
+    }
+
     public function render()
     {
-        $customers = Customer::where('first_name', 'LIKE', '%' . $this->search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+        $customers = Customer::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
+                             ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+                             ->orWhere('email', 'LIKE', '%' . $this->search . '%'); // You can add more fields as necessary
+                });
+            })
             ->paginate($this->perPage);
 
         return view('livewire.admin.admin-customer', [
@@ -65,7 +76,7 @@ class AdminCustomer extends Component
 
         Customer::create($this->customerData());
 
-        session()->flash('message', 'Customer created successfully.');
+        notyf()->success('Customer created successfully.');
 
         $this->resetInputFields();
     }
@@ -86,7 +97,7 @@ class AdminCustomer extends Component
         $customer = Customer::find($this->customer_id);
         $customer->update($this->customerData());
 
-        session()->flash('message', 'Customer updated successfully.');
+        notyf()->success('Customer updated successfully.');
 
         $this->resetInputFields();
         $this->showEditForm = false; // Hide the edit modal
@@ -103,7 +114,7 @@ class AdminCustomer extends Component
         $customer = Customer::find($this->customer_id);
         $customer->delete();
         $this->confirmingDeletion = false;
-        session()->flash('message', 'Entity deleted successfully.');
+        notyf()->success('Customer deleted successfully.');
     }
 
     public function resetInputFields()

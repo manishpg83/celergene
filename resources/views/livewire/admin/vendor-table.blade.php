@@ -5,6 +5,12 @@
     <div class="flex items-center mb-4 space-x-4">
         <input wire:model.live="searchVendor" type="text" placeholder="Search Vendor..."
             class="border rounded p-2 w-full">
+            <select wire:model.live="perPage" class="border p-2 rounded">
+                <option value="5">5</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
         <select wire:model.live="status" class="border rounded p-2">
             <option value="all">All Statuses</option>
             <option value="active">Active</option>

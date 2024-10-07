@@ -10,6 +10,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
+        "php-flasher/flasher-notyf-laravel": "^2.0",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {
