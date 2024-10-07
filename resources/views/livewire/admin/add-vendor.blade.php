@@ -1,4 +1,4 @@
-<div class="bg-white p-6 rounded-md shadow-md">
+<div class="bg-white p-6 rounded-md shadow-custom-card">
     <h2 class="text-lg font-semibold mb-6">Add Vendor</h2>
 
     <form wire:submit.prevent="submit" class="grid grid-cols-2 gap-4">

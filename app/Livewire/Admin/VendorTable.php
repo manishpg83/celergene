@@ -16,7 +16,7 @@ class VendorTable extends Component
     public $perPage = 5; // Set default items per page
     public $vendorToDelete = null;
     public $vendorToEdit = null;
-    public $showDeleteModal = false;
+    public $confirmingDeletion = false;
     public $showEditModal = false;
     public $editingVendorStatus = '';
 
@@ -76,7 +76,7 @@ class VendorTable extends Component
     public function confirmDelete($vendorId)
     {
         $this->vendorToDelete = $vendorId;
-        $this->showDeleteModal = true;
+        $this->confirmingDeletion = true;
     }
 
     public function saveVendor()
@@ -100,7 +100,7 @@ class VendorTable extends Component
             Vendor::destroy($this->vendorToDelete);
             notyf()->success('Vendor deleted successfully.');
             $this->vendorToDelete = null;
-            $this->showDeleteModal = false;
+            $this->confirmingDeletion = false;
         }
     }
 
