@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Welcome to Vuexy!')</title>
+    <title>@yield('title', 'Welcome to ' . config('app.name') . '!')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -13,7 +13,8 @@
     <div class="min-h-screen flex items-center justify-center bg-gray-100">
         <div class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-md">
                 <div class="text-center">
-                    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Welcome to Celergen! 👋</h2>
+                    <p class="mt-6 text"><img style="display: inline;" src="{{asset('admin/assets/img/logo.png')}}" alt=""></p>
+                    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Welcome to {{config('app.name')}}!</h2>
                     <p class="mt-2 text-sm text-gray-600">Please sign-in to your account and start the adventure</p>
                 </div>
                 <form class="mt-8 space-y-6" method="POST" action="{{ route('admin.login') }}">
@@ -51,14 +52,14 @@
                     </div>
                 </form>
 
-                <div class="text-center">
+                <!-- <div class="text-center">
                     <p class="text-sm text-gray-600">New on our platform? <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a></p>
                 </div>
                 <div class="flex justify-center space-x-4">
                     <a href="#" class="text-gray-600">Facebook</a>
                     <a href="#" class="text-gray-600">Twitter</a>
                     <a href="#" class="text-gray-600">Google</a>
-                </div>
+                </div> -->
             </div>
         </div>
 
