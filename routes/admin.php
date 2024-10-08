@@ -24,11 +24,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         // Vendor management
-        Route::resource('vendors', VendorController::class);
+        //Route::resource('vendors', VendorController::class);
+        Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
+        Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+
 
         // Entity management
         Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
-
+        Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
         // Customer management
         Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
     });

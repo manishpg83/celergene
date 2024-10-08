@@ -1,70 +1,76 @@
-<div class="w-full p-4">
-    <div class="bg-white shadow-custom-card rounded-lg p-6 mb-4">
-        <div class="flex items-center justify-between mb-4">
-            <!-- Pagination Dropdown (Left-aligned) -->
-            <select wire:model.live="perPage"
-                class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="5">5</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-
-            <!-- Search Input (Right-aligned) -->
-            <input type="text" wire:model.live="search" placeholder="Search Customers..."
-                class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-
-
+<div class="">
+    <div class="">
         @if (session()->has('message'))
             <div class="mb-4 text-green-600 font-semibold">{{ session('message') }}</div>
         @endif
 
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @if ($customers->isEmpty())
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">No customers found.</td>
-                    </tr>
-                @else
-                    @foreach ($customers as $customer)
-                        <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $customer->first_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $customer->last_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $customer->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
-                                    <!-- Edit Button with Icon -->
-                                    <button wire:click="edit({{ $customer->id }})" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                        </svg>
-                                    </button>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <!-- Pagination Dropdown (Left-aligned) -->
+                    <select wire:model.live="perPage" class="form-select" style="width: auto;">
+                        <option value="5">5</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
 
-                                    <!-- Delete Button with Icon -->
-                                    <button wire:click="confirmDelete({{ $customer->id }})" class="text-red-600 hover:text-red-900" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+                    <!-- Search Input (Right-aligned) -->
+                    <input type="text" wire:model.live="search" placeholder="Search Customers..."
+                        class="form-control" style="width: auto;" />
+                </div>
+
+                @if (session()->has('message'))
+                    <div class="alert alert-success">{{ session('message') }}</div>
                 @endif
-            </tbody>
-        </table>
 
-        <div class="mt-4">
-            {{ $customers->links() }}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($customers->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="text-center">No customers found.</td>
+                                </tr>
+                            @else
+                                @foreach ($customers as $customer)
+                                    <tr>
+                                        <td>{{ $customer->first_name }}</td>
+                                        <td>{{ $customer->last_name }}</td>
+                                        <td>{{ $customer->email }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-around">
+                                                <!-- Edit Button -->
+                                                <button wire:click="edit({{ $customer->id }})"
+                                                    class="btn btn-icon btn-text-primary" title="Edit">
+                                                    <i class="ti ti-pencil"></i>
+                                                </button>
+
+                                                <!-- Delete Button -->
+                                                <button wire:click="confirmDelete({{ $customer->id }})"
+                                                    class="btn btn-icon btn-text-danger" title="Delete">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-3">
+                    {{ $customers->links() }}
+                </div>
+            </div>
         </div>
     </div>
 

@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Celergen'),
+
+    //'asset_url' => env('ASSET_URL', 'https://www.example.com'),
 
     /*
     |--------------------------------------------------------------------------

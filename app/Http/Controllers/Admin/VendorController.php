@@ -13,6 +13,11 @@ class VendorController extends Controller
         return view('admin.vendors.index');
     }
 
+    public function add()
+    {
+        return view('admin.vendors.add');
+    }
+
    /*  public function edit(Vendor $vendor)
     {
         $roles = Role::where('guard_name', 'vendor')->get();

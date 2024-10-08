@@ -11,4 +11,9 @@ class AdminEntityController extends Controller
     {
         return view('admin.entities.index');
     }
+
+    public function add()
+    {
+        return view('admin.entities.add');
+    }
 }
