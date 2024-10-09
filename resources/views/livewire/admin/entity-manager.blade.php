@@ -69,7 +69,7 @@
                         @else
                             @foreach ($entities as $index => $entity)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ ($entities->currentPage() - 1) * $entities->perPage() + $index + 1 }}</td>
                                     <td>{{ $entity->id }}</td>
                                     <td>{{ $entity->company_name }}</td>
                                     <td>{{ $entity->country }}</td>
