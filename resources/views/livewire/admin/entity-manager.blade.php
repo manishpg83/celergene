@@ -54,7 +54,7 @@
 
             <div class="table-responsive">
                 <table class="table table-bordered">
-                    <thead class="table-light">
+                    <thead >
                         <tr>
                             <th>Sl</th>
                             <th>ID</th>

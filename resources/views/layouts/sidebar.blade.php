@@ -53,7 +53,7 @@
     <div class="app-brand demo">
       <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
         <span class="app-brand-logo">
-          <img src="assets\img\branding\Celergen-Logo.png" alt="Girl in a jacket" width="180" height="30">
+          <img src="{{ asset('/admin/assets/img/branding/Celergen-Logo.png') }}" alt="Girl in a jacket" width="180" height="30">
         </span>
         <!--<span class="app-brand-text demo menu-text fw-bold">Vuexy</span>-->
       </a>
