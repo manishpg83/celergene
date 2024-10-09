@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('bank_branch_code')->nullable();
             $table->foreignId('created_by')->constrained('admins');
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

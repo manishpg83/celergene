@@ -5,5 +5,5 @@
 @section('header', 'Add Entity')
 
 @section('content')
-
+    @livewire('admin.entity.add-entity')
 @endsection

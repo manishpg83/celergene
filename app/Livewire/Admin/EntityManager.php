@@ -67,7 +67,7 @@ class EntityManager extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($subQuery) {
                     $subQuery->where('company_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('country', 'LIKE', '%' . $this->search . '%'); // You can add more fields as necessary
+                        ->orWhere('country', 'LIKE', '%' . $this->search . '%');
                 });
             });
 
@@ -75,6 +75,9 @@ class EntityManager extends Component
         if ($this->status !== 'all') {
             $query->where('is_active', $this->status === 'active');
         }
+
+        // Include soft deleted entities if needed
+         $query->withTrashed();
 
         $this->entities = $query->paginate($this->perPage);
 
@@ -195,19 +198,41 @@ class EntityManager extends Component
         notyf()->success('Entity saved successfully.');
     }
 
-    public function confirmDelete(Entity $entity)
-    {
-        $this->entityId = $entity->id;
-        $this->confirmingDeletion = true;
-    }
-
     public function delete()
     {
-        $entity = Entity::find($this->entityId);
-        $entity->delete();
-        $this->confirmingDeletion = false;
+        $entity = Entity::withTrashed()->find($this->entityId);
 
-        notyf()->success('Entity deleted successfully.');
+        if ($entity->trashed()) {
+            // If already soft deleted, permanently delete
+            $entity->forceDelete();
+            notyf()->success('Entity permanently deleted.');
+        } else {
+            // If not soft deleted, perform soft delete
+            $entity->delete();
+            notyf()->success('Entity soft deleted. Click delete again to permanently remove.');
+        }
+
+        $this->confirmingDeletion = false;
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->entityId = $id;
+        $entity = Entity::withTrashed()->find($id);
+
+        if ($entity->trashed()) {
+            $this->confirmingDeletion = true;
+        } else {
+            $this->delete(); // Directly soft delete without confirmation
+        }
+    }
+
+    public function restore($id)
+    {
+        $entity = Entity::withTrashed()->find($id);
+        $entity->restore();
+
+        notyf()->success('Entity restored successfully.');
     }
 
     public function toggleActive(Entity $entity)
