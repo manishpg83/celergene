@@ -106,7 +106,7 @@
                                                     <a class="dropdown-item {{ $entity->trashed() ? 'text-danger' : 'text-warning' }}"
                                                         wire:click="confirmDelete({{ $entity->id }})"
                                                         style="cursor: pointer;">
-                                                        {{ $entity->trashed() ? 'Permanently Delete' : 'Suspended' }} <!-- Changed 'Suspend' to 'Suspended' -->
+                                                        {{ $entity->trashed() ? 'Permanently Delete' : 'Suspend' }}
                                                     </a>
                                                 </li>
                                                 @if ($entity->trashed())
