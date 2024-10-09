@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Entity;
 use Illuminate\Http\Request;
 
 class AdminEntityController extends Controller
@@ -15,5 +16,10 @@ class AdminEntityController extends Controller
     public function add()
     {
         return view('admin.entities.add');
+    }
+    public function showAddEntityForm($id)
+    {
+        $entity = Entity::findOrFail($id);
+        return view('livewire.admin.entity.add-entity', compact('entity'));
     }
 }

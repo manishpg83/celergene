@@ -11,29 +11,15 @@ class EntityManager extends Component
 {
     use WithPagination;
 
-    private $entities; // Change to private
     public $entityId;
-    public $company_name;
-    public $address;
-    public $country;
-    public $postal_code;
-    public $business_reg_number;
-    public $vat_number;
-    public $bank_account_name;
-    public $bank_account_number;
-    public $currency;
-    public $bank_name;
-    public $bank_address;
-    public $bank_swift_code;
-    public $bank_iban_number;
-    public $bank_code;
-    public $bank_branch_code;
-    public $is_active;
-    public $search = '';
-    public $status = 'all'; // Default status
-    public $perPage = 5; // Default perPage
-    public $isEditing = false;
-    public $confirmingDeletion = false;
+    public $company_name, $address, $country, $postal_code;
+    public $business_reg_number, $vat_number;
+    public $bank_account_name, $bank_account_number;
+    public $currency, $bank_name, $bank_address;
+    public $bank_swift_code, $bank_iban_number, $bank_code, $bank_branch_code;
+    public $is_active, $search = '', $status = 'all', $perPage = 5, $isEditing = false, $confirmingDeletion = false;
+    public $sortField = 'company_name';
+    public $sortDirection = 'asc';
 
     protected $rules = [
         'company_name' => 'required|string|max:255',
@@ -56,9 +42,7 @@ class EntityManager extends Component
 
     public function mount()
     {
-        $this->search = '';
-        $this->status = 'all';
-        $this->perPage = 5;
+        $this->resetFields();
     }
 
     public function render()
@@ -69,38 +53,30 @@ class EntityManager extends Component
                     $subQuery->where('company_name', 'LIKE', '%' . $this->search . '%')
                         ->orWhere('country', 'LIKE', '%' . $this->search . '%');
                 });
-            });
+            })
+            ->when($this->status !== 'all', function ($query) {
+                $query->where('is_active', $this->status === 'active');
+            })
+            ->withTrashed()
+            ->orderBy($this->sortField, $this->sortDirection);
 
-        // Filter by status if it's not 'all'
-        if ($this->status !== 'all') {
-            $query->where('is_active', $this->status === 'active');
-        }
-
-        // Include soft deleted entities if needed
-         $query->withTrashed();
-
-        $this->entities = $query->paginate($this->perPage);
+        $entities = $query->paginate($this->perPage);
 
         return view('livewire.admin.entity-manager', [
-            'entities' => $this->entities,
+            'entities' => $entities,
         ]);
     }
 
     public function updatedPerPage($value)
     {
-        $this->perPage = $value; // Update perPage value
-        $this->resetPage(); // Reset pagination
+        $this->perPage = $value;
+        $this->resetPage();
     }
 
     public function updatedStatus($value)
     {
-        $this->status = $value; // Update status value
-        $this->resetPage(); // Reset pagination
-    }
-
-    public function getEntities()
-    {
-        return $this->entities;
+        $this->status = $value;
+        $this->resetPage();
     }
 
     public function resetFields()
@@ -140,32 +116,15 @@ class EntityManager extends Component
 
     public function edit(Entity $entity)
     {
-        $this->entityId = $entity->id;
-        $this->company_name = $entity->company_name;
-        $this->address = $entity->address;
-        $this->country = $entity->country;
-        $this->postal_code = $entity->postal_code;
-        $this->business_reg_number = $entity->business_reg_number;
-        $this->vat_number = $entity->vat_number;
-        $this->bank_account_name = $entity->bank_account_name;
-        $this->bank_account_number = $entity->bank_account_number;
-        $this->currency = $entity->currency;
-        $this->bank_name = $entity->bank_name;
-        $this->bank_address = $entity->bank_address;
-        $this->bank_swift_code = $entity->bank_swift_code;
-        $this->bank_iban_number = $entity->bank_iban_number;
-        $this->bank_code = $entity->bank_code;
-        $this->bank_branch_code = $entity->bank_branch_code;
-        $this->is_active = $entity->is_active;
-
-        $this->isEditing = true;
+        return redirect()->route('admin.entities.add', ['id' => $entity->id]);
     }
+
 
     public function save()
     {
         $this->validate();
-
         $entity = $this->entityId ? Entity::find($this->entityId) : new Entity();
+
         $entity->fill($this->only([
             'company_name',
             'address',
@@ -194,7 +153,6 @@ class EntityManager extends Component
 
         $entity->save();
         $this->isEditing = false;
-
         notyf()->success('Entity saved successfully.');
     }
 
@@ -203,11 +161,11 @@ class EntityManager extends Component
         $entity = Entity::withTrashed()->find($this->entityId);
 
         if ($entity->trashed()) {
-            // If already soft deleted, permanently delete
             $entity->forceDelete();
             notyf()->success('Entity permanently deleted.');
         } else {
-            // If not soft deleted, perform soft delete
+            $entity->is_active = false;
+            $entity->save();
             $entity->delete();
             notyf()->success('Entity soft deleted. Click delete again to permanently remove.');
         }
@@ -223,7 +181,7 @@ class EntityManager extends Component
         if ($entity->trashed()) {
             $this->confirmingDeletion = true;
         } else {
-            $this->delete(); // Directly soft delete without confirmation
+            $this->delete();
         }
     }
 
@@ -231,7 +189,6 @@ class EntityManager extends Component
     {
         $entity = Entity::withTrashed()->find($id);
         $entity->restore();
-
         notyf()->success('Entity restored successfully.');
     }
 
@@ -239,7 +196,6 @@ class EntityManager extends Component
     {
         $entity->is_active = !$entity->is_active;
         $entity->save();
-
         notyf()->success('Entity status updated successfully.');
     }
 
@@ -247,5 +203,17 @@ class EntityManager extends Component
     {
         $this->isEditing = false;
         $this->resetFields();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
+
+        $this->resetPage();
     }
 }

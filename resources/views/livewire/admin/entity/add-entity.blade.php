@@ -3,12 +3,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">Add New Entity</h5>
+                    <h5 class="card-title mb-sm-0 me-2">{{ $entityId ? 'Edit Entity' : 'Add New Entity' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle"> Back</span>
                         </button>
-{{--                         <button wire:click="save" class="btn btn-primary">Save</button> --}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -148,7 +147,9 @@
                                 </div>
 
                                 <div class="col-12 mt-4">
-                                    <button wire:click="save" class="btn btn-primary">Submit</button>
+                                    <button wire:click.prevent="save" class="btn btn-primary">
+                                        {{ $entityId ? 'Update Entity' : 'Add Entity' }}
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -84,16 +84,16 @@
               <div data-i18n="Entity">Entity</div>
             </a>
             <ul class="menu-sub">
-              <li class="menu-item">
-                <a href="{{ route('admin.entities.index') }}" class="menu-link">
-                  <div data-i18n="Entities List">Entities List</div>
-                </a>
-              </li>
-              <li class="menu-item">
-                <a href="{{ route('admin.entities.add') }}" class="menu-link">
-                  <div data-i18n="Add Entity">Add Entity</div>
-                </a>
-              </li>
+                <li class="menu-item {{ request()->routeIs('admin.entities.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.entities.index') }}" class="menu-link">
+                        <div data-i18n="Entities List">Entities List</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.entities.add') ? 'active' : '' }}">
+                    <a href="{{ route('admin.entities.add') }}" class="menu-link">
+                        <div data-i18n="Add Entity">Add Entity</div>
+                    </a>
+                </li>
             </ul>
           </li>
         </ul>

@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         // Entity management
         Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
         Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
+        Route::get('entities/edit/{id}', [AdminEntityController::class, 'edit'])->name('entities.edit');
         // Customer management
         Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
     });

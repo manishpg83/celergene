@@ -17,52 +17,47 @@
             </a>
         </div>
     </div>
+
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <!-- Pagination Dropdown (Left-aligned) -->
-                <select wire:model.live="perPage" class="form-select" style="width: auto;">
-                    <option value="5">5</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-
-                <!-- Status Filter Dropdown -->
-                <select wire:model.live="status" class="form-select" style="width: auto;">
-                    <option value="all">All Statuses</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-
-                <!-- Search Input (Right-aligned) -->
-                <div class="position-relative">
+                <!-- Search Input (Left-aligned) -->
+                <div class="position-relative me-3">
                     <input wire:model.live="search" type="text" placeholder="Search Entities..." class="form-control"
                         style="width: auto;">
-                    <span class="position-absolute top-50 start-0 translate-middle-y ps-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px;">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 4a7 7 0 011.746 13.664l4.3 4.3a1 1 0 001.414-1.414l-4.3-4.3A7 7 0 1111 4z" />
-                        </svg>
-                    </span>
+                </div>
+
+                <!-- Pagination Dropdown and Status Filter (Right-aligned) -->
+                <div class="d-flex">
+                    <!-- Pagination Dropdown -->
+                    <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
+                        <option value="5">5</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+
+                    <!-- Status Filter Dropdown -->
+                    <select wire:model.live="status" class="form-select" style="width: auto;">
+                        <option value="all">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
                 </div>
             </div>
-
             @if (session()->has('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
             @endif
-
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Sl</th>
-                            <th>ID</th>
-                            <th>Company Name</th>
-                            <th>Country</th>
-                            <th>Created By</th>
-                            <th>Status</th>
+                            <th wire:click="sortBy('id')" style="cursor: pointer;">ID</th>
+                            <th wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
+                            <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
+                            <th wire:click="sortBy('created_by')" style="cursor: pointer;">Created By</th>
+                            <th wire:click="sortBy('is_active')" style="cursor: pointer;">Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -80,46 +75,48 @@
                                     <td>{{ $entity->country }}</td>
                                     <td>{{ $entity->createdBy->name }}</td>
                                     <td>
-                                        <button wire:click="toggleActive({{ $entity->id }})"
-                                            class="btn btn-sm {{ $entity->is_active ? 'btn-success' : 'btn-secondary' }}">
-                                            {{ $entity->is_active ? 'Active' : 'Inactive' }}
-                                        </button>
+                                        <!-- Updated Status Display -->
+                                        @if ($entity->trashed())
+                                            <span class="text-warning">Suspended</span>
+                                        @else
+                                            <button wire:click="toggleActive({{ $entity->id }})"
+                                                class="btn btn-sm {{ $entity->is_active ? 'btn-success' : 'btn-secondary' }}">
+                                                {{ $entity->is_active ? 'Active' : 'Inactive' }}
+                                            </button>
+                                        @endif
                                     </td>
                                     <td>
-                                        <div class="d-flex">
-                                            <!-- Edit Button -->
-                                            <button wire:click="edit({{ $entity->id }})"
-                                                class="btn btn-link text-primary" title="Edit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    style="width: 20px; height: 20px;">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        <div class="dropdown">
+                                            <button class="btn btn-link text-black" type="button"
+                                                id="actionMenu{{ $entity->id }}" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    fill="currentColor" style="width: 20px; height: 20px;">
+                                                    <circle cx="12" cy="12" r="2" />
+                                                    <circle cx="12" cy="6" r="2" />
+                                                    <circle cx="12" cy="18" r="2" />
                                                 </svg>
                                             </button>
-
-                                            <!-- Delete Button -->
-                                            <button wire:click="confirmDelete({{ $entity->id }})"
-                                                class="btn btn-link {{ $entity->trashed() ? 'text-danger' : 'text-warning' }}"
-                                                title="{{ $entity->trashed() ? 'Permanently Delete' : 'Soft Delete' }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    style="width: 20px; height: 20px;">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                </svg>
-                                            </button>
-                                            @if ($entity->trashed())
-                                                <button wire:click="restore({{ $entity->id }})"
-                                                    class="btn btn-link text-success" title="Restore">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        style="width: 20px; height: 20px;">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                                                    </svg>
-                                                </button>
-                                            @endif
+                                            <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $entity->id }}">
+                                                <li>
+                                                    <a class="dropdown-item" wire:click="edit({{ $entity->id }})"
+                                                        style="cursor: pointer;">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item {{ $entity->trashed() ? 'text-danger' : 'text-warning' }}"
+                                                        wire:click="confirmDelete({{ $entity->id }})"
+                                                        style="cursor: pointer;">
+                                                        {{ $entity->trashed() ? 'Permanently Delete' : 'Suspended' }} <!-- Changed 'Suspend' to 'Suspended' -->
+                                                    </a>
+                                                </li>
+                                                @if ($entity->trashed())
+                                                    <li>
+                                                        <a class="dropdown-item text-success"
+                                                            wire:click="restore({{ $entity->id }})"
+                                                            style="cursor: pointer;">Restore</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
                                         </div>
                                     </td>
                                 </tr>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddEntity extends Component
 {
+    public $entityId; // Add entityId to track the current entity
     public $company_name;
     public $address;
     public $country;
@@ -46,6 +47,34 @@ class AddEntity extends Component
         'is_active' => 'boolean',
     ];
 
+    public function mount()
+    {
+        $this->entityId = request()->query('id'); // Get 'id' from query parameters
+
+        if ($this->entityId) {
+            $entity = Entity::find($this->entityId);
+            if ($entity) {
+                $this->company_name = $entity->company_name;
+                $this->address = $entity->address;
+                $this->country = $entity->country;
+                $this->postal_code = $entity->postal_code;
+                $this->business_reg_number = $entity->business_reg_number;
+                $this->vat_number = $entity->vat_number;
+                $this->gst_number = $entity->gst_number;
+                $this->currency = $entity->currency;
+                $this->bank_account_name = $entity->bank_account_name;
+                $this->bank_account_number = $entity->bank_account_number;
+                $this->bank_name = $entity->bank_name;
+                $this->bank_address = $entity->bank_address;
+                $this->bank_swift_code = $entity->bank_swift_code;
+                $this->bank_iban_number = $entity->bank_iban_number;
+                $this->bank_code = $entity->bank_code;
+                $this->bank_branch_code = $entity->bank_branch_code;
+                $this->is_active = $entity->is_active;
+            }
+        }
+    }
+
     public function render()
     {
         return view('livewire.admin.entity.add-entity');
@@ -60,11 +89,14 @@ class AddEntity extends Component
     {
         $this->validate();
 
-        $entity = new Entity();
+        // Check if we are updating an existing entity or creating a new one
+        $entity = $this->entityId ? Entity::find($this->entityId) : new Entity();
+
+        // Fill the entity with the validated data
         $entity->fill($this->all());
 
         if (Auth::check()) {
-            $entity->created_by = Auth::id();
+            $entity->created_by = Auth::id(); // Set created_by only for new entities
         } else {
             session()->flash('error', 'You must be logged in to create an entity.');
             return;
@@ -73,7 +105,7 @@ class AddEntity extends Component
         $entity->save();
 
         session()->flash('success', 'Entity saved successfully.');
-        return redirect()->route('admin.entities.index');
+        return redirect()->route('admin.entities.index'); // Redirect after save
     }
 
     public function back()
