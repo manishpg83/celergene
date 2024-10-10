@@ -35,4 +35,9 @@ class Admin extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new AdminResetPasswordNotification($token));
     }
+
+    public function isAdmin()
+    {
+        return true; // Adjust this logic based on your application's requirements
+    }
 }

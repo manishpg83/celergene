@@ -34,4 +34,8 @@ class Vendor extends Authenticatable
     {
         return $this->belongsTo(Admin::class, 'created_by');
     }
+    public function isVendor()
+    {
+        return true; // Adjust this logic based on your application's requirements
+    }
 }
