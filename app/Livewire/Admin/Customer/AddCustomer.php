@@ -35,16 +35,45 @@ class AddCustomer extends Component
         'shipping_country_1' => 'required|string',
     ];
 
-    public function mount($customerId = null)
+    public function mount()
     {
-        if ($customerId) {
-            $this->isEditing = true;
-            $this->customer_id = $customerId;
-            $customer = Customer::findOrFail($customerId);
-            $this->fill($customer->toArray()); // Fill the form with customer data
+        $this->customer_id = request()->query('id');
+
+        if ($this->customer_id) {
+            $customer = Customer::find($this->customer_id);
+            if ($customer) {
+                $this->customer_type = $customer->customer_type;
+                $this->salutation = $customer->salutation;
+                $this->first_name = $customer->first_name;
+                $this->last_name = $customer->last_name;
+                $this->mobile_number = $customer->mobile_number;
+                $this->email = $customer->email;
+                $this->company_name = $customer->company_name;
+                $this->business_reg_number = $customer->business_reg_number;
+                $this->vat_number = $customer->vat_number;
+                $this->payment_term_display = $customer->payment_term_display;
+                $this->payment_term_actual = $customer->payment_term_actual;
+                $this->credit_rating = $customer->credit_rating;
+                $this->allow_consignment = $customer->allow_consignment;
+                $this->must_receive_payment_before_delivery = $customer->must_receive_payment_before_delivery;
+                $this->billing_address = $customer->billing_address;
+                $this->billing_country = $customer->billing_country;
+                $this->billing_postal_code = $customer->billing_postal_code;
+                $this->shipping_address_receiver_name_1 = $customer->shipping_address_receiver_name_1;
+                $this->shipping_address_1 = $customer->shipping_address_1;
+                $this->shipping_country_1 = $customer->shipping_country_1;
+                $this->shipping_postal_code_1 = $customer->shipping_postal_code_1;
+                $this->shipping_address_receiver_name_2 = $customer->shipping_address_receiver_name_2;
+                $this->shipping_address_2 = $customer->shipping_address_2;
+                $this->shipping_country_2 = $customer->shipping_country_2;
+                $this->shipping_postal_code_2 = $customer->shipping_postal_code_2;
+                $this->shipping_address_receiver_name_3 = $customer->shipping_address_receiver_name_3;
+                $this->shipping_address_3 = $customer->shipping_address_3;
+                $this->shipping_country_3 = $customer->shipping_country_3;
+                $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+            }
         }
     }
-
     public function save()
     {
         $this->validate();
