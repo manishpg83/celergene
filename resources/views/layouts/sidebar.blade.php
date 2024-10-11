@@ -250,12 +250,12 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ route('admin.customer.index') }}" class="menu-link" target="_blank">
+          <a href="{{ route('admin.customer.index') }}" class="menu-link">
             <div data-i18n="Customers List">Customers List</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
+          <a href="{{ route('admin.customer.add') }}" class="menu-link">
             <div data-i18n="Add New Customer">Add New Customer</div>
           </a>
         </li>
