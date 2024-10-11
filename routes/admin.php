@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminEntityController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\CountryManagerController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\VendorController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AdminEntityController;
+use App\Http\Controllers\Admin\CustomersTypeController;
+use App\Http\Controllers\Admin\CountryManagerController;
 
 
 
@@ -45,5 +46,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
         Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
         Route::get('countries', [CountryManagerController::class, 'index'])->name('countries.index');
+
+        Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
+        Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
+
     });
 });

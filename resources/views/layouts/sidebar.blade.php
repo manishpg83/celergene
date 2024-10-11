@@ -148,12 +148,12 @@
             </a>
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="{{ route('admin.customer.index') }}" class="menu-link">
+                <a href="{{ route('admin.customerstype.index') }}" class="menu-link">
                   <div data-i18n="Customer Type List">Customer Type List</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="#" class="menu-link">
+                <a href="{{ route('admin.customerstype.add') }}" class="menu-link">
                   <div data-i18n="Add Customer Type">Add Customer Type</div>
                 </a>
               </li>
