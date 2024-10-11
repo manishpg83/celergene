@@ -1,44 +1,68 @@
 <?php
-
 namespace App\Livewire\Admin\Customerstype;
 
 use App\Models\CustomerType; // Import the model
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CustomerTypeList extends Component
 {
-    public $customerTypes; // Property to hold the customer types
-    public $customertype, $status, $customerTypeId; // Properties for form data
+    use WithPagination;
 
-    // Load customer types when the component is mounted
+    public $customertype, $customerTypeId;
+    public $perPage = 5;
+    public $status = 'active';
+    public $search = '';
+    public $confirmingDeletion = false;
+
     public function mount()
     {
-        $this->customerTypes = CustomerType::all();
-        $this->status = 'active'; // Default status for the form
+        $this->resetForm();
     }
 
-    // Method to delete a customer type
-    public function deleteCustomerType($id)
+    public function delete()
     {
-        $customerType = CustomerType::findOrFail($id);
-        $customerType->delete();
+        $customerType = CustomerType::withTrashed()->find($this->customerTypeId);
 
-        // Refresh the list after deletion
-        $this->customerTypes = CustomerType::all();
+        if ($customerType->trashed()) {
+            $customerType->forceDelete();
+            notyf()->success('Customer type permanently deleted.');
+        } else {
+            $customerType->status = 'inactive';
+            $customerType->save();
+            $customerType->delete();
+            notyf()->success('Customer type suspended. Click delete again to permanently remove.');
+        }
 
-        // Optionally show a success message
-        session()->flash('message', 'Customer type deleted successfully.');
+        $this->confirmingDeletion = false;
     }
 
-    // Method to set up editing
-    // Method to redirect to the edit form
+    public function confirmDelete($id)
+    {
+        $this->customerTypeId = $id;
+        $customerType = CustomerType::withTrashed()->find($id);
+
+        if ($customerType->trashed()) {
+            $this->confirmingDeletion = true;
+        } else {
+            $this->delete();
+        }
+    }
+
+    public function restore($id)
+    {
+        $customerType = CustomerType::withTrashed()->find($id);
+        $customerType->restore();
+        $customerType->status = 'active';
+        $customerType->save();
+        notyf()->success('Customer type restored successfully.');
+    }
+
     public function editCustomerType($id)
     {
-        return redirect()->route('customerstype.add', ['id' => $id]);
+        return redirect()->route('admin.customerstype.add', ['id' => $id]);
     }
 
-
-    // Method to update customer type
     public function updateCustomerType()
     {
         $this->validate([
@@ -55,9 +79,6 @@ class CustomerTypeList extends Component
         // Reset the form fields
         $this->resetForm();
 
-        // Refresh the list after update
-        $this->customerTypes = CustomerType::all();
-
         session()->flash('message', 'Customer type updated successfully.');
     }
 
@@ -68,10 +89,25 @@ class CustomerTypeList extends Component
         $this->customerTypeId = null; // Reset the ID
     }
 
+    public function toggleActive(CustomerType $customerType)
+    {
+        if (!$customerType->trashed()) {
+            $customerType->status = $customerType->status === 'active' ? 'inactive' : 'active';
+            $customerType->save();
+            notyf()->success('Customer type status updated successfully.');
+        }
+    }
+
     public function render()
     {
+        // Adjust the query to show all customer types, including inactive ones
+        $customerTypes = CustomerType::where('customertype', 'like', '%' . $this->search . '%')
+            ->withTrashed() // Include trashed customer types
+            ->orderBy('id')
+            ->paginate($this->perPage);
+
         return view('livewire.admin.customerstype.customer-type-list', [
-            'customerTypes' => $this->customerTypes
+            'customerTypes' => $customerTypes
         ]);
     }
 }

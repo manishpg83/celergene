@@ -19,6 +19,7 @@
                     @endif
 
                     <form wire:submit.prevent="saveCustomerType">
+                        <input type="hidden" wire:model="customerTypeId">
                         <div class="row g-3 mt-2">
                             <div class="col-md-12">
                                 <label class="form-label" for="customertype">Customer Type</label>

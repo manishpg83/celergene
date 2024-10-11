@@ -7,22 +7,21 @@ use Livewire\Component;
 
 class AddCustomerType extends Component
 {
-    public $customertype; // Property for the customer type input
-    public $status; // Status for the customer type
-    public $customerTypeId; // ID of the customer type being edited
+    public $customertype;
+    public $status;
+    public $customerTypeId;
 
-    // This lifecycle hook runs when the component is instantiated
-    public function mount($customerType = null)
+    public function mount()
     {
-        if ($customerType) {
-            $this->customerTypeId = $customerType->id;
-            $this->customertype = $customerType->customertype;
-            $this->status = $customerType->status;
-        } else {
-            $this->status = 'active'; // Default status for new customer type
+        $this->customerTypeId = request()->query('id');
+        if ($this->customerTypeId) {
+            $customerType = CustomerType::find($this->customerTypeId);
+            if ($customerType) {
+                $this->customertype = $customerType->customertype;
+                $this->status = $customerType->status;
+            }
         }
     }
-
     // Validation rules
     protected $rules = [
         'customertype' => 'required|string|max:255',
@@ -41,14 +40,14 @@ class AddCustomerType extends Component
                 'customertype' => $this->customertype,
                 'status' => $this->status,
             ]);
-            session()->flash('message', 'Customer type updated successfully.');
+            notyf()->success('Customer type updated successfully.');
         } else {
             // Otherwise, we're creating a new record
             CustomerType::create([
                 'customertype' => $this->customertype,
                 'status' => $this->status,
             ]);
-            session()->flash('message', 'Customer type added successfully.');
+            notyf()->success('Customer type added successfully.');
         }
 
         // Reset form fields
@@ -61,7 +60,10 @@ class AddCustomerType extends Component
         $this->status = 'active';
         $this->customerTypeId = null; // Reset the ID
     }
-
+    public function back()
+    {
+        return redirect()->route('admin.customerstype.index');
+    }
     public function render()
     {
         return view('livewire.admin.customerstype.add-customer-type');
