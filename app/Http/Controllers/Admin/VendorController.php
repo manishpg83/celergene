@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Vendor;
 
 
 class VendorController extends Controller
@@ -18,22 +19,10 @@ class VendorController extends Controller
         return view('admin.vendors.add');
     }
 
-   /*  public function edit(Vendor $vendor)
+    public function showAddVendorForm($id)
     {
-        $roles = Role::where('guard_name', 'vendor')->get();
-        return view('admin.vendors.edit', compact('vendor', 'roles'));
+        $vendor = Vendor::findOrFail($id);
+        return view('livewire.admin.user.add-user', compact('vendor'));
     }
 
-    public function update(Request $request, Vendor $vendor)
-    {
-        $request->validate([
-            'roles' => 'required|array',
-            'roles.*' => 'exists:roles,id'
-        ]);
-
-        $vendor->syncRoles($request->roles);
-
-        return redirect()->route('admin.vendors.index')
-            ->with('success', 'Vendor permissions updated successfully');
-    } */
 }

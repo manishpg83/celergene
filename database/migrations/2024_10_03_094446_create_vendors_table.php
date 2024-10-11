@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->foreignId('created_by')->nullable()->constrained('admins');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

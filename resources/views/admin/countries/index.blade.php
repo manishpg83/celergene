@@ -1,5 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-    @livewire('admin.user.add-user')
+    @livewire('admin.country-manager')
 @endsection

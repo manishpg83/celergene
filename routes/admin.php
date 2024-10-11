@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -32,12 +34,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         //Route::resource('vendors', VendorController::class);
         Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
+        //Route::get('users', [UserList::class, 'index'])->name('users.index');
         Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+
 
 
         Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
         Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
 
         Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
+        Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
+        Route::get('countries', [CountryManagerController::class, 'index'])->name('countries.index');
     });
 });

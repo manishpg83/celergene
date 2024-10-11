@@ -80,7 +80,7 @@
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
                         <form id="formAuthentication" class="mb-4" method="POST"
-                            action="{{ route('admin.login') }}">
+                            action="{{ route('admin.login') }}" onsubmit="showLoading()">
                             @csrf
                             <div class="mb-6">
                                 <label for="email" class="form-label">Email or Username</label>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                                <button class="btn btn-primary d-grid w-100" id="loginSubmitBtn" type="submit">Login</button>
                             </div>
                         </form>
                     </div>
@@ -144,6 +144,13 @@
 
         <!-- Page JS -->
         <script src="{{ asset('admin/assets/js/pages-auth.js') }}"></script>
+        <script>
+            function showLoading() {
+                const submitButton = document.getElementById('loginSubmitBtn');
+                submitButton.disabled = true;
+                submitButton.innerText = 'Sending...';
+            }
+        </script>
         @livewireScripts
 </body>
 

@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('shipping_country_3')->nullable();
             $table->string('shipping_postal_code_3')->nullable();
             $table->string('created_by');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,5 +4,5 @@
 @section('header', 'Customers Management')
 
 @section('content')
-    @livewire('admin.customer.customer-list')
+    @livewire('admin.customer.add-customer')
 @endsection
