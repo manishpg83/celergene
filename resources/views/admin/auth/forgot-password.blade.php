@@ -80,6 +80,11 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        @if ($errors->has('email'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('email') }}
+                            </div>
+                        @endif
 
                         <form method="POST" action="{{ route('admin.password.email') }}" id="passwordResetForm"
                             onsubmit="showLoader()">

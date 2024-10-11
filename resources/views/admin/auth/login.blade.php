@@ -78,39 +78,50 @@
                         </div>
                         <h4 class="mb-1">Welcome to Celergen Swiss! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
-
-                        <form id="formAuthentication" class="mb-4" method="POST"
-                            action="{{ route('admin.login') }}" onsubmit="showLoading()">
-                            @csrf
-                            <div class="mb-6">
-                                <label for="email" class="form-label">Email or Username</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email or username" autofocus />
-                            </div>
-                            <div class="mb-6 form-password-toggle">
-                                <label class="form-label" for="password">Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                            <!-- Display success or error messages -->
+                            @if(session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('success') }}
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <a href="{{ route('admin.password.request') }}">
-                                    <small>Forgot Password?</small>
-                                </a>
-                            </div>
-                            <div class="my-8">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check mb-0 ms-2">
+                            @endif
+                            @if($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form id="formAuthentication" class="mb-4" method="POST" action="{{ route('admin.login') }}" onsubmit="showLoader()">
+                                @csrf
+                                <div class="mb-6">
+                                    <label for="email" class="form-label">Email or Username</label>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                           placeholder="Enter your email or username" value="{{ old('email') }}" autofocus />
+                                </div>
+                                <div class="mb-6 form-password-toggle">
+                                    <label class="form-label" for="password">Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" name="password"
+                                               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                               aria-describedby="password" />
+                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center my-3">
+                                    <div class="form-check mb-0">
                                         <input class="form-check-input" type="checkbox" id="remember-me" />
                                         <label class="form-check-label" for="remember-me"> Remember Me </label>
                                     </div>
+                                    <a href="{{ route('admin.password.request') }}">
+                                        <small>Forgot Password?</small>
+                                    </a>
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <button class="btn btn-primary d-grid w-100" id="loginSubmitBtn" type="submit">Login</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                             </div>
                         </form>
                     </div>
@@ -144,13 +155,15 @@
 
         <!-- Page JS -->
         <script src="{{ asset('admin/assets/js/pages-auth.js') }}"></script>
+
         <script>
-            function showLoading() {
-                const submitButton = document.getElementById('loginSubmitBtn');
+            function showLoader() {
+                const submitButton = document.getElementById('loginButton');
                 submitButton.disabled = true;
-                submitButton.innerText = 'Sending...';
+                submitButton.innerText = 'Login In...';
             }
         </script>
+
         @livewireScripts
 </body>
 
