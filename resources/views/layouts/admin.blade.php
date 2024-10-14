@@ -39,6 +39,12 @@
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/typeahead-js/typeahead.css') }}" />
 
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/@form-validation/form-validation.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/css/pages/page-auth.css') }}" />
 
@@ -46,6 +52,7 @@
     <script src="{{ asset('/admin/assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/config.js') }}"></script>
+    <script src="{{ asset('/admin/assets/js/pages-account-settings-account.js') }}"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -101,6 +108,14 @@
 
     <!-- Vendors JS -->
     <script src="{{ asset('/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <!-- Vendors JS -->
+    <script src="{{ asset('/admin/assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/@form-validation/popular.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('/admin/assets/js/main.js') }}"></script>

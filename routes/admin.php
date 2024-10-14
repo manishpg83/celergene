@@ -4,6 +4,7 @@ use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminEntityController;
@@ -31,6 +32,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         //Route::resource('vendors', VendorController::class);
@@ -49,6 +56,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
         Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
-
     });
 });

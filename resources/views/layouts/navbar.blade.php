@@ -24,20 +24,31 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                        @if ($admin->profile_image)
+                            <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                                class="d-block rounded" height="100" width="100" />
+                        @else
+                            <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                        @endif
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item mt-0" href="pages-account-settings-account.html">
+                        <a class="dropdown-item mt-0" href="{{ route('admin.profile.index') }}">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0 me-2">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                                        @if ($admin->profile_image)
+                                            <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                                                class="d-block rounded" height="100" width="100" />
+                                        @else
+                                            <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt
+                                                class="rounded-circle" />
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h6 class="mb-0">John Doe</h6>
+                                    <h6 class="mb-0">{{ isset($admin) ? $admin->name : 'Admin' }}</h6>
                                     <small class="text-muted">Admin</small>
                                 </div>
                             </div>
@@ -47,7 +58,7 @@
                         <div class="dropdown-divider my-1 mx-n2"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="pages-profile-user.html">
+                        <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
                             <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
                         </a>
                     </li>
@@ -64,7 +75,8 @@
                                 <small class="align-middle">Logout</small>
                                 <i class="ti ti-logout ms-2 ti-14px"></i>
                             </a>
-                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
+                                style="display: none;">
                                 @csrf
                             </form>
                         </div>

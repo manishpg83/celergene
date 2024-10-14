@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('customer_type', ['Corporate', 'Individual']);
             $table->string('salutation')->nullable();
             $table->string('first_name');
@@ -23,7 +24,7 @@ return new class extends Migration
             $table->string('business_reg_number')->nullable();
             $table->string('vat_number')->nullable();
             $table->string('payment_term_display');
-            $table->enum('payment_term_actual', ['Term1', 'Term2', 'Term3'])->comment('For AR aging flagging for debtors list');
+            $table->enum('payment_term_actual', ['7D', '14D', '30D'])->comment('For AR aging flagging for debtors list');
             $table->string('credit_rating');
             $table->boolean('allow_consignment');
             $table->boolean('must_receive_payment_before_delivery');
@@ -42,7 +43,8 @@ return new class extends Migration
             $table->string('shipping_address_3')->nullable();
             $table->string('shipping_country_3')->nullable();
             $table->string('shipping_postal_code_3')->nullable();
-            $table->string('created_by');
+            $table->foreignId('created_by')->constrained('admins');
+            $table->foreignId('updated_by')->constrained('admins');
             $table->softDeletes();
             $table->timestamps();
         });

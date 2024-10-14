@@ -20,6 +20,7 @@ class Admin extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'image',
     ];
 
     protected $hidden = [
@@ -38,6 +39,6 @@ class Admin extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin()
     {
-        return true; // Adjust this logic based on your application's requirements
+        return true;
     }
 }
