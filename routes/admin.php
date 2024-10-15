@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\CountryManagerController;
@@ -44,6 +44,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
         //Route::get('users', [UserList::class, 'index'])->name('users.index');
         Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+
+        Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses');
+        Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
 
 
 
