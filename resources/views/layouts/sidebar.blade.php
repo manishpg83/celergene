@@ -127,12 +127,12 @@
             </a>
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="#" class="menu-link">
+                <a href="{{ route('admin.warehouses') }}" class="menu-link">
                   <div data-i18n="Warehouses List">Warehouses List</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="#" class="menu-link">
+                <a href="{{ route('admin.warehouses.add') }}" class="menu-link">
                   <div data-i18n="Add Warehouse">Add Warehouse</div>
                 </a>
               </li>

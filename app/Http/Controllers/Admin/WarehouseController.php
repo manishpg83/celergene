@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
@@ -16,9 +17,9 @@ class WarehouseController extends Controller
     {
         return view('admin.warehouses.add');
     }
-    /* public function showAddEntityForm($id)
+    public function showAddWarehouseForm($id)
     {
-        $customerstype = CustomerType::findOrFail($id);
-        return view('livewire.admin.customerstype.add-customer-type', compact('customerstype'));
-    } */
+        $warehouse = Warehouse::findOrFail($id);
+        return view('livewire.admin.warehouses.add-warehouse', compact('warehouse'));
+    }
 }

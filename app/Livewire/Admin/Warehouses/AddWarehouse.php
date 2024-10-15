@@ -13,6 +13,14 @@ class AddWarehouse extends Component
 
     protected $listeners = ['editWarehouse'];
 
+
+    public function mount($id = null)
+    {
+        if ($id) {
+            $this->editWarehouse($id);  // Load warehouse data if an ID is provided
+        }
+    }
+
     public function resetFields()
     {
         $this->warehouse_id = null;
