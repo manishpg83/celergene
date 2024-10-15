@@ -1,4 +1,24 @@
 <div class="container-xxl flex-grow-1 container-p-y">
+    <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+        <div class="d-flex flex-column justify-content-center">
+            <h4 class="mb-1 text-2xl ml-2">Customer List</h4>
+        </div>
+        <div class="d-flex align-content-center flex-wrap gap-4">
+            <div class="d-flex gap-4">
+                <div class="btn-group">
+                    <button
+                        class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
+                        tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
+                        aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
+                </div>
+            </div>
+            <a href="{{ route('admin.customer.add') }}" class="btn btn-primary">
+                <i class="ti ti-plus ti-xs me-md-2"></i>Add Customer
+            </a>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -13,9 +33,6 @@
                 <div class="d-flex align-items-center">
                     <input type="text" wire:model.live="search" placeholder="Search Customers..."
                         class="form-control me-2" style="width: auto;" />
-                    <a href="{{ route('admin.customer.add') }}" class="btn btn-primary">
-                        <i class="ti ti-plus ti-xs me-1"></i>Add Customer
-                    </a>
                 </div>
             </div>
 

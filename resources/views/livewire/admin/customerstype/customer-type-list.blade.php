@@ -3,7 +3,7 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
             <div class="d-flex flex-column justify-content-center">
-                <h4 class="mb-1">Customer Type List</h4>
+                <h4 class="mb-1 text-2xl ml-2">Customer Type List</h4>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-4">
                 <div class="d-flex gap-4">
@@ -62,7 +62,6 @@
                                         <td>{{ $customerType->id }}</td>
                                         <td>{{ $customerType->customertype }}</td>
                                         <td>
-                                            <!-- Updated Status Display -->
                                             @if ($customerType->trashed())
                                                 <span class="btn btn-sm btn-warning">Suspended</span>
                                             @else
@@ -87,7 +86,8 @@
                                                 <ul class="dropdown-menu"
                                                     aria-labelledby="actionMenu{{ $customerType->id }}">
                                                     <li>
-                                                        <a class="dropdown-item" wire:click="editCustomerType({{ $customerType->id }})"
+                                                        <a class="dropdown-item"
+                                                            wire:click="editCustomerType({{ $customerType->id }})"
                                                             style="cursor: pointer;">Edit</a>
                                                     </li>
                                                     <li>
@@ -121,6 +121,7 @@
             </div>
         </div>
     </div>
+
     <!-- Confirm Deletion Modal -->
     @if ($confirmingDeletion)
         <div class="modal" tabindex="-1" role="dialog" style="display: block;">
@@ -145,4 +146,5 @@
             </div>
         </div>
     @endif
+
 </div>

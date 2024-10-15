@@ -3,7 +3,7 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
             <div class="d-flex flex-column justify-content-center">
-                <h4 class="mb-1">User List</h4>
+                <h4 class="mb-1 text-2xl ml-2">User List</h4>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-4">
                 <div class="d-flex gap-4">

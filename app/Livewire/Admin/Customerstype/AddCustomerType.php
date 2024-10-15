@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin\Customerstype;
 
-use App\Models\CustomerType; // Import the model
+use App\Models\CustomerType;
 use Livewire\Component;
 
 class AddCustomerType extends Component
@@ -22,18 +22,15 @@ class AddCustomerType extends Component
             }
         }
     }
-    // Validation rules
     protected $rules = [
         'customertype' => 'required|string|max:255',
         'status' => 'required|in:active,inactive',
     ];
 
-    // Method to add or update customer type
     public function saveCustomerType()
     {
         $this->validate();
 
-        // If we have a customerTypeId, we're updating an existing record
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             $customerType->update([
@@ -42,7 +39,6 @@ class AddCustomerType extends Component
             ]);
             notyf()->success('Customer type updated successfully.');
         } else {
-            // Otherwise, we're creating a new record
             CustomerType::create([
                 'customertype' => $this->customertype,
                 'status' => $this->status,
@@ -50,7 +46,6 @@ class AddCustomerType extends Component
             notyf()->success('Customer type added successfully.');
         }
 
-        // Reset form fields
         $this->resetForm();
     }
 
@@ -58,7 +53,7 @@ class AddCustomerType extends Component
     {
         $this->customertype = '';
         $this->status = 'active';
-        $this->customerTypeId = null; // Reset the ID
+        $this->customerTypeId = null;
     }
     public function back()
     {

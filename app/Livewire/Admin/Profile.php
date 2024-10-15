@@ -27,14 +27,14 @@ class Profile extends Component
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins,email,' . Auth::guard('admin')->id(),
-            'image' => 'nullable|image|max:1024', // 1MB Max
+            'image' => 'nullable|image|max:1024',
             'new_password' => 'nullable|string|min:8|confirmed',
         ];
     }
 
     public function mount()
     {
-        $this->admin = Auth::guard('admin')->user(); // Assign admin data to $admin
+        $this->admin = Auth::guard('admin')->user();
         $this->name = $this->admin->name;
         $this->email = $this->admin->email;
     }
@@ -72,7 +72,6 @@ class Profile extends Component
             $this->reset(['new_password', 'new_password_confirmation', 'image']);
             notyf()->success('Profile updated successfully.');
         } catch (\Exception $e) {
-            \Log::error('Profile update error: ' . $e->getMessage());
             $this->notify('An error occurred while updating your profile', 'error');
         }
     }

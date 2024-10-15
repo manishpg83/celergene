@@ -72,7 +72,6 @@
                 </div>
             </form>
         </div>
-        <!-- /Account -->
     </div>
 
     <!-- Delete Account -->

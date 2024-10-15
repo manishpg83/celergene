@@ -16,22 +16,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validate the request inputs
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Attempt to log the admin in
         if (Auth::guard('admin')->attempt($credentials)) {
-            // Regenerate the session to prevent session fixation
             $request->session()->regenerate();
 
-            // Flash success message and redirect to intended route
             return redirect()->intended(route('admin.dashboard'))->with('success', 'Login successful!');
         }
 
-        // Flash error message and redirect back with input
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
@@ -67,10 +62,8 @@ class AuthController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-        // Validate the request input
         $request->validate(['email' => 'required|email']);
 
-        // Attempt to send the password reset link
         $status = Password::broker('admins')->sendResetLink(
             $request->only('email'),
             function ($user, $token) {
@@ -78,12 +71,10 @@ class AuthController extends Controller
             }
         );
 
-        // Check if the email was found and the reset link was sent
         if ($status === Password::RESET_LINK_SENT) {
             return back()->with('status', __($status));
         }
 
-        // Return a custom error message if the email is not found
         return back()->withErrors([
             'email' => 'The provided email is not registered in our system.',
         ]);

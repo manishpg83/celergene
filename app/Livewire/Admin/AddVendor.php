@@ -6,8 +6,8 @@ use Livewire\Component;
 use App\Models\Vendor;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; // Add this line to import the Log facade
-use Illuminate\Support\Facades\Auth; // Add this line to import the Auth facade
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AddVendor extends Component
 {
@@ -25,7 +25,6 @@ class AddVendor extends Component
 
     public function submit()
     {
-        //dd($this->name, $this->email, $this->password, $this->roles, $this->password_confirmation);
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:vendors',
@@ -36,13 +35,11 @@ class AddVendor extends Component
         ]);
 
         try {
-            // Check if the user is authenticated
             if (!Auth::check()) {
                 notyf()->error('You must be logged in to create an entity.');
                 return;
             }
 
-            // Create the vendor with the created_by field
             $vendor = Vendor::create([
                 'name' => $this->name,
                 'email' => $this->email,
@@ -50,7 +47,6 @@ class AddVendor extends Component
                 'created_by' => Auth::id(),
             ]);
 
-            // Assign roles if available
             if (!empty($this->roles)) {
                 $validRoles = Role::whereIn('id', $this->roles)->pluck('id')->toArray();
                 if (!empty($validRoles)) {

@@ -73,12 +73,10 @@ class ProfileController extends Controller
         $admin = Auth::guard('admin')->user();
 
         try {
-            // Optionally, delete the profile image
             if ($admin->profile_image) {
                 Storage::disk('public')->delete($admin->profile_image);
             }
 
-            // Delete the admin account
             $admin->delete();
 
             notyf()->success('Account deleted successfully');
@@ -86,7 +84,7 @@ class ProfileController extends Controller
             notyf()->error('An error occurred while deleting your account');
         }
 
-        return redirect()->route('admin.login'); // Redirect to login page or desired page
+        return redirect()->route('admin.login');
     }
 
 }

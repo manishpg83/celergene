@@ -39,7 +39,7 @@ class CountryManager extends Component
         ]);
 
         $this->resetInputs();
-        $this->mount(); // Refresh the countries list
+        $this->mount();
     }
 
     public function resetInputs()

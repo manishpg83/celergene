@@ -8,8 +8,8 @@ use Livewire\Component;
 class AddCustomer extends Component
 {
     public $confirmingDeletion = false;
-    public $showForm = true; // Form is shown by default
-    public $isEditing = false; // Flag to check if we're editing or adding
+    public $showForm = true;
+    public $isEditing = false;
     public $customer_id;
     public $customer_type, $salutation, $first_name, $last_name, $mobile_number, $email;
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;

@@ -9,7 +9,6 @@
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle"> Back</span>
                         </button>
-                        {{-- <button class="btn btn-primary">Save</button> --}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -18,9 +17,8 @@
                             <form wire:submit.prevent="{{ $isEditing ? 'update' : 'save' }}">
                                 <input type="hidden" wire:model="customerId">
                                 <!-- Customer Details -->
-                                <h5 class="mb-4">Customer Details</h5>
                                 <div class="row g-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mt-4">
                                         <label class="form-label" for="customer_type">Customer Type</label>
                                         <select wire:model="customer_type"
                                             class="form-select @error('customer_type') is-invalid @enderror"
@@ -172,8 +170,8 @@
                                             class="form-select @error('allow_consignment') is-invalid @enderror"
                                             id="allow_consignment">
                                             <option value="">Select</option>
-                                            <option value="1">Yes</option> <!-- Set to 1 -->
-                                            <option value="0">No</option> <!-- Set to 0 -->
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
                                         </select>
                                         @error('allow_consignment')
                                             <div class="invalid-feedback">{{ $message }}</div>

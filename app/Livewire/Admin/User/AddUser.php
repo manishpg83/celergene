@@ -14,22 +14,21 @@ class AddUser extends Component
     public $email;
     public $password;
     public $password_confirmation;
-    public $status = 'active'; // Default status
+    public $status = 'active';
     public $roles = [];
     public $availableRoles;
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:vendors,email', // Temporary validation rule
+        'email' => 'required|email|max:255|unique:vendors,email',
         'password' => 'required|string|min:8|confirmed',
-        'status' => 'required|in:active,inactive', // Validate status
+        'status' => 'required|in:active,inactive',
         'roles' => 'required|array',
         'roles.*' => 'exists:roles,id',
     ];
 
     public function mount()
     {
-        // Fetch available roles for vendor guard
         $this->availableRoles = Role::where('guard_name', 'vendor')->get();
         $this->vendorId = request()->query('id');
 
@@ -38,7 +37,7 @@ class AddUser extends Component
             if ($vendor) {
                 $this->name = $vendor->name;
                 $this->email = $vendor->email;
-                $this->status = $vendor->status; // Update status from vendor
+                $this->status = $vendor->status;
                 $this->roles = $vendor->roles()->pluck('id')->toArray();
             }
         }
@@ -53,22 +52,19 @@ class AddUser extends Component
 
     public function save()
     {
-        // Adjust the unique email validation rule for updates
         if ($this->vendorId) {
             $this->rules['email'] = 'required|email|max:255|unique:vendors,email,' . $this->vendorId;
-            $this->rules['password'] = 'nullable|string|min:8|confirmed'; // Make password optional for updates
+            $this->rules['password'] = 'nullable|string|min:8|confirmed';
         }
 
-        $this->validate($this->rules); // Validate using the updated rules
+        $this->validate($this->rules);
 
-        // Check if we are updating an existing vendor or creating a new one
         $vendor = $this->vendorId ? Vendor::find($this->vendorId) : new Vendor();
 
-        // Fill the vendor with the validated data
         $vendor->fill([
             'name' => $this->name,
             'email' => $this->email,
-            'status' => $this->status, // Set status
+            'status' => $this->status,
         ]);
 
         if (!$this->vendorId) {
@@ -93,11 +89,9 @@ class AddUser extends Component
 
         notyf()->success('User saved successfully.');
 
-        // Reset fields after submission
         $this->reset(['name', 'email', 'password', 'password_confirmation', 'status', 'roles']);
 
-        // Redirect or stay on the same page as needed.
-        return redirect()->route('admin.vendors.index'); // Uncomment to redirect after save.
+        return redirect()->route('admin.vendors.index');
     }
 
     public function back()

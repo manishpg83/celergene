@@ -1,7 +1,7 @@
 <?php
 namespace App\Livewire\Admin\Customerstype;
 
-use App\Models\CustomerType; // Import the model
+use App\Models\CustomerType;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -76,7 +76,6 @@ class CustomerTypeList extends Component
             'status' => $this->status,
         ]);
 
-        // Reset the form fields
         $this->resetForm();
 
         session()->flash('message', 'Customer type updated successfully.');
@@ -86,7 +85,7 @@ class CustomerTypeList extends Component
     {
         $this->customertype = '';
         $this->status = 'active';
-        $this->customerTypeId = null; // Reset the ID
+        $this->customerTypeId = null;
     }
 
     public function toggleActive(CustomerType $customerType)
@@ -100,9 +99,8 @@ class CustomerTypeList extends Component
 
     public function render()
     {
-        // Adjust the query to show all customer types, including inactive ones
         $customerTypes = CustomerType::where('customertype', 'like', '%' . $this->search . '%')
-            ->withTrashed() // Include trashed customer types
+            ->withTrashed()
             ->orderBy('id')
             ->paginate($this->perPage);
 
