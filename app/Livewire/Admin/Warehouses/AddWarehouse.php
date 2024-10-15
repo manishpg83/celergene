@@ -62,7 +62,7 @@ class AddWarehouse extends Component
 
         notyf()->success($this->warehouse_id ? 'Warehouse updated successfully.' : 'Warehouse created successfully.');
         $this->resetFields();
-        return redirect()->route('admin.warehouses');
+        return redirect()->route('admin.warehouses.index');
     }
 
     public function editWarehouse($id)
@@ -78,7 +78,7 @@ class AddWarehouse extends Component
 
     public function back()
     {
-        return redirect()->route('admin.warehouses');
+        return redirect()->route('admin.warehouses.index');
     }
 
     public function render()

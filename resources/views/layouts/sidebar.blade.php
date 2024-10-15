@@ -78,8 +78,8 @@
                         <div data-i18n="Warehouses">Warehouses</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->routeIs('admin.warehouses') ? 'active' : '' }}">
-                            <a href="{{ route('admin.warehouses') }}" class="menu-link">
+                        <li class="menu-item {{ request()->routeIs('admin.warehouses.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.warehouses.index') }}" class="menu-link">
                                 <div data-i18n="Warehouses List">Warehouses List</div>
                             </a>
                         </li>
@@ -156,7 +156,7 @@
 
             <!-- Admin Users -->
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.users.*') ? 'active open' : '' }}">
+                <li class="menu-item {{ request()->routeIs('admin.user.*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="Admin Users">Admin Users</div>
                     </a>
@@ -167,7 +167,7 @@
                             </a>
                         </li>
                         <li class="menu-item {{ request()->routeIs('admin.user.add') ? 'active' : '' }}">
-                            <a href="#" class="menu-link">
+                            <a href="{{ route('admin.user.add') }}" class="menu-link">
                                 <div data-i18n="Add Users">Add Users</div>
                             </a>
                         </li>
@@ -201,24 +201,25 @@
     <!-- Sales Orders End -->
 
     <!-- Customers -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('admin.*') ? 'active open' : '' }} ">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-files"></i>
             <div data-i18n="Customers">Customers</div>
         </a>
-        <ul class="menu-sub">
-            <li class="menu-item">
+        <ul class="menu-sub {{ request()->routeIs('admin.customer.*') ? 'active' : '' }}">
+            <li class="menu-item {{ request()->routeIs('admin.customer.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.customer.index') }}" class="menu-link">
                     <div data-i18n="Customers List">Customers List</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{ request()->routeIs('admin.customer.add') ? 'active' : '' }}">
                 <a href="{{ route('admin.customer.add') }}" class="menu-link">
                     <div data-i18n="Add New Customer">Add New Customer</div>
                 </a>
             </li>
         </ul>
     </li>
+
     <!-- Customers End-->
     <!-- Invoice Management -->
     <li class="menu-item">
@@ -246,18 +247,18 @@
     </li>
     <!-- Invoice Management End-->
     <!-- Product Management -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('admin.*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
             <div data-i18n="Product Management">Product Management</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item">
+            <li class="menu-item {{ request()->routeIs('admin.products.*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <div data-i18n="Products">Products</div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.products.index') }}" class="menu-link">
                             <div data-i18n="Products List">Products List</div>
                         </a>
@@ -267,7 +268,7 @@
                             <div data-i18n="Category List">Category List</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->routeIs('admin.products.add') ? 'active' : '' }}">
                         <a href="{{ route('admin.products.add') }}" class="menu-link">
                             <div data-i18n="Add Product">Add Product</div>
                         </a>

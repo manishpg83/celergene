@@ -45,7 +45,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         //Route::get('users', [UserList::class, 'index'])->name('users.index');
         Route::get('user/add', [VendorController::class, 'add'])->name('user.add');
 
-        Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses');
+        Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
         Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
 
         Route::get('products/', [ProductController::class, 'index'])->name('products.index');
