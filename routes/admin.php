@@ -41,9 +41,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         //Route::resource('vendors', VendorController::class);
-        Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
+        Route::get('user', [VendorController::class, 'index'])->name('user.index');
         //Route::get('users', [UserList::class, 'index'])->name('users.index');
-        Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+        Route::get('user/add', [VendorController::class, 'add'])->name('user.add');
 
         Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses');
         Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');

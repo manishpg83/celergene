@@ -60,9 +60,9 @@ class AddWarehouse extends Component
             ]
         );
 
-        session()->flash('message', $this->warehouse_id ? 'Warehouse updated successfully.' : 'Warehouse created successfully.');
+        notyf()->success($this->warehouse_id ? 'Warehouse updated successfully.' : 'Warehouse created successfully.');
         $this->resetFields();
-        notyf()->success('warehouse created successfully.');
+        return redirect()->route('admin.warehouses');
     }
 
     public function editWarehouse($id)

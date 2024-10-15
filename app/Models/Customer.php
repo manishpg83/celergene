@@ -41,5 +41,6 @@ class Customer extends Model
         'shipping_country_3',
         'shipping_postal_code_3',
         'created_by',
+        'updated_by',
     ];
 }

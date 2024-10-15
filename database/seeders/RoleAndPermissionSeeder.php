@@ -36,7 +36,7 @@ class RoleAndPermissionSeeder extends Seeder
         $superAdmin->givePermissionTo(Permission::where('guard_name', 'admin')->get());
 
         // Vendor roles
-        $fullVendor = Role::create(['name' => 'vendor-full', 'guard_name' => 'vendor']);
+        $fullVendor = Role::create(['name' => 'user-full', 'guard_name' => 'vendor']);
         $fullVendor->givePermissionTo([
             'view products',
             'create products',
@@ -45,7 +45,7 @@ class RoleAndPermissionSeeder extends Seeder
             'view orders'
         ]);
 
-        $readOnlyVendor = Role::create(['name' => 'vendor-readonly', 'guard_name' => 'vendor']);
+        $readOnlyVendor = Role::create(['name' => 'user-readonly', 'guard_name' => 'vendor']);
         $readOnlyVendor->givePermissionTo([
             'view products',
             'view orders'

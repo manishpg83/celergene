@@ -71,6 +71,7 @@ class AddCustomer extends Component
                 $this->shipping_address_3 = $customer->shipping_address_3;
                 $this->shipping_country_3 = $customer->shipping_country_3;
                 $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+                $this->isEditing = true;
             }
         }
     }
@@ -86,7 +87,7 @@ class AddCustomer extends Component
             Customer::create($this->customerData());
             notyf()->success('Customer created successfully.');
         }
-
+        return redirect()->route('admin.customer.index');
         $this->resetInputFields();
     }
 

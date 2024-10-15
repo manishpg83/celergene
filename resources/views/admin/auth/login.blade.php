@@ -69,56 +69,59 @@
             <div class="authentication-inner py-6">
                 <div class="card">
                     <div class="card-body">
+                        <!-- Logo -->
                         <div class="app-brand justify-content-center mb-6">
                             <a href="index.html" class="app-brand-link">
-                                <span class="app-brand-text demo text-heading fw-bold"></span><img
-                                    src="{{ asset('admin/assets/img/branding/Celergen-Logo.png') }}"
+                                <span class="app-brand-text demo text-heading fw-bold"></span>
+                                <img src="{{ asset('admin/assets/img/branding/Celergen-Logo.png') }}"
                                     alt="Celergen Swiss" width="auto" height="40">
                             </a>
                         </div>
+                        <!-- /Logo -->
                         <h4 class="mb-1">Welcome to Celergen Swiss! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
-                            <!-- Display success or error messages -->
-                            @if(session('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-                            @if($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
 
-                            <form id="formAuthentication" class="mb-4" method="POST" action="{{ route('admin.login') }}" onsubmit="showLoader()">
-                                @csrf
-                                <div class="mb-6">
-                                    <label for="email" class="form-label">Email or Username</label>
-                                    <input type="text" class="form-control" id="email" name="email"
-                                           placeholder="Enter your email or username" value="{{ old('email') }}" autofocus />
+                        <!-- Display success or error messages -->
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form id="formAuthentication" class="mb-4" method="POST" action="{{ route('admin.login') }}"
+                            onsubmit="showLoader()">
+                            @csrf
+                            <div class="mb-6">
+                                <label for="email" class="form-label">Email or Username</label>
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter your email or username" value="{{ old('email') }}" autofocus />
+                            </div>
+                            <div class="mb-6 form-password-toggle">
+                                <label class="form-label" for="password">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" class="form-control" name="password"
+                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        aria-describedby="password" />
+                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
-                                <div class="mb-6 form-password-toggle">
-                                    <label class="form-label" for="password">Password</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" name="password"
-                                               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                               aria-describedby="password" />
-                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                    </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center my-3">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" id="remember-me" />
+                                    <label class="form-check-label" for="remember-me"> Remember Me </label>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center my-3">
-                                    <div class="form-check mb-0">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" />
-                                        <label class="form-check-label" for="remember-me"> Remember Me </label>
-                                    </div>
-                                    <a href="{{ route('admin.password.request') }}">
-                                        <small>Forgot Password?</small>
-                                    </a>
-                                </div>
+                                <a href="{{ route('admin.password.request') }}">
+                                    <small>Forgot Password?</small>
+                                </a>
                             </div>
                             <div class="mb-6">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
@@ -128,43 +131,45 @@
                 </div>
             </div>
         </div>
-        <!-- / Content -->
+    </div>
 
-        <!-- Core JS -->
-        <!-- build:js assets/vendor/js/core.js -->
+    <!-- / Content -->
 
-        <script src="{{ asset('admin/assets/vendor/libs/jquery/jquery.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/popper/popper.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/js/bootstrap.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/node-waves/node-waves.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/hammer/hammer.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/i18n/i18n.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/js/menu.js') }}"></script>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
 
-        <!-- endbuild -->
+    <script src="{{ asset('admin/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/js/menu.js') }}"></script>
 
-        <!-- Vendors JS -->
-        <script src="{{ asset('admin/assets/vendor/libs/@form-validation/popular.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
-        <script src="{{ asset('admin/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+    <!-- endbuild -->
 
-        <!-- Main JS -->
-        <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+    <!-- Vendors JS -->
+    <script src="{{ asset('admin/assets/vendor/libs/@form-validation/popular.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
 
-        <!-- Page JS -->
-        <script src="{{ asset('admin/assets/js/pages-auth.js') }}"></script>
+    <!-- Main JS -->
+    <script src="{{ asset('admin/assets/js/main.js') }}"></script>
 
-        <script>
-            function showLoader() {
-                const submitButton = document.getElementById('loginButton');
-                submitButton.disabled = true;
-                submitButton.innerText = 'Login In...';
-            }
-        </script>
+    <!-- Page JS -->
+    <script src="{{ asset('admin/assets/js/pages-auth.js') }}"></script>
 
-        @livewireScripts
+    <script>
+        function showLoader() {
+            const submitButton = document.getElementById('loginButton');
+            submitButton.disabled = true;
+            submitButton.innerText = 'Login In...';
+        }
+    </script>
+
+    @livewireScripts
 </body>
 
 </html>

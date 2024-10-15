@@ -45,7 +45,7 @@ class AddCustomerType extends Component
             ]);
             notyf()->success('Customer type added successfully.');
         }
-
+        return redirect()->route('admin.customerstype.index');
         $this->resetForm();
     }
 

@@ -102,7 +102,7 @@ class AddEntity extends Component
 
         $entity->save();
 
-        session()->flash('success', 'Entity saved successfully.');
+        notyf()->success('Entity Added successfully.');
         return redirect()->route('admin.entities.index');
     }
 

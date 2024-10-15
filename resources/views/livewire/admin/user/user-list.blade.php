@@ -1,20 +1,20 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div
-            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 row-gap-4">
             <div class="d-flex flex-column justify-content-center">
                 <h4 class="mb-1 text-2xl ml-2">User List</h4>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-4">
-                <div class="d-flex gap-4">
+                {{-- <div class="d-flex gap-4">
                     <div class="btn-group">
                         <button
                             class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
                             tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
                             aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
                     </div>
-                </div>
-                <a href="{{ route('admin.vendors.add') }}" class="btn btn-primary">
+                </div> --}}
+                <a href="{{ route('admin.user.add') }}" class="btn btn-primary">
                     <i class="ti ti-plus ti-xs me-md-2"></i>Add User
                 </a>
             </div>

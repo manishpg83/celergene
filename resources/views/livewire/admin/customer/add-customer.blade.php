@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
-                            <form wire:submit.prevent="{{ $isEditing ? 'update' : 'save' }}">
+                            <form wire:submit.prevent="{{ $isEditing ? 'save' : 'save' }}">
                                 <input type="hidden" wire:model="customerId">
                                 <!-- Customer Details -->
                                 <div class="row g-3">
