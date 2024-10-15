@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -14,19 +15,19 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
         return view('admin.profile.index', compact('admin'));
     }
 
     public function edit()
     {
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
         return view('admin.profile.edit', compact('admin'));
     }
 
     public function update(Request $request)
     {
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -59,7 +60,7 @@ class ProfileController extends Controller
         }
 
         try {
-            Admin::where('id', $admin->id)->update($updateData);
+            User::where('id', $admin->id)->update($updateData);
             notyf()->success('Profile updated successfully');
         } catch (\Exception $e) {
             notyf()->error('An error occurred while updating your profile');
@@ -70,7 +71,7 @@ class ProfileController extends Controller
 
     public function destroy()
     {
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
 
         try {
             // Optionally, delete the profile image

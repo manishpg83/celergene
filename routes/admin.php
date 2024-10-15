@@ -37,8 +37,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])
-            ->name('dashboard')
-            ->middleware('permission:view dashboard');
+        ->name('dashboard')
+        ->middleware('permission:view dashboard');
 
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');

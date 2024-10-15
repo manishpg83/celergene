@@ -17,7 +17,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         // Share the $admin variable with the admin layout
         View::composer('layouts.admin', function ($view) {
-            $admin = Auth::guard('admin')->user(); // Get the currently authenticated admin
+            $admin = Auth::user(); // Get the currently authenticated admin
             $view->with('admin', $admin); // Share it with the view
         });
     }

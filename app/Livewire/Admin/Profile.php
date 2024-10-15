@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
@@ -26,7 +28,7 @@ class Profile extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins,email,' . Auth::guard('admin')->id(),
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::guard('web')->id(),
             'image' => 'nullable|image|max:1024', // 1MB Max
             'new_password' => 'nullable|string|min:8|confirmed',
         ];
@@ -34,7 +36,7 @@ class Profile extends Component
 
     public function mount()
     {
-        $this->admin = Auth::guard('admin')->user(); // Assign admin data to $admin
+        $this->admin = Auth::guard('web')->user(); // Assign admin data to $admin
         $this->name = $this->admin->name;
         $this->email = $this->admin->email;
     }
@@ -43,7 +45,7 @@ class Profile extends Component
     {
         $this->validate();
 
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::guard('web')->user();
         $updateData = [
             'name' => $this->name,
             'email' => $this->email,
@@ -68,11 +70,11 @@ class Profile extends Component
         }
 
         try {
-            Admin::where('id', $admin->id)->update($updateData);
+            User::where('id', $admin->id)->update($updateData);
             $this->reset(['new_password', 'new_password_confirmation', 'image']);
             notyf()->success('Profile updated successfully.');
         } catch (\Exception $e) {
-            \Log::error('Profile update error: ' . $e->getMessage());
+            Log::error('Profile update error: ' . $e->getMessage());
             $this->notify('An error occurred while updating your profile', 'error');
         }
     }
@@ -105,7 +107,7 @@ class Profile extends Component
             'password_for_deletion' => 'required',
         ]);
 
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
 
         if (!Hash::check($this->password_for_deletion, $admin->password)) {
             $this->addError('password_for_deletion', 'The provided password is incorrect.');
@@ -113,7 +115,7 @@ class Profile extends Component
         }
 
         $admin->delete();
-        Auth::guard('admin')->logout();
+        Auth::logout();
 
         return redirect()->route('admin.login')->with('success', 'Entity permanently deleted.');
     }

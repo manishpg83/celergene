@@ -17,8 +17,8 @@ class ShareAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
-            view()->share('admin', Auth::guard('admin')->user());
+        if (Auth::guard('web')->check()) {
+            view()->share('admin', Auth::guard('web')->user());
         }
 
         return $next($request);
