@@ -13,14 +13,28 @@ class AddWarehouse extends Component
 
     protected $listeners = ['editWarehouse'];
 
-
+/*
     public function mount($id = null)
     {
         if ($id) {
             $this->editWarehouse($id);  // Load warehouse data if an ID is provided
         }
-    }
+    } */
+    public function mount()
+    {
+        // Fetch available roles for vendor guard
+        $this->warehouse_id = request()->query('id');
 
+        if ($this->warehouse_id) {
+            $warehouse = Warehouse::find($this->warehouse_id);
+            if ($warehouse) {
+                $this->warehouse_name = $warehouse->warehouse_name;
+                $this->country = $warehouse->country;
+                $this->type = $warehouse->type;
+                $this->remarks = $warehouse->remarks;
+            }
+        }
+    }
     public function resetFields()
     {
         $this->warehouse_id = null;
