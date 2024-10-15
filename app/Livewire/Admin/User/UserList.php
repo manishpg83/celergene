@@ -96,7 +96,7 @@ class UserList extends Component
         return redirect()->route('admin.vendors.add', ['id' => $user->id]);
     }
 
-    public function toggleActive($id)
+    public function toggleActive(Vendor $user)
     {
         $user = User::withTrashed()->findOrFail($id);
         $user->status = $user->status === 'active' ? 'inactive' : 'active';

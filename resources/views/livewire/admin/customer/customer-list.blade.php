@@ -134,6 +134,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    @endif
+        @endif
+    </div>
 </div>

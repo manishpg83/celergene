@@ -6,10 +6,14 @@ use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\WarehouseController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -36,6 +40,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             ->name('dashboard')
             ->middleware('permission:view dashboard');
 
+
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::middleware(['permission:manage vendors'])->group(function () {
@@ -47,6 +57,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
             Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
         });
+        Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses');
+        Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
+
 
         Route::middleware(['permission:manage customers'])->group(function () {
             Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
@@ -68,5 +81,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         }); */
 
         Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware('role:super-admin');
+
     });
 });

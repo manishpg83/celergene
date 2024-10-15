@@ -14,7 +14,7 @@
                             aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
                     </div>
                 </div>
-                <a href="" class="btn btn-primary">
+                <a href="{{ route('admin.customerstype.add') }}" class="btn btn-primary">
                     <i class="ti ti-plus ti-xs me-md-2"></i>Add Customer Type
                 </a>
             </div>

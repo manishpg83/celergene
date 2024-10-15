@@ -9,6 +9,7 @@
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle">Back</span>
                         </button>
+                        <button class="btn btn-primary">Save</button>
                     </div>
                 </div>
                 <div class="card-body">

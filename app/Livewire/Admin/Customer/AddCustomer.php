@@ -165,6 +165,11 @@ class AddCustomer extends Component
         ];
     }
 
+    public function back()
+    {
+        return redirect()->route('admin.customer.index');
+    }
+
     public function render()
     {
         return view('livewire.admin.customer.add-customer');
