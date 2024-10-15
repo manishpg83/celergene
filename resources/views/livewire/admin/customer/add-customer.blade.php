@@ -6,10 +6,10 @@
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
                     <h5 class="card-title mb-sm-0 me-2">Add New Customer</h5>
                     <div class="action-btns">
-                        <button class="btn btn-label-primary me-4">
-                            <span class="align-middle">Back</span>
+                        <button wire:click="back" class="btn btn-label-primary me-4">
+                            <span class="align-middle"> Back</span>
                         </button>
-                        <button class="btn btn-primary">Save</button>
+                        {{-- <button class="btn btn-primary">Save</button> --}}
                     </div>
                 </div>
                 <div class="card-body">

@@ -3,11 +3,14 @@
         <!-- Account -->
         <div class="card-body">
             <div class="d-flex align-items-start align-items-sm-center gap-6">
-                @if ($image)
+                @if ($admin->profile_image)
+                    <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                        class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+                @elseif ($image)
                     <img src="{{ $image->temporaryUrl() }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded"
                         id="uploadedAvatar" />
                 @else
-                    <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                    <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt="user-avatar" class="rounded-circle" />
                 @endif
 
                 <div class="button-wrapper">
@@ -17,6 +20,8 @@
                         <input type="file" id="upload" class="account-file-input" hidden
                             accept="image/png, image/jpeg" wire:model="image" />
                     </label>
+
+                    {{-- Uncomment the reset button if you want a reset functionality --}}
                     {{-- <button type="button" class="btn btn-label-secondary account-image-reset mb-4" wire:click="resetImage">
                         <i class="ti ti-refresh-dot d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Reset</span>
@@ -26,6 +31,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-body pt-4">
             <form wire:submit.prevent="updateProfile">
                 <div class="row">

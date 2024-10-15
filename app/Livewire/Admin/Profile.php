@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class Profile extends Component
 {
     use WithFileUploads;
+    public $admin;
 
     public $name;
     public $email;
@@ -33,9 +34,9 @@ class Profile extends Component
 
     public function mount()
     {
-        $admin = Auth::guard('admin')->user();
-        $this->name = $admin->name;
-        $this->email = $admin->email;
+        $this->admin = Auth::guard('admin')->user(); // Assign admin data to $admin
+        $this->name = $this->admin->name;
+        $this->email = $this->admin->email;
     }
 
     public function updateProfile()
@@ -50,16 +51,14 @@ class Profile extends Component
 
         if ($this->image) {
             $imagePath = $this->image->store('profile_images', 'public');
-
             if ($imagePath) {
                 if ($admin->profile_image) {
                     Storage::disk('public')->delete($admin->profile_image);
                 }
                 $updateData['profile_image'] = $imagePath;
-                //$this->notify('Image uploaded successfully');
                 notyf()->success('Image uploaded successfully.');
             } else {
-                notyf()->success('Entity permanently deleted.');
+                notyf()->error('Failed to upload image.');
                 return;
             }
         }
@@ -71,20 +70,19 @@ class Profile extends Component
         try {
             Admin::where('id', $admin->id)->update($updateData);
             $this->reset(['new_password', 'new_password_confirmation', 'image']);
-            //$this->notify('Profile updated successfully');
             notyf()->success('Profile updated successfully.');
         } catch (\Exception $e) {
+            \Log::error('Profile update error: ' . $e->getMessage());
             $this->notify('An error occurred while updating your profile', 'error');
         }
     }
 
     public function resetImage()
     {
-        $admin = Auth::guard('admin')->user();
-        if ($admin->profile_image) {
-            Storage::disk('public')->delete($admin->profile_image);
-            $admin->profile_image = null;
-            $admin->save();
+        if ($this->admin->profile_image) {
+            Storage::disk('public')->delete($this->admin->profile_image);
+            $this->admin->profile_image = null;
+            $this->admin->save();
             $this->notify('Profile image removed successfully');
         }
         $this->image = null;
@@ -114,13 +112,9 @@ class Profile extends Component
             return;
         }
 
-        // Perform the account deletion
         $admin->delete();
-
-        // Log the user out
         Auth::guard('admin')->logout();
 
-        // Redirect to login page with a message
         return redirect()->route('admin.login')->with('success', 'Entity permanently deleted.');
     }
 

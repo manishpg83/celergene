@@ -157,7 +157,13 @@ class AddCustomer extends Component
             'shipping_country_3' => $this->shipping_country_3,
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
             'created_by' => auth()->guard('admin')->id(),
+            'updated_by' => auth()->guard('admin')->id(),
         ];
+    }
+
+    public function back()
+    {
+        return redirect()->route('admin.customer.index');
     }
 
     public function render()

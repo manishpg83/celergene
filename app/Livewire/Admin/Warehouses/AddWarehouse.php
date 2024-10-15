@@ -22,7 +22,6 @@ class AddWarehouse extends Component
     } */
     public function mount()
     {
-        // Fetch available roles for vendor guard
         $this->warehouse_id = request()->query('id');
 
         if ($this->warehouse_id) {
@@ -32,9 +31,11 @@ class AddWarehouse extends Component
                 $this->country = $warehouse->country;
                 $this->type = $warehouse->type;
                 $this->remarks = $warehouse->remarks;
+                $this->isEditMode = true; // Set edit mode to true
             }
         }
     }
+
     public function resetFields()
     {
         $this->warehouse_id = null;
