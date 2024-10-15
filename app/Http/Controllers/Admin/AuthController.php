@@ -16,26 +16,24 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validate the request inputs
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        // Attempt to log the admin in
-        if (Auth::guard('admin')->attempt($credentials)) {
-            // Regenerate the session to prevent session fixation
+        if (Auth::attempt($credentials)) {
+            // Optionally: clear the session before redirecting to avoid duplicate login attempts
             $request->session()->regenerate();
 
-            // Flash success message and redirect to intended route
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Login successful!');
+            // Redirect based on role
+            return redirect()->intended(config('auth.redirect.admin', '/admin/dashboard'));
         }
 
-        // Flash error message and redirect back with input
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
+        ]);
     }
+
 
     public function showRegistrationForm()
     {
@@ -49,13 +47,13 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $admin = \App\Models\Admin::create([
+        $admin = \App\Models\User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        Auth::guard('admin')->login($admin);
+        Auth::guard('web')->login($admin);
 
         return redirect()->route('admin.dashboard');
     }
@@ -71,7 +69,7 @@ class AuthController extends Controller
         $request->validate(['email' => 'required|email']);
 
         // Attempt to send the password reset link
-        $status = Password::broker('admins')->sendResetLink(
+        $status = Password::broker('users')->sendResetLink(
             $request->only('email'),
             function ($user, $token) {
                 $user->sendPasswordResetNotification($token);
@@ -103,7 +101,7 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $status = Password::broker('admins')->reset(
+        $status = Password::broker('users')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
@@ -119,7 +117,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');

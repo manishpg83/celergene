@@ -1,19 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminEntityController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CountryManagerController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CustomersTypeController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\VendorController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\VendorController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\AdminEntityController;
-use App\Http\Controllers\Admin\CustomersTypeController;
-use App\Http\Controllers\Admin\CountryManagerController;
+
 
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::middleware('guest:admin')->group(function () {
+    Route::middleware('guest')->group(function () {
         Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
         Route::post('login', [AuthController::class, 'login']);
         Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -29,26 +31,42 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             ->name('password.update');
     });
 
-    Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard')
+            ->middleware('permission:view dashboard');
+
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-        //Route::resource('vendors', VendorController::class);
-        Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
-        //Route::get('users', [UserList::class, 'index'])->name('users.index');
-        Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+        Route::middleware(['permission:manage vendors'])->group(function () {
+            Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
+            Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+        });
 
+        Route::middleware(['permission:manage entities'])->group(function () {
+            Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
+            Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
+        });
 
+        Route::middleware(['permission:manage customers'])->group(function () {
+            Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
+            Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
+        });
 
-        Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
-        Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
+        Route::get('countries', [CountryManagerController::class, 'index'])
+            ->name('countries.index')
+            ->middleware('permission:manage countries');
 
-        Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
-        Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
-        Route::get('countries', [CountryManagerController::class, 'index'])->name('countries.index');
+        Route::middleware(['permission:manage customer types'])->group(function () {
+            Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
+            Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
+        });
 
-        Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
-        Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
+        // Routes for managing roles and permissions (accessible only to super admins)
+       /*  Route::middleware(['role:super-admin'])->group(function () {
+            Route::resource('roles', RoleController::class);
+        }); */
 
+        Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware('role:super-admin');
     });
 });

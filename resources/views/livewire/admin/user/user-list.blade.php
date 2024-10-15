@@ -165,11 +165,4 @@
     @endif
 
 </div>
-@push('scripts')
-    <script>
-        Livewire.on('showConfirmDeleteModal', () => {
-            var modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-            modal.show();
-        });
-    </script>
-@endpush
+

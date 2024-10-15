@@ -4,7 +4,7 @@
             <div class="card">
                 <div
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">{{ $vendorId ? 'Edit User' : 'Add New User' }}</h5>
+                    <h5 class="card-title mb-sm-0 me-2">{{ $userId ? 'Edit User' : 'Add New User' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle"> Back</span>
@@ -94,7 +94,7 @@
 
                                 <div class="col-12 mt-4">
                                     <button wire:click.prevent="save" class="btn btn-primary">
-                                        {{ $vendorId ? 'Update User' : 'Add User' }}
+                                        {{ $userId ? 'Update User' : 'Add User' }}
                                     </button>
                                 </div>
                             </div>

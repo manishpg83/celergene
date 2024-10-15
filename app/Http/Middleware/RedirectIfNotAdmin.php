@@ -15,7 +15,7 @@ class RedirectIfNotAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('admin.dashboard');
         }
 

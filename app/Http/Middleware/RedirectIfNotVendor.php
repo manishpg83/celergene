@@ -16,7 +16,7 @@ class RedirectIfNotVendor
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('vendor')->check()) {
+        if (!Auth::guard('web')->check()) {
             return redirect()->route('vendor.login');
         }
 

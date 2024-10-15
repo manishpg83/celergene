@@ -1,114 +1,57 @@
 <?php
-namespace App\Livewire\Admin\Customerstype;
 
-use App\Models\CustomerType; // Import the model
+namespace App\Livewire\Admin\User;
+
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
-class CustomerTypeList extends Component
+class UserList extends Component
 {
     use WithPagination;
 
-    public $customertype, $customerTypeId;
-    public $perPage = 5;
-    public $search = '';
-    public $isEditing = false;
-    public $sortField = 'customertype';
+    public $userId;
+    public $name, $email, $role;
+    public $status = 'active', $search = '', $perPage = 5, $isEditing = false;
+    public $sortField = 'name';
     public $sortDirection = 'asc';
-    public $statusFilter = 'all'; // Initialize statusFilter
+    public $statusFilter = 'all';
     public $confirmingDeletion = false;
+    public $roles;
 
     protected $rules = [
-        'customertype' => 'required|string|max:255',
-        'status' => 'required|in:active,inactive', // Validate status
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email',
+        'role' => 'required|string',
+        'status' => 'required|in:active,inactive',
     ];
 
     public function mount()
     {
-        $this->resetFields();
+        $this->roles = Role::all(); // Fetch all roles
     }
 
-    public function render()
+    public function restore($id)
     {
-        $query = CustomerType::query()
-            ->when($this->search, function ($query) {
-                $query->where('customertype', 'LIKE', '%' . $this->search . '%');
-            })
-            ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter); // Use statusFilter here
-            })
-            ->withTrashed()
-            ->orderBy($this->sortField, $this->sortDirection);
-
-        $customerTypes = $query->paginate($this->perPage);
-
-        return view('livewire.admin.customerstype.customer-type-list', [
-            'customerTypes' => $customerTypes,
-        ]);
-    }
-
-    public function updatedPerPage($value)
-    {
-        $this->perPage = $value;
-        $this->resetPage();
-    }
-
-    public function updatedStatusFilter($value)
-    {
-        $this->statusFilter = $value;
-        $this->resetPage();
-    }
-
-    public function resetFields()
-    {
-        $this->reset([
-            'customerTypeId',
-            'customertype',
-            'status'
-        ]);
-        $this->status = 'active'; // Set default status
-    }
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
-    public function create()
-    {
-        $this->resetFields();
-        $this->isEditing = true;
-    }
-
-    public function edit(CustomerType $customerType)
-    {
-        return redirect()->route('admin.customerstype.add', ['id' => $customerType->id]);
-    }
-
-    public function save()
-    {
-        $this->validate();
-
-        $customerType = $this->customerTypeId ? CustomerType::find($this->customerTypeId) : new CustomerType();
-
-        $customerType->fill($this->only(['customertype', 'status'])); // Update to use status
-        $customerType->save();
-
-        $this->isEditing = false;
-        notyf()->success('Customer type saved successfully.');
+        $user = User::withTrashed()->find($id);
+        $user->restore();
+        $user->status = 'active'; // Restore status to active
+        $user->save();
+        notyf()->success('User restored successfully.');
     }
 
     public function delete()
     {
-        $customerType = CustomerType::withTrashed()->find($this->customerTypeId);
+        $user = User::withTrashed()->find($this->userId);
 
-        if ($customerType->trashed()) {
-            $customerType->forceDelete();
-            notyf()->success('Customer type permanently deleted.');
+        if ($user->trashed()) {
+            $user->forceDelete();
+            notyf()->success('User permanently deleted.');
         } else {
-            $customerType->status = 'inactive'; // Update status to inactive
-            $customerType->save();
-            $customerType->delete();
+            $user->status = 'inactive'; // Update status to inactive
+            $user->save();
+            $user->delete();
             notyf()->success('Customer type suspended. Click delete again to permanently remove.');
         }
 
@@ -117,55 +60,69 @@ class CustomerTypeList extends Component
 
     public function confirmDelete($id)
     {
-        $this->customerTypeId = $id;
-        $customerType = CustomerType::withTrashed()->find($id);
+        $this->userId = $id;
+        $user = User::withTrashed()->find($id);
 
-        if ($customerType->trashed()) {
+        if ($user->trashed()) {
             $this->confirmingDeletion = true;
         } else {
             $this->delete();
         }
     }
-
-    public function restore($id)
+    public function render()
     {
-        $customerType = CustomerType::withTrashed()->find($id);
-        $customerType->restore();
-        $customerType->status = 'active'; // Restore status to active
-        $customerType->save();
-        notyf()->success('Customer type restored successfully.');
+        $query = User::query()
+            ->with('roles')
+            ->when($this->search, function ($query) {
+                $query->where('name', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+            })
+            ->when($this->statusFilter !== 'all', function ($query) {
+                $query->where('status', $this->statusFilter);
+            })
+            ->withTrashed()
+            ->orderBy($this->sortField, $this->sortDirection);
+
+        $users = $query->paginate($this->perPage);
+
+        return view('livewire.admin.user.user-list', [
+            'users' => $users,
+            'roles' => $this->roles,
+        ]);
+    }
+
+    public function edit(User $user)
+    {
+        return redirect()->route('admin.vendors.add', ['id' => $user->id]);
     }
 
     public function toggleActive($id)
     {
-        $customerType = CustomerType::withTrashed()->findOrFail($id);
-        $customerType->status = $customerType->status === 'active' ? 'inactive' : 'active';
-        $customerType->save();
+        $user = User::withTrashed()->findOrFail($id);
+        $user->status = $user->status === 'active' ? 'inactive' : 'active';
+        $user->save();
 
-        if ($customerType->trashed() && $customerType->status === 'active') {
-            $customerType->restore();
-        } elseif (!$customerType->trashed() && $customerType->status === 'inactive') {
-            $customerType->delete();
+        if ($user->trashed() && $user->status === 'active') {
+            $user->restore();
+        } elseif (!$user->trashed() && $user->status === 'inactive') {
+            $user->delete();
         }
 
-        notyf()->success('Customer type status updated successfully.');
+        notyf()->success('User status updated successfully.');
     }
 
-    public function cancel()
+    public function save()
     {
+        $this->validate();
+
+        $user = $this->userId ? User::find($this->userId) : new User();
+        $user->fill($this->only(['name', 'email', 'status']));
+        $user->save();
+
+        // Sync the role
+        $user->syncRoles([$this->role]);
+
         $this->isEditing = false;
-        $this->resetFields();
-    }
-
-    public function sortBy($field)
-    {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortField = $field;
-            $this->sortDirection = 'asc';
-        }
-
-        $this->resetPage();
+        notyf()->success('User saved successfully.');
     }
 }

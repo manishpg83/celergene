@@ -3,13 +3,13 @@
 namespace App\Livewire\Admin\User;
 
 use Livewire\Component;
-use App\Models\Vendor;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class AddUser extends Component
 {
-    public $vendorId;
+    public $userId;
     public $name;
     public $email;
     public $password;
@@ -20,9 +20,9 @@ class AddUser extends Component
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:vendors,email', // Temporary validation rule
+        'email' => 'required|email|max:255|unique:users,email',
         'password' => 'required|string|min:8|confirmed',
-        'status' => 'required|in:active,inactive', // Validate status
+        'status' => 'required|in:active,inactive',
         'roles' => 'required|array',
         'roles.*' => 'exists:roles,id',
     ];
@@ -30,16 +30,16 @@ class AddUser extends Component
     public function mount()
     {
         // Fetch available roles for vendor guard
-        $this->availableRoles = Role::where('guard_name', 'vendor')->get();
-        $this->vendorId = request()->query('id');
+        $this->availableRoles = Role::where('guard_name', 'web')->get();
+        $this->userId = request()->query('id');
 
-        if ($this->vendorId) {
-            $vendor = Vendor::find($this->vendorId);
-            if ($vendor) {
-                $this->name = $vendor->name;
-                $this->email = $vendor->email;
-                $this->status = $vendor->status; // Update status from vendor
-                $this->roles = $vendor->roles()->pluck('id')->toArray();
+        if ($this->userId) {
+            $user = User::find($this->userId);
+            if ($user) {
+                $this->name = $user->name;
+                $this->email = $user->email;
+                $this->status = $user->status;
+                $this->roles = $user->roles()->pluck('id')->toArray();
             }
         }
     }
@@ -53,38 +53,34 @@ class AddUser extends Component
 
     public function save()
     {
-        // Adjust the unique email validation rule for updates
-        if ($this->vendorId) {
-            $this->rules['email'] = 'required|email|max:255|unique:vendors,email,' . $this->vendorId;
-            $this->rules['password'] = 'nullable|string|min:8|confirmed'; // Make password optional for updates
+        if ($this->userId) {
+            $this->rules['email'] = 'required|email|max:255|unique:users,email,' . $this->userId;
+            $this->rules['password'] = 'nullable|string|min:8|confirmed';
         }
 
-        $this->validate($this->rules); // Validate using the updated rules
+        $this->validate($this->rules);
+        $user = $this->userId ? User::find($this->userId) : new User();
 
-        // Check if we are updating an existing vendor or creating a new one
-        $vendor = $this->vendorId ? Vendor::find($this->vendorId) : new Vendor();
-
-        // Fill the vendor with the validated data
-        $vendor->fill([
+        $user->fill([
             'name' => $this->name,
             'email' => $this->email,
-            'status' => $this->status, // Set status
+            'status' => $this->status,
         ]);
 
-        if (!$this->vendorId) {
-            $vendor->password = bcrypt($this->password);
-            $vendor->created_by = Auth::id();
+        if (!$this->userId) {
+            $user->password = bcrypt($this->password);
+            $user->created_by = Auth::id();
         }
 
-        $vendor->save();
+        $user->save();
 
         if (!empty($this->roles)) {
             $validRoles = Role::whereIn('id', $this->roles)
-                              ->where('guard_name', 'vendor')
-                              ->pluck('id')
-                              ->toArray();
+                ->where('guard_name', 'web')
+                ->pluck('id')
+                ->toArray();
             if (!empty($validRoles)) {
-                $vendor->syncRoles($validRoles);
+                $user->syncRoles($validRoles);
             } else {
                 notyf()->error('Invalid role(s) provided.');
                 return;
@@ -97,7 +93,7 @@ class AddUser extends Component
         $this->reset(['name', 'email', 'password', 'password_confirmation', 'status', 'roles']);
 
         // Redirect or stay on the same page as needed.
-        return redirect()->route('admin.vendors.index'); // Uncomment to redirect after save.
+        return redirect()->route('admin.vendors.index');
     }
 
     public function back()

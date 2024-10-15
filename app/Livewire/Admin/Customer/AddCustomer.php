@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Customer;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class AddCustomer extends Component
@@ -90,6 +91,10 @@ class AddCustomer extends Component
         $this->resetInputFields();
     }
 
+    public function back()
+    {
+        return redirect()->route('admin.customer.index');
+    }
     public function resetInputFields()
     {
         $this->customer_id = null;
@@ -156,7 +161,7 @@ class AddCustomer extends Component
             'shipping_address_3' => $this->shipping_address_3,
             'shipping_country_3' => $this->shipping_country_3,
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
-            'created_by' => auth()->guard('admin')->id(),
+            'created_by' => Auth::user()->id,
         ];
     }
 
