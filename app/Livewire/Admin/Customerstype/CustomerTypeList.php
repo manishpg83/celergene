@@ -9,7 +9,7 @@ class CustomerTypeList extends Component
 {
     use WithPagination;
 
-    public $customertype, $customerTypeId;
+    public $customer_type, $customerTypeId;
     public $perPage = 5;
     public $status = 'active';
     public $search = '';
@@ -72,7 +72,7 @@ class CustomerTypeList extends Component
 
         $customerType = CustomerType::find($this->customerTypeId);
         $customerType->update([
-            'customertype' => $this->customertype,
+            'customer_type' => $this->customertype,
             'status' => $this->status,
         ]);
 
@@ -83,7 +83,7 @@ class CustomerTypeList extends Component
 
     private function resetForm()
     {
-        $this->customertype = '';
+        $this->customer_type = '';
         $this->status = 'active';
         $this->customerTypeId = null;
     }
@@ -99,7 +99,7 @@ class CustomerTypeList extends Component
 
     public function render()
     {
-        $customerTypes = CustomerType::where('customertype', 'like', '%' . $this->search . '%')
+        $customerTypes = CustomerType::where('customer_type', 'like', '%' . $this->search . '%')
             ->withTrashed()
             ->orderBy('id')
             ->paginate($this->perPage);

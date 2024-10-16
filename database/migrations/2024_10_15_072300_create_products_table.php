@@ -18,7 +18,8 @@ class CreateProductsTable extends Migration
             $table->date('expire_date'); // Field 6
             $table->string('currency'); // Field 7
             $table->decimal('unit_price', 10, 2); // Field 8
-            $table->text('remarks_notes')->nullable(); // Field 9
+            $table->text('remarks_notes')->nullable(); // Allow it to be null
+            $table->text('description'); // Updated: removed nullable
             $table->string('created_by'); // Field 10
             $table->string('modified_by'); // Field 12
             $table->softDeletes(); // Soft deletes

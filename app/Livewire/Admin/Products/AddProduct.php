@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Admin\Products;
 
-use Livewire\Component;
 use App\Models\Product;
+use Livewire\Component;
+use App\Models\ProductCatagory;
 use Illuminate\Support\Facades\Auth;
 
 class AddProduct extends Component
@@ -18,39 +19,35 @@ class AddProduct extends Component
     public $currency;
     public $unit_price;
     public $remarks_notes;
+    public $description;
     public $created_by;
     public $modified_by;
     public $isEditMode = false;
+    public $categories = [];
 
     protected $rules = [
-        'brand' => 'required|string',
-        'product_name' => 'required|string',
-        'product_category' => 'required|string',
-        'origin' => 'required|string',
-        'batch_number' => 'required|string',
+        'brand' => 'required|string|max:255',
+        'product_name' => 'required|string|max:255',
+        'product_category' => 'required|integer',
+        'origin' => 'required|string|max:255',
+        'batch_number' => 'required|string|max:255',
         'expire_date' => 'required|date',
-        'currency' => 'required|string',
+        'currency' => 'required|string|max:3',
         'unit_price' => 'required|numeric',
         'remarks_notes' => 'nullable|string',
+        'description' => 'required|string',
     ];
 
     public function mount()
     {
+        $this->categories = ProductCatagory::where('status', 'active')->get();
+
         $this->product_id = request()->query('id');
 
         if ($this->product_id) {
             $product = Product::find($this->product_id);
             if ($product) {
-                $this->brand = $product->brand;
-                $this->product_name = $product->product_name;
-                $this->product_category = $product->product_category;
-                $this->origin = $product->origin;
-                $this->batch_number = $product->batch_number;
-                $this->expire_date = $product->expire_date;
-                $this->currency = $product->currency;
-                $this->unit_price = $product->unit_price;
-                $this->remarks_notes = $product->remarks_notes;
-                $this->created_by = $product->created_by;
+                $this->fill($product->toArray());
                 $this->isEditMode = true;
             }
         }
@@ -81,6 +78,7 @@ class AddProduct extends Component
                 'currency' => $this->currency,
                 'unit_price' => $this->unit_price,
                 'remarks_notes' => $this->remarks_notes,
+                'description' => $this->description,
                 'created_by' => $this->created_by,
                 'modified_by' => $this->modified_by,
             ]

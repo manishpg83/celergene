@@ -46,7 +46,7 @@
                         <thead>
                             <tr>
                                 <th wire:click="sortBy('id')" style="cursor: pointer;">ID</th>
-                                <th wire:click="sortBy('customertype')" style="cursor: pointer;">Customer Type</th>
+                                <th wire:click="sortBy('customer_type')" style="cursor: pointer;">Customer Type</th>
                                 <th wire:click="sortBy('status')" style="cursor: pointer;">Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -60,7 +60,7 @@
                                 @foreach ($customerTypes as $customerType)
                                     <tr>
                                         <td>{{ $customerType->id }}</td>
-                                        <td>{{ $customerType->customertype }}</td>
+                                        <td>{{ $customerType->customer_type }}</td>
                                         <td>
                                             @if ($customerType->trashed())
                                                 <span class="btn btn-sm btn-warning">Suspended</span>

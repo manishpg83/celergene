@@ -263,9 +263,14 @@
                             <div data-i18n="Products List">Products List</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
+                    <li class="menu-item {{ request()->routeIs('admin.productscategory.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.productscategory.index') }}" class="menu-link">
                             <div data-i18n="Category List">Category List</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('admin.productscategory.add') ? 'active' : '' }}">
+                        <a href="{{ route('admin.productscategory.add') }}" class="menu-link">
+                            <div data-i18n="Add Category">Add Category</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('admin.products.add') ? 'active' : '' }}">

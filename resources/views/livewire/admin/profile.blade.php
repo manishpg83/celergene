@@ -27,7 +27,7 @@
                         <span class="d-none d-sm-block">Reset</span>
                     </button> --}}
 
-                    <div>Allowed JPG, GIF or PNG. Max size of 1MB</div>
+                    <div>Allowed JPG or PNG. Max size of 1MB</div>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Delete Account -->
-    <div class="card">
+    {{-- <div class="card">
         <h5 class="card-header">Delete Account</h5>
         <div class="card-body">
             @if (!$deleteConfirmation)
@@ -99,7 +99,7 @@
                 </form>
             @endif
         </div>
-    </div>
+    </div> --}}
     <!-- /Delete Account -->
 </div>
 

@@ -4,5 +4,5 @@
 @section('header', 'Add Entity')
 
 @section('content')
-    @livewire('admin.products.product-list')
+    @livewire('admin.product-catagory.add-product-catagory')
 @endsection

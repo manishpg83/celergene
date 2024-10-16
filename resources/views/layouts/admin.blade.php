@@ -95,7 +95,7 @@
         <div class="drag-target"></div>
     </div>
     @livewireScripts
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/js/bootstrap.js') }}"></script>
@@ -122,6 +122,28 @@
 
     <!-- Page JS -->
     <script src="{{ asset('/admin/assets/js/app-ecommerce-order-list.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#sameAsBilling').change(function() {
+                if ($(this).is(':checked')) {
+                    let billingAddress = $('#billing_address').val();
+                    let billingCountry = $('#billing_country').val();
+                    let billingPostalCode = $('#billing_postal_code').val();
+    
+                    $('#shipping_address_receiver_name_1').val($('#first_name').val() + ' ' + $('#last_name').val());
+                    $('#shipping_address_1').val(billingAddress);
+                    $('#shipping_country_1').val(billingCountry);
+                    $('#shipping_postal_code_1').val(billingPostalCode);
+                } else {
+                    $('#shipping_address_receiver_name_1').val('');
+                    $('#shipping_address_1').val('');
+                    $('#shipping_country_1').val('');
+                    $('#shipping_postal_code_1').val('');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

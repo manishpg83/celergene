@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class AddCustomerType extends Component
 {
-    public $customertype;
+    public $customer_type;
     public $status;
     public $customerTypeId;
 
@@ -17,13 +17,13 @@ class AddCustomerType extends Component
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             if ($customerType) {
-                $this->customertype = $customerType->customertype;
+                $this->customer_type = $customerType->customertype;
                 $this->status = $customerType->status;
             }
         }
     }
     protected $rules = [
-        'customertype' => 'required|string|max:255',
+        'customer_type' => 'required|string|max:255',
         'status' => 'required|in:active,inactive',
     ];
 
@@ -34,13 +34,13 @@ class AddCustomerType extends Component
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             $customerType->update([
-                'customertype' => $this->customertype,
+                'customer_type' => $this->customer_type,
                 'status' => $this->status,
             ]);
             notyf()->success('Customer type updated successfully.');
         } else {
             CustomerType::create([
-                'customertype' => $this->customertype,
+                'customer_type' => $this->customer_type,
                 'status' => $this->status,
             ]);
             notyf()->success('Customer type added successfully.');
@@ -51,7 +51,7 @@ class AddCustomerType extends Component
 
     private function resetForm()
     {
-        $this->customertype = '';
+        $this->customer_type = '';
         $this->status = 'active';
         $this->customerTypeId = null;
     }

@@ -21,6 +21,7 @@ class Product extends Model
         'currency',
         'unit_price',
         'remarks',
+        'description',
         'created_by',
         'modified_by',
     ];

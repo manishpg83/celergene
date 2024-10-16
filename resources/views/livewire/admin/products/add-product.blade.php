@@ -17,24 +17,31 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="brand">Brand</label>
                                     <input type="text" class="form-control" id="brand" wire:model="brand" placeholder="Enter brand" required>
-                                    @error('brand') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('brand')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_name">Product Name</label>
                                     <input type="text" class="form-control" id="product_name" wire:model="product_name" placeholder="Enter product name" required>
-                                    @error('product_name') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('product_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_category">Product Category</label>
                                     <select class="form-select" id="product_category" wire:model="product_category" required>
                                         <option value="">Select a category</option>
-                                        <option value="Supplement">Supplement</option>
-                                        <option value="Skincare">Skincare</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('product_category') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                                    @error('product_category')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                                
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="origin">Origin</label>
@@ -43,19 +50,25 @@
                                         <option value="Swiss">Swiss</option>
                                         <option value="Eckhart">Eckhart</option>
                                     </select>
-                                    @error('origin') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('origin')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="batch_number">Batch Number</label>
                                     <input type="text" class="form-control" id="batch_number" wire:model="batch_number" placeholder="Enter batch number" required>
-                                    @error('batch_number') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('batch_number')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expire_date">Expire Date</label>
                                     <input type="date" class="form-control" id="expire_date" wire:model="expire_date" required>
-                                    @error('expire_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('expire_date')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
@@ -65,20 +78,34 @@
                                         <option value="USD">USD</option>
                                         <option value="EUR">EUR</option>
                                     </select>
-                                    @error('currency') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('currency')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="unit_price">Unit Price</label>
                                     <input type="number" class="form-control" id="unit_price" wire:model="unit_price" placeholder="Enter unit price" required>
-                                    @error('unit_price') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('unit_price')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
+                                    <label class="form-label" for="description">Product Description</label>
+                                    <textarea class="form-control" id="description" wire:model="description" placeholder="Enter product description" required></textarea>
+                                    @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
+                                <div class="col-md-6">
                                     <label class="form-label" for="remarks_notes">Remarks/Notes</label>
                                     <textarea class="form-control" id="remarks_notes" wire:model="remarks_notes" placeholder="Enter remarks or notes"></textarea>
-                                    @error('remarks_notes') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                                    @error('remarks_notes')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                                
 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">

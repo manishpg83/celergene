@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Products\AddProduct;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\CountryManagerController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::middleware('guest:admin')->group(function () {
@@ -50,6 +51,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::get('products/', [ProductController::class, 'index'])->name('products.index');
         Route::get('products/add', [ProductController::class, 'add'])->name('products.add');
+
+
+        Route::get('productscategory/', [ProductCategoryController::class, 'index'])->name('productscategory.index');
+        Route::get('productscategory/add', [ProductCategoryController::class, 'add'])->name('productscategory.add');
 
         Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
         Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
