@@ -91,11 +91,11 @@ class AddUser extends Component
 
         $this->reset(['name', 'email', 'password', 'password_confirmation', 'status', 'roles']);
 
-        return redirect()->route('admin.vendors.index');
+        return redirect()->route('admin.user.index');
     }
 
     public function back()
     {
-        return redirect()->route('admin.vendors.index');
+        return redirect()->route('admin.user.index');
     }
 }
