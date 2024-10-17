@@ -23,6 +23,8 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage warehouses',
             'manage customer types',
             'manage countries',
+            'manage product categories',
+            'manage products',
             'create roles',
             'assign permissions',
         ];
@@ -44,6 +46,8 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage warehouses',
             'manage customer types',
             'manage countries',
+            'manage product categories',
+            'manage products',
         ]);
         // Assign roles to existing users based on their type
         User::where('type', 'admin')->get()->each(function ($user) use ($superAdminRole) {

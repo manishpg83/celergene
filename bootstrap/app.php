@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Middleware\RedirectIfNotAdmin;
-use App\Http\Middleware\RedirectIfNotVendor;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
