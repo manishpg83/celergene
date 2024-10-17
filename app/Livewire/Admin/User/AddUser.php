@@ -82,6 +82,8 @@ class AddUser extends Component
                 ->toArray();
             if (!empty($validRoles)) {
                 $user->syncRoles($validRoles);
+                $user->type = $validRoles[0];
+                $user->save();
             } else {
                 notyf()->error('Invalid role(s) provided.');
                 return;

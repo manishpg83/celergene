@@ -60,6 +60,13 @@ class CustomerTypeList extends Component
 
     public function editCustomerType($id)
     {
+        $customerType = CustomerType::withTrashed()->find($id);
+
+        if ($customerType->trashed()) {
+            notyf()->error('Cannot edit a suspended customer type. Please restore it first.');
+            return;
+        }
+
         return redirect()->route('admin.customerstype.add', ['id' => $id]);
     }
 

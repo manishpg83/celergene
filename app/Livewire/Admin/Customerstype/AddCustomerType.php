@@ -17,7 +17,7 @@ class AddCustomerType extends Component
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             if ($customerType) {
-                $this->customer_type = $customerType->customertype;
+                $this->customer_type = $customerType->customer_type;
                 $this->status = $customerType->status;
             }
         }

@@ -3,8 +3,8 @@
 namespace App\Livewire\Admin\Customer;
 
 use App\Models\Customer;
-use Illuminate\Support\Facades\Auth;
 use App\Models\CustomerType;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class AddCustomer extends Component
@@ -124,11 +124,6 @@ class AddCustomer extends Component
         $this->shipping_country_1 = '';
         $this->shipping_postal_code_1 = '';
     }
-
-    /* public function back()
-    {
-        return redirect()->route('admin.customer.index');
-    } */
 
     public function resetInputFields()
     {

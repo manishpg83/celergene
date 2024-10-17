@@ -70,9 +70,14 @@ class CustomerList extends Component
         $this->isEditing = true;
     }
 
-    public function edit(Customer $customer)
+    public function edit($id)
     {
-        return redirect()->route('admin.customer.add', ['id' => $customer->id]);
+        $customer = Customer::withTrashed()->find($id);
+        if ($customer->trashed()) {
+            notyf()->error('Customer is suspended. Please restore the customer first.');
+        } else {
+            return redirect()->route('admin.customer.add', ['id' => $customer->id]);
+        }
     }
 
     public function save()

@@ -20,8 +20,9 @@
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="ADMIN DASHBOARD"> ADMIN DASHBOARD</span>
         </li>
+
         <!-- Masters -->
-        <li class="menu-item {{ request()->routeIs('admin.*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.suppliers*') || request()->routeIs('admin.warehouses*') || request()->routeIs('admin.customerstype*') || request()->routeIs('admin.currencycountry*') || request()->routeIs('admin.roles*') || request()->routeIs('admin.user*')  || request()->routeIs('admin.entities*')  || request()->routeIs('admin.invoice*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Masters">Masters</div>
@@ -201,7 +202,7 @@
     <!-- Sales Orders End -->
 
     <!-- Customers -->
-    <li class="menu-item {{ request()->routeIs('admin.*') ? 'active open' : '' }} ">
+    <li class="menu-item {{ request()->routeIs('admin.customer.*') ? 'active open' : '' }} ">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-files"></i>
             <div data-i18n="Customers">Customers</div>
@@ -246,14 +247,15 @@
         </ul>
     </li>
     <!-- Invoice Management End-->
+
     <!-- Product Management -->
-    <li class="menu-item {{ request()->routeIs('admin.*') ? 'active open' : '' }}">
+    <li class="menu-item {{ request()->routeIs('admin.products*') || request()->routeIs('admin.productscategory*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
             <div data-i18n="Product Management">Product Management</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.products.*') ? 'active open' : '' }}">
+            <li class="menu-item {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.productscategory*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <div data-i18n="Products">Products</div>
                 </a>

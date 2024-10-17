@@ -23,13 +23,10 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            // Optionally: clear the session before redirecting to avoid duplicate login attempts
             $request->session()->regenerate();
-
-            // Redirect based on role
+            notyf()->success('Login successful');
             return redirect()->intended(config('auth.redirect.admin', '/admin/dashboard'));
         }
-
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -68,7 +65,6 @@ class AuthController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        // Attempt to send the password reset link
         $status = Password::broker('users')->sendResetLink(
             $request->only('email'),
             function ($user, $token) {

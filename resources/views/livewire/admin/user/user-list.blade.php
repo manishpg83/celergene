@@ -56,7 +56,7 @@
                                 <th wire:click="sortBy('id')" style="cursor: pointer;">ID</th>
                                 <th wire:click="sortBy('name')" style="cursor: pointer;">Name</th>
                                 <th wire:click="sortBy('email')" style="cursor: pointer;">Email</th>
-                                <th wire:click="sortBy('role')" style="cursor: pointer;">Role</th>
+                                <th wire:click="sortBy('type')" style="cursor: pointer;">Role</th>
                                 <th wire:click="sortBy('status')" style="cursor: pointer;">Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -73,15 +73,14 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role }}</td>
+                                        <td>{{ $user->getRoleNames()->first() ?? 'customer' }}</td>
                                         <td>
-                                            <!-- Updated Status Display -->
                                             @if ($user->trashed())
                                                 <span class="text-warning">Suspended</span>
                                             @else
                                                 <button wire:click="toggleActive({{ $user->id }})"
-                                                    class="btn btn-sm {{ $user->status ? 'btn-success' : 'btn-secondary' }}">
-                                                    {{ $user->status ? 'Active' : 'Inactive' }}
+                                                    class="btn btn-sm {{ $user->status === 'active' ? 'btn-success' : 'btn-secondary' }}">
+                                                    {{ $user->status === 'active' ? 'Active' : 'Inactive' }}
                                                 </button>
                                             @endif
                                         </td>
@@ -165,4 +164,3 @@
     @endif
 
 </div>
-

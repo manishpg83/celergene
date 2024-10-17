@@ -36,7 +36,8 @@ class UserList extends Component
         $query = User::query()
             ->when($this->search, function ($query) {
                 $query->where('name', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+                    ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('role', 'LIKE', '%' . $this->search . '%');
             })
             ->when($this->statusFilter !== 'all', function ($query) {
                 $query->where('status', $this->statusFilter);
@@ -87,9 +88,14 @@ class UserList extends Component
         $this->isEditing = true;
     }
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return redirect()->route('admin.users.add', ['id' => $user->id]);
+        $user = User::withTrashed()->find($id);
+        if ($user->trashed()) {
+            notyf()->error('User is suspended. Please restore the user first.');
+        } else {
+            return redirect()->route('admin.user.add', ['id' => $user->id]);
+        }
     }
 
     public function save()
