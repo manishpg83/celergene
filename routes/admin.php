@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminEntityController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\CountryManagerController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\CustomersTypeController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ProductCategoryController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SuppliersController;
 use App\Http\Controllers\Admin\WarehouseController;
-use App\Livewire\Admin\Products\AddProduct;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminEntityController;
+use App\Http\Controllers\Admin\CustomersTypeController;
+use App\Http\Controllers\Admin\CountryManagerController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 
 
@@ -72,6 +72,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('productscategory/add', [ProductCategoryController::class, 'add'])->name('productscategory.add');
         });
 
+        Route::middleware(['permission:manage suppliers'])->group(function () {
+            Route::get('suppliers/', [SuppliersController::class, 'index'])->name('suppliers.index');
+            Route::get('suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
+        });
 
         Route::middleware(['permission:manage customers'])->group(function () {
             Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
