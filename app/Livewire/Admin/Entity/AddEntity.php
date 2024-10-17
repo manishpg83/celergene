@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddEntity extends Component
 {
-    public $entityId; // Add entityId to track the current entity
+    public $entityId;
     public $company_name;
     public $address;
     public $country;
@@ -49,7 +49,7 @@ class AddEntity extends Component
 
     public function mount()
     {
-        $this->entityId = request()->query('id'); // Get 'id' from query parameters
+        $this->entityId = request()->query('id');
 
         if ($this->entityId) {
             $entity = Entity::find($this->entityId);
@@ -89,14 +89,12 @@ class AddEntity extends Component
     {
         $this->validate();
 
-        // Check if we are updating an existing entity or creating a new one
         $entity = $this->entityId ? Entity::find($this->entityId) : new Entity();
 
-        // Fill the entity with the validated data
         $entity->fill($this->all());
 
         if (Auth::check()) {
-            $entity->created_by = Auth::id(); // Set created_by only for new entities
+            $entity->created_by = Auth::id();
         } else {
             session()->flash('error', 'You must be logged in to create an entity.');
             return;
@@ -104,8 +102,8 @@ class AddEntity extends Component
 
         $entity->save();
 
-        session()->flash('success', 'Entity saved successfully.');
-        return redirect()->route('admin.entities.index'); // Redirect after save
+        notyf()->success('Entity Added successfully.');
+        return redirect()->route('admin.entities.index');
     }
 
     public function back()

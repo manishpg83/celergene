@@ -14,7 +14,7 @@ class AddUser extends Component
     public $email;
     public $password;
     public $password_confirmation;
-    public $status = 'active'; // Default status
+    public $status = 'active';
     public $roles = [];
     public $availableRoles;
 
@@ -22,6 +22,7 @@ class AddUser extends Component
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email',
         'password' => 'required|string|min:8|confirmed',
+        'status' => 'required|in:active,inactive',
         'status' => 'required|in:active,inactive',
         'roles' => 'required|array',
         'roles.*' => 'exists:roles,id',
@@ -89,15 +90,13 @@ class AddUser extends Component
 
         notyf()->success('User saved successfully.');
 
-        // Reset fields after submission
         $this->reset(['name', 'email', 'password', 'password_confirmation', 'status', 'roles']);
 
-        // Redirect or stay on the same page as needed.
-        return redirect()->route('admin.vendors.index');
+        return redirect()->route('admin.user.index');
     }
 
     public function back()
     {
-        return redirect()->route('admin.vendors.index');
+        return redirect()->route('admin.user.index');
     }
 }

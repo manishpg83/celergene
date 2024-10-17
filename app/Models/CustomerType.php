@@ -11,5 +11,5 @@ class CustomerType extends Model
 
     protected $table = 'customerstype';
 
-    protected $fillable = ['customertype', 'status'];
+    protected $fillable = ['customer_type', 'status'];
 }

@@ -13,8 +13,8 @@ class AdminCustomer extends Component
     public $confirmingDeletion = false;
 
     public $showForm = false;
-    public $showEditForm = false; // New property for edit modal
-    public $customer_id; // New property for the customer being edited
+    public $showEditForm = false;
+    public $customer_id;
     public $customer_type, $salutation, $first_name, $last_name, $mobile_number, $email;
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;
     public $payment_term_actual, $credit_rating, $allow_consignment = false;
@@ -25,7 +25,7 @@ class AdminCustomer extends Component
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
 
     public $search = '';
-    public $perPage = 5; // Set default items per page
+    public $perPage = 5;
 
     protected $rules = [
         'customer_type' => 'required|string',
@@ -44,7 +44,7 @@ class AdminCustomer extends Component
 
     public function updatingSearch()
     {
-        $this->resetPage(); // Reset pagination when the search input changes
+        $this->resetPage();
     }
 
     public function render()
@@ -54,7 +54,7 @@ class AdminCustomer extends Component
                 $query->where(function ($subQuery) {
                     $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
                              ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('email', 'LIKE', '%' . $this->search . '%'); // You can add more fields as necessary
+                             ->orWhere('email', 'LIKE', '%' . $this->search . '%');
                 });
             })
             ->paginate($this->perPage);
@@ -83,8 +83,8 @@ class AdminCustomer extends Component
 
     public function edit($id)
     {
-        $this->showEditForm = true; // Show the edit modal
-        $this->customer_id = $id; // Set the customer id
+        $this->showEditForm = true;
+        $this->customer_id = $id;
         $customer = Customer::find($id);
 
         $this->fill($customer->toArray());
@@ -100,7 +100,7 @@ class AdminCustomer extends Component
         notyf()->success('Customer updated successfully.');
 
         $this->resetInputFields();
-        $this->showEditForm = false; // Hide the edit modal
+        $this->showEditForm = false;
     }
 
     public function confirmDelete(Customer $customer)

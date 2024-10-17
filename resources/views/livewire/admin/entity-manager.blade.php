@@ -1,17 +1,17 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div
-        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 row-gap-4">
         <div class="d-flex flex-column justify-content-center">
-            <h4 class="mb-1">Entity / Company List</h4>
+            <h4 class="mb-1 text-2xl ml-2">Entity / Company List</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-4">
-            <div class="d-flex gap-4">
+           {{--  <div class="d-flex gap-4">
                 <div class="btn-group"><button
                         class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
                         tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
                         aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
                 </div>
-            </div>
+            </div> --}}
             <a href="{{ route('admin.entities.add') }}" class="btn btn-primary">
                 <i class="ti ti-plus ti-xs me-md-2"></i>Add Entity
             </a>
@@ -21,15 +21,12 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <!-- Search Input (Left-aligned) -->
                 <div class="position-relative me-3">
                     <input wire:model.live="search" type="text" placeholder="Search Entities..." class="form-control"
                         style="width: auto;">
                 </div>
 
-                <!-- Pagination Dropdown and Status Filter (Right-aligned) -->
                 <div class="d-flex">
-                    <!-- Pagination Dropdown -->
                     <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
                         <option value="5">5</option>
                         <option value="20">20</option>
@@ -37,7 +34,6 @@
                         <option value="100">100</option>
                     </select>
 
-                    <!-- Status Filter Dropdown -->
                     <select wire:model.live="status" class="form-select" style="width: auto;">
                         <option value="all">All Statuses</option>
                         <option value="active">Active</option>
@@ -75,7 +71,6 @@
                                     <td>{{ $entity->country }}</td>
                                     <td>{{ $entity->createdBy->name }}</td>
                                     <td>
-                                        <!-- Updated Status Display -->
                                         @if ($entity->trashed())
                                             <span class="text-warning">Suspended</span>
                                         @else
@@ -130,7 +125,6 @@
                 {{ $entities->links() }}
             </div>
         </div>
-        <!-- Modal for Add/Edit Entity -->
         @if ($isEditing)
             <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal"
                 role="dialog" aria-labelledby="modal-title">
@@ -145,7 +139,6 @@
                             <form wire:submit.prevent="save">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                                    <!-- Company Name -->
                                     <div class="mb-4">
                                         <label for="company_name"
                                             class="block text-gray-700 text-sm font-bold mb-2">Company
@@ -158,7 +151,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Country -->
                                     <div class="mb-4">
                                         <label for="country"
                                             class="block text-gray-700 text-sm font-bold mb-2">Country</label>
@@ -170,7 +162,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Address -->
                                     <div class="mb-4">
                                         <label for="address"
                                             class="block text-gray-700 text-sm font-bold mb-2">Address</label>
@@ -182,7 +173,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Postal Code -->
                                     <div class="mb-4">
                                         <label for="postal_code"
                                             class="block text-gray-700 text-sm font-bold mb-2">Postal
@@ -195,7 +185,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Business Registration Number -->
                                     <div class="mb-4">
                                         <label for="business_reg_number"
                                             class="block text-gray-700 text-sm font-bold mb-2">Business Registration
@@ -208,7 +197,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- VAT Number -->
                                     <div class="mb-4">
                                         <label for="vat_number" class="block text-gray-700 text-sm font-bold mb-2">VAT
                                             Number</label>
@@ -220,7 +208,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Account Name -->
                                     <div class="mb-4">
                                         <label for="bank_account_name"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank
@@ -233,7 +220,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Account Number -->
                                     <div class="mb-4">
                                         <label for="bank_account_number"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank Account
@@ -246,7 +232,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Currency -->
                                     <div class="mb-4">
                                         <label for="currency"
                                             class="block text-gray-700 text-sm font-bold mb-2">Currency</label>
@@ -258,7 +243,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Name -->
                                     <div class="mb-4">
                                         <label for="bank_name" class="block text-gray-700 text-sm font-bold mb-2">Bank
                                             Name</label>
@@ -270,7 +254,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Address -->
                                     <div class="mb-4">
                                         <label for="bank_address"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank
@@ -283,7 +266,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Swift Code -->
                                     <div class="mb-4">
                                         <label for="bank_swift_code"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank
@@ -296,7 +278,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank IBAN Number -->
                                     <div class="mb-4">
                                         <label for="bank_iban_number"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank
@@ -309,7 +290,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Code -->
                                     <div class="mb-4">
                                         <label for="bank_code" class="block text-gray-700 text-sm font-bold mb-2">Bank
                                             Code</label>
@@ -321,7 +301,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Bank Branch Code -->
                                     <div class="mb-4">
                                         <label for="bank_branch_code"
                                             class="block text-gray-700 text-sm font-bold mb-2">Bank
@@ -334,7 +313,6 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Status -->
                                     <div class="mb-4">
                                         <label for="is_active"
                                             class="block text-gray-700 text-sm font-bold mb-2">Status</label>
@@ -362,7 +340,6 @@
             </div>
         @endif
 
-        <!-- Add this at the end of your Livewire component's view -->
         @if ($confirmingDeletion)
             <div class="modal" tabindex="-1" role="dialog" style="display: block;">
                 <div class="modal-dialog" role="document">

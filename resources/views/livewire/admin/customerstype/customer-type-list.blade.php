@@ -1,19 +1,19 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div
-            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 row-gap-4">
             <div class="d-flex flex-column justify-content-center">
-                <h4 class="mb-1">Customer Type List</h4>
+                <h4 class="mb-1 text-2xl ml-2">Customer Type List</h4>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-4">
-                <div class="d-flex gap-4">
+                {{-- <div class="d-flex gap-4">
                     <div class="btn-group">
                         <button
                             class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
                             tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
                             aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
                     </div>
-                </div>
+                </div> --}}
                 <a href="{{ route('admin.customerstype.add') }}" class="btn btn-primary">
                     <i class="ti ti-plus ti-xs me-md-2"></i>Add Customer Type
                 </a>
@@ -46,7 +46,7 @@
                         <thead>
                             <tr>
                                 <th wire:click="sortBy('id')" style="cursor: pointer;">ID</th>
-                                <th wire:click="sortBy('customertype')" style="cursor: pointer;">Customer Type</th>
+                                <th wire:click="sortBy('customer_type')" style="cursor: pointer;">Customer Type</th>
                                 <th wire:click="sortBy('status')" style="cursor: pointer;">Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -60,9 +60,8 @@
                                 @foreach ($customerTypes as $customerType)
                                     <tr>
                                         <td>{{ $customerType->id }}</td>
-                                        <td>{{ $customerType->customertype }}</td>
+                                        <td>{{ $customerType->customer_type }}</td>
                                         <td>
-                                            <!-- Updated Status Display -->
                                             @if ($customerType->trashed())
                                                 <span class="btn btn-sm btn-warning">Suspended</span>
                                             @else
@@ -87,7 +86,8 @@
                                                 <ul class="dropdown-menu"
                                                     aria-labelledby="actionMenu{{ $customerType->id }}">
                                                     <li>
-                                                        <a class="dropdown-item" wire:click="editCustomerType({{ $customerType->id }})"
+                                                        <a class="dropdown-item"
+                                                            wire:click="editCustomerType({{ $customerType->id }})"
                                                             style="cursor: pointer;">Edit</a>
                                                     </li>
                                                     <li>
@@ -121,6 +121,7 @@
             </div>
         </div>
     </div>
+
     <!-- Confirm Deletion Modal -->
     @if ($confirmingDeletion)
         <div class="modal" tabindex="-1" role="dialog" style="display: block;">
@@ -145,4 +146,5 @@
             </div>
         </div>
     @endif
+
 </div>

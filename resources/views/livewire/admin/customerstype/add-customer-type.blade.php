@@ -22,8 +22,8 @@
                         <input type="hidden" wire:model="customerTypeId">
                         <div class="row g-3 mt-2">
                             <div class="col-md-12">
-                                <label class="form-label" for="customertype">Customer Type</label>
-                                <input type="text" id="customertype" wire:model="customertype" class="form-control" placeholder="Enter customer type" required>
+                                <label class="form-label" for="customer_type">Customer Type</label>
+                                <input type="text" id="customer_type" wire:model="customer_type" class="form-control" placeholder="Enter customer type" required>
                                 @error('customertype') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
 

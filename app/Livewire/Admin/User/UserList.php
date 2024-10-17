@@ -39,7 +39,7 @@ class UserList extends Component
                     ->orWhere('email', 'LIKE', '%' . $this->search . '%');
             })
             ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter); // Use statusFilter here
+                $query->where('status', $this->statusFilter);
             })
             ->withTrashed()
             ->orderBy($this->sortField, $this->sortDirection);

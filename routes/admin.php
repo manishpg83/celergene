@@ -6,15 +6,14 @@ use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
-use App\Models\Customer;
+use App\Livewire\Admin\Products\AddProduct;
 use Illuminate\Support\Facades\Route;
-
-
-
 
 
 
@@ -49,16 +48,29 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::middleware(['permission:manage vendors'])->group(function () {
-            Route::get('vendors', [VendorController::class, 'index'])->name('vendors.index');
-            Route::get('vendors/add', [VendorController::class, 'add'])->name('vendors.add');
+            Route::get('user', [VendorController::class, 'index'])->name('user.index');
+            Route::get('user/add', [VendorController::class, 'add'])->name('user.add');
         });
 
         Route::middleware(['permission:manage entities'])->group(function () {
             Route::get('entities', [AdminEntityController::class, 'index'])->name('entities.index');
             Route::get('entities/add', [AdminEntityController::class, 'add'])->name('entities.add');
         });
-        Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses');
-        Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
+
+        Route::middleware(['permission:manage products'])->group(function () {
+            Route::get('products', [ProductController::class, 'index'])->name('products.index');
+            Route::get('products/add', [ProductController::class, 'add'])->name('products.add');
+        });
+
+        Route::middleware(['permission:manage warehouses'])->group(function () {
+            Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
+            Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
+        });
+
+        Route::middleware(['permission:manage product categories'])->group(function () {
+            Route::get('productscategory/', [ProductCategoryController::class, 'index'])->name('productscategory.index');
+            Route::get('productscategory/add', [ProductCategoryController::class, 'add'])->name('productscategory.add');
+        });
 
 
         Route::middleware(['permission:manage customers'])->group(function () {
@@ -66,9 +78,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
         });
 
-        Route::get('countries', [CountryManagerController::class, 'index'])
-            ->name('countries.index')
-            ->middleware('permission:manage countries');
+        Route::middleware(['permission:manage countries'])->group(function () {
+            Route::get('countries', [CountryManagerController::class, 'index'])
+                ->name('countries.index');
+        });
 
         Route::middleware(['permission:manage customer types'])->group(function () {
             Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');

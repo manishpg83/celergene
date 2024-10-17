@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Admin\Customerstype;
 
-use App\Models\CustomerType; // Import the model
+use App\Models\CustomerType;
 use Livewire\Component;
 
 class AddCustomerType extends Component
 {
-    public $customertype;
+    public $customer_type;
     public $status;
     public $customerTypeId;
 
@@ -17,48 +17,43 @@ class AddCustomerType extends Component
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             if ($customerType) {
-                $this->customertype = $customerType->customertype;
+                $this->customer_type = $customerType->customertype;
                 $this->status = $customerType->status;
             }
         }
     }
-    // Validation rules
     protected $rules = [
-        'customertype' => 'required|string|max:255',
+        'customer_type' => 'required|string|max:255',
         'status' => 'required|in:active,inactive',
     ];
 
-    // Method to add or update customer type
     public function saveCustomerType()
     {
         $this->validate();
 
-        // If we have a customerTypeId, we're updating an existing record
         if ($this->customerTypeId) {
             $customerType = CustomerType::find($this->customerTypeId);
             $customerType->update([
-                'customertype' => $this->customertype,
+                'customer_type' => $this->customer_type,
                 'status' => $this->status,
             ]);
             notyf()->success('Customer type updated successfully.');
         } else {
-            // Otherwise, we're creating a new record
             CustomerType::create([
-                'customertype' => $this->customertype,
+                'customer_type' => $this->customer_type,
                 'status' => $this->status,
             ]);
             notyf()->success('Customer type added successfully.');
         }
-
-        // Reset form fields
+        return redirect()->route('admin.customerstype.index');
         $this->resetForm();
     }
 
     private function resetForm()
     {
-        $this->customertype = '';
+        $this->customer_type = '';
         $this->status = 'active';
-        $this->customerTypeId = null; // Reset the ID
+        $this->customerTypeId = null;
     }
     public function back()
     {

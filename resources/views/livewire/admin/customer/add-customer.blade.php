@@ -9,7 +9,7 @@
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle">Back</span>
                         </button>
-                        <button class="btn btn-primary">Save</button>
+                        {{-- <button class="btn btn-primary">Save</button> --}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -18,22 +18,21 @@
                             <form wire:submit.prevent="{{ $isEditing ? 'save' : 'save' }}">
                                 <input type="hidden" wire:model="customerId">
                                 <!-- Customer Details -->
-                                <h5 class="mb-4">Customer Details</h5>
                                 <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <label class="form-label" for="customer_type">Customer Type</label>
-                                        <select wire:model="customer_type"
-                                            class="form-select @error('customer_type') is-invalid @enderror"
-                                            id="customer_type">
+                                    <div class="col-md-12 mt-4">
+                                        <label class="form-label" for="customer_type_id">Customer Type</label>
+                                        <select wire:model="customer_type_id"
+                                            class="form-select @error('customer_type_id') is-invalid @enderror"
+                                            id="customer_type_id">
                                             <option value="">Select</option>
-                                            <option value="Corporate">Corporate</option>
-                                            <option value="Individual">Individual</option>
+                                            @foreach ($customerTypes as $type)
+                                            <option value="{{ $type->id }}">{{ $type->customer_type }}</option>
+                                            @endforeach
                                         </select>
-                                        @error('customer_type')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @error('customer_type_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
                                     <div class="col-md-2">
                                         <label class="form-label" for="salutation">Salutation</label>
                                         <select wire:model="salutation"
@@ -45,7 +44,7 @@
                                             <option value="Ms">Ms</option>
                                         </select>
                                         @error('salutation')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -55,7 +54,7 @@
                                             class="form-control @error('first_name') is-invalid @enderror"
                                             id="first_name">
                                         @error('first_name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -65,7 +64,7 @@
                                             class="form-control @error('last_name') is-invalid @enderror"
                                             id="last_name">
                                         @error('last_name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -75,7 +74,7 @@
                                             class="form-control @error('mobile_number') is-invalid @enderror"
                                             id="mobile_number">
                                         @error('mobile_number')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -84,7 +83,7 @@
                                         <input type="email" wire:model="email"
                                             class="form-control @error('email') is-invalid @enderror" id="email">
                                         @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
@@ -93,7 +92,7 @@
                                             class="form-control @error('vat_number') is-invalid @enderror"
                                             id="vat_number">
                                         @error('vat_number')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
@@ -103,7 +102,7 @@
                                             class="form-control @error('business_reg_number') is-invalid @enderror"
                                             id="business_reg_number">
                                         @error('business_reg_number')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-12">
@@ -112,7 +111,7 @@
                                             class="form-control @error('company_name') is-invalid @enderror"
                                             id="company_name">
                                         @error('company_name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -121,7 +120,7 @@
                                         <textarea wire:model="address" class="form-control @error('address') is-invalid @enderror" id="address"
                                             rows="4"></textarea>
                                         @error('address')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -136,7 +135,7 @@
                                             class="form-control @error('payment_term_display') is-invalid @enderror"
                                             id="payment_term_display">
                                         @error('payment_term_display')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -152,7 +151,7 @@
                                             <option value="30D">30 Days</option>
                                         </select>
                                         @error('payment_term_actual')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -162,7 +161,7 @@
                                             class="form-control @error('credit_rating') is-invalid @enderror"
                                             id="credit_rating">
                                         @error('credit_rating')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -172,11 +171,11 @@
                                             class="form-select @error('allow_consignment') is-invalid @enderror"
                                             id="allow_consignment">
                                             <option value="">Select</option>
-                                            <option value="1">Yes</option> <!-- Set to 1 -->
-                                            <option value="0">No</option> <!-- Set to 0 -->
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
                                         </select>
                                         @error('allow_consignment')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -192,28 +191,20 @@
                                             <option value="No">No</option>
                                         </select>
                                         @error('must_receive_payment')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
 
-                                <!-- Billing Details -->
                                 <h5 class="my-4">Billing Details</h5>
                                 <div class="row g-3">
                                     <div class="col-12">
                                         <label class="form-label" for="billing_address">Billing Address</label>
-                                        <textarea wire:model="billing_address" class="form-control @error('billing_address') is-invalid @enderror"
-                                            id="billing_address" rows="4"></textarea>
-                                        @error('billing_address')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <textarea wire:model="billing_address" class="form-control" id="billing_address" rows="4"></textarea>
                                     </div>
-
                                     <div class="col-md-6">
                                         <label class="form-label" for="billing_country">Billing Country</label>
-                                        <select wire:model="billing_country"
-                                            class="form-select @error('billing_country') is-invalid @enderror"
-                                            id="billing_country">
+                                        <select wire:model="billing_country" class="form-select" id="billing_country">
                                             <option value="">Select</option>
                                             <option value="LUX">Luxembourg</option>
                                             <option value="USA">United States of America</option>
@@ -225,52 +216,32 @@
                                             <option value="THA">Thailand</option>
                                             <option value="PHI">Philippines</option>
                                         </select>
-                                        @error('billing_country')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
-
                                     <div class="col-md-6">
-                                        <label class="form-label" for="billing_postal_code">Billing Postal
-                                            Code</label>
-                                        <input type="text" wire:model="billing_postal_code"
-                                            class="form-control @error('billing_postal_code') is-invalid @enderror"
-                                            id="billing_postal_code">
-                                        @error('billing_postal_code')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="form-label" for="billing_postal_code">Billing Postal Code</label>
+                                        <input type="text" wire:model="billing_postal_code" class="form-control" id="billing_postal_code">
                                     </div>
                                 </div>
 
-                                <!-- Shipping Details 1 -->
-                                <h5 class="my-4">Shipping Details 1</h5>
+                                <div class="form-check mt-3 mb-3">
+                                    <input type="checkbox" class="form-check-input" id="sameAsBilling">
+                                    <label class="form-check-label" for="sameAsBilling">My billing and shipping address are the same</label>
+                                </div>
+
+                                <!-- Shipping Details -->
+                                <h5 class="my-4">Shipping Details</h5>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="shipping_address_receiver_name_1">Shipping
-                                            Address Receiver Name 1</label>
-                                        <input type="text" wire:model="shipping_address_receiver_name_1"
-                                            class="form-control @error('shipping_address_receiver_name_1') is-invalid @enderror"
-                                            id="shipping_address_receiver_name_1">
-                                        @error('shipping_address_receiver_name_1')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="form-label" for="shipping_address_receiver_name_1">Shipping Address Receiver Name 1</label>
+                                        <input type="text" wire:model="shipping_address_receiver_name_1" class="form-control" id="shipping_address_receiver_name_1">
                                     </div>
-
                                     <div class="col-12">
                                         <label class="form-label" for="shipping_address_1">Shipping Address 1</label>
-                                        <input type="text" wire:model="shipping_address_1"
-                                            class="form-control @error('shipping_address_1') is-invalid @enderror"
-                                            id="shipping_address_1">
-                                        @error('shipping_address_1')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <input type="text" wire:model="shipping_address_1" class="form-control" id="shipping_address_1">
                                     </div>
-
                                     <div class="col-md-6">
                                         <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
-                                        <select wire:model="shipping_country_1"
-                                            class="form-select @error('shipping_country_1') is-invalid @enderror"
-                                            id="shipping_country_1">
+                                        <select wire:model="shipping_country_1" class="form-select" id="shipping_country_1">
                                             <option value="">Select</option>
                                             <option value="LUX">Luxembourg</option>
                                             <option value="USA">United States of America</option>
@@ -282,20 +253,10 @@
                                             <option value="THA">Thailand</option>
                                             <option value="PHI">Philippines</option>
                                         </select>
-                                        @error('shipping_country_1')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
-
                                     <div class="col-md-6">
-                                        <label class="form-label" for="shipping_postal_code_1">Shipping Postal Code
-                                            1</label>
-                                        <input type="text" wire:model="shipping_postal_code_1"
-                                            class="form-control @error('shipping_postal_code_1') is-invalid @enderror"
-                                            id="shipping_postal_code_1">
-                                        @error('shipping_postal_code_1')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="form-label" for="shipping_postal_code_1">Shipping Postal Code 1</label>
+                                        <input type="text" wire:model="shipping_postal_code_1" class="form-control" id="shipping_postal_code_1">
                                     </div>
                                 </div>
 
@@ -309,7 +270,7 @@
                                             class="form-control @error('shipping_address_receiver_name_2') is-invalid @enderror"
                                             id="shipping_address_receiver_name_2">
                                         @error('shipping_address_receiver_name_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -319,7 +280,7 @@
                                             class="form-control @error('shipping_address_2') is-invalid @enderror"
                                             id="shipping_address_2">
                                         @error('shipping_address_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -340,7 +301,7 @@
                                             <option value="PHI">Philippines</option>
                                         </select>
                                         @error('shipping_country_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -351,7 +312,7 @@
                                             class="form-control @error('shipping_postal_code_2') is-invalid @enderror"
                                             id="shipping_postal_code_2">
                                         @error('shipping_postal_code_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -366,7 +327,7 @@
                                             class="form-control @error('shipping_address_receiver_name_3') is-invalid @enderror"
                                             id="shipping_address_receiver_name_3">
                                         @error('shipping_address_receiver_name_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -376,7 +337,7 @@
                                             class="form-control @error('shipping_address_3') is-invalid @enderror"
                                             id="shipping_address_3">
                                         @error('shipping_address_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -397,7 +358,7 @@
                                             <option value="PHI">Philippines</option>
                                         </select>
                                         @error('shipping_country_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -408,12 +369,12 @@
                                             class="form-control @error('shipping_postal_code_3') is-invalid @enderror"
                                             id="shipping_postal_code_3">
                                         @error('shipping_postal_code_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
 
-                               {{--  <!-- Status -->
+                                {{-- <!-- Status -->
                                 <div class="mt-4">
                                     <label class="form-label d-block">Status</label>
                                     <div class="form-check form-check-inline">

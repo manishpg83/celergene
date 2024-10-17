@@ -74,7 +74,6 @@ class Profile extends Component
             $this->reset(['new_password', 'new_password_confirmation', 'image']);
             notyf()->success('Profile updated successfully.');
         } catch (\Exception $e) {
-            Log::error('Profile update error: ' . $e->getMessage());
             $this->notify('An error occurred while updating your profile', 'error');
         }
     }
