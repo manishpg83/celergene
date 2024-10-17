@@ -20,6 +20,7 @@ class Profile extends Component
     public $new_password;
     public $new_password_confirmation;
     public $image;
+
     public $deleteConfirmation = false;
     public $password_for_deletion;
 
@@ -28,14 +29,14 @@ class Profile extends Component
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::guard('web')->id(),
-            'image' => 'nullable|image|max:1024', // 1MB Max
+            'image' => 'nullable|image|max:1024',
             'new_password' => 'nullable|string|min:8|confirmed',
         ];
     }
 
     public function mount()
     {
-        $this->admin = Auth::guard('web')->user(); // Assign admin data to $admin
+        $this->admin = Auth::guard('web')->user();
         $this->name = $this->admin->name;
         $this->email = $this->admin->email;
     }
@@ -53,10 +54,10 @@ class Profile extends Component
         if ($this->image) {
             $imagePath = $this->image->store('profile_images', 'public');
             if ($imagePath) {
-                if ($admin->profile_image) {
-                    Storage::disk('public')->delete($admin->profile_image);
+                if ($admin->profile_photo_path) {
+                    Storage::disk('public')->delete($admin->profile_photo_path);
                 }
-                $updateData['profile_image'] = $imagePath;
+                $updateData['profile_photo_path'] = $imagePath;
                 notyf()->success('Image uploaded successfully.');
             } else {
                 notyf()->error('Failed to upload image.');
@@ -79,9 +80,9 @@ class Profile extends Component
 
     public function resetImage()
     {
-        if ($this->admin->profile_image) {
-            Storage::disk('public')->delete($this->admin->profile_image);
-            $this->admin->profile_image = null;
+        if ($this->admin->profile_photo_path) {
+            Storage::disk('public')->delete($this->admin->profile_photo_path);
+            $this->admin->profile_photo_path = null;
             $this->admin->save();
             $this->notify('Profile image removed successfully');
         }
@@ -115,7 +116,7 @@ class Profile extends Component
         $admin->delete();
         Auth::logout();
 
-        return redirect()->route('admin.login')->with('success', 'Entity permanently deleted.');
+        return redirect()->route('admin.login')->with('success', 'Account permanently deleted.');
     }
 
     private function notify($message, $type = 'success')
