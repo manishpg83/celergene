@@ -20,6 +20,7 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage vendors',
             'manage customers',
             'manage entities',
+            'manage warehouses',
             'manage customer types',
             'manage countries',
             'create roles',
@@ -40,22 +41,13 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage vendors',
             'manage customers',
             'manage entities',
+            'manage warehouses',
             'manage customer types',
             'manage countries',
         ]);
-
-        $vendorRole = Role::create(['name' => 'vendor']);
-        $vendorRole->givePermissionTo([
-            'view dashboard',
-        ]);
-
         // Assign roles to existing users based on their type
         User::where('type', 'admin')->get()->each(function ($user) use ($superAdminRole) {
             $user->assignRole($superAdminRole);
-        });
-
-        User::where('type', 'vendor')->get()->each(function ($user) use ($vendorRole) {
-            $user->assignRole($vendorRole);
         });
 
 
@@ -70,7 +62,6 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             ]
         );
 
-        // Assign super-admin role to this user
         $superAdminUser->assignRole($superAdminRole);
     }
 }

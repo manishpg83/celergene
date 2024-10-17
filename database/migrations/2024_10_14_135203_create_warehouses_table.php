@@ -18,8 +18,8 @@ class CreateWarehousesTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('modified_by')->nullable();
 
-            $table->foreign('created_by')->references('id')->on('admins')->onDelete('cascade');
-            $table->foreign('modified_by')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('modified_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

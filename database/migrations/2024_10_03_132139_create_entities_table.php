@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('bank_iban_number', 34)->nullable();
             $table->string('bank_code')->nullable();
             $table->string('bank_branch_code')->nullable();
-            $table->foreignId('created_by')->constrained('admins');
+            $table->foreignId('created_by')->constrained('users');
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();
