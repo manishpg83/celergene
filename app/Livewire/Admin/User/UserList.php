@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin\User;
 
-
+use App\Models\User;
 use App\Models\Vendor;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -33,7 +33,7 @@ class UserList extends Component
 
     public function render()
     {
-        $query = Vendor::query()
+        $query = User::query()
             ->when($this->search, function ($query) {
                 $query->where('name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('email', 'LIKE', '%' . $this->search . '%');
@@ -87,16 +87,16 @@ class UserList extends Component
         $this->isEditing = true;
     }
 
-    public function edit(Vendor $vendor)
+    public function edit(User $user)
     {
-        return redirect()->route('admin.vendors.add', ['id' => $vendor->id]);
+        return redirect()->route('admin.users.add', ['id' => $user->id]);
     }
 
     public function save()
     {
         $this->validate();
 
-        $user = $this->userId ? Vendor::find($this->userId) : new Vendor();
+        $user = $this->userId ? User::find($this->userId) : new User();
 
         $user->fill($this->only(['name', 'email', 'role', 'status'])); // Update to use status
         $user->save();
@@ -107,7 +107,7 @@ class UserList extends Component
 
     public function delete()
     {
-        $user = Vendor::withTrashed()->find($this->userId);
+        $user = User::withTrashed()->find($this->userId);
 
         if ($user->trashed()) {
             $user->forceDelete();
@@ -125,7 +125,7 @@ class UserList extends Component
     public function confirmDelete($id)
     {
         $this->userId = $id;
-        $user = Vendor::withTrashed()->find($id);
+        $user = User::withTrashed()->find($id);
 
         if ($user->trashed()) {
             $this->confirmingDeletion = true;
@@ -136,14 +136,14 @@ class UserList extends Component
 
     public function restore($id)
     {
-        $user = Vendor::withTrashed()->find($id);
+        $user = User::withTrashed()->find($id);
         $user->restore();
         $user->status = 'active';
         $user->save();
         notyf()->success('User restored successfully.');
     }
 
-    public function toggleActive(Vendor $user)
+    public function toggleActive(User $user)
     {
         if (!$user->trashed()) {
             $user->status = $user->status === 'active' ? 'inactive' : 'active';

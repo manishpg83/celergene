@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -34,11 +35,11 @@ class AuthController extends Controller
         ]);
     }
 
-
     public function showRegistrationForm()
     {
         return view('admin.auth.register');
     }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -47,13 +48,13 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $admin = \App\Models\User::create([
+        $admin = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        Auth::guard('web')->login($admin);
+        Auth::login($admin);
 
         return redirect()->route('admin.dashboard');
     }
@@ -117,7 +118,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');

@@ -80,9 +80,12 @@ class ProfileController extends Controller
             }
 
             // Delete the admin account
-            $admin->delete();
-
-            notyf()->success('Account deleted successfully');
+            if ($admin instanceof User) {
+                $admin->delete();
+                notyf()->success('Account deleted successfully');
+            } else {
+                notyf()->error('Unable to delete account');
+            }
         } catch (\Exception $e) {
             notyf()->error('An error occurred while deleting your account');
         }

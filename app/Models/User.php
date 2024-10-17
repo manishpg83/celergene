@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
@@ -71,5 +73,15 @@ class User extends Authenticatable
     public function isCustomer(): bool
     {
         return $this->hasRole('customer');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminResetPasswordNotification($token));
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email; // Adjust this if you have a different email field
     }
 }

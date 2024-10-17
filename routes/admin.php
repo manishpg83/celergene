@@ -37,8 +37,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard')
-        ->middleware('permission:view dashboard');
+            ->name('dashboard')
+            ->middleware('permission:view dashboard');
 
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -76,11 +76,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         });
 
         // Routes for managing roles and permissions (accessible only to super admins)
-       /*  Route::middleware(['role:super-admin'])->group(function () {
+        /*  Route::middleware(['role:super-admin'])->group(function () {
             Route::resource('roles', RoleController::class);
         }); */
 
         Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware('role:super-admin');
-
     });
 });

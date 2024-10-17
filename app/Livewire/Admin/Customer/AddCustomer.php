@@ -9,8 +9,8 @@ use Livewire\Component;
 class AddCustomer extends Component
 {
     public $confirmingDeletion = false;
-    public $showForm = true; // Form is shown by default
-    public $isEditing = false; // Flag to check if we're editing or adding
+    public $showForm = true;
+    public $isEditing = false;
     public $customer_id;
     public $customer_type, $salutation, $first_name, $last_name, $mobile_number, $email;
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;
@@ -72,9 +72,11 @@ class AddCustomer extends Component
                 $this->shipping_address_3 = $customer->shipping_address_3;
                 $this->shipping_country_3 = $customer->shipping_country_3;
                 $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+                $this->isEditing = true;
             }
         }
     }
+
     public function save()
     {
         $this->validate();
@@ -91,10 +93,11 @@ class AddCustomer extends Component
         $this->resetInputFields();
     }
 
-    public function back()
+    /* public function back()
     {
         return redirect()->route('admin.customer.index');
-    }
+    } */
+
     public function resetInputFields()
     {
         $this->customer_id = null;
@@ -162,6 +165,7 @@ class AddCustomer extends Component
             'shipping_country_3' => $this->shipping_country_3,
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
             'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
         ];
     }
 

@@ -43,8 +43,8 @@ return new class extends Migration
             $table->string('shipping_address_3')->nullable();
             $table->string('shipping_country_3')->nullable();
             $table->string('shipping_postal_code_3')->nullable();
-            $table->foreignId('created_by')->constrained('admins');
-            $table->foreignId('updated_by')->constrained('admins');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->constrained('users');
             $table->softDeletes();
             $table->timestamps();
         });
