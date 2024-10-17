@@ -19,13 +19,12 @@
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        @if ($admin->profile_image)
-                            <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                        @if ($admin->profile_photo_path)
+                            <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
                                 class="d-block rounded" height="100" width="100" />
                         @else
                             <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
@@ -38,8 +37,8 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0 me-2">
                                     <div class="avatar avatar-online">
-                                        @if ($admin->profile_image)
-                                            <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                                        @if ($admin->profile_photo_path)
+                                            <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
                                                 class="d-block rounded" height="100" width="100" />
                                         @else
                                             <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt
