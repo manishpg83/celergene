@@ -101,9 +101,11 @@ class RoleManager extends Component
             ->paginate($this->perPage);
 
         $this->roles = $paginator->items();
+        $perpagerecords = perpagerecords();
 
         return view('livewire.admin.role-manager', [
             'paginator' => $paginator,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 }

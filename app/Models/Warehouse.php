@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Inventory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Warehouse extends Model
 {
@@ -14,6 +15,7 @@ class Warehouse extends Model
         'warehouse_name',
         'country',
         'type',
+        'supplier_id',
         'remarks',
         'created_by',
         'modified_by',
@@ -27,5 +29,10 @@ class Warehouse extends Model
     public function modifier()
     {
         return $this->belongsTo(User::class, 'modified_by');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class, 'warehouse_id');
     }
 }

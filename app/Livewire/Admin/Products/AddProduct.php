@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AddProduct extends Component
 {
     public $product_id;
+    public $product_code;
     public $brand;
     public $product_name;
     public $product_category;
@@ -26,6 +27,7 @@ class AddProduct extends Component
     public $categories = [];
 
     protected $rules = [
+        'product_code' => 'required|string|max:255|unique:products,product_code', // New validation rule
         'brand' => 'required|string|max:255',
         'product_name' => 'required|string|max:255',
         'product_category' => 'required|integer',
@@ -69,6 +71,7 @@ class AddProduct extends Component
         Product::updateOrCreate(
             ['id' => $this->product_id],
             [
+                'product_code' => $this->product_code,
                 'brand' => $this->brand,
                 'product_name' => $this->product_name,
                 'product_category' => $this->product_category,

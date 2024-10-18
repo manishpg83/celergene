@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Admin\Entity;
 
-use Livewire\Component;
 use App\Models\Entity;
-use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
-class EntityManager extends Component
+class EntityList extends Component
 {
     use WithPagination;
 
@@ -61,9 +61,10 @@ class EntityManager extends Component
             ->orderBy($this->sortField, $this->sortDirection);
 
         $entities = $query->paginate($this->perPage);
-
-        return view('livewire.admin.entity-manager', [
+        $perpagerecords = perpagerecords();
+        return view('livewire.admin.entity.entity-list', [
             'entities' => $entities,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

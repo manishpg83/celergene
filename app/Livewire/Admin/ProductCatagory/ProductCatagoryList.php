@@ -25,9 +25,10 @@ class ProductCatagoryList extends Component
                 $query->where('category_name', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.product-catagory.product-catagory-list', [
             'categories' => $categories,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

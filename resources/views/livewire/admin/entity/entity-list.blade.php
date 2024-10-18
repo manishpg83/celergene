@@ -28,10 +28,9 @@
 
                 <div class="d-flex">
                     <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
-                        <option value="5">5</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        @foreach ($perpagerecords as $pagekey => $pagevalue)
+                            <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
+                        @endforeach
                     </select>
 
                     <select wire:model.live="status" class="form-select" style="width: auto;">

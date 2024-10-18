@@ -15,10 +15,9 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
                     <select wire:model="perPage" class="form-select me-2" style="width: auto;">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
+                        @foreach ($perpagerecords as $pagekey => $pagevalue)
+                            <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="d-flex align-items-center">

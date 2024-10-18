@@ -31,10 +31,12 @@ class UserManager extends Component
             ->paginate($this->perPage);
 
         $this->users = $users->items();
+        $perpagerecords = perpagerecords();
 
         return view('livewire.admin.user-manager', [
             'roles' => Role::all(),
             'paginatedUsers' => $users,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

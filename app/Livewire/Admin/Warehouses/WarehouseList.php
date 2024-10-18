@@ -43,9 +43,10 @@ class WarehouseList extends Component
             ->orderBy($this->sortField, $this->sortDirection);
 
         $warehouses = $query->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.warehouses.warehouse-list', [
             'warehouses' => $warehouses,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

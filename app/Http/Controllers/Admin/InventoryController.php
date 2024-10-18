@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Models\Inventory;
+use App\Http\Controllers\Controller;
+
+class InventoryController extends Controller
+{
+    public function index()
+    {
+        return view('admin.inventory.index');
+    }
+
+    public function add()
+    {
+        return view('admin.inventory.add');
+    }
+}

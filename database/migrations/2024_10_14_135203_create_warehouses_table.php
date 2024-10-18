@@ -13,11 +13,13 @@ class CreateWarehousesTable extends Migration
             $table->string('country');
             $table->string('type');
             $table->text('remarks')->nullable();
+            $table->unsignedBigInteger('supplier_id');
             $table->softDeletes();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->unsignedBigInteger('modified_by')->nullable();
 
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('modified_by')->references('id')->on('users')->onDelete('set null');
         });

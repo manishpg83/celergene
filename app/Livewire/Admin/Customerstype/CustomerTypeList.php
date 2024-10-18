@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Customerstype;
 
 use App\Models\CustomerType;
@@ -110,9 +111,11 @@ class CustomerTypeList extends Component
             ->withTrashed()
             ->orderBy('id')
             ->paginate($this->perPage);
+        $perpagerecords = perpagerecords();
 
         return view('livewire.admin.customerstype.customer-type-list', [
-            'customerTypes' => $customerTypes
+            'customerTypes' => $customerTypes,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 }

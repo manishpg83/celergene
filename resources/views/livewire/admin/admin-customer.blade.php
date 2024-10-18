@@ -9,10 +9,9 @@
                 <div class="d-flex justify-content-between mb-3">
                     <!-- Pagination Dropdown (Left-aligned) -->
                     <select wire:model.live="perPage" class="form-select" style="width: auto;">
-                        <option value="5">5</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        @foreach ($perpagerecords as $pagekey => $pagevalue)
+                            <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
+                        @endforeach
                     </select>
 
                     <!-- Search Input (Right-aligned) -->

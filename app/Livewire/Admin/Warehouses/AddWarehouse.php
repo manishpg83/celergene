@@ -4,17 +4,21 @@ namespace App\Livewire\Admin\Warehouses;
 
 use Livewire\Component;
 use App\Models\Warehouse;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Auth;
 
 class AddWarehouse extends Component
 {
-    public $warehouse_id, $warehouse_name, $country, $type, $remarks;
+    public $warehouse_id, $warehouse_name, $country, $type, $remarks, $supplier_id;
     public $isEditMode = false;
+    public $suppliers;
 
     protected $listeners = ['editWarehouse'];
 
     public function mount()
     {
+        $this->suppliers = Supplier::all();
+        
         $this->warehouse_id = request()->query('id');
 
         if ($this->warehouse_id) {
@@ -24,6 +28,7 @@ class AddWarehouse extends Component
                 $this->country = $warehouse->country;
                 $this->type = $warehouse->type;
                 $this->remarks = $warehouse->remarks;
+                $this->supplier_id = $warehouse->supplier_id;
                 $this->isEditMode = true;
             }
         }
@@ -36,6 +41,7 @@ class AddWarehouse extends Component
         $this->country = '';
         $this->type = '';
         $this->remarks = '';
+        $this->supplier_id = null;
         $this->isEditMode = false;
     }
 
@@ -46,6 +52,7 @@ class AddWarehouse extends Component
             'country' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'remarks' => 'nullable|string',
+            'supplier_id' => 'required|exists:suppliers,id',
         ]);
 
         Warehouse::updateOrCreate(
@@ -55,6 +62,7 @@ class AddWarehouse extends Component
                 'country' => $this->country,
                 'type' => $this->type,
                 'remarks' => $this->remarks,
+                'supplier_id' => $this->supplier_id,
                 'created_by' => Auth::id(),
                 'modified_by' => Auth::id(),
             ]
@@ -73,6 +81,7 @@ class AddWarehouse extends Component
         $this->country = $warehouse->country;
         $this->type = $warehouse->type;
         $this->remarks = $warehouse->remarks;
+        $this->supplier_id = $warehouse->supplier_id;
         $this->isEditMode = true;
     }
 

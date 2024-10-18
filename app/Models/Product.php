@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Inventory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ class Product extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
+        'product_code',
         'brand',
         'product_name',
         'product_category',
@@ -25,4 +27,10 @@ class Product extends Model
         'created_by',
         'modified_by',
     ];
+
+    public function inventories()
+{
+    return $this->hasMany(Inventory::class, 'product_code');
+}
+
 }

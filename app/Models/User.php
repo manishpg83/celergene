@@ -82,6 +82,6 @@ class User extends Authenticatable
 
     public function getEmailForPasswordReset()
     {
-        return $this->email; // Adjust this if you have a different email field
+        return $this->email;
     }
 }

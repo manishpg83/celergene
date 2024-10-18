@@ -23,23 +23,18 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <!-- Search Input (Left-aligned) -->
                 <div class="position-relative me-3">
                     <input wire:model.live="search" type="text" placeholder="Search Customers..."
                         class="form-control" style="width: auto;">
                 </div>
 
-                <!-- Pagination Dropdown and Status Filter (Right-aligned) -->
                 <div class="d-flex">
-                    <!-- Pagination Dropdown -->
                     <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
-                        <option value="5">5</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        @foreach ($perpagerecords as $pagekey => $pagevalue)
+                            <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
+                        @endforeach
                     </select>
 
-                    <!-- Status Filter Dropdown -->
                     <select wire:model.live="status" class="form-select" style="width: auto;">
                         <option value="all">All Statuses</option>
                         <option value="active">Active</option>

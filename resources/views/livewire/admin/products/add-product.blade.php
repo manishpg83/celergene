@@ -15,6 +15,14 @@
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="submit" class="row g-3 mt-2">
                                 <div class="col-md-6">
+                                    <label class="form-label" for="product_code">Product Code</label>
+                                    <input type="text" class="form-control" id="product_code" wire:model="product_code" placeholder="Enter product code" required>
+                                    @error('product_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                               
+
+                                <div class="col-md-6">
                                     <label class="form-label" for="brand">Brand</label>
                                     <input type="text" class="form-control" id="brand" wire:model="brand" placeholder="Enter brand" required>
                                     @error('brand')
@@ -37,6 +45,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_category">Product Category</label>
                                     <select class="form-select" id="product_category" wire:model="product_category" required>
@@ -98,7 +107,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="form-label" for="remarks_notes">Remarks/Notes</label>
                                     <textarea class="form-control" id="remarks_notes" wire:model="remarks_notes" placeholder="Enter remarks or notes"></textarea>
                                     @error('remarks_notes')

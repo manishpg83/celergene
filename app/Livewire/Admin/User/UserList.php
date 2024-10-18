@@ -46,9 +46,10 @@ class UserList extends Component
             ->orderBy($this->sortField, $this->sortDirection);
 
         $users = $query->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.user.user-list', [
             'users' => $users,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

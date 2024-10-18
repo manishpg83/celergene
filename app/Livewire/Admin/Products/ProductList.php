@@ -26,9 +26,10 @@ class ProductList extends Component
                     ->orWhere('brand', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.products.product-list', [
             'products' => $products,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

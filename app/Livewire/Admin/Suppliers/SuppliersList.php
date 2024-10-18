@@ -23,12 +23,13 @@ class SuppliersList extends Component
             ->withTrashed()
             ->where(function ($query) {
                 $query->where('supplier_name', 'like', '%' . $this->search . '%')
-                      ->orWhere('country', 'like', '%' . $this->search . '%');
+                    ->orWhere('country', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.suppliers.suppliers-list', [
             'suppliers' => $suppliers,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

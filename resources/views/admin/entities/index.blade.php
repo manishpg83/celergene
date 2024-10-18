@@ -5,6 +5,6 @@
 
 @section('content')
 
-    @livewire('admin.entity-manager') <!-- This should work now -->
+    @livewire('admin.entity.entity-list') <!-- This should work now -->
 
 @endsection

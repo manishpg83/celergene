@@ -53,14 +53,15 @@ class AdminCustomer extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($subQuery) {
                     $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+                        ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $this->search . '%');
                 });
             })
             ->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.admin-customer', [
             'customers' => $customers,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

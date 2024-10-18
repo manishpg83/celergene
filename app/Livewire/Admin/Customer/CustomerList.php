@@ -42,9 +42,10 @@ class CustomerList extends Component
             ->orderBy($this->sortField, $this->sortDirection);
 
         $customers = $query->paginate($this->perPage);
-
+        $perpagerecords = perpagerecords();
         return view('livewire.admin.customer.customer-list', [
             'customers' => $customers,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 

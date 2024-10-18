@@ -14,7 +14,6 @@
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="saveWarehouse" class="row g-3 mt-2">
-                                <!-- Warehouse Name Field -->
                                 <div class="col-md-6">
                                     <label class="form-label" for="warehouse_name">Warehouse Name</label>
                                     <input wire:model="warehouse_name" type="text" id="warehouse_name" class="form-control" placeholder="Enter warehouse name" required>
@@ -23,7 +22,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Country Field -->
                                 <div class="col-md-6">
                                     <label class="form-label" for="country">Country</label>
                                     <input wire:model="country" type="text" id="country" class="form-control" placeholder="Enter country" required>
@@ -32,7 +30,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Type Field -->
                                 <div class="col-md-6">
                                     <label class="form-label" for="type">Type</label>
                                     <input wire:model="type" type="text" id="type" class="form-control" placeholder="Enter warehouse type" required>
@@ -41,7 +38,19 @@
                                     @enderror
                                 </div>
 
-                                <!-- Remarks Field -->
+                                <div class="col-md-6">
+                                    <label class="form-label" for="supplier_id">Supplier</label>
+                                    <select wire:model="supplier_id" id="supplier_id" class="form-select" required>
+                                        <option value="">-- Select Supplier --</option>
+                                        @foreach($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                                
+
                                 <div class="col-md-6">
                                     <label class="form-label" for="remarks">Remarks</label>
                                     <textarea wire:model="remarks" id="remarks" class="form-control" placeholder="Enter remarks"></textarea>
