@@ -30,6 +30,13 @@
                                     @enderror
                                 </div>
 
+                                <div class="col-md-12">
+                                    <label class="form-label" for="description">Product Description</label>
+                                    <textarea class="form-control" id="description" wire:model="description" placeholder="Enter product description" required></textarea>
+                                    @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_category">Product Category</label>
                                     <select class="form-select" id="product_category" wire:model="product_category" required>
@@ -41,7 +48,7 @@
                                     @error('product_category')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>                                
+                                </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="origin">Origin</label>
@@ -92,20 +99,12 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="description">Product Description</label>
-                                    <textarea class="form-control" id="description" wire:model="description" placeholder="Enter product description" required></textarea>
-                                    @error('description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-6">
                                     <label class="form-label" for="remarks_notes">Remarks/Notes</label>
                                     <textarea class="form-control" id="remarks_notes" wire:model="remarks_notes" placeholder="Enter remarks or notes"></textarea>
                                     @error('remarks_notes')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>                                
+                                </div>
 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">
