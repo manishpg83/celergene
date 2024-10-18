@@ -29,6 +29,7 @@ class ProductList extends Component
         $perpagerecords = perpagerecords();
         return view('livewire.admin.products.product-list', [
             'products' => $products,
+            'perpagerecords' => $perpagerecords,
         ]);
     }
 
