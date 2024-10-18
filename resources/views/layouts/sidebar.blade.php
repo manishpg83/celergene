@@ -58,12 +58,12 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->routeIs('admin.suppliers.index') ? 'active' : '' }}">
-                            <a href="#" class="menu-link">
+                            <a href="{{ route('admin.suppliers.index') }}" class="menu-link">
                                 <div data-i18n="Suppliers List">Suppliers List</div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->routeIs('admin.suppliers.add') ? 'active' : '' }}">
-                            <a href="#" class="menu-link">
+                            <a href="{{ route('admin.suppliers.add') }}" class="menu-link">
                                 <div data-i18n="Add Supplier">Add Supplier</div>
                             </a>
                         </li>

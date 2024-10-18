@@ -3,8 +3,8 @@
         <!-- Account -->
         <div class="card-body">
             <div class="d-flex align-items-start align-items-sm-center gap-6">
-                @if ($admin->profile_image)
-                    <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="user-avatar"
+                @if ($admin->profile_photo_path)
+                    <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                 @elseif ($image)
                     <img src="{{ $image->temporaryUrl() }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded"

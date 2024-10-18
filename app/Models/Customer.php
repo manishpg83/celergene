@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'customer_type_id', // Use this field now
+        'customer_type_id',
         'salutation',
         'first_name',
         'last_name',
@@ -44,7 +44,6 @@ class Customer extends Model
         'updated_by',
     ];
 
-    // Define the relationship with CustomerType
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class, 'customer_type_id');
