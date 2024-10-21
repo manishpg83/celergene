@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin\Inventory;
 
+use App\Models\Stock;
+use App\Models\Product;
 use Livewire\Component;
 use App\Models\Inventory;
-use App\Models\Product;
 use App\Models\Warehouse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AddInventory extends Component
@@ -41,26 +43,42 @@ class AddInventory extends Component
         }
     }
 
+
     public function saveInventory()
     {
         $this->validate();
 
-        Inventory::updateOrCreate(
-            ['id' => $this->inventory_id],
-            [
-                'product_code' => $this->product_code,
-                'warehouse_id' => $this->warehouse_id,
-                'batch_number' => $this->batch_number,
-                'expiry' => $this->expiry,
-                'quantity' => $this->quantity,
-                'consumed' => $this->consumed,
-                'remaining' => $this->quantity,
-                'created_by' => Auth::id(), 
-                'modified_by' => Auth::id(),
-            ]
-        );
+        DB::transaction(function () {
+            $oldInventory = Inventory::find($this->inventory_id);
+            $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
 
-        notyf()->success($this->isEditMode ? 'Inventory updated successfully.' : 'Inventory added successfully.');
+            $inventory = Inventory::updateOrCreate(
+                ['id' => $this->inventory_id],
+                [
+                    'product_code' => $this->product_code,
+                    'warehouse_id' => $this->warehouse_id,
+                    'batch_number' => $this->batch_number,
+                    'expiry' => $this->expiry,
+                    'quantity' => $this->quantity,
+                    'consumed' => $this->consumed,
+                    'remaining' => $this->quantity - $this->consumed,
+                    'created_by' => $this->inventory_id ? $oldInventory->created_by : Auth::id(),
+                    'modified_by' => Auth::id(),
+                ]
+            );
+
+            Stock::create([
+                'inventory_id' => $inventory->id,
+                'product_id' => $this->product_code,
+                'previous_quantity' => $oldQuantity,
+                'quantity_change' => $this->quantity - $oldQuantity,
+                'new_quantity' => $this->quantity,
+                'reason' => $this->inventory_id ? 'Updated inventory' : 'New inventory',
+                'created_by' => Auth::id()
+            ]);
+        });
+
+        notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         return redirect()->route('admin.inventory.index');
     }
 

@@ -24,17 +24,11 @@ class Inventory extends Model
         'modified_by',
     ];
 
-    /**
-     * Relationship with the Product model.
-     */
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_code');
     }
 
-    /**
-     * Relationship with the Warehouse model.
-     */
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id');
