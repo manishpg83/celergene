@@ -37,7 +37,7 @@
                             <th wire:click="sortBy('product_id')" style="cursor: pointer;">Product</th>
                             <th wire:click="sortBy('warehouse_id')" style="cursor: pointer;">Warehouse</th>
                             <th wire:click="sortBy('batch_number')" style="cursor: pointer;">Batch Number</th>
-                            <th wire:click="sortBy('expiry')" style="cursor: pointer;">Expiry</th>
+                            <th wire:click="sortBy('expiry')" style="cursor: pointer;">Quantity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,7 +52,7 @@
                                     <td>{{ $inventory->product->product_name }}</td>
                                     <td>{{ $inventory->warehouse->warehouse_name }}</td>
                                     <td>{{ $inventory->batch_number }}</td>
-                                    <td>{{ $inventory->expiry }}</td>
+                                    <td>{{ $inventory->quantity }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"

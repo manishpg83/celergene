@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PayPalController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -34,6 +35,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('reset-password', [AuthController::class, 'resetPassword'])
             ->name('password.update');
     });
+
+    Route::get('paypal', [PayPalController::class, 'index'])->name('paypal');
+    Route::get('paypal/payment', [PayPalController::class, 'payment'])->name('paypal.payment');
+    Route::get('paypal/payment/success', [PayPalController::class, 'paymentSuccess'])->name('paypal.payment.success');
+    Route::get('paypal/payment/cancel', [PayPalController::class, 'paymentCancel'])->name('paypal.payment/cancel');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])
