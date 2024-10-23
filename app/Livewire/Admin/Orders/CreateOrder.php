@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
+
 class CreateOrder extends Component
 {
     public $customers;
@@ -22,6 +23,8 @@ class CreateOrder extends Component
     public float $total = 0;
     public $payment_mode = 'Credit Card';
     public $invoice_status = 'Pending';
+    public $selected_shipping_address = 1;
+    public $shipping_addresses = [];
 
     protected $rules = [
         'customer_id' => 'required',
@@ -34,6 +37,7 @@ class CreateOrder extends Component
         'tax' => 'required|numeric|min:0',
         'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
         'invoice_status' => 'required|in:Pending,Paid,Cancelled',
+        'selected_shipping_address' => 'required|in:1,2,3',
     ];
 
     public function mount()
@@ -41,6 +45,56 @@ class CreateOrder extends Component
         $this->customers = Customer::all();
         $this->products = Product::all();
         $this->addOrderDetail();
+    }
+
+
+    public function updatedCustomerId($value)
+    {
+        $this->updateShippingAddresses();
+    }
+
+
+    public function updatedSelectedShippingAddress($value)
+    {
+        $this->updateShippingAddress();
+    }
+
+    private function updateShippingAddresses()
+    {
+
+        if ($this->customer_id) {
+            $customer = Customer::find($this->customer_id);
+            if ($customer) {
+                $this->shipping_addresses = [
+                    1 => $this->formatAddress($customer, 1),
+                    2 => $this->formatAddress($customer, 2),
+                    3 => $this->formatAddress($customer, 3),
+                ];
+            } else {
+            }
+            $this->updateShippingAddress();
+        } else {
+            $this->shipping_addresses = [];
+            $this->shipping_address = '';
+        }
+    }
+
+    private function formatAddress($customer, $index)
+    {
+        $receiver = $customer["shipping_address_receiver_name_{$index}"];
+        $address = $customer["shipping_address_{$index}"];
+        $country = $customer["shipping_country_{$index}"];
+        $postalCode = $customer["shipping_postal_code_{$index}"];
+
+        if ($receiver || $address || $country || $postalCode) {
+            return implode(", ", array_filter([$receiver, $address, $country, $postalCode]));
+        }
+        return null;
+    }
+
+    private function updateShippingAddress()
+    {
+        $this->shipping_address = $this->shipping_addresses[$this->selected_shipping_address] ?? '';
     }
 
     public function addOrderDetail()
@@ -143,8 +197,6 @@ class CreateOrder extends Component
             $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total']);
             $this->addOrderDetail();
         } catch (\Exception $e) {
-            Log::error('Error creating order: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
             session()->flash('error', 'An error occurred while creating the order: ' . $e->getMessage());
         }
     }
