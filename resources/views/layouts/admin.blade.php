@@ -45,6 +45,8 @@
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/css/pages/page-auth.css') }}" />
 

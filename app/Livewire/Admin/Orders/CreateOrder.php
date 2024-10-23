@@ -137,7 +137,7 @@ class CreateOrder extends Component
             $discount = floatval($detail['discount']);
 
             $this->subtotal += $quantity * $unitPrice;
-            $this->totalDiscount += $discount;
+            $this->totalDiscount += $discount; 
 
             $total = ($quantity * $unitPrice) - $discount;
             $detail['total'] = max($total, 0);
@@ -193,12 +193,18 @@ class CreateOrder extends Component
                 }
             });
 
-            session()->flash('message', 'Order created successfully.');
+            notyf()->success('Order created successfully.');
             $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total']);
             $this->addOrderDetail();
         } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while creating the order: ' . $e->getMessage());
+            notyf()->error('An error occurred while creating the order');
         }
+        return redirect()->route('admin.orders.index');
+    }
+
+    public function back()
+    {
+        return redirect()->route('admin.orders.index');
     }
 
     public function render()

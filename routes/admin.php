@@ -71,8 +71,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         });
 
         Route::middleware(['permission:manage orders'])->group(function () {
-            Route::resource('orders', OrderMasterController::class);
-            Route::get('orders/create', CreateOrder::class)->name('orders.create');
+            // Route::resource('orders', OrderMasterController::class);
+            Route::get('orders/', [OrderMasterController::class, 'index'])->name('orders.index');
+            Route::get('orders/add', [OrderMasterController::class, 'add'])->name('orders.add');
         });
 
         Route::middleware(['permission:manage product categories'])->group(function () {

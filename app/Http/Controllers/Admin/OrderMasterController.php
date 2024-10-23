@@ -15,27 +15,9 @@ class OrderMasterController extends Controller
         return view('admin.order.index', compact('orders'));
     }
 
-    public function create()
+    public function add()
     {
         $customers = Customer::all();
         return view('admin.order.create', compact('customers'));
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'customer_id' => 'required',
-            'shipping_address' => 'required',
-            'subtotal' => 'required',
-            'discount' => 'nullable',
-            'tax' => 'nullable',
-            'total' => 'required',
-            'remarks' => 'nullable',
-            'payment_mode' => 'required',
-            'invoice_status' => 'required',
-        ]);
-
-        $order = OrderMaster::create($data);
-        return redirect()->route('orders.index');
     }
 }

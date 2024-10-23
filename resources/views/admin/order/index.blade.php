@@ -1,9 +1,8 @@
-{{-- celergene/resources/views/admin/entities/add.blade.php --}}
 @extends('layouts.admin')
 
-@section('title', 'Add Entity')
-@section('header', 'Add Entity')
+@section('title', 'Add orders')
+@section('header', 'Add orders')
 
 @section('content')
-    @livewire('admin.orders.create-order')
+    @livewire('admin.orders.order-list')
 @endsection
