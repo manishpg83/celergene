@@ -22,7 +22,7 @@ class Product extends Model
         'expire_date',
         'currency',
         'unit_price',
-        'remarks',
+        'remarks_notes',
         'description',
         'created_by',
         'modified_by',

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Orders\CreateOrder;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\SuppliersController;
 use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Admin\AdminEntityController;
+use App\Http\Controllers\Admin\OrderMasterController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\ProductCategoryController;
@@ -66,6 +68,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::middleware(['permission:manage warehouses'])->group(function () {
             Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
             Route::get('warehouses/add', [WarehouseController::class, 'add'])->name('warehouses.add');
+        });
+
+        Route::middleware(['permission:manage orders'])->group(function () {
+            Route::resource('orders', OrderMasterController::class);
+            Route::get('orders/create', CreateOrder::class)->name('orders.create');
         });
 
         Route::middleware(['permission:manage product categories'])->group(function () {
