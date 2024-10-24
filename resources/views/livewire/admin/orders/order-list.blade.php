@@ -113,7 +113,13 @@
                                                         View
                                                     </a>
                                                 </li>
-                                                {{-- You can uncomment the edit option if needed --}}
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        wire:click="downloadInvoice('{{ $order->invoice_id }}')"
+                                                        href="#" style="cursor: pointer;">
+                                                        Download Invoice
+                                                    </a>
+                                                </li>
                                                 {{-- <li>
                                                     <a class="dropdown-item" href="#">
                                                         Edit
@@ -135,14 +141,11 @@
     </div>
 
     @if ($viewOrder)
-        <!-- Modal Background Overlay -->
         <div class="modal-backdrop fade show"></div>
-
-        <!-- Modal -->
         <div class="modal fade show" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
             aria-hidden="true" style="display: block;">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
+                <div class="modal-content rounded-3">
                     <div class="modal-header">
                         <h5 class="modal-title" id="orderDetailsModalLabel">Order Details
                             #{{ $selectedOrder->invoice_id }}</h5>
@@ -156,7 +159,6 @@
                                 <p class="mb-1">Name: {{ $selectedOrder->customer->first_name }}
                                     {{ $selectedOrder->customer->last_name }}</p>
                                 <p class="mb-1">Email: {{ $selectedOrder->customer->email }}</p>
-                                <p class="mb-1">Phone: {{ $selectedOrder->customer->phone }}</p>
                             </div>
                             <div class="col-md-6">
                                 <h6 class="mb-2">Order Information:</h6>
@@ -172,14 +174,15 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
+                        <div class="table-responsive mb-4 bg-white rounded">
+                            <table class="table table-bordered align-middle">
+                                <thead class="bg-light border-bottom border-2">
                                     <tr>
                                         <th>Product</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
-                                        <th>Subtotal</th>
+                                        <th>Discount</th>
+                                        <th>Total_price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -188,28 +191,56 @@
                                             <td>{{ $detail->product->product_name }}</td>
                                             <td>{{ $detail->quantity }}</td>
                                             <td>${{ number_format($detail->unit_price, 2) }}</td>
-                                            <td>${{ number_format($selectedOrder->subtotal) }}</td>
+                                            <td class="text-danger">
+                                                @if ($detail->discount > 0)
+                                                    -${{ number_format($detail->discount, 2) }}
+                                                @else
+                                                    $0.00
+                                                @endif
+                                            </td>
+                                            <td>${{ number_format($detail->quantity * $detail->unit_price - $detail->discount, 2) }}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" class="text-end"><strong>Discount:</strong></td>
-                                        <td class="text-danger">-${{ number_format($detail->discount) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="text-end"><strong>Tax:</strong></td>
-                                        <td class="text-success">+${{ number_format($selectedOrder->tax) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                        <td>${{ number_format($selectedOrder->total) }}</td>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6 ms-auto">
+                                <div class="card rounded-3 shadow-sm border">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-muted">Subtotal:</span>
+                                            <span>${{ number_format($selectedOrder->subtotal, 2) }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-muted">Total Discount:</span>
+                                            <span
+                                                class="text-danger">-${{ number_format($selectedOrder->discount, 2) }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-muted">Tax:</span>
+                                            <span
+                                                class="text-success">+${{ number_format($selectedOrder->tax, 2) }}</span>
+                                        </div>
+                                        <hr class="my-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="h6 mb-0">Total:</span>
+                                            <span
+                                                class="h5 mb-0 fw-semibold">${{ number_format($selectedOrder->total, 2) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"
+                            wire:click="downloadInvoice('{{ $selectedOrder->invoice_id }}')">
+                            Download Invoice
+                        </button>
                         <button type="button" class="btn btn-secondary" wire:click="closeModal">Close</button>
                     </div>
                 </div>

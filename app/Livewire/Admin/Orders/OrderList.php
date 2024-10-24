@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Admin\Orders;
 
-use App\Models\OrderMaster;
 use Livewire\Component;
+use App\Models\OrderMaster;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderList extends Component
 {
@@ -65,19 +66,36 @@ class OrderList extends Component
         $this->resetPage();
     }
 
+    public function downloadInvoice($invoiceId)
+    {
+        try {
+            $order = OrderMaster::with(['customer', 'orderDetails.product'])
+                ->where('invoice_id', $invoiceId)
+                ->firstOrFail();
+
+            $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, 'Invoice-' . $invoiceId . '.pdf');
+        } catch (\Exception $e) {
+            notyf()->error('Could not generate invoice PDF.');
+        }
+    }
+
     public function render()
     {
         $orders = OrderMaster::with(['customer', 'orderDetails.product'])
-            ->when($this->search, function($query) {
-                $query->where(function($q) {
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
                     $q->where('invoice_id', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('customer', function($customerQuery) {
-                          $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
-                                        ->orWhere('last_name', 'like', '%' . $this->search . '%');
-                      })
-                      ->orWhere('total', 'like', '%' . $this->search . '%')
-                      ->orWhere('date', 'like', '%' . $this->search . '%')
-                      ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
+                        ->orWhereHas('customer', function ($customerQuery) {
+                            $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
+                                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhere('total', 'like', '%' . $this->search . '%')
+                        ->orWhere('date', 'like', '%' . $this->search . '%')
+                        ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
                 });
             })
             ->orderBy($this->sortField, $this->sortDirection)

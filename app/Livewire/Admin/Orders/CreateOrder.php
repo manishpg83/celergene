@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Models\Product;
+use Livewire\Component;
 use App\Models\Customer;
 use App\Models\OrderMaster;
-use App\Models\Product;
+use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
 
 
 class CreateOrder extends Component
@@ -17,6 +19,8 @@ class CreateOrder extends Component
     public $orderDetails = [];
     public $customer_id;
     public $shipping_address;
+    public $invoice_date;
+    public $remarks;
     public float $subtotal = 0;
     public float $totalDiscount = 0;
     public float $tax = 0;
@@ -38,7 +42,10 @@ class CreateOrder extends Component
         'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
         'invoice_status' => 'required|in:Pending,Paid,Cancelled',
         'selected_shipping_address' => 'required|in:1,2,3',
+        'invoice_date' => 'required|date',
+        'remarks' => 'nullable|string|max:1000',
     ];
+
 
     public function mount()
     {
@@ -137,7 +144,7 @@ class CreateOrder extends Component
             $discount = floatval($detail['discount']);
 
             $this->subtotal += $quantity * $unitPrice;
-            $this->totalDiscount += $discount; 
+            $this->totalDiscount += $discount;
 
             $total = ($quantity * $unitPrice) - $discount;
             $detail['total'] = max($total, 0);
@@ -169,17 +176,23 @@ class CreateOrder extends Component
         $this->validate();
 
         try {
-            DB::transaction(function () {
+            $order = null;
+            $customer = null;
+
+            DB::transaction(function () use (&$order, &$customer) {
+                $customer = Customer::find($this->customer_id);
+
                 $order = OrderMaster::create([
                     'customer_id' => $this->customer_id,
                     'shipping_address' => $this->shipping_address,
-                    'invoice_date' => now(),
+                    'invoice_date' => $this->invoice_date,
                     'subtotal' => $this->subtotal,
                     'discount' => $this->totalDiscount,
                     'tax' => $this->tax,
                     'total' => $this->total,
                     'payment_mode' => $this->payment_mode,
                     'invoice_status' => $this->invoice_status,
+                    'remarks' => $this->remarks,
                 ]);
 
                 foreach ($this->orderDetails as $detail) {
@@ -191,16 +204,24 @@ class CreateOrder extends Component
                         'total' => $detail['total'],
                     ]);
                 }
+
+                // Send order confirmation email
+                if ($customer->email) {
+                    Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
+                }
             });
 
-            notyf()->success('Order created successfully.');
-            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total']);
+            notyf()->success('Order created successfully and confirmation email sent.');
+            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total', 'invoice_date', 'remarks']);
             $this->addOrderDetail();
         } catch (\Exception $e) {
+            Log::error('Order creation failed: ' . $e->getMessage());
             notyf()->error('An error occurred while creating the order');
         }
+
         return redirect()->route('admin.orders.index');
     }
+
 
     public function back()
     {
