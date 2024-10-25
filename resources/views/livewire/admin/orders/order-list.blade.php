@@ -88,11 +88,28 @@
                                     <td>${{ number_format($order->total, 2) }}</td>
                                     <td>{{ $order->payment_mode }}</td>
                                     <td>
-                                        <span
-                                            class="badge bg-{{ $order->invoice_status === 'Paid' ? 'success' : ($order->invoice_status === 'Pending' ? 'warning' : 'danger') }}">
-                                            {{ $order->invoice_status }}
-                                        </span>
-                                    </td>
+                                        <select wire:model="orderStatus.{{ $order->invoice_id }}" 
+                                                wire:change="updateStatus({{ $order->invoice_id }})" 
+                                                @if($processingStatus === $order->invoice_id) disabled @endif
+                                                class="form-select form-select-sm"
+                                                style="color: white; 
+                                                       background-color: 
+                                                       @if ($orderStatus[$order->invoice_id] === 'Paid') #28c76f 
+                                                       @elseif ($orderStatus[$order->invoice_id] === 'Pending') #FF9F43 
+                                                       @elseif ($orderStatus[$order->invoice_id] === 'Cancelled') #FF4C51 
+                                                       @else white; 
+                                                       @endif;">
+                                            <option value="Paid" style="background-color: white; color: black;">
+                                                @if($processingStatus === $order->invoice_id)
+                                                    Processing...
+                                                @else
+                                                    Paid
+                                                @endif
+                                            </option>
+                                            <option value="Pending" style="background-color: white; color: black;">Pending</option>
+                                            <option value="Cancelled" style="background-color: white; color: black;">Cancelled</option>
+                                        </select>
+                                    </td>                                                             
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"

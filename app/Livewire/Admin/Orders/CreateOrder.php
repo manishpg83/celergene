@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CreateOrder extends Component
 {
+    public $isSubmitting = false;
     public $customers;
     public $products;
     public $orderDetails = [];
@@ -174,6 +175,7 @@ class CreateOrder extends Component
     public function submitOrder()
     {
         $this->validate();
+        $this->isSubmitting = true;
 
         try {
             $order = null;
@@ -205,7 +207,6 @@ class CreateOrder extends Component
                     ]);
                 }
 
-                // Send order confirmation email
                 if ($customer->email) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
                 }
@@ -214,12 +215,14 @@ class CreateOrder extends Component
             notyf()->success('Order created successfully and confirmation email sent.');
             $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total', 'invoice_date', 'remarks']);
             $this->addOrderDetail();
+            $this->isSubmitting = false;
+
+            return redirect()->route('admin.orders.index');
         } catch (\Exception $e) {
+            $this->isSubmitting = false;
             Log::error('Order creation failed: ' . $e->getMessage());
             notyf()->error('An error occurred while creating the order');
         }
-
-        return redirect()->route('admin.orders.index');
     }
 
 

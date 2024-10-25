@@ -6,11 +6,16 @@ use Livewire\Component;
 use App\Models\OrderMaster;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\OrderStatusChanged;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OrderList extends Component
 {
     use WithPagination;
-
+    
+    public $processingStatus = null;
+    public $orderStatus = [];
     public $search = '';
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
@@ -42,6 +47,36 @@ class OrderList extends Component
             notyf()->error('Order not found.');
         }
     }
+
+    public function updateStatus($invoiceId)
+    {
+        $this->processingStatus = $invoiceId;
+    
+        try {
+            $order = OrderMaster::with('customer')->find($invoiceId);
+            
+            if ($order) {
+                $oldStatus = $order->invoice_status;
+                $newStatus = $this->orderStatus[$invoiceId];
+                
+                $order->invoice_status = $newStatus;
+                $order->save();
+    
+                if ($order->customer && $order->customer->email) {
+                    Mail::to($order->customer->email)
+                        ->send(new OrderStatusChanged($order, $oldStatus, $newStatus));
+                }
+    
+                notyf()->success('Order status updated to ' . $newStatus . ' and notification email sent.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Status update failed: ' . $e->getMessage());
+            notyf()->error('Failed to update order status.');
+        }
+    
+        $this->processingStatus = null;
+    }
+
 
     public function closeModal()
     {
@@ -100,6 +135,11 @@ class OrderList extends Component
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
+
+        $this->orderStatus = [];
+        foreach ($orders as $order) {
+            $this->orderStatus[$order->invoice_id] = $order->invoice_status;
+        }
 
         return view('livewire.admin.orders.order-list', [
             'orders' => $orders,

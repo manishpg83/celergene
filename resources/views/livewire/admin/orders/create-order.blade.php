@@ -216,7 +216,19 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-success">Submit Order</button>
+                            <button type="submit" 
+                                    class="btn btn-success d-flex align-items-center gap-2" 
+                                    wire:loading.attr="disabled"
+                                    wire:target="submitOrder">
+                                @if($isSubmitting)
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span>Processing...</span>
+                                @else
+                                <span>Submit Order</span>
+                                @endif
+                            </button>
                         </div>
                     </form>
                 </div>

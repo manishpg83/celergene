@@ -182,18 +182,18 @@
         <!-- Admin Users End -->
         <!-- Masters End -->
         <!-- Sales Orders -->
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active open' : '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
                 <div data-i18n="Sales Orders">Sales Orders</div>
             </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+            <ul class="menu-sub {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                <li class="menu-item {{ request()->routeIs('admin.orders.add') ? 'active' : '' }}">
+                    <a href="{{ route('admin.orders.add') }}" class="menu-link">
                         <div data-i18n="Orders">Orders</div>
                     </a>
-                <li class="menu-item">
-                    <a href="app-ecommerce-product-list.html" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.orders.index') }}" class="menu-link">
                         <div data-i18n="Orders List">Orders List</div>
                     </a>
                 </li>
