@@ -193,27 +193,27 @@
                         <table class="table table-bordered align-middle">
                             <thead class="bg-light border-bottom border-2">
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Discount</th>
-                                    <th>Total Price</th>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Discount</th>
+                                    <th class="text-center">Total Price</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($selectedOrder->orderDetails as $detail)
                                     <tr>
-                                        <td>{{ $detail->product->product_name }}</td>
-                                        <td>{{ $detail->quantity }}</td>
-                                        <td>${{ number_format($detail->unit_price, 2) }}</td>
-                                        <td class="text-danger">
+                                        <td class="text-center">{{ $detail->product->product_name }}</td>
+                                        <td class="text-center">{{ $detail->quantity }}</td>
+                                        <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
+                                        <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
                                                 -${{ number_format($detail->discount, 2) }}
                                             @else
                                                 $0.00
                                             @endif
                                         </td>
-                                        <td>${{ number_format($detail->quantity * $detail->unit_price - $detail->discount, 2) }}</td>
+                                        <td class="text-center">${{ number_format($detail->quantity * $detail->unit_price - $detail->discount, 2) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

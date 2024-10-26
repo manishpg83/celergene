@@ -47,7 +47,7 @@
         }
 
         .text-right {
-            text-align: right;
+            text-align: center;
         }
 
         .text-danger {
@@ -117,10 +117,10 @@
             <thead>
                 <tr>
                     <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Total Price</th>
+                    <th class="text-right">Quantity</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Discount</th>
+                    <th class="text-right">Total Price</th>
                 </tr>
             </thead>
             <tbody>
