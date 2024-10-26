@@ -37,7 +37,7 @@
                         <tr>
                             <th wire:click="sortBy('brand')" style="cursor: pointer;">Brand</th>
                             <th wire:click="sortBy('product_name')" style="cursor: pointer;">Product Name</th>
-                            <th wire:click="sortBy('product_category')" style="cursor: pointer;">Product Category</th>
+                            <th wire:click="sortBy('product_category')" style="cursor: pointer;">Unit_price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -51,7 +51,7 @@
                                 <tr>
                                     <td>{{ $product->brand }}</td>
                                     <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->product_category }}</td>
+                                    <td>{{ $product->unit_price }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
