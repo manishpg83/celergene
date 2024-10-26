@@ -9,13 +9,19 @@ use App\Models\OrderMaster;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-
 
 class CreateOrder extends Component
 {
     public $isSubmitting = false;
     public $customers;
+    public $created_by;
+    public $oldInvoiceStatus;
+    public $oldDeliveryStatus;
+    public $modified_by;
+    public $payment_terms;
+    public $delivery_status = 'Pending';
     public $products;
     public $orderDetails = [];
     public $customer_id;
@@ -32,10 +38,10 @@ class CreateOrder extends Component
     public $shipping_addresses = [];
 
     protected $rules = [
-        'customer_id' => 'required',
-        'shipping_address' => 'required',
+        'customer_id' => 'required|exists:customers,id',
+        'shipping_address' => 'required|string',
         'orderDetails' => 'required|array|min:1',
-        'orderDetails.*.product_id' => 'required',
+        'orderDetails.*.product_id' => 'required|exists:products,id',
         'orderDetails.*.quantity' => 'required|numeric|min:1',
         'orderDetails.*.unit_price' => 'required|numeric|min:0',
         'orderDetails.*.discount' => 'required|numeric|min:0',
@@ -45,22 +51,26 @@ class CreateOrder extends Component
         'selected_shipping_address' => 'required|in:1,2,3',
         'invoice_date' => 'required|date',
         'remarks' => 'nullable|string|max:1000',
+        'payment_terms' => 'nullable|string|max:255',
+        'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
     ];
-
 
     public function mount()
     {
         $this->customers = Customer::all();
         $this->products = Product::all();
+        $this->created_by = Auth::id();
+        $this->modified_by = Auth::id();
         $this->addOrderDetail();
-    }
 
+        $this->oldInvoiceStatus = $this->invoice_status;
+        $this->oldDeliveryStatus = $this->delivery_status;
+    }
 
     public function updatedCustomerId($value)
     {
         $this->updateShippingAddresses();
     }
-
 
     public function updatedSelectedShippingAddress($value)
     {
@@ -69,7 +79,6 @@ class CreateOrder extends Component
 
     private function updateShippingAddresses()
     {
-
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
             if ($customer) {
@@ -78,9 +87,8 @@ class CreateOrder extends Component
                     2 => $this->formatAddress($customer, 2),
                     3 => $this->formatAddress($customer, 3),
                 ];
-            } else {
+                $this->updateShippingAddress();
             }
-            $this->updateShippingAddress();
         } else {
             $this->shipping_addresses = [];
             $this->shipping_address = '';
@@ -139,7 +147,7 @@ class CreateOrder extends Component
         $this->subtotal = 0;
         $this->totalDiscount = 0;
 
-        foreach ($this->orderDetails as $detail) {
+        foreach ($this->orderDetails as $index => $detail) {
             $quantity = floatval($detail['quantity']);
             $unitPrice = floatval($detail['unit_price']);
             $discount = floatval($detail['discount']);
@@ -147,8 +155,7 @@ class CreateOrder extends Component
             $this->subtotal += $quantity * $unitPrice;
             $this->totalDiscount += $discount;
 
-            $total = ($quantity * $unitPrice) - $discount;
-            $detail['total'] = max($total, 0);
+            $this->orderDetails[$index]['total'] = max(($quantity * $unitPrice) - $discount, 0);
         }
 
         $this->calculateFinalTotal();
@@ -178,11 +185,12 @@ class CreateOrder extends Component
         $this->isSubmitting = true;
 
         try {
-            $order = null;
-            $customer = null;
+            DB::transaction(function () {
+                $currentUserId = Auth::id();
 
-            DB::transaction(function () use (&$order, &$customer) {
-                $customer = Customer::find($this->customer_id);
+                if (!$currentUserId) {
+                    throw new \Exception('No authenticated user found');
+                }
 
                 $order = OrderMaster::create([
                     'customer_id' => $this->customer_id,
@@ -195,6 +203,10 @@ class CreateOrder extends Component
                     'payment_mode' => $this->payment_mode,
                     'invoice_status' => $this->invoice_status,
                     'remarks' => $this->remarks,
+                    'payment_terms' => $this->payment_terms,
+                    'delivery_status' => $this->delivery_status,
+                    'created_by' => $currentUserId,
+                    'modified_by' => $currentUserId,
                 ]);
 
                 foreach ($this->orderDetails as $detail) {
@@ -207,7 +219,7 @@ class CreateOrder extends Component
                     ]);
                 }
 
-                if ($customer->email) {
+                if ($customer = Customer::find($this->customer_id)) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
                 }
             });
@@ -224,6 +236,7 @@ class CreateOrder extends Component
             notyf()->error('An error occurred while creating the order');
         }
     }
+
 
 
     public function back()

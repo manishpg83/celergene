@@ -26,26 +26,6 @@
             margin: 0 auto;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .status {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 14px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -64,10 +44,6 @@
             font-size: 12px;
             color: #6c757d;
             border-bottom: 2px solid #dee2e6;
-        }
-
-        td {
-            font-size: 14px;
         }
 
         .text-right {
@@ -111,6 +87,10 @@
             border-top: 1px solid #ddd;
             margin: 10px 0;
         }
+
+        .additional-info {
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -141,7 +121,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Discount</th>
-                    <th>Total_price</th>
+                    <th>Total Price</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,6 +155,13 @@
                 <span>Total:</span>
                 <span>${{ number_format($order->total, 2) }}</span>
             </div>
+        </div>
+
+        <div class="additional-info">
+            <h4>Additional Information:</h4>
+            <p><strong>Remarks:</strong> {{ $order->remarks }}</p>
+            <p><strong>Payment Terms:</strong> {{ $order->payment_terms }}</p>
+            <p><strong>Delivery Status:</strong> {{ $order->delivery_status }}</p>
         </div>
     </div>
 

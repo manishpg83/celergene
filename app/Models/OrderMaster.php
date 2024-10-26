@@ -2,26 +2,32 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderMaster extends Model
 {
     protected $table = 'order_master';
-    
+
     protected $primaryKey = 'invoice_id';
 
     protected $fillable = [
-        'invoice_date', 
-        'customer_id', 
-        'shipping_address', 
-        'subtotal', 
-        'discount', 
-        'tax', 
-        'total', 
-        'remarks', 
-        'payment_mode', 
-        'invoice_status'
+        'invoice_date',
+        'customer_id',
+        'shipping_address',
+        'subtotal',
+        'discount',
+        'tax',
+        'total',
+        'remarks',
+        'payment_mode',
+        'invoice_status',
+        'payment_terms',
+        'delivery_status',
+        'created_by',
+        'modified_by'
     ];
+
 
     protected $casts = [
         'subtotal' => 'decimal:2',
@@ -40,5 +46,14 @@ class OrderMaster extends Model
     {
         return $this->hasMany(OrderDetails::class, 'invoice_id', 'invoice_id');
     }
-}
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function modifier()
+    {
+        return $this->belongsTo(User::class, 'modified_by');
+    }
+}

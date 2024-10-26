@@ -84,6 +84,33 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label for="invoice_date" class="form-label">Invoice Date:</label>
+                                <input type="date" wire:model="invoice_date" id="invoice_date"
+                                    class="form-control @error('invoice_date') is-invalid @enderror">
+                                @error('invoice_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-4">
+                            <div class="col-md-6">
+                                <label for="delivery_status" class="form-label">Delivery Status:</label>
+                                <select wire:model="delivery_status" id="delivery_status"
+                                    class="form-select @error('delivery_status') is-invalid @enderror">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                                @error('delivery_status')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="col-md-6">
                                 <label for="invoice_status" class="form-label">Invoice Status:</label>
                                 <select wire:model="invoice_status" id="invoice_status"
                                     class="form-select @error('invoice_status') is-invalid @enderror">
@@ -92,25 +119,6 @@
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
                                 @error('invoice_status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mt-4">
-                            <div class="col-md-6">
-                                <label for="invoice_date" class="form-label">Invoice Date:</label>
-                                <input type="date" wire:model="invoice_date" id="invoice_date"
-                                    class="form-control @error('invoice_date') is-invalid @enderror">
-                                @error('invoice_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="remarks" class="form-label">Remarks:</label>
-                                <textarea wire:model="remarks" id="remarks" class="form-control @error('remarks') is-invalid @enderror"></textarea>
-                                @error('remarks')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -151,7 +159,7 @@
                                             <div class="col-6">Unit Price</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.unit_price"
-                                                placeholder="Unit Price" class="form-control" readonly>
+                                                placeholder="Unit Price" class="form-control">
                                         </div>
 
                                         <div class="col-md-2">
@@ -208,25 +216,44 @@
                                         <div class="row">
                                             <div class="col-6"><strong>Total:</strong></div>
                                             <div class="col-6 text-end">
-                                                <strong>${{ number_format($total, 2) }}</strong></div>
+                                                <strong>${{ number_format($total, 2) }}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="row g-3 mt-4">
+                            <div class="col-md-6">
+                                <label for="payment_terms" class="form-label">Payment Terms:</label>
+                                <textarea wire:model="payment_terms" id="payment_terms"
+                                    class="form-control @error('payment_terms') is-invalid @enderror"></textarea>
+
+                                @error('payment_terms')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="remarks" class="form-label">Remarks:</label>
+                                <textarea wire:model="remarks" id="remarks" class="form-control @error('remarks') is-invalid @enderror"></textarea>
+                                @error('remarks')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" 
-                                    class="btn btn-success d-flex align-items-center gap-2" 
-                                    wire:loading.attr="disabled"
-                                    wire:target="submitOrder">
-                                @if($isSubmitting)
-                                <div class="spinner-border spinner-border-sm" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <span>Processing...</span>
+                            <button type="submit" class="btn btn-success d-flex align-items-center gap-2"
+                                wire:loading.attr="disabled" wire:target="submitOrder">
+                                @if ($isSubmitting)
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span>Processing...</span>
                                 @else
-                                <span>Submit Order</span>
+                                    <span>Submit Order</span>
                                 @endif
                             </button>
                         </div>

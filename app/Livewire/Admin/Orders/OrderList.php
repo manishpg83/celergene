@@ -8,12 +8,13 @@ use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\OrderStatusChanged;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OrderList extends Component
 {
     use WithPagination;
-    
+
     public $processingStatus = null;
     public $orderStatus = [];
     public $search = '';
@@ -51,29 +52,30 @@ class OrderList extends Component
     public function updateStatus($invoiceId)
     {
         $this->processingStatus = $invoiceId;
-    
+        $currentUserId = Auth::id();
         try {
             $order = OrderMaster::with('customer')->find($invoiceId);
-            
+
             if ($order) {
                 $oldStatus = $order->invoice_status;
                 $newStatus = $this->orderStatus[$invoiceId];
-                
+
                 $order->invoice_status = $newStatus;
+                $order->modified_by = $currentUserId;
                 $order->save();
-    
+
                 if ($order->customer && $order->customer->email) {
                     Mail::to($order->customer->email)
                         ->send(new OrderStatusChanged($order, $oldStatus, $newStatus));
                 }
-    
+
                 notyf()->success('Order status updated to ' . $newStatus . ' and notification email sent.');
             }
         } catch (\Exception $e) {
             Log::error('Status update failed: ' . $e->getMessage());
             notyf()->error('Failed to update order status.');
         }
-    
+
         $this->processingStatus = null;
     }
 
