@@ -102,7 +102,6 @@
         <h4>Customer Details:</h4>
         <p>Name: {{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
         <p>Email: {{ $order->customer->email }}</p>
-        <p>Phone: {{ $order->customer->phone }}</p>
     </div>
 
     <div class="order-details">
