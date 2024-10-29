@@ -14,6 +14,7 @@ class OrderMaster extends Model
     protected $fillable = [
         'invoice_date',
         'customer_id',
+        'entity_id',
         'shipping_address',
         'subtotal',
         'discount',
@@ -36,6 +37,11 @@ class OrderMaster extends Model
         'total' => 'decimal:2',
         'invoice_date' => 'datetime',
     ];
+
+    public function entity()
+    {
+        return $this->belongsTo(Entity::class);
+    }
 
     public function customer()
     {

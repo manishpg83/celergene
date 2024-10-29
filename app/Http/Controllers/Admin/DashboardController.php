@@ -17,10 +17,10 @@ class DashboardController extends Controller
         $totalCustomers = Customer::count();
         $totalRevenue = OrderMaster::sum('total');
         $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
-
+    
         $products = Product::all();
-        $orders = OrderMaster::with('customer')->latest()->get();
-
+        $orders = OrderMaster::with('customer')->latest()->take(5)->get(); // Limit to latest 5 orders
+    
         return view('admin.dashboard', compact('totalOrders', 'averageOrder', 'totalCustomers', 'averagePurchase', 'products', 'orders'));
     }
 }

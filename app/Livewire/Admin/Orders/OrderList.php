@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Orders;
 
 use Livewire\Component;
 use App\Models\OrderMaster;
+use App\Models\Entity;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\OrderStatusChanged;
@@ -21,6 +22,8 @@ class OrderList extends Component
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
     public $perPage = 10;
+    public $selectedEntityId = null;
+    public $entities;
 
     public $perpagerecords = [
         10 => '10',
@@ -35,12 +38,17 @@ class OrderList extends Component
 
     protected $listeners = ['closeModal'];
 
-    protected $updatesQueryString = ['search', 'perPage'];
+    protected $updatesQueryString = ['search', 'perPage', 'selectedEntityId'];
+
+    public function mount()
+    {
+        $this->entities = Entity::active()->get();
+    }
 
     public function viewOrderDetails($invoiceId)
     {
         try {
-            $this->selectedOrder = OrderMaster::with(['customer', 'orderDetails.product'])
+            $this->selectedOrder = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
                 ->where('invoice_id', $invoiceId)
                 ->firstOrFail();
             $this->viewOrder = true;
@@ -54,7 +62,7 @@ class OrderList extends Component
         $this->processingStatus = $invoiceId;
         $currentUserId = Auth::id();
         try {
-            $order = OrderMaster::with('customer')->find($invoiceId);
+            $order = OrderMaster::with(['customer', 'entity'])->find($invoiceId);
 
             if ($order) {
                 $oldStatus = $order->invoice_status;
@@ -79,7 +87,6 @@ class OrderList extends Component
         $this->processingStatus = null;
     }
 
-
     public function closeModal()
     {
         $this->viewOrder = false;
@@ -103,10 +110,15 @@ class OrderList extends Component
         $this->resetPage();
     }
 
+    public function updatingSelectedEntityId()
+    {
+        $this->resetPage();
+    }
+
     public function downloadInvoice($invoiceId)
     {
         try {
-            $order = OrderMaster::with(['customer', 'orderDetails.product'])
+            $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
                 ->where('invoice_id', $invoiceId)
                 ->firstOrFail();
 
@@ -116,13 +128,14 @@ class OrderList extends Component
                 echo $pdf->output();
             }, 'Invoice-' . $invoiceId . '.pdf');
         } catch (\Exception $e) {
+            Log::error('Invoice generation failed: ' . $e->getMessage());
             notyf()->error('Could not generate invoice PDF.');
         }
     }
 
     public function render()
     {
-        $orders = OrderMaster::with(['customer', 'orderDetails.product'])
+        $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('invoice_id', 'like', '%' . $this->search . '%')
@@ -130,10 +143,16 @@ class OrderList extends Component
                             $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
                                 ->orWhere('last_name', 'like', '%' . $this->search . '%');
                         })
+                        ->orWhereHas('entity', function ($entityQuery) {
+                            $entityQuery->where('company_name', 'like', '%' . $this->search . '%');
+                        })
                         ->orWhere('total', 'like', '%' . $this->search . '%')
-                        ->orWhere('date', 'like', '%' . $this->search . '%')
+                        ->orWhere('invoice_date', 'like', '%' . $this->search . '%')
                         ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
                 });
+            })
+            ->when($this->selectedEntityId, function ($query) {
+                $query->where('entity_id', $this->selectedEntityId);
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
@@ -146,6 +165,7 @@ class OrderList extends Component
         return view('livewire.admin.orders.order-list', [
             'orders' => $orders,
             'perpagerecords' => $this->perpagerecords,
+            'entities' => $this->entities,
         ]);
     }
 }

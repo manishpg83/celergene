@@ -93,7 +93,7 @@
                                 <tr style="background-color: #f8f9fa;">
                                     <th class="border-0 py-3 text-dark" style="border-top-left-radius: 0.5rem;">Name</th>
                                     <th class="border-0 py-3 text-dark">Price</th>
-                                    <th class="border-0 py-3 text-dark" style="border-top-right-radius: 0.5rem;">Product
+                                    <th class="border-0 py-3 text-dark" style="border-top-right-radius: 0.5rem;">
                                         Code</th>
                                 </tr>
                             </thead>

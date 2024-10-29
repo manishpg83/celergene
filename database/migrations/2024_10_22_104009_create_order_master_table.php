@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id('invoice_id');
             $table->date('invoice_date');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('entity_id')->constrained('entities')->onDelete('restrict');
             $table->string('shipping_address');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('discount', 10, 2)->default(0);

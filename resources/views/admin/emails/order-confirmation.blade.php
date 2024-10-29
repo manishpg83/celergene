@@ -1,194 +1,132 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Order Confirmation #{{ $order->id }}</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            font-size: 14px;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .invoice-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .customer-details, .order-details {
-            margin-bottom: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .status {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 14px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f1f3f4;
-            text-transform: uppercase;
-            font-size: 12px;
-            color: #6c757d;
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        td {
-            font-size: 14px;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .text-danger {
-            color: #dc3545;
-        }
-
-        .text-success {
-            color: #28a745;
-        }
-
-        .totals {
-            width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            float: right;
-        }
-
-        .totals div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .totals div:last-child {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .totals span {
-            font-size: 14px;
-        }
-
-        .totals hr {
-            border: none;
-            border-top: 1px solid #ddd;
-            margin: 10px 0;
-        }
-
-        h4 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin: 5px 0;
-        }
-    </style>
+    <title>Order Confirmation #{{ $order->invoice_id }}</title>
 </head>
-<body>
-    <div class="invoice-header">
-        <h2>Order Confirmation #{{ $order->invoice_id }}</h2>
-    </div>
 
-    <div class="customer-details">
-        <h4>Customer Details:</h4>
-        <p>Name: {{ $customer->first_name }} {{ $customer->last_name }}</p>
-        <p>Email: {{ $customer->email }}</p>
-        <p>Phone: {{ $customer->phone }}</p>
-    </div>
+<body
+    style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <div class="logo" style="text-align: center; margin-bottom: 30px;">
+            <img src="{{ config('app.url') }}/admin/assets/img/branding/Celergen-Logo.png" alt="Celergen Logo" style="max-height: 60px; width: auto;">        </div>
 
-    <div class="order-details">
-        <h4>Order Information:</h4>
-        <p>Order Date: {{ date('M d, Y', strtotime($order->invoice_date)) }}</p>
-        <p>Payment Mode: {{ $order->payment_mode }}</p>
-        <p>Status: {{ $order->invoice_status }}</p>
-        <p>Shipping Address: {{ $order->shipping_address }}</p>
-    </div>
+        <div class="greeting" style="margin-bottom: 30px; line-height: 1.6;">
+            <p>Dear {{ $customer->salutation }} {{ $customer->first_name }},</p>
+            <p>Thank you for your payment.</p>
+            <p>Your order details are attached below.</p>
+        </div>
 
-    <div class="container">
-        <table>
+        <div class="address-section clearfix" style="margin-bottom: 40px; overflow: hidden;">
+            <div class="billing-address" style="float: left; width: 48%;">
+                <div class="address-title"
+                    style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Billing Address:</div>
+                <p>{{ $customer->first_name }} {{ $customer->last_name }}</p>
+                @if ($order->billing_address)
+                    <p>{{ $order->billing_address }}</p>
+                @endif
+                @if ($customer->mobile_number)
+                    <p>Phone: {{ $customer->mobile_number }}</p>
+                @endif
+                @if ($customer->email)
+                    <p>Email: {{ $customer->email }}</p>
+                @endif
+            </div>
+
+            <div class="shipping-address" style="float: right; width: 48%;">
+                <div class="address-title"
+                    style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Shipping Address:
+                </div>
+                <p>{{ $customer->first_name }} {{ $customer->last_name }}</p>
+                @if ($customer->shipping_address_1)
+                    <p>{{ $customer->shipping_address_1 }}</p>
+                @endif
+            </div>
+        </div>
+
+        <div>
+            <p><strong>Order No:</strong> #{{ $order->invoice_id }}</p>
+            <p><strong>Order Date:</strong> {{ date('d M Y', strtotime($order->invoice_date)) }}</p>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Total Price</th>
+                    <th
+                        style="padding: 12px; text-align: left; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        Description</th>
+                    <th
+                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        Quantity</th>
+                    <th
+                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        Unit Price</th>
+                    <th
+                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        DISCOUNT</th>
+                    <th
+                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        Amount</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($order->orderDetails as $detail)
-                <tr>
-                    <td>{{ $detail->product->product_name }}</td>
-                    <td class="text-right">{{ $detail->quantity }}</td>
-                    <td class="text-right">${{ number_format($detail->unit_price, 2) }}</td>
-                    <td class="text-right text-danger">-${{ number_format($detail->discount, 2) }}</td>
-                    <td class="text-right">${{ number_format($detail->total, 2) }}</td>
-                </tr>
+                    <tr>
+                        <td style="padding: 12px; text-align: left; border-bottom: 1px solid #eee;">
+                            {{ $detail->product->product_name ?? 'Product' }}</td>
+                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
+                            {{ $detail->quantity }}</td>
+                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
+                            ${{ number_format($detail->unit_price, 2) }}</td>
+                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
+                            -${{ number_format($detail->discount, 2) }}</td>
+                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
+                            ${{ number_format($detail->total, 2) }}</td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <div class="totals">
-            <div>
-                <span>Subtotal:</span>
-                <span>${{ number_format($order->subtotal, 2) }}</span>
-            </div>
-            <div>
-                <span>Total Discount:</span>
-                <span class="text-danger">-${{ number_format($order->discount, 2) }}</span>
-            </div>
-            <div>
-                <span>Tax:</span>
-                <span class="text-success">+${{ number_format($order->tax, 2) }}</span>
-            </div>
-            <hr>
-            <div>
-                <span>Total:</span>
-                <span>${{ number_format($order->total, 2) }}</span>
-            </div>
-        </div>
+        <table class="totals-table"
+            style="width: 300px; margin-left: auto; margin-bottom: 40px; border-collapse: collapse;">
+            <tr>
+                <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Subtotal:
+                </td>
+                <td class="value" style="padding: 8px; text-align: right;">${{ number_format($order->subtotal, 2) }}
+                </td>
+            </tr>
+            @if ($order->discount > 0)
+                <tr>
+                    <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Total
+                        Discount:</td>
+                    <td class="value" style="padding: 8px; text-align: right; color: #ff0000;">
+                        -${{ number_format($order->discount, 2) }}</td>
+                </tr>
+            @endif
+            @if ($order->tax > 0)
+                <tr>
+                    <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Tax:</td>
+                    <td class="value" style="padding: 8px; text-align: right; color: #008000;">
+                        +${{ number_format($order->tax, 2) }}</td>
+                </tr>
+            @endif
 
-        <div style="clear: both; margin-top: 40px; text-align: center; color: #666;">
-            <p>Thank you for your order! If you have any questions, please don't hesitate to contact us.</p>
+            <tr class="total-line">
+                <td class="label"
+                    style="padding: 8px; text-align: left; font-weight: bold; color: #333; border-top: 2px solid #eee;">
+                    Total:</td>
+                <td class="value" style="padding: 8px; text-align: right; border-top: 2px solid #eee;">
+                    ${{ number_format($order->total, 2) }}</td>
+            </tr>
+        </table>
+
+        <div class="footer"
+            style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
+            <p>Thank you for your business!</p>
+            <p>If you have any questions about this order, please contact us.</p>
         </div>
     </div>
 </body>
+
 </html>

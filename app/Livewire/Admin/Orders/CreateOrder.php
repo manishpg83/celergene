@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Models\Stock;
+use App\Models\Entity;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Customer;
+use App\Models\Inventory;
 use App\Models\OrderMaster;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +18,8 @@ use Illuminate\Support\Facades\Mail;
 class CreateOrder extends Component
 {
     public $isSubmitting = false;
+    public $entities;
+    public $entity_id;
     public $customers;
     public $created_by;
     public $oldInvoiceStatus;
@@ -39,6 +44,7 @@ class CreateOrder extends Component
 
     protected $rules = [
         'customer_id' => 'required|exists:customers,id',
+        'entity_id' => 'required|exists:entities,id',
         'shipping_address' => 'required|string',
         'orderDetails' => 'required|array|min:1',
         'orderDetails.*.product_id' => 'required|exists:products,id',
@@ -58,6 +64,7 @@ class CreateOrder extends Component
     public function mount()
     {
         $this->customers = Customer::all();
+        $this->entities = Entity::active()->get();
         $this->products = Product::all();
         $this->created_by = Auth::id();
         $this->modified_by = Auth::id();
@@ -194,6 +201,7 @@ class CreateOrder extends Component
 
                 $order = OrderMaster::create([
                     'customer_id' => $this->customer_id,
+                    'entity_id' => $this->entity_id,
                     'shipping_address' => $this->shipping_address,
                     'invoice_date' => $this->invoice_date,
                     'subtotal' => $this->subtotal,
@@ -217,6 +225,30 @@ class CreateOrder extends Component
                         'discount' => $detail['discount'],
                         'total' => $detail['total'],
                     ]);
+
+                    $inventory = Inventory::where('product_code', $detail['product_id'])
+                        ->where('remaining', '>=', $detail['quantity'])
+                        ->first();
+
+                    if ($inventory) {
+                        $newRemainingQuantity = $inventory->remaining - $detail['quantity'];
+                        $inventory->update([
+                            'consumed' => $inventory->consumed + $detail['quantity'],
+                            'remaining' => $newRemainingQuantity,
+                        ]);
+
+                        Stock::create([
+                            'inventory_id' => $inventory->id,
+                            'product_id' => $detail['product_id'],
+                            'previous_quantity' => $inventory->remaining,
+                            'quantity_change' => -$detail['quantity'],
+                            'new_quantity' => $newRemainingQuantity,
+                            'reason' => 'Order Fulfillment',
+                            'created_by' => $currentUserId,
+                        ]);
+                    } else {
+                        throw new \Exception("Insufficient inventory for product ID: {$detail['product_id']}");
+                    }
                 }
 
                 if ($customer = Customer::find($this->customer_id)) {
@@ -232,12 +264,27 @@ class CreateOrder extends Component
             return redirect()->route('admin.orders.index');
         } catch (\Exception $e) {
             $this->isSubmitting = false;
-            Log::error('Order creation failed: ' . $e->getMessage());
-            notyf()->error('An error occurred while creating the order');
+            Log::error('Order creation failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'orderDetails' => $this->orderDetails,
+                'customer_id' => $this->customer_id,
+                'shipping_address' => $this->shipping_address,
+                'invoice_date' => $this->invoice_date,
+                'subtotal' => $this->subtotal,
+                'totalDiscount' => $this->totalDiscount,
+                'tax' => $this->tax,
+                'total' => $this->total,
+                'payment_mode' => $this->payment_mode,
+                'invoice_status' => $this->invoice_status,
+                'remarks' => $this->remarks,
+                'payment_terms' => $this->payment_terms,
+                'delivery_status' => $this->delivery_status,
+                'created_by' => Auth::id(),
+            ]);
+            
+            notyf()->error('An error occurred while creating the order. Check logs for details.');
         }
     }
-
-
 
     public function back()
     {

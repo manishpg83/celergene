@@ -27,6 +27,19 @@
                     <form wire:submit.prevent="submitOrder">
                         <div class="row g-3 mt-0">
                             <div class="col-md-6">
+                                <label for="entity" class="form-label">Select Entity:</label>
+                                <select wire:model="entity_id" id="entity"
+                                    class="form-select @error('entity_id') is-invalid @enderror">
+                                    <option value="">Select an entity</option>
+                                    @foreach ($entities as $entity)
+                                        <option value="{{ $entity->id }}">{{ $entity->company_name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('entity_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
                                 <label for="customer" class="form-label">Select Customer:</label>
                                 <select wire:model.live="customer_id" id="customer"
                                     class="form-select @error('customer_id') is-invalid @enderror">
@@ -107,9 +120,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
-
-
                             <div class="col-md-6">
                                 <label for="invoice_status" class="form-label">Invoice Status:</label>
                                 <select wire:model="invoice_status" id="invoice_status"

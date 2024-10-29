@@ -1,29 +1,76 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Order Details #{{ $order->invoice_id }}</title>
+    <title>Invoice #{{ $order->invoice_id }}</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            font-size: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
             color: #333;
             margin: 0;
             padding: 20px;
         }
-        .invoice-header {
-            text-align: center;
-            margin-bottom: 30px;
+
+        .header {
+            overflow: hidden;
+            margin-bottom: 8px;
+            padding: 10px;
+            background-color: #808080;
+            color: white;
         }
 
-        .customer-details, .order-details {
+        .company-address {
+            margin-bottom: 15px;
+        }
+
+        .header .company-name {
+            float: left;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header .invoice-text {
+            float: right;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .addresses {
+            overflow: hidden;
             margin-bottom: 20px;
+            border: 1px solid #000;
+
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+        .billing-address,
+        .shipping-address,
+        .invoice-details {
+            width: 30%;
+            float: left;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .shipping-address {
+            text-align: center;
+        }
+
+        .invoice-details {
+            text-align: right;
+        }
+
+        .addresses::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         table {
@@ -32,137 +79,139 @@
             margin-bottom: 20px;
         }
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f1f3f4;
-            text-transform: uppercase;
-            font-size: 12px;
-            color: #6c757d;
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        .text-right {
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
             text-align: center;
         }
 
-        .text-danger {
-            color: #dc3545;
+        th {
+            background-color: #f0f0f0;
         }
 
-        .text-success {
-            color: #28a745;
-        }
-
-        .totals {
-            width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            float: right;
-        }
-
-        .totals div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .totals div:last-child {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .totals span {
-            font-size: 14px;
-        }
-
-        .totals hr {
-            border: none;
-            border-top: 1px solid #ddd;
-            margin: 10px 0;
-        }
-
-        .additional-info {
+        .summary-section {
+            width: 100%;
             margin-top: 30px;
+            display: table;
+        }
+
+        .summary-section .left,
+        .summary-section .right {
+            display: table-cell;
+            vertical-align: top;
+        }
+
+        .left {
+            width: 60%;
+            padding-right: 20px;
+        }
+
+        .right {
+            width: 35%;
+        }
+
+        .totals table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .totals td {
+            padding: 5px;
+            border: 1px solid #ddd;
+            text-align: right;
+        }
+
+        .totals tr:last-child td {
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
-    <div class="invoice-header">
-        <h2>Invoice #{{ $order->invoice_id }}</h2>
+    <div class="header">
+        <div class="company-name">{{ $order->entity->company_name }}</div>
+        <div class="invoice-text">INVOICE</div>
+    </div>
+    <div>
+        <div class="company-address">{{ $order->entity->address }}</div>
     </div>
 
-    <div class="customer-details">
-        <h4>Customer Details:</h4>
-        <p>Name: {{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
-        <p>Email: {{ $order->customer->email }}</p>
+    <div class="addresses">
+        <div class="billing-address">
+            <strong>Billing Address</strong><br>
+            {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
+            {{ $order->customer->billing_address }}<br>
+            VAT No: {{ $order->customer->vat_number }}
+        </div>
+        <div class="shipping-address">
+            <strong>Shipping Address</strong><br>
+            {{ $order->shipping_address }}
+        </div>
+        <div class="invoice-details">
+            <strong>INVOICE NO:</strong> {{ $order->invoice_id }}<br>
+            <strong>INVOICE DATE:</strong> {{ date('d/m/Y', strtotime($order->invoice_date)) }}<br>
+            <strong>TERMS:</strong> {{ $order->payment_terms }}
+        </div>
     </div>
 
-    <div class="order-details">
-        <h4>Order Information:</h4>
-        <p>Order Date: {{ date('M d, Y', strtotime($order->invoice_date)) }}</p>
-        <p>Payment Mode: {{ $order->payment_mode }}</p>
-        <p>Status: {{ $order->invoice_status }}</p>
-    </div>
-
-    <div class="container">
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th class="text-right">Quantity</th>
-                    <th class="text-right">Price</th>
-                    <th class="text-right">Discount</th>
-                    <th class="text-right">Total Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($order->orderDetails as $detail)
+    <table>
+        <thead>
+            <tr>
+                <th>DESCRIPTION</th>
+                <th>QUANTITY</th>
+                <th>UNIT PRICE</th>
+                <th>DISCOUNT</th>
+                <th>TOTAL AMOUNT</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($order->orderDetails as $detail)
                 <tr>
                     <td>{{ $detail->product->product_name }}</td>
-                    <td class="text-right">{{ $detail->quantity }}</td>
-                    <td class="text-right">${{ number_format($detail->unit_price, 2) }}</td>
-                    <td class="text-right text-danger">-${{ number_format($detail->discount, 2) }}</td>
-                    <td class="text-right">${{ number_format($detail->total, 2) }}</td>
+                    <td>{{ $detail->quantity }}</td>
+                    <td>{{ number_format($detail->unit_price, 2) }}</td>
+                    <td>${{ number_format($detail->discount, 2) }}</td>
+                    <td>{{ number_format($detail->total, 2) }}</td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
+            @endforeach
+        </tbody>
+    </table>
 
-        <div class="totals">
-            <div>
-                <span>Subtotal:</span>
-                <span>${{ number_format($order->subtotal, 2) }}</span>
-            </div>
-            <div>
-                <span>Total Discount:</span>
-                <span class="text-danger">-${{ number_format($order->discount, 2) }}</span>
-            </div>
-            <div>
-                <span>Tax:</span>
-                <span class="text-success">+${{ number_format($order->tax, 2) }}</span>
-            </div>
-            <hr>
-            <div>
-                <span>Total:</span>
-                <span>${{ number_format($order->total, 2) }}</span>
-            </div>
+    <div class="summary-section">
+        <div class="left bank-details">
+            <p><strong>DIRECT ALL INQUIRIES TO: </strong> info@example.com</p>
+
+            <p><strong>Bank Charges must be borne by payer</strong></p>
+
+            <p>For payment by Telegraphic Transfer:<br>
+                <strong>Account No:</strong> {{ $order->entity->bank_account_number }}<br>
+                <strong>Bank Name:</strong> {{ $order->entity->bank_account_name }}<br>
+                <strong>SWIFT:</strong> {{ $order->entity->bank_swift_code }}
+            </p>
         </div>
 
-        <div class="additional-info">
-            <h4>Additional Information:</h4>
-            <p><strong>Remarks:</strong> {{ $order->remarks }}</p>
-            <p><strong>Payment Terms:</strong> {{ $order->payment_terms }}</p>
-            <p><strong>Delivery Status:</strong> {{ $order->delivery_status }}</p>
+        <div class="right totals">
+            <table>
+                <tr>
+                    <td>SUBTOTAL</td>
+                    <td>{{ number_format($order->subtotal, 2) }}</td>
+                </tr>
+                <tr>
+                    <td>TOTAL DISCOUNT</td>
+                    <td><span style="color: red;">-{{ number_format($order->discount, 2) }}</span></td>
+                </tr>
+                <tr>
+                    <td>TAX</td>
+                    <td><span style="color: green;">+{{ number_format($order->tax, 2) }}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>TOTAL</strong></td>
+                    <td><strong>{{ number_format($order->total, 2) }}</strong></td>
+                </tr>
+            </table>
         </div>
     </div>
-
 </body>
+
 </html>
