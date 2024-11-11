@@ -44,7 +44,7 @@
                     </tbody>
                 </table>
         
-                <div class="d-flex justify-content-center mt-3">
+                <div class="d-flex justify-content-end mt-3">
                     {{ $orders->links() }}
                 </div>
             </div>
@@ -57,7 +57,7 @@
         <div class="card shadow-sm p-3 mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="ml-6 mb-0 fs-5">Address Book</h5>
-                <button class="btn btn-outline-primary btn-sm">Add new address</button>
+                {{-- <button class="btn btn-outline-primary btn-sm">Add new address</button> --}}
             </div>
             <div class="list-group list-group-flush">
                 <!-- Billing Address -->
