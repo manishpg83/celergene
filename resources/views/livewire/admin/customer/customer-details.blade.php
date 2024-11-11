@@ -53,10 +53,11 @@
         <div class="col-md-4">
             <div class="card shadow-sm p-3 mb-4">
                 <div class="customer-profile">
-                    <img src="{{ $customer->image ? asset('storage/' . $customer->image) : 'https://avatar.iran.liara.run/public' }}" alt="Profile" class="rounded-circle mb-3" />
+                    <img src="{{ $customer->image ? asset('storage/' . $customer->image) : 'https://avatar.iran.liara.run/public' }}"
+                        alt="Profile" class="rounded-circle mb-3" />
                     <h5 class="mb-1">{{ $customer->first_name }} {{ $customer->last_name }}</h5>
                     <p class="text-muted">Customer ID #{{ $customer->id }}</p>
-                </div>                
+                </div>
                 <div class="d-flex justify-content-around my-3">
                     <div class="text-center">
                         <i class="fas fa-shopping-cart fa-lg text-primary"></i>
@@ -91,61 +92,151 @@
             <!-- Top Navigation -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="d-flex align-items-center top-navigation">
-                    <button class="btn btn-link text-dark">Overview</button>
-                    <button class="btn btn-link text-dark">Security</button>
-                    <button class="btn btn-primary ms-2">Address & Billing</button>
+                    <button class="btn btn-link text-dark" onclick="showTab('overview')">Overview</button>
+                    {{-- <button class="btn btn-link text-dark" onclick="showTab('security')">Security</button> --}}
+                    <button class="btn btn-primary ms-2" onclick="showTab('address')">Address & Billing</button>
                 </div>
             </div>
-            <div class="card shadow-sm p-3 mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="ml-6 mb-0 fs-5">Address Book</h5>
-                    <button class="btn btn-outline-primary btn-sm">Add new address</button>
+
+            <!-- Tab Contents -->
+            <div id="overview" class="tab-content p-0">
+                <div class="card shadow-sm p-3 mb-4">
+                    <div class="table-responsive">
+                        <h4 class="fw-bold fs-5 mb-4 ml-2">Orders Placed</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td>{{ $order->invoice_id }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order->invoice_date)->format('Y-m-d') }}</td>
+                                        <td>${{ number_format($order->total, 2) }}</td>
+                                        <td>
+                                            <span
+                                                style="padding: 0.5rem 1rem; border-radius: 50rem;
+                                                @if ($order->invoice_status === 'Paid') background-color: rgba(25, 135, 84, 0.1); color: #198754;
+                                                @elseif ($order->invoice_status === 'Pending')
+                                                    background-color: rgba(255, 193, 7, 0.1); color: #ffc107;
+                                                @elseif ($order->invoice_status === 'Cancelled')
+                                                    background-color: rgba(220, 53, 69, 0.1); color: #dc3545; @endif">
+                                                {{ ucfirst($order->invoice_status) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+            
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $orders->links() }}
+                        </div>
+                    </div>
                 </div>
-                <div class="list-group list-group-flush">
-                    <!-- Billing Address -->
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="mb-0"><strong>Home</strong> <span class="badge bg-label-success ms-2">Default
-                                    Address</span></p>
-                            <p class="text-muted mb-0">{{ $customer->billing_address }}</p>
-                            <p class="text-muted mb-0">{{ $customer->billing_country }},
-                                {{ $customer->billing_postal_code }}</p>
-                        </div>
-                        <div>
-                            <button class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
-                        </div>
+            </div>
+            
+
+            <div id="security" class="tab-content p-0" style="display: none;">
+                <div class="card shadow-sm p-3 mb-4">
+                    <h5>Security Settings</h5>
+                    <p>Security content will go here</p>
+                </div>
+            </div>
+
+            <div id="address" class="tab-content p-0">
+                <div class="card shadow-sm p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="ml-6 mb-0 fs-5">Address Book</h5>
+                        <button class="btn btn-outline-primary btn-sm">Add new address</button>
                     </div>
-                    <!-- Shipping Address 1 -->
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="mb-0"><strong>Office</strong></p>
-                            <p class="text-muted mb-0">{{ $customer->shipping_address_1 }}</p>
-                            <p class="text-muted mb-0">{{ $customer->shipping_country_1 }},
-                                {{ $customer->shipping_postal_code_1 }}</p>
-                        </div>
-                        <div>
-                            <button class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                    <!-- Shipping Address 2 -->
-                    @if ($customer->shipping_address_2)
+                    <div class="list-group list-group-flush">
+                        <!-- Billing Address -->
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <p class="mb-0"><strong>Family</strong></p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_address_2 }}</p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_country_2 }},
-                                    {{ $customer->shipping_postal_code_2 }}</p>
+                                <p class="mb-0"><strong>Home</strong> <span
+                                        class="badge bg-label-success ms-2">Default Address</span></p>
+                                <p class="text-muted mb-0">{{ $customer->billing_address }}</p>
+                                <p class="text-muted mb-0">{{ $customer->billing_country }},
+                                    {{ $customer->billing_postal_code }}</p>
                             </div>
                             <div>
-                                <button class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></button>
+                                <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
+                                    class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></a>
                                 <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
-                    @endif
+                        <!-- Shipping Address 1 -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-0"><strong>Office</strong></p>
+                                <p class="text-muted mb-0">{{ $customer->shipping_address_1 }}</p>
+                                <p class="text-muted mb-0">{{ $customer->shipping_country_1 }},
+                                    {{ $customer->shipping_postal_code_1 }}</p>
+                            </div>
+                            <div>
+                                <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
+                                    class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                        <!-- Shipping Address 2 -->
+                        @if ($customer->shipping_address_2)
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-0"><strong>Family</strong></p>
+                                    <p class="text-muted mb-0">{{ $customer->shipping_address_2 }}</p>
+                                    <p class="text-muted mb-0">{{ $customer->shipping_country_2 }},
+                                        {{ $customer->shipping_postal_code_2 }}</p>
+                                </div>
+                                <div>
+                                    <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
+                                        class="btn btn-link p-0 me-2"><i class="fas fa-edit"></i></a>
+                                    <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function showTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.style.display = 'none';
+        });
+
+        // Show the selected tab
+        document.getElementById(tabName).style.display = 'block';
+
+        // Update button states
+        document.querySelectorAll('.top-navigation button').forEach(btn => {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-link', 'text-dark');
+        });
+
+        // Highlight the active tab button
+        const activeButton = document.querySelector(`button[onclick="showTab('${tabName}')"]`);
+        if (activeButton) {
+            activeButton.classList.remove('btn-link', 'text-dark');
+            activeButton.classList.add('btn-primary');
+        }
+
+        // Emit Livewire event for tab change
+        Livewire.dispatch('tab-changed', { tab: tabName });
+    }
+
+    // Show overview tab by default
+    document.addEventListener('DOMContentLoaded', function() {
+        showTab('overview');
+    });
+</script>

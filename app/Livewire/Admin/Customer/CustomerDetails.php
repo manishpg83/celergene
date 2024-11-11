@@ -6,9 +6,14 @@ use App\Models\Order;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\OrderDetails;
+use Livewire\WithPagination;
 
 class CustomerDetails extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    protected $queryString = ['page'];
+    public $page = 1;
     public $customer;
     public $activeTab = 'overview';
     public $selectedAddress = 'billing';
@@ -20,6 +25,7 @@ class CustomerDetails extends Component
             ->withSum('orders', 'total')
             ->findOrFail($id);
     }
+    
     public function details()
     {
         return $this->hasMany(OrderDetails::class);
@@ -33,7 +39,9 @@ class CustomerDetails extends Component
     public function render()
     {
         return view('livewire.admin.customer.customer-details', [
-            'orders' => $this->customer->orders()->get(),
+            'orders' => $this->customer->orders()
+                ->orderBy('invoice_date', 'desc')
+                ->paginate(5),
             'addresses' => $this->getAddresses(),
         ]);
     }
@@ -62,6 +70,7 @@ class CustomerDetails extends Component
     public function setActiveTab($tab)
     {
         $this->activeTab = $tab;
+        $this->resetPage();
     }
 
     public function restore()
