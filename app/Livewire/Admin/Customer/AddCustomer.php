@@ -94,9 +94,12 @@ class AddCustomer extends Component
         $this->shipping_address_3 = $customer->shipping_address_3;
         $this->shipping_country_3 = $customer->shipping_country_3;
         $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+
+        // Set the image path to `$oldImage` for existing customers
         $this->image = $customer->image;
         $this->oldImage = $customer->image; // Store the old image path
     }
+
     public function removeImage()
     {
         if ($this->oldImage) {
