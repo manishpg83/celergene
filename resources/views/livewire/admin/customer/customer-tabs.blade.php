@@ -63,7 +63,7 @@
                 <!-- Billing Address -->
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="mb-0"><strong>Home</strong> <span class="badge bg-label-success ms-2">Default Address</span></p>
+                        <p class="mb-0"><strong>Billing Address</strong> <span class="badge bg-label-success ms-2">Default Address</span></p>
                         <p class="text-muted mb-0">{{ $customer->billing_address }}</p>
                         <p class="text-muted mb-0">{{ $customer->billing_country }}, {{ $customer->billing_postal_code }}</p>
                     </div>
@@ -78,7 +78,7 @@
                 @if($customer->shipping_address_1)
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="mb-0"><strong>Office</strong></p>
+                        <p class="mb-0"><strong>Shipping Address 1</strong></p>
                         <p class="text-muted mb-0">{{ $customer->shipping_address_1 }}</p>
                         <p class="text-muted mb-0">{{ $customer->shipping_country_1 }}, {{ $customer->shipping_postal_code_1 }}</p>
                     </div>
@@ -94,9 +94,24 @@
                 @if($customer->shipping_address_2)
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="mb-0"><strong>Family</strong></p>
+                        <p class="mb-0"><strong>Shipping Address 2</strong></p>
                         <p class="text-muted mb-0">{{ $customer->shipping_address_2 }}</p>
                         <p class="text-muted mb-0">{{ $customer->shipping_country_2 }}, {{ $customer->shipping_postal_code_2 }}</p>
+                    </div>
+                    <div>
+                        <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                @endif
+                @if($customer->shipping_address_3)
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="mb-0"><strong>Shipping Address 3</strong></p>
+                        <p class="text-muted mb-0">{{ $customer->shipping_address_3 }}</p>
+                        <p class="text-muted mb-0">{{ $customer->shipping_country_3 }}, {{ $customer->shipping_postal_code_3 }}</p>
                     </div>
                     <div>
                         <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
