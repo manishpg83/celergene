@@ -17,6 +17,7 @@ class Customer extends Model
         'last_name',
         'mobile_number',
         'email',
+        'image',
         'company_name',
         'business_reg_number',
         'vat_number',
@@ -47,6 +48,10 @@ class Customer extends Model
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class, 'customer_type_id');
+    }
+    public function orders()
+    {
+        return $this->hasMany(OrderMaster::class, 'customer_id');
     }
 }
 

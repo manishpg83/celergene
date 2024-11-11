@@ -2,13 +2,19 @@
 
 namespace App\Livewire\Admin\Customer;
 
+use Livewire\Component;
 use App\Models\Customer;
 use App\Models\CustomerType;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 
 class AddCustomer extends Component
 {
+    use WithFileUploads;
+
+    public $image;
+    public $oldImage;
     public $confirmingDeletion = false;
     public $showForm = true;
     public $isEditing = false;
@@ -33,6 +39,7 @@ class AddCustomer extends Component
         'last_name' => 'required|string',
         'mobile_number' => 'required|string',
         'email' => 'required|email',
+        'image' => 'nullable|image|max:1024|mimes:jpg,jpeg,png',
         'payment_term_display' => 'required|string',
         'payment_term_actual' => 'required|in:7D,14D,30D',
         'billing_address' => 'required|string',
@@ -87,11 +94,41 @@ class AddCustomer extends Component
         $this->shipping_address_3 = $customer->shipping_address_3;
         $this->shipping_country_3 = $customer->shipping_country_3;
         $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+        $this->image = $customer->image;
+        $this->oldImage = $customer->image; // Store the old image path
+    }
+    public function removeImage()
+    {
+        if ($this->oldImage) {
+            Storage::disk('public')->delete($this->oldImage);
+        }
+        $this->image = null;
+        $this->oldImage = null;
+    }
+
+    private function handleImageUpload()
+    {
+        if ($this->image && !is_string($this->image)) {
+            // Delete old image if exists
+            if ($this->oldImage) {
+                Storage::disk('public')->delete($this->oldImage);
+            }
+
+            // Store new image
+            $imageName = time() . '_' . $this->image->getClientOriginalName();
+            $imagePath = $this->image->storeAs('customers', $imageName, 'public');
+            return $imagePath;
+        }
+
+        return $this->oldImage; // Return existing image path if no new image
     }
 
     public function save()
     {
         $this->validate();
+
+        $data = $this->customerData();
+        $data['image'] = $this->handleImageUpload();
 
         if ($this->isEditing) {
             $customer = Customer::findOrFail($this->customer_id);
@@ -103,6 +140,13 @@ class AddCustomer extends Component
         }
 
         return redirect()->route('admin.customer.index');
+    }
+
+    public function updatedImage()
+    {
+        $this->validate([
+            'image' => 'image|max:1024|mimes:jpg,jpeg,png'
+        ]);
     }
 
     public function updatedSameAsBilling($value)
@@ -123,6 +167,8 @@ class AddCustomer extends Component
         $this->shipping_address_1 = '';
         $this->shipping_country_1 = '';
         $this->shipping_postal_code_1 = '';
+        $this->image = null;
+        $this->oldImage = null;
     }
 
     public function resetInputFields()
@@ -150,7 +196,7 @@ class AddCustomer extends Component
 
     private function customerData()
     {
-        return [
+        $data = [
             'customer_type_id' => $this->customer_type_id,
             'salutation' => $this->salutation,
             'first_name' => $this->first_name,
@@ -182,7 +228,10 @@ class AddCustomer extends Component
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
+            'image' => $this->handleImageUpload(), // Add this line to include image
         ];
+
+        return $data;
     }
 
     public function back()

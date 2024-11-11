@@ -65,11 +65,8 @@
                                     <td>{{ $customer->email }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-link text-black" type="button"
-                                                id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" style="width: 20px; height: 20px;">
+                                            <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
                                                     <circle cx="12" cy="12" r="2" />
                                                     <circle cx="12" cy="6" r="2" />
                                                     <circle cx="12" cy="18" r="2" />
@@ -77,21 +74,19 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $customer->id }}">
                                                 <li>
-                                                    <a class="dropdown-item" wire:click="edit({{ $customer->id }})"
-                                                        style="cursor: pointer;">Edit</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.customer.details', $customer->id) }}">View Details</a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}"
-                                                        wire:click="confirmDelete({{ $customer->id }})"
-                                                        style="cursor: pointer;">
+                                                    <a class="dropdown-item" wire:click="edit({{ $customer->id }})" style="cursor: pointer;">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}" wire:click="confirmDelete({{ $customer->id }})" style="cursor: pointer;">
                                                         {{ $customer->trashed() ? 'Permanently Delete' : 'Suspend' }}
                                                     </a>
                                                 </li>
                                                 @if ($customer->trashed())
                                                     <li>
-                                                        <a class="dropdown-item text-success"
-                                                            wire:click="restore({{ $customer->id }})"
-                                                            style="cursor: pointer;">Restore</a>
+                                                        <a class="dropdown-item text-success" wire:click="restore({{ $customer->id }})" style="cursor: pointer;">Restore</a>
                                                     </li>
                                                 @endif
                                             </ul>

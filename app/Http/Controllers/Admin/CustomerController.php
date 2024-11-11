@@ -15,6 +15,11 @@ class CustomerController extends Controller
     public function add(){
         return view('admin.customers.add');
     }
+
+    public function showCustomerDetails($id)
+    {
+        return view('admin.customers.details', ['id' => $id]);
+    }
     public function showAddCustomerForm($id)
     {
         $customer = Customer::findOrFail($id);
