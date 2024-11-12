@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Customer;
 use App\Models\CustomerType;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -137,9 +138,11 @@ class AddCustomer extends Component
         if ($this->isEditing) {
             $customer = Customer::findOrFail($this->customer_id);
             $customer->update($data);
+            Log::info('Customer updated successfully.', ['customer_id' => $this->customer_id, 'updated_data' => $data]);
             notyf()->success('Customer updated successfully.');
         } else {
-            Customer::create($data);
+            $customer = Customer::create($data);
+            Log::info('New customer created successfully.', ['customer_id' => $customer->id, 'data' => $data]);
             notyf()->success('Customer created successfully.');
         }
 

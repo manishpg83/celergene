@@ -16,7 +16,6 @@
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="{{ $isEditing ? 'save' : 'save' }}">
-                                <input type="hidden" wire:model="customerId">
                                 <!-- Customer Details -->
                                 <div class="row g-3">
                                     <div class="col-md-12 mt-4">
@@ -115,15 +114,6 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label" for="address">Customer Address</label>
-                                        <textarea wire:model="address" class="form-control @error('address') is-invalid @enderror" id="address"
-                                            rows="4"></textarea>
-                                        @error('address')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
                                 </div>
 
                                 <!-- Payment Details -->
@@ -182,16 +172,16 @@
 
 
                                     <div class="col-md-6">
-                                        <label class="form-label" for="must_receive_payment">Must Receive Payment
+                                        <label class="form-label" for="must_receive_payment_before_delivery">Must Receive Payment
                                             Before Delivery</label>
-                                        <select wire:model="must_receive_payment"
-                                            class="form-select @error('must_receive_payment') is-invalid @enderror"
-                                            id="must_receive_payment">
+                                        <select wire:model="must_receive_payment_before_delivery"
+                                            class="form-select @error('must_receive_payment_before_delivery') is-invalid @enderror"
+                                            id="must_receive_payment_before_delivery">
                                             <option value="">Select</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
                                         </select>
-                                        @error('must_receive_payment')
+                                        @error('must_receive_payment_before_delivery')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
