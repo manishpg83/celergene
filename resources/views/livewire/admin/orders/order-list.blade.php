@@ -21,16 +21,22 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
-                        @foreach ($perpagerecords as $value => $label)
-                            <option value="{{ $value }}">{{ $label }}</option>
+                <div class="d-flex gap-2">
+                    <select wire:model.live="perPage" class="form-select" style="width: auto;">
+                        @foreach ($perpagerecords as $pagekey => $pagevalue)
+                            <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
                         @endforeach
                     </select>
+
+                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span>Select Date Range</span> <i class="fa fa-caret-down"></i>
+                    </div>
                 </div>
+
                 <div class="d-flex align-items-center">
                     <input type="text" wire:model.live="search" placeholder="Search Orders..."
-                        class="form-control me-2" style="width: auto;" />
+                        class="form-control" style="width: auto;" />
                 </div>
             </div>
 
@@ -313,3 +319,56 @@
         </div>
     @endif
 </div>
+
+<script type="text/javascript">
+document.addEventListener('livewire:initialized', () => {
+    // Initialize with existing values if they exist, otherwise use defaults
+    let start = @json($dateStart) ? moment(@json($dateStart)) : moment().subtract(29, 'days');
+    let end = @json($dateEnd) ? moment(@json($dateEnd)) : moment();
+
+    function cb(start, end, label) {
+        if (label === 'Clear') {
+            $('#reportrange span').html('Select Date Range');
+            @this.set('dateStart', null);
+            @this.set('dateEnd', null);
+            return;
+        }
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        @this.set('dateStart', start.format('YYYY-MM-DD'));
+        @this.set('dateEnd', end.format('YYYY-MM-DD'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        autoUpdateInput: false,
+        ranges: {
+            'Clear': [null, null],
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    // Set initial display
+    if (@json($dateStart) && @json($dateEnd)) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    } else {
+        $('#reportrange span').html('Select Date Range');
+    }
+
+    // Listen for Livewire updates
+    Livewire.on('dateRangeUpdated', () => {
+        if (@json($dateStart) && @json($dateEnd)) {
+            let newStart = moment(@json($dateStart));
+            let newEnd = moment(@json($dateEnd));
+            $('#reportrange').data('daterangepicker').setStartDate(newStart);
+            $('#reportrange').data('daterangepicker').setEndDate(newEnd);
+            $('#reportrange span').html(newStart.format('MMMM D, YYYY') + ' - ' + newEnd.format('MMMM D, YYYY'));
+        }
+    });
+});
+</script>

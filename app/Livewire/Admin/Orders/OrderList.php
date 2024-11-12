@@ -24,6 +24,8 @@ class OrderList extends Component
     public $perPage = 10;
     public $selectedEntityId = null;
     public $entities;
+    public $dateStart = null;
+    public $dateEnd = null;
 
     public $perpagerecords = [
         10 => '10',
@@ -153,6 +155,10 @@ class OrderList extends Component
             })
             ->when($this->selectedEntityId, function ($query) {
                 $query->where('entity_id', $this->selectedEntityId);
+            })
+            ->when($this->dateStart && $this->dateEnd, function($query) {
+                $query->whereDate('invoice_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
+                      ->whereDate('invoice_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);

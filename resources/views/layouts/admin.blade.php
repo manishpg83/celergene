@@ -55,9 +55,10 @@
     <script src="{{ asset('/admin/assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/config.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/pages-account-settings-account.js') }}"></script>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @stack('styles')
 </head>
 
 <body>
@@ -84,7 +85,6 @@
     </div>
     @livewireScripts
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('/admin/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/node-waves/node-waves.js') }}"></script>
@@ -110,7 +110,8 @@
 
     <!-- Page JS -->
     <script src="{{ asset('/admin/assets/js/app-ecommerce-order-list.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#sameAsBilling').change(function() {

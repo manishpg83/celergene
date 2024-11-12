@@ -14,14 +14,14 @@
 
                 <div class="card-body">
                     @if (session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
                     @endif
                     @if (session()->has('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
                     @endif
 
                     <form wire:submit.prevent="submitOrder">
@@ -32,11 +32,11 @@
                                     class="form-select @error('entity_id') is-invalid @enderror">
                                     <option value="">Select an entity</option>
                                     @foreach ($entities as $entity)
-                                        <option value="{{ $entity->id }}">{{ $entity->company_name }}</option>
+                                    <option value="{{ $entity->id }}">{{ $entity->company_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('entity_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -45,40 +45,40 @@
                                     class="form-select @error('customer_id') is-invalid @enderror">
                                     <option value="">Select a customer</option>
                                     @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->first_name }}
-                                            {{ $customer->last_name }}</option>
+                                    <option value="{{ $customer->id }}">{{ $customer->first_name }}
+                                        {{ $customer->last_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('customer_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             @if ($customer_id)
-                                <div class="col-md-6">
-                                    <label for="selected_shipping_address" class="form-label">Select Shipping
-                                        Address:</label>
-                                    <select wire:model.live="selected_shipping_address" id="selected_shipping_address"
-                                        class="form-select @error('selected_shipping_address') is-invalid @enderror">
-                                        @foreach ($shipping_addresses as $key => $address)
-                                            @if ($address)
-                                                <option value="{{ $key }}">Address {{ $key }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @error('selected_shipping_address')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <div class="col-md-6">
+                                <label for="selected_shipping_address" class="form-label">Select Shipping
+                                    Address:</label>
+                                <select wire:model.live="selected_shipping_address" id="selected_shipping_address"
+                                    class="form-select @error('selected_shipping_address') is-invalid @enderror">
+                                    @foreach ($shipping_addresses as $key => $address)
+                                    @if ($address)
+                                    <option value="{{ $key }}">Address {{ $key }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                @error('selected_shipping_address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                                <div class="col-md-12">
-                                    <label for="shipping_address" class="form-label">Shipping Address:</label>
-                                    <input type="text" wire:model="shipping_address" id="shipping_address"
-                                        class="form-control @error('shipping_address') is-invalid @enderror" readonly>
-                                    @error('shipping_address')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <div class="col-md-12">
+                                <label for="shipping_address" class="form-label">Shipping Address:</label>
+                                <input type="text" wire:model="shipping_address" id="shipping_address"
+                                    class="form-control @error('shipping_address') is-invalid @enderror" readonly>
+                                @error('shipping_address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                             @endif
                         </div>
 
@@ -92,7 +92,7 @@
                                     <option value="Cash">Cash</option>
                                 </select>
                                 @error('payment_mode')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -101,7 +101,7 @@
                                 <input type="date" wire:model="invoice_date" id="invoice_date"
                                     class="form-control @error('invoice_date') is-invalid @enderror">
                                 @error('invoice_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
                                 @error('delivery_status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -129,7 +129,7 @@
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
                                 @error('invoice_status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -138,60 +138,57 @@
                             <div class="col-12">
                                 <h5>Order Details</h5>
                                 @foreach ($orderDetails as $index => $orderDetail)
-                                    <div class="row align-items-end mt-0 g-2">
-                                        <div class="col-md-3">
-                                            <select wire:model.live="orderDetails.{{ $index }}.product_id"
-                                                class="form-select @error('orderDetails.' . $index . '.product_id') is-invalid @enderror">
-                                                <option value="">Select a product</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->product_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('orderDetails.' . $index . '.product_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="col-6">Quantity</div>
-                                            <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.quantity"
-                                                placeholder="Quantity"
-                                                class="form-control @error('orderDetails.' . $index . '.quantity') is-invalid @enderror"
-                                                min="1">
-                                            @error('orderDetails.' . $index . '.quantity')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="col-6">Unit Price</div>
-                                            <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.unit_price"
-                                                placeholder="Unit Price" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="col-6">Discount</div>
-                                            <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.discount"
-                                                placeholder="Discount"
-                                                class="form-control @error('orderDetails.' . $index . '.discount') is-invalid @enderror"
-                                                min="0" step="0.01">
-                                            @error('orderDetails.' . $index . '.discount')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-1 mb-1">
-                                            <button wire:click.prevent="removeOrderDetail({{ $index }})"
-                                                class="btn btn-danger btn-sm">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
-
+                                <div class="row align-items-end mt-0 g-2">
+                                    <div class="col-md-3">
+                                        <select wire:model.live="orderDetails.{{ $index }}.product_id"
+                                            class="form-select @error('orderDetails.' . $index . '.product_id') is-invalid @enderror">
+                                            <option value="">Select a product</option>
+                                            @foreach ($products as $product)
+                                            <option value="{{ $product->id }}">{{ $product->product_name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        @error('orderDetails.' . $index . '.product_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
+                                    <div class="col-md-2">
+                                        <div class="col-6">Quantity</div>
+                                        <input type="number" wire:model.live="orderDetails.{{ $index }}.quantity"
+                                            placeholder="Quantity"
+                                            class="form-control @error('orderDetails.' . $index . '.quantity') is-invalid @enderror"
+                                            min="1">
+                                        @error('orderDetails.' . $index . '.quantity')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="col-6">Unit Price</div>
+                                        <input type="number" wire:model.live="orderDetails.{{ $index }}.unit_price"
+                                            placeholder="Unit Price" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="col-6">Discount</div>
+                                        <input type="number" wire:model.live="orderDetails.{{ $index }}.discount"
+                                            placeholder="Discount"
+                                            class="form-control @error('orderDetails.' . $index . '.discount') is-invalid @enderror"
+                                            min="0" step="0.01">
+                                        @error('orderDetails.' . $index . '.discount')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-1 mb-1">
+                                        <button wire:click.prevent="removeOrderDetail({{ $index }})"
+                                            class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
                                 @endforeach
 
                                 <button wire:click.prevent="addOrderDetail" class="btn btn-primary mt-3">+ Add
@@ -241,15 +238,16 @@
                                     class="form-control @error('payment_terms') is-invalid @enderror"></textarea>
 
                                 @error('payment_terms')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label for="remarks" class="form-label">Remarks:</label>
-                                <textarea wire:model="remarks" id="remarks" class="form-control @error('remarks') is-invalid @enderror"></textarea>
+                                <textarea wire:model="remarks" id="remarks"
+                                    class="form-control @error('remarks') is-invalid @enderror"></textarea>
                                 @error('remarks')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -258,12 +256,12 @@
                             <button type="submit" class="btn btn-success d-flex align-items-center gap-2"
                                 wire:loading.attr="disabled" wire:target="submitOrder">
                                 @if ($isSubmitting)
-                                    <div class="spinner-border spinner-border-sm" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <span>Processing...</span>
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span>Processing...</span>
                                 @else
-                                    <span>Submit Order</span>
+                                <span>Submit Order</span>
                                 @endif
                             </button>
                         </div>
@@ -273,3 +271,16 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {      
+        $('#customer').select2({
+            placeholder: 'Search for a customer...',
+            allowClear: true 
+        });
+
+        $('#customer').on('change', function () {
+            var customerId = $(this).val();
+            @this.set('customer_id', customerId);
+        });
+    });
+</script>
