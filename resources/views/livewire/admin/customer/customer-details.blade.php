@@ -72,8 +72,8 @@
                 </div>
                 <hr>
                 <div class="mb-2">
-                    <p class="mt-1"><strong>Username:</strong>
-                        {{ $customer->first_name . '.' . $customer->last_name }}</p>
+                    <p class="mt-1"><strong>Name:</strong>
+                        {{ $customer->first_name }} {{ $customer->last_name }}</p>
                     <p class="mt-1"><strong>Email:</strong> {{ $customer->email }}</p>
                     <p class="mt-1"><strong>Status:</strong>
                         <span class="badge {{ $customer->trashed() ? 'bg-label-danger' : 'bg-label-success' }}">
