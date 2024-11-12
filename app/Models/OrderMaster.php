@@ -13,6 +13,7 @@ class OrderMaster extends Model
 
     protected $fillable = [
         'invoice_date',
+        'invoice_number',
         'customer_id',
         'entity_id',
         'shipping_address',
@@ -61,5 +62,28 @@ class OrderMaster extends Model
     public function modifier()
     {
         return $this->belongsTo(User::class, 'modified_by');
+    }
+
+    public static function generateInvoiceNumber()
+    {
+        $currentDate = now();
+        $financialYear = $currentDate->month >= 4 
+            ? $currentDate->year 
+            : $currentDate->year - 1;
+        
+        $lastOrder = self::where('invoice_number', 'like', $financialYear . '%')
+            ->orderBy('invoice_number', 'desc')
+            ->first();
+
+        if (!$lastOrder) {
+            // First order of the financial year
+            return $financialYear . '0001';
+        }
+
+        // Extract the numeric part and increment
+        $lastNumber = intval(substr($lastOrder->invoice_number, -4));
+        $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+        
+        return $financialYear . $newNumber;
     }
 }
