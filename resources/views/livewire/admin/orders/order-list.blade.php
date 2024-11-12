@@ -125,51 +125,28 @@
                                                 Cancelled</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <!-- Dropdown -->
+                                    <!-- Action dropdown on the left -->
+                                    <td class="text-center">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <!-- View icon on the left -->
+                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-3" title="View Order" target="_blank">
+                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
+                                            </a>                                      
+                                            <!-- Dropdown on the right -->
                                             <div class="dropdown">
-                                                <button class="btn btn-link text-black" type="button"
-                                                    id="actionMenu{{ $order->id }}" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                        fill="currentColor" style="width: 20px; height: 20px;">
-                                                        <circle cx="12" cy="12" r="2" />
-                                                        <circle cx="12" cy="6" r="2" />
-                                                        <circle cx="12" cy="18" r="2" />
-                                                    </svg>
+                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $order->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
                                                 </button>
-                                                <ul class="dropdown-menu"
-                                                    aria-labelledby="actionMenu{{ $order->id }}">
+                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $order->id }}">
                                                     <li>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin.orders.details', $order->invoice_id) }}"
-                                                            style="cursor: pointer;">
-                                                            View
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            wire:click="downloadInvoice('{{ $order->invoice_id }}')"
-                                                            href="#" style="cursor: pointer;">
+                                                        <a class="dropdown-item" wire:click="downloadInvoice('{{ $order->invoice_id }}')" href="#" style="cursor: pointer;">
                                                             Download Invoice
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <!-- View Icon in Line -->
-                                            <a href="#" wire:click="viewOrderDetails('{{ $order->invoice_id }}')"
-                                                style="cursor: pointer; display: flex; align-items: center; margin-left: 10px;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" style="width: 20px; height: 20px;">
-                                                    <path
-                                                        d="M12 4C7.03 4 3 8 3 8s4 4 9 4 9-4 9-4-4-4-9-4zm0 6c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0 0">
-                                                    </path>
-                                                </svg>
-                                            </a>
                                         </div>
-                                    </td>
-
+                                    </td>                                    
                                 </tr>
                             @endforeach
                         @endif

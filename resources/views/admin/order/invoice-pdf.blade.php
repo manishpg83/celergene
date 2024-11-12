@@ -131,7 +131,7 @@
 <body>
     <div class="header">
         <div class="company-name">{{ $order->entity->company_name }}</div>
-        <div class="invoice-text">INVOICE</div>
+        <div class="invoice-text">INVOICE {{ $order->invoice_number }}</div>
     </div>
     <div>
         <div class="company-address">{{ $order->entity->address }}</div>

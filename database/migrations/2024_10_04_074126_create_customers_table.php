@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('business_reg_number')->nullable();
             $table->string('vat_number')->nullable();
             $table->string('payment_term_display');
-            $table->enum('payment_term_actual', ['7D', '14D', '30D'])->nullable();
+            $table->string('payment_term_actual')->nullable();
             $table->string('credit_rating');
             $table->boolean('allow_consignment')->default(false);
             $table->boolean('must_receive_payment_before_delivery')->default(false);

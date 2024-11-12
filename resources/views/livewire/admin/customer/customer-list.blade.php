@@ -23,11 +23,6 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <div class="position-relative me-3">
-                    <input wire:model.live="search" type="text" placeholder="Search Customers..."
-                        class="form-control" style="width: auto;">
-                </div>
-
                 <div class="d-flex">
                     <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
@@ -41,14 +36,20 @@
                         <option value="inactive">Inactive</option>
                     </select>
                 </div>
+                <div class="position-relative">
+                    <input wire:model.live="search" type="text" placeholder="Search Customers..."
+                        class="form-control" style="width: auto;">
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th wire:click="sortBy('first_name')" style="cursor: pointer;">First Name</th>
                             <th wire:click="sortBy('last_name')" style="cursor: pointer;">Last Name</th>
                             <th wire:click="sortBy('email')" style="cursor: pointer;">Email</th>
+                            <th wire:click="sortBy('Mobile')" style="cursor: pointer;">Mobile</th>
+                            <th wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -59,39 +60,42 @@
                             </tr>
                         @else
                             @foreach ($customers as $customer)
-                                <tr>
+                                <tr class="text-center">
                                     <td>{{ $customer->first_name }}</td>
                                     <td>{{ $customer->last_name }}</td>
                                     <td>{{ $customer->email }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
-                                                    <circle cx="12" cy="12" r="2" />
-                                                    <circle cx="12" cy="6" r="2" />
-                                                    <circle cx="12" cy="18" r="2" />
-                                                </svg>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $customer->id }}">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('admin.customer.details', $customer->id) }}">View Details</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" wire:click="edit({{ $customer->id }})" style="cursor: pointer;">Edit</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}" wire:click="confirmDelete({{ $customer->id }})" style="cursor: pointer;">
-                                                        {{ $customer->trashed() ? 'Permanently Delete' : 'Suspend' }}
-                                                    </a>
-                                                </li>
-                                                @if ($customer->trashed())
+                                    <td>{{ $customer->mobile_number }}</td>
+                                    <td>{{ $customer->company_name }}</td>
+                                    <td class="text-center">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <!-- View icon -->
+                                            <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black me-3" title="View Details" target="_blank">
+                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
+                                            </a>
+                                            
+                                            <!-- Dropdown menu -->
+                                            <div class="dropdown">
+                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $customer->id }}">
                                                     <li>
-                                                        <a class="dropdown-item text-success" wire:click="restore({{ $customer->id }})" style="cursor: pointer;">Restore</a>
+                                                        <a class="dropdown-item" wire:click="edit({{ $customer->id }})" style="cursor: pointer;">Edit</a>
                                                     </li>
-                                                @endif
-                                            </ul>
+                                                    <li>
+                                                        <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}" wire:click="confirmDelete({{ $customer->id }})" style="cursor: pointer;">
+                                                            {{ $customer->trashed() ? 'Permanently Delete' : 'Suspend' }}
+                                                        </a>
+                                                    </li>
+                                                    @if ($customer->trashed())
+                                                        <li>
+                                                            <a class="dropdown-item text-success" wire:click="restore({{ $customer->id }})" style="cursor: pointer;">Restore</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </td>
+                                    </td>                                    
                                 </tr>
                             @endforeach
                         @endif
