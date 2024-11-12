@@ -28,15 +28,16 @@
                         @endforeach
                     </select>
 
-                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                    <div id="reportrange"
+                        style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                         <i class="fa fa-calendar"></i>&nbsp;
                         <span>Select Date Range</span> <i class="fa fa-caret-down"></i>
                     </div>
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <input type="text" wire:model.live="search" placeholder="Search Orders..."
-                        class="form-control" style="width: auto;" />
+                    <input type="text" wire:model.live="search" placeholder="Search Orders..." class="form-control"
+                        style="width: auto;" />
                 </div>
             </div>
 
@@ -138,14 +139,15 @@
                                                         <circle cx="12" cy="18" r="2" />
                                                     </svg>
                                                 </button>
-                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $order->id }}">
-                                                    {{-- <li>
+                                                <ul class="dropdown-menu"
+                                                    aria-labelledby="actionMenu{{ $order->id }}">
+                                                    <li>
                                                         <a class="dropdown-item"
-                                                            wire:click="viewOrderDetails('{{ $order->invoice_id }}')"
-                                                            href="#" style="cursor: pointer;">
+                                                            href="{{ route('admin.orders.details', $order->invoice_id) }}"
+                                                            style="cursor: pointer;">
                                                             View
                                                         </a>
-                                                    </li> --}}
+                                                    </li>
                                                     <li>
                                                         <a class="dropdown-item"
                                                             wire:click="downloadInvoice('{{ $order->invoice_id }}')"
@@ -156,14 +158,18 @@
                                                 </ul>
                                             </div>
                                             <!-- View Icon in Line -->
-                                            <a href="#" wire:click="viewOrderDetails('{{ $order->invoice_id }}')" style="cursor: pointer; display: flex; align-items: center; margin-left: 10px;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
-                                                    <path d="M12 4C7.03 4 3 8 3 8s4 4 9 4 9-4 9-4-4-4-9-4zm0 6c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0 0"></path>
+                                            <a href="#" wire:click="viewOrderDetails('{{ $order->invoice_id }}')"
+                                                style="cursor: pointer; display: flex; align-items: center; margin-left: 10px;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    fill="currentColor" style="width: 20px; height: 20px;">
+                                                    <path
+                                                        d="M12 4C7.03 4 3 8 3 8s4 4 9 4 9-4 9-4-4-4-9-4zm0 6c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0 0">
+                                                    </path>
                                                 </svg>
                                             </a>
                                         </div>
                                     </td>
-                                    
+
                                 </tr>
                             @endforeach
                         @endif
@@ -321,54 +327,57 @@
 </div>
 
 <script type="text/javascript">
-document.addEventListener('livewire:initialized', () => {
-    // Initialize with existing values if they exist, otherwise use defaults
-    let start = @json($dateStart) ? moment(@json($dateStart)) : moment().subtract(29, 'days');
-    let end = @json($dateEnd) ? moment(@json($dateEnd)) : moment();
+    document.addEventListener('livewire:initialized', () => {
+        // Initialize with existing values if they exist, otherwise use defaults
+        let start = @json($dateStart) ? moment(@json($dateStart)) : moment().subtract(29,
+            'days');
+        let end = @json($dateEnd) ? moment(@json($dateEnd)) : moment();
 
-    function cb(start, end, label) {
-        if (label === 'Clear') {
-            $('#reportrange span').html('Select Date Range');
-            @this.set('dateStart', null);
-            @this.set('dateEnd', null);
-            return;
+        function cb(start, end, label) {
+            if (label === 'Clear') {
+                $('#reportrange span').html('Select Date Range');
+                @this.set('dateStart', null);
+                @this.set('dateEnd', null);
+                return;
+            }
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            @this.set('dateStart', start.format('YYYY-MM-DD'));
+            @this.set('dateEnd', end.format('YYYY-MM-DD'));
         }
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        @this.set('dateStart', start.format('YYYY-MM-DD'));
-        @this.set('dateEnd', end.format('YYYY-MM-DD'));
-    }
 
-    $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        autoUpdateInput: false,
-        ranges: {
-            'Clear': [null, null],
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            autoUpdateInput: false,
+            ranges: {
+                'Clear': [null, null],
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                    'month').endOf('month')]
+            }
+        }, cb);
 
-    // Set initial display
-    if (@json($dateStart) && @json($dateEnd)) {
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    } else {
-        $('#reportrange span').html('Select Date Range');
-    }
-
-    // Listen for Livewire updates
-    Livewire.on('dateRangeUpdated', () => {
+        // Set initial display
         if (@json($dateStart) && @json($dateEnd)) {
-            let newStart = moment(@json($dateStart));
-            let newEnd = moment(@json($dateEnd));
-            $('#reportrange').data('daterangepicker').setStartDate(newStart);
-            $('#reportrange').data('daterangepicker').setEndDate(newEnd);
-            $('#reportrange span').html(newStart.format('MMMM D, YYYY') + ' - ' + newEnd.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        } else {
+            $('#reportrange span').html('Select Date Range');
         }
+
+        // Listen for Livewire updates
+        Livewire.on('dateRangeUpdated', () => {
+            if (@json($dateStart) && @json($dateEnd)) {
+                let newStart = moment(@json($dateStart));
+                let newEnd = moment(@json($dateEnd));
+                $('#reportrange').data('daterangepicker').setStartDate(newStart);
+                $('#reportrange').data('daterangepicker').setEndDate(newEnd);
+                $('#reportrange span').html(newStart.format('MMMM D, YYYY') + ' - ' + newEnd.format(
+                    'MMMM D, YYYY'));
+            }
+        });
     });
-});
 </script>

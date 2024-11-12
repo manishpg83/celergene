@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             // Route::resource('orders', OrderMasterController::class);
             Route::get('orders/', [OrderMasterController::class, 'index'])->name('orders.index');
             Route::get('orders/add', [OrderMasterController::class, 'add'])->name('orders.add');
+            Route::get('orders/{invoice_id}', [OrderMasterController::class, 'showOrderDetails'])->name('orders.details');
         });
 
         Route::middleware(['permission:manage product categories'])->group(function () {

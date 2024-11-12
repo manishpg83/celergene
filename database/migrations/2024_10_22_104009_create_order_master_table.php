@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('order_master', function (Blueprint $table) {
             $table->id('invoice_id');
+            $table->string('invoice_number', 20)->nullable();
             $table->date('invoice_date');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('entity_id')->constrained('entities')->onDelete('restrict');
