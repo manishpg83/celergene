@@ -199,7 +199,10 @@ class CreateOrder extends Component
                     throw new \Exception('No authenticated user found');
                 }
 
+                $invoiceNumber = OrderMaster::generateInvoiceNumber();
+
                 $order = OrderMaster::create([
+                    'invoice_number' => $invoiceNumber,
                     'customer_id' => $this->customer_id,
                     'entity_id' => $this->entity_id,
                     'shipping_address' => $this->shipping_address,
