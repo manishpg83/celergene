@@ -31,7 +31,7 @@
                     <tbody>
                         @foreach ($orders as $order)
                             <tr>
-                                <td>{{ $order->invoice_id }}</td>
+                                <td class="text-center">{{ $order->invoice_id }}</td>
                                 <td>{{ \Carbon\Carbon::parse($order->invoice_date)->format('Y-m-d') }}</td>
                                 <td>${{ number_format($order->total, 2) }}</td>
                                 <td>
