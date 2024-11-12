@@ -1,11 +1,11 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 row-gap-4">
         <div class="d-flex flex-column justify-content-center">
-            <h4 class="mb-1 text-2xl ml-2">Supplier List</h4>
+            <h4 class="mb-1 text-2xl ml-2">Distributor List</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-4">
             <a href="{{ route('admin.suppliers.add') }}" class="btn btn-primary">
-                <i class="ti ti-plus ti-xs me-md-2"></i>Add Supplier
+                <i class="ti ti-plus ti-xs me-md-2"></i>Add Distributor
             </a>
         </div>
     </div>
@@ -34,7 +34,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('supplier_name')" style="cursor: pointer;">Supplier Name</th>
+                            <th wire:click="sortBy('supplier_name')" style="cursor: pointer;">Distributor Name</th>
                             <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
                             <th>Remarks</th>
                             <th wire:click="sortBy('created_by')" style="cursor: pointer;">Created By</th>

@@ -39,9 +39,9 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="supplier_id">Supplier</label>
+                                    <label class="form-label" for="supplier_id">Distributor</label>
                                     <select wire:model="supplier_id" id="supplier_id" class="form-select" required>
-                                        <option value="">-- Select Supplier --</option>
+                                        <option value="">-- Select Distributor --</option>
                                         @foreach($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
                                         @endforeach

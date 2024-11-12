@@ -263,14 +263,14 @@
                     <div data-i18n="Products">Products</div>
                 </a>
                 <ul class="menu-sub">
+                    <li class="menu-item {{ request()->routeIs('admin.products.add') ? 'active' : '' }}">
+                        <a href="{{ route('admin.products.add') }}" class="menu-link">
+                            <div data-i18n="Add Product">Add Product</div>
+                        </a>
+                    </li>
                     <li class="menu-item {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.products.index') }}" class="menu-link">
                             <div data-i18n="Products List">Products List</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->routeIs('admin.productscategory.index') ? 'active' : '' }}">
-                        <a href="{{ route('admin.productscategory.index') }}" class="menu-link">
-                            <div data-i18n="Category List">Category List</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->routeIs('admin.productscategory.add') ? 'active' : '' }}">
@@ -278,9 +278,9 @@
                             <div data-i18n="Add Category">Add Category</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->routeIs('admin.products.add') ? 'active' : '' }}">
-                        <a href="{{ route('admin.products.add') }}" class="menu-link">
-                            <div data-i18n="Add Product">Add Product</div>
+                    <li class="menu-item {{ request()->routeIs('admin.productscategory.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.productscategory.index') }}" class="menu-link">
+                            <div data-i18n="Category List">Category List</div>
                         </a>
                     </li>
                 </ul>

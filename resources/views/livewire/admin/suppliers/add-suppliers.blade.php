@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">{{ $isEditMode ? 'Edit Supplier' : 'Add New Supplier' }}</h5>
+                    <h5 class="card-title mb-sm-0 me-2">{{ $isEditMode ? 'Edit Distributor' : 'Add New Distributor' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle"> Back</span>
@@ -15,8 +15,8 @@
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="submit" class="row g-3 mt-2">
                                 <div class="col-md-6">
-                                    <label class="form-label" for="supplier_name">Supplier Name</label>
-                                    <input type="text" class="form-control" id="supplier_name" wire:model="supplier_name" placeholder="Enter supplier name" required>
+                                    <label class="form-label" for="supplier_name">Distributor Name</label>
+                                    <input type="text" class="form-control" id="supplier_name" wire:model="supplier_name" placeholder="Enter Distributor name" required>
                                     @error('supplier_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -64,7 +64,7 @@
 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ $isEditMode ? 'Update Supplier' : 'Add Supplier' }}
+                                        {{ $isEditMode ? 'Update Distributor' : 'Add Distributor' }}
                                     </button>
                                 </div>
                             </form>

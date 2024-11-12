@@ -42,6 +42,7 @@
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
                                             <option value="Ms">Ms</option>
+                                            <option value="Dr">Dr</option>
                                         </select>
                                         @error('salutation')
                                             <div class="invalid-feedback">{{ $message }}</div>

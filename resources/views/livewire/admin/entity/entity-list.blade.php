@@ -48,12 +48,12 @@
                     <thead>
                         <tr>
                             <th>Sl</th>
-                            <th wire:click="sortBy('id')" style="cursor: pointer;">ID</th>
-                            <th wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
-                            <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
-                            <th wire:click="sortBy('created_by')" style="cursor: pointer;">Created By</th>
-                            <th wire:click="sortBy('is_active')" style="cursor: pointer;">Status</th>
-                            <th>Actions</th>
+                            <th class="text-center" wire:click="sortBy('id')" style="cursor: pointer;">Company ID</th>
+                            <th class="text-center" wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
+                            <th class="text-center" wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
+                            <th class="text-center" wire:click="sortBy('created_by')" style="cursor: pointer;">Created By</th>
+                            <th class="text-center" wire:click="sortBy('is_active')" style="cursor: pointer;">Status</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,21 +65,21 @@
                             @foreach ($entities as $index => $entity)
                                 <tr>
                                     <td>{{ ($entities->currentPage() - 1) * $entities->perPage() + $index + 1 }}</td>
-                                    <td>{{ $entity->id }}</td>
-                                    <td>{{ $entity->company_name }}</td>
-                                    <td>{{ $entity->country }}</td>
-                                    <td>{{ $entity->createdBy->name }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $entity->id }}</td>
+                                    <td class="text-center">{{ $entity->company_name }}</td>
+                                    <td class="text-center">{{ $entity->country }}</td>
+                                    <td class="text-center">{{ $entity->createdBy->name }}</td>
+                                    <td class="text-center">
                                         @if ($entity->trashed())
-                                            <span class="text-warning">Suspended</span>
+                                            <span class="text-warning text-center">Suspended</span>
                                         @else
                                             <button wire:click="toggleActive({{ $entity->id }})"
-                                                class="btn btn-sm {{ $entity->is_active ? 'btn-success' : 'btn-secondary' }}">
+                                                class="text-center btn btn-sm {{ $entity->is_active ? 'btn-success' : 'btn-secondary' }}">
                                                 {{ $entity->is_active ? 'Active' : 'Inactive' }}
                                             </button>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
                                                 id="actionMenu{{ $entity->id }}" data-bs-toggle="dropdown"
