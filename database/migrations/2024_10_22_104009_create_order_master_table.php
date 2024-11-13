@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->text('remarks')->nullable();
             $table->enum('payment_mode', ['Credit Card', 'Bank Transfer', 'Cash']);
             $table->enum('invoice_status', ['Pending', 'Paid', 'Cancelled'])->default('Pending');
-
+            $table->boolean('is_generated')->default(false);
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('modified_by')->nullable()->constrained('users')->onDelete('set null');
             $table->string('payment_terms')->nullable();

@@ -14,6 +14,7 @@ class OrderMaster extends Model
     protected $fillable = [
         'invoice_date',
         'invoice_number',
+        'is_generated',
         'customer_id',
         'entity_id',
         'shipping_address',
@@ -75,8 +76,7 @@ class OrderMaster extends Model
             ->orderBy('invoice_number', 'desc')
             ->first();
 
-        if (!$lastOrder) {
-            // First order of the financial year
+        if (!$lastOrder) {          
             return $financialYear . '0001';
         }
 

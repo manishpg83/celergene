@@ -41,6 +41,7 @@ class CreateOrder extends Component
     public $invoice_status = 'Pending';
     public $selected_shipping_address = 1;
     public $shipping_addresses = [];
+    public $is_generated = false;
 
     protected $rules = [
         'customer_id' => 'required|exists:customers,id',
@@ -59,6 +60,7 @@ class CreateOrder extends Component
         'remarks' => 'nullable|string|max:1000',
         'payment_terms' => 'nullable|string|max:255',
         'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
+        'is_generated' => 'boolean',
     ];
 
     public function mount()
@@ -218,6 +220,7 @@ class CreateOrder extends Component
                     'delivery_status' => $this->delivery_status,
                     'created_by' => $currentUserId,
                     'modified_by' => $currentUserId,
+                    'is_generated' => false,
                 ]);
 
                 foreach ($this->orderDetails as $detail) {

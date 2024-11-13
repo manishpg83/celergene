@@ -128,25 +128,23 @@
                                     <!-- Action dropdown on the left -->
                                     <td class="text-center">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <!-- View icon on the left -->
                                             <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-3" title="View Order" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
-                                            </a>                                      
-                                            <!-- Dropdown on the right -->
-                                            <div class="dropdown">
-                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $order->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
+                                            </a>
+                                        
+                                            @if($order->is_generated)
+                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')" 
+                                                        class="btn btn-sm btn-primary mx-2">
+                                                    <i class="bi bi-download mr-1"></i> Download
                                                 </button>
-                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $order->id }}">
-                                                    <li>
-                                                        <a class="dropdown-item" wire:click="downloadInvoice('{{ $order->invoice_id }}')" href="#" style="cursor: pointer;">
-                                                            Download Invoice
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            @else
+                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')" 
+                                                        class="btn btn-sm btn-success mx-2">
+                                                    <i class="bi bi-file-earmark-plus mr-1"></i> Generate
+                                                </button>
+                                            @endif
                                         </div>
-                                    </td>                                    
+                                    </td> 
                                 </tr>
                             @endforeach
                         @endif

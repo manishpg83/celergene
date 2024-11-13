@@ -117,12 +117,33 @@ class OrderList extends Component
         $this->resetPage();
     }
 
+    public function generateInvoice($invoiceId)
+    {
+        try {
+            $order = OrderMaster::where('invoice_id', $invoiceId)->firstOrFail();
+            
+            // Simply update the is_generated status
+            $order->update(['is_generated' => true]);
+
+            notyf()->success('Invoice has been generated successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Invoice generation failed: ' . $e->getMessage());
+            notyf()->error('Could not generate invoice.');
+        }
+    }
+
     public function downloadInvoice($invoiceId)
     {
         try {
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
                 ->where('invoice_id', $invoiceId)
                 ->firstOrFail();
+
+            if (!$order->is_generated) {
+                notyf()->error('Invoice has not been generated yet.');
+                return;
+            }
 
             $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
 
