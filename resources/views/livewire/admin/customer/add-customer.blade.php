@@ -218,29 +218,37 @@
                                 </div>
 
                                 <div class="form-check mt-3 mb-3">
-                                    <input type="checkbox" class="form-check-input" id="sameAsBilling">
+                                    <input type="checkbox" wire:model="sameAsBilling" class="form-check-input" id="sameAsBilling">
                                     <label class="form-check-label" for="sameAsBilling">My billing and shipping
                                         address are the same</label>
                                 </div>
 
                                 <!-- Shipping Details -->
                                 <h5 class="my-4">Shipping Details</h5>
-                                <div class="row g-3">
+                                <div class="row g-3" @if($sameAsBilling) wire:ignore @endif>
                                     <div class="col-12">
                                         <label class="form-label" for="shipping_address_receiver_name_1">Shipping
                                             Address Receiver Name 1</label>
-                                        <input type="text" wire:model="shipping_address_receiver_name_1"
-                                            class="form-control" id="shipping_address_receiver_name_1">
+                                        <input type="text" 
+                                               wire:model="shipping_address_receiver_name_1"
+                                               class="form-control" 
+                                               id="shipping_address_receiver_name_1"
+                                               @if($sameAsBilling) value="{{ $billing_address }}" @endif>
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label" for="shipping_address_1">Shipping Address 1</label>
-                                        <input type="text" wire:model="shipping_address_1" class="form-control"
-                                            id="shipping_address_1">
+                                        <input type="text" 
+                                               wire:model="shipping_address_1" 
+                                               class="form-control"
+                                               id="shipping_address_1"
+                                               @if($sameAsBilling) value="{{ $billing_address }}" @endif>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
-                                        <select wire:model="shipping_country_1" class="form-select"
-                                            id="shipping_country_1">
+                                        <select wire:model="shipping_country_1" 
+                                                class="form-select"
+                                                id="shipping_country_1"
+                                                @if($sameAsBilling) value="{{ $billing_country }}" @endif>
                                             <option value="">Select</option>
                                             <option value="LUX">Luxembourg</option>
                                             <option value="USA">United States of America</option>
@@ -256,8 +264,11 @@
                                     <div class="col-md-6">
                                         <label class="form-label" for="shipping_postal_code_1">Shipping Postal Code
                                             1</label>
-                                        <input type="text" wire:model="shipping_postal_code_1"
-                                            class="form-control" id="shipping_postal_code_1">
+                                        <input type="text" 
+                                               wire:model="shipping_postal_code_1"
+                                               class="form-control" 
+                                               id="shipping_postal_code_1"
+                                               @if($sameAsBilling) value="{{ $billing_postal_code }}" @endif>
                                     </div>
                                 </div>
 
