@@ -227,7 +227,7 @@
     <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file-dollar"></i>
-            <div data-i18n="Invoice Management">Invoice Managerment</div>
+            <div data-i18n="Invoice Management">Invoice Management</div> <!-- Fixed typo -->
         </a>
         <ul class="menu-sub">
             <li class="menu-item">
@@ -240,8 +240,8 @@
                     <div data-i18n="Offline Invoices List">Offline Invoices List</div>
                 </a>
             </li>
-            <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
-                <a href="{{ request()->routeIs('admin.invoices.index') ? 'active open' : '' }}" class="menu-link" target="_blank">
+            <li class="menu-item {{ request()->routeIs('admin.invoices.index') ? 'active' : '' }}"> <!-- Updated condition -->
+                <a href="{{ route('admin.invoices.index') }}" class="menu-link" target="_blank"> <!-- Corrected link -->
                     <div data-i18n="Custom Invoice">Custom Invoice</div>
                 </a>
             </li>
