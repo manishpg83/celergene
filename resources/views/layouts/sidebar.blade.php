@@ -224,7 +224,7 @@
 
     <!-- Customers End-->
     <!-- Invoice Management -->
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file-dollar"></i>
             <div data-i18n="Invoice Management">Invoice Managerment</div>
@@ -240,8 +240,8 @@
                     <div data-i18n="Offline Invoices List">Offline Invoices List</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
+            <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
+                <a href="{{ request()->routeIs('admin.invoices.index') ? 'active open' : '' }}" class="menu-link" target="_blank">
                     <div data-i18n="Custom Invoice">Custom Invoice</div>
                 </a>
             </li>

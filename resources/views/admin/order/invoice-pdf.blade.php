@@ -131,7 +131,7 @@
 <body>
     <div class="header">
         <div class="company-name">{{ $order->entity->company_name }}</div>
-        <div class="invoice-text">INVOICE {{ $order->invoice_number }}</div>
+        <div class="invoice-text">INVOICE <!-- {{ $order->invoice_number }} --></div>
     </div>
     <div>
         <div class="company-address">{{ $order->entity->address }}</div>
@@ -149,7 +149,7 @@
             {{ $order->shipping_address }}
         </div>
         <div class="invoice-details">
-            <strong>INVOICE NO:</strong> {{ $order->invoice_id }}<br>
+            <strong>INVOICE NO:</strong> {{ $order->invoice_number }}<br>
             <strong>INVOICE DATE:</strong> {{ date('d/m/Y', strtotime($order->invoice_date)) }}<br>
             <strong>TERMS:</strong> {{ $order->payment_terms }}
         </div>

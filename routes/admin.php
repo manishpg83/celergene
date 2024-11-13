@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\OrderMasterController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\InvoiceController;
 
 
 
@@ -105,8 +106,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::middleware(['permission:manage customer types'])->group(function () {
             Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
             Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
+            Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
         });
-
+        Route::middleware(['permission:manage invoices'])->group(function () {           
+            Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+        });
         // Routes for managing roles and permissions (accessible only to super admins)
         /*  Route::middleware(['role:super-admin'])->group(function () {
             Route::resource('roles', RoleController::class);
