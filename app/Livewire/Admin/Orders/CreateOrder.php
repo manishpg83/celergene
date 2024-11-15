@@ -232,28 +232,44 @@ class CreateOrder extends Component
                         'total' => $detail['total'],
                     ]);
 
-                    $inventory = Inventory::where('product_code', $detail['product_id'])
-                        ->where('remaining', '>=', $detail['quantity'])
-                        ->first();
+                    $totalAvailable = Inventory::where('product_code', $detail['product_id'])
+                        ->sum('remaining');
 
-                    if ($inventory) {
-                        $newRemainingQuantity = $inventory->remaining - $detail['quantity'];
+                    if ($totalAvailable < $detail['quantity']) {
+                        $product = Product::find($detail['product_id']);
+                        $productName = $product ? $product->name : "Product #{$detail['product_id']}";
+                        notyf()->error("Insufficient inventory for {$productName}. Available: {$totalAvailable}, Requested: {$detail['quantity']}");
+                        throw new \Exception("Insufficient inventory");
+                    }
+
+                    $remainingToConsume = $detail['quantity'];
+                    $inventories = Inventory::where('product_code', $detail['product_id'])
+                        ->where('remaining', '>', 0)
+                        ->orderBy('created_at')
+                        ->get();
+
+                    foreach ($inventories as $inventory) {
+                        if ($remainingToConsume <= 0) break;
+
+                        $quantityFromThisRecord = min($inventory->remaining, $remainingToConsume);
+                        $newRemaining = $inventory->remaining - $quantityFromThisRecord;
+                        
                         $inventory->update([
-                            'consumed' => $inventory->consumed + $detail['quantity'],
-                            'remaining' => $newRemainingQuantity,
+                            'consumed' => $inventory->consumed + $quantityFromThisRecord,
+                            'remaining' => $newRemaining
                         ]);
 
                         Stock::create([
                             'inventory_id' => $inventory->id,
                             'product_id' => $detail['product_id'],
                             'previous_quantity' => $inventory->remaining,
-                            'quantity_change' => -$detail['quantity'],
-                            'new_quantity' => $newRemainingQuantity,
+                            'quantity_change' => -$quantityFromThisRecord,
+                            'new_quantity' => $newRemaining,
                             'reason' => 'Order Fulfillment',
                             'created_by' => $currentUserId,
                         ]);
-                    } else {
-                        throw new \Exception("Insufficient inventory for product ID: {$detail['product_id']}");
+
+                        $remainingToConsume -= $quantityFromThisRecord;
                     }
                 }
 
@@ -288,7 +304,9 @@ class CreateOrder extends Component
                 'created_by' => Auth::id(),
             ]);
             
-            notyf()->error('An error occurred while creating the order. Check logs for details.');
+            if ($e->getMessage() !== "Insufficient inventory") {
+                notyf()->error('An error occurred while creating the order. Check logs for details.');
+            }
         }
     }
 
