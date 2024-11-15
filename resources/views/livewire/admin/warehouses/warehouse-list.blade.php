@@ -42,10 +42,10 @@
                     <thead>
                         <tr>
                             <th wire:click="sortBy('warehouse_name')" style="cursor: pointer;">Warehouse Name</th>
-                            <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
-                            <th wire:click="sortBy('type')" style="cursor: pointer;">Type</th>
-                            <th>Remarks</th>
-                            <th>Actions</th>
+                            <th class="text-center" wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
+                            <th class="text-center" wire:click="sortBy('type')" style="cursor: pointer;">Type</th>
+                            <th class="text-center">Distributor</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,10 +57,10 @@
                             @foreach ($warehouses as $warehouse)
                                 <tr>
                                     <td>{{ $warehouse->warehouse_name }}</td>
-                                    <td>{{ $warehouse->country }}</td>
-                                    <td>{{ $warehouse->type }}</td>
-                                    <td>{{ $warehouse->remarks }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $warehouse->country }}</td>
+                                    <td class="text-center">{{ $warehouse->type }}</td>
+                                    <td class="text-center">{{ $warehouse->supplier->supplier_name ?? 'N/A' }}</td>
+                                    <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
                                                 id="actionMenu{{ $warehouse->id }}" data-bs-toggle="dropdown"
@@ -99,6 +99,7 @@
                         @endif
                     </tbody>
                 </table>
+                
             </div>
 
             <div class="mt-3">

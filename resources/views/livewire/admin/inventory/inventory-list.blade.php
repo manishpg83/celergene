@@ -35,10 +35,11 @@
                     <thead>
                         <tr>
                             <th wire:click="sortBy('product_id')" style="cursor: pointer;">Product</th>
-                            <th wire:click="sortBy('warehouse_id')" style="cursor: pointer;">Warehouse</th>
-                            <th wire:click="sortBy('batch_number')" style="cursor: pointer;">Batch Number</th>
-                            <th wire:click="sortBy('expiry')" style="cursor: pointer;">Expiry</th>
-                            <th>Actions</th>
+                            <th class="text-center" wire:click="sortBy('warehouse_id')" style="cursor: pointer;">Warehouse</th>
+                            <th class="text-center" wire:click="sortBy('batch_number')" style="cursor: pointer;">Batch Number</th>
+                            <th class="text-center" wire:click="sortBy('quantity')" style="cursor: pointer;">Quantity</th>
+                            <th class="text-center" wire:click="sortBy('expiry')" style="cursor: pointer;">Expiry</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,10 +51,11 @@
                             @foreach ($inventories as $inventory)
                                 <tr class="{{ $inventory->trashed() ? 'text-muted' : '' }}">
                                     <td>{{ $inventory->product->product_name }}</td>
-                                    <td>{{ $inventory->warehouse->warehouse_name }}</td>
-                                    <td>{{ $inventory->batch_number }}</td>
-                                    <td>{{ $inventory->expiry }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $inventory->warehouse->warehouse_name }}</td>
+                                    <td class="text-center">{{ $inventory->batch_number }}</td>
+                                    <td class="text-center">{{ $inventory->quantity }}</td>
+                                    <td class="text-center">{{ $inventory->expiry }}</td>
+                                    <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
                                                 id="actionMenu{{ $inventory->id }}" data-bs-toggle="dropdown"

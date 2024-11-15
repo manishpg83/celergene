@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Inventory;
+use App\Models\ProductCatagory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,8 +30,12 @@ class Product extends Model
     ];
 
     public function inventories()
-{
-    return $this->hasMany(Inventory::class, 'product_code');
-}
+    {
+        return $this->hasMany(Inventory::class, 'product_code');
+    }
 
+    public function category()
+    {
+        return $this->belongsTo(ProductCatagory::class, 'product_category');
+    }
 }

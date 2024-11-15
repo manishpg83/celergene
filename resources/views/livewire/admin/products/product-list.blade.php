@@ -35,9 +35,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('brand')" style="cursor: pointer;">Brand</th>
-                            <th wire:click="sortBy('product_name')" style="cursor: pointer;">Product Name</th>
-                            <th wire:click="sortBy('product_category')" style="cursor: pointer;">Unit_price</th>
+                            <th wire:click="sortBy('product_code')" style="cursor: pointer;">Product code</th>
+                            <th class="text-center" wire:click="sortBy('brand')" style="cursor: pointer;">Brand</th>
+                            <th class="text-center" wire:click="sortBy('product_name')" style="cursor: pointer;">Product Name</th>
+                            <th class="text-center" wire:click="sortBy('product_category')" style="cursor: pointer;">Product Category</th>
+                            <th class="text-center" wire:click="sortBy('unit_price')" style="cursor: pointer;">Unit_price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -49,9 +51,11 @@
                         @else
                             @foreach ($products as $product)
                                 <tr>
-                                    <td>{{ $product->brand }}</td>
-                                    <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->unit_price }}</td>
+                                    <td>{{ $product->product_code }}</td>
+                                    <td class="text-center">{{ $product->brand }}</td>
+                                    <td class="text-center">{{ $product->product_name }}</td>
+                                    <td class="text-center">{{ $product->category->category_name ?? 'N/A' }}</td>
+                                    <td class="text-center">{{ $product->unit_price }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"

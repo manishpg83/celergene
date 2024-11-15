@@ -26,19 +26,29 @@ class AddProduct extends Component
     public $isEditMode = false;
     public $categories = [];
 
-    protected $rules = [
-        'product_code' => 'required|string|max:255|unique:products,product_code', // New validation rule
-        'brand' => 'required|string|max:255',
-        'product_name' => 'required|string|max:255',
-        'product_category' => 'required|integer',
-        'origin' => 'required|string|max:255',
-        'batch_number' => 'required|string|max:255',
-        'expire_date' => 'required|date',
-        'currency' => 'required|string|max:3',
-        'unit_price' => 'required|numeric',
-        'remarks_notes' => 'nullable|string',
-        'description' => 'required|string',
-    ];
+    public function rules()
+    {
+        return [
+            'product_code' => [
+                'required',
+                'string',
+                'max:255',
+                $this->isEditMode
+                    ? 'unique:products,product_code,' . $this->product_id
+                    : 'unique:products,product_code',
+            ],
+            'brand' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
+            'product_category' => 'required|integer',
+            'origin' => 'required|string|max:255',
+            'batch_number' => 'required|string|max:255',
+            'expire_date' => 'required|date',
+            'currency' => 'required|string|max:3',
+            'unit_price' => 'required|numeric',
+            'remarks_notes' => 'nullable|string',
+            'description' => 'required|string',
+        ];
+    }
 
     public function mount()
     {
@@ -57,7 +67,7 @@ class AddProduct extends Component
 
     public function submit()
     {
-        $this->validate();
+        $this->validate($this->rules());
 
         if ($this->isEditMode) {
             $product = Product::find($this->product_id);
