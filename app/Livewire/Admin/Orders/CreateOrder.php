@@ -238,7 +238,7 @@ class CreateOrder extends Component
                     if ($totalAvailable < $detail['quantity']) {
                         $product = Product::find($detail['product_id']);
                         $productName = $product ? $product->name : "Product #{$detail['product_id']}";
-                        notyf()->error("Insufficient inventory {$productName}. Available: {$totalAvailable}, Requested: {$detail['quantity']}");
+                        notyf()->error("Insufficient inventory. Available: {$totalAvailable},Requested: {$detail['quantity']}");
                         throw new \Exception("Insufficient inventory");
                     }
 
