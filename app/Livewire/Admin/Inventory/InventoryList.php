@@ -19,7 +19,7 @@ class InventoryList extends Component
 
     public function render()
     {
-        $inventories = Inventory::with('product', 'warehouse')
+        $inventories = Inventory::with('product', 'warehouse', 'modifiedBy') // Eager load 'modifiedBy'
             ->withTrashed()
             ->where(function ($query) {
                 $query->whereHas('product', function ($q) {
@@ -38,6 +38,7 @@ class InventoryList extends Component
             'perpagerecords' => $perpagerecords,
         ]);
     }
+
 
     public function confirmDelete($id)
     {

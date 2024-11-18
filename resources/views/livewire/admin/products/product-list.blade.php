@@ -39,55 +39,51 @@
                             <th class="text-center" wire:click="sortBy('brand')" style="cursor: pointer;">Brand</th>
                             <th class="text-center" wire:click="sortBy('product_name')" style="cursor: pointer;">Product Name</th>
                             <th class="text-center" wire:click="sortBy('product_category')" style="cursor: pointer;">Product Category</th>
-                            <th class="text-center" wire:click="sortBy('unit_price')" style="cursor: pointer;">Unit_price</th>
+                            <th class="text-center" wire:click="sortBy('unit_price')" style="cursor: pointer;">Unit Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($products->isEmpty())
                             <tr>
-                                <td colspan="4" class="text-center">No products found.</td>
+                                <td colspan="6" class="text-center">No products found.</td>
                             </tr>
                         @else
                             @foreach ($products as $product)
-                                <tr>
+                                <tr class="text-center">
                                     <td>{{ $product->product_code }}</td>
-                                    <td class="text-center">{{ $product->brand }}</td>
-                                    <td class="text-center">{{ $product->product_name }}</td>
-                                    <td class="text-center">{{ $product->category->category_name ?? 'N/A' }}</td>
-                                    <td class="text-center">{{ $product->unit_price }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-link text-black" type="button"
-                                                id="actionMenu{{ $product->id }}" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" style="width: 20px; height: 20px;">
-                                                    <circle cx="12" cy="12" r="2" />
-                                                    <circle cx="12" cy="6" r="2" />
-                                                    <circle cx="12" cy="18" r="2" />
-                                                </svg>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $product->id }}">
-                                                <li>
-                                                    <a class="dropdown-item" wire:click="edit({{ $product->id }})"
-                                                        style="cursor: pointer;">Edit</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item {{ $product->trashed() ? 'text-danger' : 'text-warning' }}"
-                                                        wire:click="{{ $product->trashed() ? 'confirmDelete(' . $product->id . ')' : 'suspend(' . $product->id . ')' }}"
-                                                        style="cursor: pointer;">
-                                                        {{ $product->trashed() ? 'Permanently Delete' : 'Suspend' }}
-                                                    </a>
-                                                </li>
-                                                @if ($product->trashed())
+                                    <td>{{ $product->brand }}</td>
+                                    <td>{{ $product->product_name }}</td>
+                                    <td>{{ $product->category->category_name ?? 'N/A' }}</td>
+                                    <td>{{ $product->unit_price }}</td>
+                                    <td class="text-center">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <!-- View icon -->
+                                            <a href="{{ route('admin.products.details', $product->id) }}" class="text-black me-3" title="View Details" target="_blank">
+                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
+                                            </a>
+                
+                                            <!-- Dropdown menu -->
+                                            <div class="dropdown">
+                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $product->id }}">
                                                     <li>
-                                                        <a class="dropdown-item text-success"
-                                                            wire:click="restoreProduct({{ $product->id }})"
-                                                            style="cursor: pointer;">Restore</a>
+                                                        <a class="dropdown-item" wire:click="edit({{ $product->id }})" style="cursor: pointer;">Edit</a>
                                                     </li>
-                                                @endif
-                                            </ul>
+                                                    <li>
+                                                        <a class="dropdown-item {{ $product->trashed() ? 'text-danger' : 'text-warning' }}" wire:click="{{ $product->trashed() ? 'confirmDelete(' . $product->id . ')' : 'suspend(' . $product->id . ')' }}" style="cursor: pointer;">
+                                                            {{ $product->trashed() ? 'Permanently Delete' : 'Suspend' }}
+                                                        </a>
+                                                    </li>
+                                                    @if ($product->trashed())
+                                                        <li>
+                                                            <a class="dropdown-item text-success" wire:click="restoreProduct({{ $product->id }})" style="cursor: pointer;">Restore</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -95,6 +91,7 @@
                         @endif
                     </tbody>
                 </table>
+                
             </div>
 
             <div class="mt-3">

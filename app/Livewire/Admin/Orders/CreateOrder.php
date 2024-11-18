@@ -79,7 +79,18 @@ class CreateOrder extends Component
     public function updatedCustomerId($value)
     {
         $this->updateShippingAddresses();
+
+        // Fetch the selected customer details
+        $customer = Customer::find($value);
+
+        // Check if the customer exists and update payment_terms
+        if ($customer) {
+            $this->payment_terms = $customer->payment_term_display;
+        } else {
+            $this->payment_terms = ''; // Reset if no customer is selected
+        }
     }
+
 
     public function updatedSelectedShippingAddress($value)
     {

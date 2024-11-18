@@ -22,16 +22,41 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex gap-2">
-                    <select wire:model.live="perPage" class="form-select" style="width: auto;">
+                    <!-- Per Page Select -->
+                    <select wire:model.live="perPage" class="form-select" style="cursor: pointer; width: auto;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
                             <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
                         @endforeach
                     </select>
 
-                    <div id="reportrange"
-                        style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                        <i class="fa fa-calendar"></i>&nbsp;
-                        <span>Select Date Range</span> <i class="fa fa-caret-down"></i>
+                    <!-- Status Filter -->
+                    <select wire:model.live="statusFilter" class="form-select" style="cursor: pointer; width: auto; min-width: 120px;">
+                        <option value="">All Status</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+
+                    <!-- Payment Mode Filter -->
+                    <select wire:model.live="paymentModeFilter" class="form-select" style="cursor: pointer; width: auto;">
+                        <option value="">All Payment Modes</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+
+                    <!-- Date Range Picker -->
+                    <div class="d-flex gap-2">
+                        <div id="reportrange"
+                            style="background: #fff; cursor: pointer; border-radius: 6px; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <i class="fa-regular fa-calendar"></i>&nbsp;
+                            <span>{{ $dateStart && $dateEnd ? \Carbon\Carbon::parse($dateStart)->format('M d, Y') . ' - ' . \Carbon\Carbon::parse($dateEnd)->format('M d, Y') : 'Select Date Range' }}</span>
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+
+                        <button id="clearDateRange" class="btn p-0 border-0 bg-transparent" title="Clear Date Range" style="box-shadow: none;">
+                            <i class="fa fa-times text-danger"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -128,23 +153,24 @@
                                     <!-- Action dropdown on the left -->
                                     <td class="text-center">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-3" title="View Order" target="_blank">
-                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
-                                            </a>
-                                        
-                                            @if($order->is_generated)
-                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')" 
-                                                        class="btn btn-sm btn-primary mx-2">
+                                            @if ($order->is_generated)
+                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')"
+                                                    class="btn btn-sm btn-primary mx-2">
                                                     <i class="bi bi-download mr-1"></i> Download
                                                 </button>
                                             @else
-                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')" 
-                                                        class="btn btn-sm btn-success mx-2">
+                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')"
+                                                    class="btn btn-sm btn-success mx-2">
                                                     <i class="bi bi-file-earmark-plus mr-1"></i> Generate
                                                 </button>
                                             @endif
+
+                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}"
+                                                class="text-black ml-1 mt-1" title="View Order" target="_blank">
+                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
+                                            </a>
                                         </div>
-                                    </td> 
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif
@@ -303,29 +329,36 @@
 
 <script type="text/javascript">
     document.addEventListener('livewire:initialized', () => {
-        // Initialize with existing values if they exist, otherwise use defaults
-        let start = @json($dateStart) ? moment(@json($dateStart)) : moment().subtract(29,
-            'days');
-        let end = @json($dateEnd) ? moment(@json($dateEnd)) : moment();
+        // Make sure moment.js and daterangepicker are loaded
+        if (typeof moment === 'undefined') {
+            console.error('Moment.js is not loaded');
+            return;
+        }
 
-        function cb(start, end, label) {
-            if (label === 'Clear') {
-                $('#reportrange span').html('Select Date Range');
-                @this.set('dateStart', null);
-                @this.set('dateEnd', null);
-                return;
-            }
+        // Initialize the date range values
+        let start = moment().subtract(29, 'days');
+        let end = moment();
+
+        // If there are existing values, use them
+        if (@json($dateStart)) {
+            start = moment(@json($dateStart));
+        }
+        if (@json($dateEnd)) {
+            end = moment(@json($dateEnd));
+        }
+
+        // Callback function when dates are selected
+        function updateDisplay(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             @this.set('dateStart', start.format('YYYY-MM-DD'));
             @this.set('dateEnd', end.format('YYYY-MM-DD'));
         }
 
+        // Initialize daterangepicker
         $('#reportrange').daterangepicker({
             startDate: start,
             endDate: end,
-            autoUpdateInput: false,
             ranges: {
-                'Clear': [null, null],
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
@@ -334,14 +367,25 @@
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
                     'month').endOf('month')]
             }
-        }, cb);
+        }, updateDisplay);
 
-        // Set initial display
+        // Show initial dates if they exist
         if (@json($dateStart) && @json($dateEnd)) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        } else {
-            $('#reportrange span').html('Select Date Range');
+            updateDisplay(start, end);
         }
+
+        // Handle the apply event
+        $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+            updateDisplay(picker.startDate, picker.endDate);
+        });
+
+        // Handle the clear button
+        $('#clearDateRange').on('click', function(e) {
+            e.preventDefault();
+            $('#reportrange span').html('Select Date Range');
+            @this.set('dateStart', null);
+            @this.set('dateEnd', null);
+        });
 
         // Listen for Livewire updates
         Livewire.on('dateRangeUpdated', () => {
@@ -350,8 +394,7 @@
                 let newEnd = moment(@json($dateEnd));
                 $('#reportrange').data('daterangepicker').setStartDate(newStart);
                 $('#reportrange').data('daterangepicker').setEndDate(newEnd);
-                $('#reportrange span').html(newStart.format('MMMM D, YYYY') + ' - ' + newEnd.format(
-                    'MMMM D, YYYY'));
+                updateDisplay(newStart, newEnd);
             }
         });
     });

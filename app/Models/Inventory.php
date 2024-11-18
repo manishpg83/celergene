@@ -33,4 +33,11 @@ class Inventory extends Model
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id');
     }
+
+    // In Inventory Model
+    public function modifiedBy()
+    {
+        return $this->belongsTo(User::class, 'modified_by');
+    }
+
 }

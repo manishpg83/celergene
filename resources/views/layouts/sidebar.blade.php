@@ -178,11 +178,10 @@
             </ul>
             <!-- Admin Users End -->
         </li>
-
-        <!-- Admin Users End -->
         <!-- Masters End -->
+
         <!-- Sales Orders -->
-        <li class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active open' : '' }} ">
+        <li class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
                 <div data-i18n="Sales Orders">Sales Orders</div>
@@ -192,15 +191,16 @@
                     <a href="{{ route('admin.orders.add') }}" class="menu-link">
                         <div data-i18n="Orders">Orders</div>
                     </a>
+                </li>
                 <li class="menu-item {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.orders.index') }}" class="menu-link">
                         <div data-i18n="Orders List">Orders List</div>
                     </a>
                 </li>
+            </ul>
         </li>
-    </ul>
-    </li>
-    <!-- Sales Orders End -->
+        <!-- Sales Orders End -->
+
 
     <!-- Customers -->
     <li class="menu-item {{ request()->routeIs('admin.customer.*') ? 'active open' : '' }} ">
@@ -223,11 +223,12 @@
     </li>
 
     <!-- Customers End-->
+
     <!-- Invoice Management -->
     <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file-dollar"></i>
-            <div data-i18n="Invoice Management">Invoice Management</div> <!-- Fixed typo -->
+            <div data-i18n="Invoice Management">Invoice Management</div>
         </a>
         <ul class="menu-sub">
             <li class="menu-item">
@@ -235,14 +236,14 @@
                     <div data-i18n="Online Invoices List">Online Invoices List</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
+            <li class="menu-item {{ request()->routeIs('admin.invoices.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.invoices.index') }}" class="menu-link" target="_blank">
                     <div data-i18n="Offline Invoices List">Offline Invoices List</div>
                 </a>
             </li>
-            <li class="menu-item {{ request()->routeIs('admin.invoices.index') ? 'active' : '' }}"> <!-- Updated condition -->
-                <a href="{{ route('admin.invoices.index') }}" class="menu-link" target="_blank"> <!-- Corrected link -->
-                    <div data-i18n="Custom Invoice">Custom Invoice</div>
+            <li class="menu-item">
+                <a href="#" class="menu-link" target="_blank">
+                    <div data-i18n="Shipping Invoice">Shipping Invoice</div>
                 </a>
             </li>
         </ul>
@@ -327,6 +328,7 @@
         </ul>
     </li>
     <!-- Product Management End -->
+
     <!-- Inventory Management -->
     <li class="menu-item {{ request()->routeIs('admin.inventory*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -342,21 +344,6 @@
             <li class="menu-item {{ request()->routeIs('admin.inventory.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.inventory.index') }}" class="menu-link">
                     <div data-i18n="Inventory List">Inventory List</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link">
-                    <div data-i18n="Offline Invoices List">Offline Invoices List</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link">
-                    <div data-i18n="Custom Invoice">Custom Invoice</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link">
-                    <div data-i18n="Shipping Invoice">Shipping Invoice</div>
                 </a>
             </li>
         </ul>
@@ -380,11 +367,10 @@
                     <div data-i18n="Manage Debtors">Manage Debtors</div>
                 </a>
             </li>
-
-
         </ul>
     </li>
     <!-- Accounts and Billing End -->
+
     <!-- Shipping -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -410,6 +396,7 @@
         </ul>
     </li>
     <!-- Shipping End -->
+
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-users"></i>
@@ -456,6 +443,7 @@
             </li>
         </ul>
     </li>
+
     <!-- Content Management -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -513,6 +501,7 @@
                     </li>
                 </ul>
             </li>
+
             <!-- Blog Management -->
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -538,6 +527,7 @@
             </li>
         </ul>
     </li>
+
     <!-- Reports -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -552,6 +542,7 @@
             </li>
         </ul>
     </li>
+
     <!-- Settings -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">

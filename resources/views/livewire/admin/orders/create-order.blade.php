@@ -236,7 +236,7 @@
                                 <label for="payment_terms" class="form-label">Payment Terms:</label>
                                 <textarea wire:model="payment_terms" id="payment_terms"
                                     class="form-control @error('payment_terms') is-invalid @enderror"></textarea>
-
+                            
                                 @error('payment_terms')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

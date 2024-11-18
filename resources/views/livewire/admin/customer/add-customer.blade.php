@@ -17,7 +17,7 @@
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="{{ $isEditing ? 'save' : 'save' }}">
                                 <!-- Customer Details -->
-                                <div class="row g-3">
+                                <div class="row g-3 mt-2">
                                     <div class="col-md-12 mt-4">
                                         <label class="form-label" for="customer_type_id">Customer Type</label>
                                         <select wire:model="customer_type_id"
@@ -172,7 +172,8 @@
 
 
                                     <div class="col-md-6">
-                                        <label class="form-label" for="must_receive_payment_before_delivery">Must Receive Payment
+                                        <label class="form-label" for="must_receive_payment_before_delivery">Must
+                                            Receive Payment
                                             Before Delivery</label>
                                         <select wire:model="must_receive_payment_before_delivery"
                                             class="form-select @error('must_receive_payment_before_delivery') is-invalid @enderror"
@@ -186,266 +187,244 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <hr class="mt-6">
+                                <!-- Billing Details Card -->
+                                <div class="card mb-4 mt-6">
+                                    <div class="card-header">
+                                        <h5>Billing Details</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label" for="billing_address">Billing
+                                                    Address</label>
+                                                <textarea wire:model="billing_address" class="form-control" id="billing_address" rows="4"></textarea>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="billing_country">Billing
+                                                    Country</label>
+                                                <select wire:model="billing_country" class="form-select"
+                                                    id="billing_country">
+                                                    <option value="">Select</option>
+                                                    <option value="LUX">Luxembourg</option>
+                                                    <option value="USA">United States of America</option>
+                                                    <option value="MAL">Malaysia</option>
+                                                    <option value="IND">India</option>
+                                                    <option value="SIN">Singapore</option>
+                                                    <option value="CHI">China</option>
+                                                    <option value="SWI">Switzerland</option>
+                                                    <option value="THA">Thailand</option>
+                                                    <option value="PHI">Philippines</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="billing_postal_code">Billing Postal
+                                                    Code</label>
+                                                <input type="text" wire:model="billing_postal_code"
+                                                    class="form-control" id="billing_postal_code">
+                                            </div>
+                                        </div>
 
-                                <h5 class="my-4">Billing Details</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label" for="billing_address">Billing Address</label>
-                                        <textarea wire:model="billing_address" class="form-control" id="billing_address" rows="4"></textarea>
+                                        <div class="form-check mt-6 mb-3">
+                                            <input type="checkbox" wire:model="sameAsBilling"
+                                                class="form-check-input" id="sameAsBilling">
+                                            <label class="form-check-label" for="sameAsBilling">My billing and
+                                                shipping address are the same</label>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="billing_country">Billing Country</label>
-                                        <select wire:model="billing_country" class="form-select"
-                                            id="billing_country">
-                                            <option value="">Select</option>
-                                            <option value="LUX">Luxembourg</option>
-                                            <option value="USA">United States of America</option>
-                                            <option value="MAL">Malaysia</option>
-                                            <option value="IND">India</option>
-                                            <option value="SIN">Singapore</option>
-                                            <option value="CHI">China</option>
-                                            <option value="SWI">Switzerland</option>
-                                            <option value="THA">Thailand</option>
-                                            <option value="PHI">Philippines</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="billing_postal_code">Billing Postal
-                                            Code</label>
-                                        <input type="text" wire:model="billing_postal_code" class="form-control"
-                                            id="billing_postal_code">
+                                </div>
+                                <!-- Billing Details Card -->
+                                <div class="card mb-4 mt-6">
+                                    <div class="card-body">
+                                        <!-- Shipping Details -->
+                                        <h5 class="my-4">Shipping Details</h5>
+                                        <div class="row g-3" @if ($sameAsBilling) wire:ignore @endif>
+                                            <div class="col-12">
+                                                <label class="form-label"
+                                                    for="shipping_address_receiver_name_1">Shipping
+                                                    Address Receiver Name 1</label>
+                                                <input type="text" wire:model="shipping_address_receiver_name_1"
+                                                    class="form-control" id="shipping_address_receiver_name_1"
+                                                    @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="shipping_address_1">Shipping Address
+                                                    1</label>
+                                                <input type="text" wire:model="shipping_address_1"
+                                                    class="form-control" id="shipping_address_1"
+                                                    @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_country_1">Shipping Country
+                                                    1</label>
+                                                <select wire:model="shipping_country_1" class="form-select"
+                                                    id="shipping_country_1"
+                                                    @if ($sameAsBilling) value="{{ $billing_country }}" @endif>
+                                                    <option value="">Select</option>
+                                                    <option value="LUX">Luxembourg</option>
+                                                    <option value="USA">United States of America</option>
+                                                    <option value="MAL">Malaysia</option>
+                                                    <option value="IND">India</option>
+                                                    <option value="SIN">Singapore</option>
+                                                    <option value="CHI">China</option>
+                                                    <option value="SWI">Switzerland</option>
+                                                    <option value="THA">Thailand</option>
+                                                    <option value="PHI">Philippines</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_postal_code_1">Shipping Postal
+                                                    Code
+                                                    1</label>
+                                                <input type="text" wire:model="shipping_postal_code_1"
+                                                    class="form-control" id="shipping_postal_code_1"
+                                                    @if ($sameAsBilling) value="{{ $billing_postal_code }}" @endif>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="form-check mt-3 mb-3">
-                                    <input type="checkbox" wire:model="sameAsBilling" class="form-check-input" id="sameAsBilling">
-                                    <label class="form-check-label" for="sameAsBilling">My billing and shipping
-                                        address are the same</label>
-                                </div>
-
-                                <!-- Shipping Details -->
-                                <h5 class="my-4">Shipping Details</h5>
-                                <div class="row g-3" @if($sameAsBilling) wire:ignore @endif>
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_receiver_name_1">Shipping
-                                            Address Receiver Name 1</label>
-                                        <input type="text" 
-                                               wire:model="shipping_address_receiver_name_1"
-                                               class="form-control" 
-                                               id="shipping_address_receiver_name_1"
-                                               @if($sameAsBilling) value="{{ $billing_address }}" @endif>
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_1">Shipping Address 1</label>
-                                        <input type="text" 
-                                               wire:model="shipping_address_1" 
-                                               class="form-control"
-                                               id="shipping_address_1"
-                                               @if($sameAsBilling) value="{{ $billing_address }}" @endif>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
-                                        <select wire:model="shipping_country_1" 
-                                                class="form-select"
-                                                id="shipping_country_1"
-                                                @if($sameAsBilling) value="{{ $billing_country }}" @endif>
-                                            <option value="">Select</option>
-                                            <option value="LUX">Luxembourg</option>
-                                            <option value="USA">United States of America</option>
-                                            <option value="MAL">Malaysia</option>
-                                            <option value="IND">India</option>
-                                            <option value="SIN">Singapore</option>
-                                            <option value="CHI">China</option>
-                                            <option value="SWI">Switzerland</option>
-                                            <option value="THA">Thailand</option>
-                                            <option value="PHI">Philippines</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_postal_code_1">Shipping Postal Code
-                                            1</label>
-                                        <input type="text" 
-                                               wire:model="shipping_postal_code_1"
-                                               class="form-control" 
-                                               id="shipping_postal_code_1"
-                                               @if($sameAsBilling) value="{{ $billing_postal_code }}" @endif>
+                                <!-- Billing Details Card -->
+                                <div class="card mb-4 mt-6">
+                                    <div class="card-body">
+                                        <!-- Shipping Details 2 -->
+                                        <h5 class="my-4">Shipping Details 2</h5>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label"
+                                                    for="shipping_address_receiver_name_2">Shipping
+                                                    Address Receiver Name 2</label>
+                                                <input type="text" wire:model="shipping_address_receiver_name_2"
+                                                    class="form-control" id="shipping_address_receiver_name_2">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="shipping_address_2">Shipping Address
+                                                    2</label>
+                                                <input type="text" wire:model="shipping_address_2"
+                                                    class="form-control" id="shipping_address_2">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_country_2">Shipping Country
+                                                    2</label>
+                                                <select wire:model="shipping_country_2" class="form-select"
+                                                    id="shipping_country_2">
+                                                    <option value="">Select</option>
+                                                    <option value="LUX">Luxembourg</option>
+                                                    <option value="USA">United States of America</option>
+                                                    <option value="MAL">Malaysia</option>
+                                                    <option value="IND">India</option>
+                                                    <option value="SIN">Singapore</option>
+                                                    <option value="CHI">China</option>
+                                                    <option value="SWI">Switzerland</option>
+                                                    <option value="THA">Thailand</option>
+                                                    <option value="PHI">Philippines</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_postal_code_2">Shipping Postal
+                                                    Code
+                                                    2</label>
+                                                <input type="text" wire:model="shipping_postal_code_2"
+                                                    class="form-control" id="shipping_postal_code_2">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Shipping Details 2 -->
-                                <h5 class="my-4">Shipping Details 2</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_receiver_name_2">Shipping
-                                            Address Receiver Name 2</label>
-                                        <input type="text" wire:model="shipping_address_receiver_name_2"
-                                            class="form-control @error('shipping_address_receiver_name_2') is-invalid @enderror"
-                                            id="shipping_address_receiver_name_2">
-                                        @error('shipping_address_receiver_name_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_2">Shipping Address 2</label>
-                                        <input type="text" wire:model="shipping_address_2"
-                                            class="form-control @error('shipping_address_2') is-invalid @enderror"
-                                            id="shipping_address_2">
-                                        @error('shipping_address_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_country_2">Shipping Country 2</label>
-                                        <select wire:model="shipping_country_2"
-                                            class="form-select @error('shipping_country_2') is-invalid @enderror"
-                                            id="shipping_country_2">
-                                            <option value="">Select</option>
-                                            <option value="LUX">Luxembourg</option>
-                                            <option value="USA">United States of America</option>
-                                            <option value="MAL">Malaysia</option>
-                                            <option value="IND">India</option>
-                                            <option value="SIN">Singapore</option>
-                                            <option value="CHI">China</option>
-                                            <option value="SWI">Switzerland</option>
-                                            <option value="THA">Thailand</option>
-                                            <option value="PHI">Philippines</option>
-                                        </select>
-                                        @error('shipping_country_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_postal_code_2">Shipping Postal Code
-                                            2</label>
-                                        <input type="text" wire:model="shipping_postal_code_2"
-                                            class="form-control @error('shipping_postal_code_2') is-invalid @enderror"
-                                            id="shipping_postal_code_2">
-                                        @error('shipping_postal_code_2')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                <!-- Billing Details Card -->
+                                <div class="card mb-4 mt-6">
+                                    <div class="card-body">
+                                        <!-- Shipping Details 3 -->
+                                        <h5 class="my-4">Shipping Details 3</h5>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label"
+                                                    for="shipping_address_receiver_name_3">Shipping
+                                                    Address Receiver Name 3</label>
+                                                <input type="text" wire:model="shipping_address_receiver_name_3"
+                                                    class="form-control" id="shipping_address_receiver_name_3">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" for="shipping_address_3">Shipping Address
+                                                    3</label>
+                                                <input type="text" wire:model="shipping_address_3"
+                                                    class="form-control" id="shipping_address_3">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_country_3">Shipping Country
+                                                    3</label>
+                                                <select wire:model="shipping_country_3" class="form-select"
+                                                    id="shipping_country_3">
+                                                    <option value="">Select</option>
+                                                    <option value="LUX">Luxembourg</option>
+                                                    <option value="USA">United States of America</option>
+                                                    <option value="MAL">Malaysia</option>
+                                                    <option value="IND">India</option>
+                                                    <option value="SIN">Singapore</option>
+                                                    <option value="CHI">China</option>
+                                                    <option value="SWI">Switzerland</option>
+                                                    <option value="THA">Thailand</option>
+                                                    <option value="PHI">Philippines</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_postal_code_3">Shipping Postal
+                                                    Code
+                                                    3</label>
+                                                <input type="text" wire:model="shipping_postal_code_3"
+                                                    class="form-control" id="shipping_postal_code_3">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Shipping Details 3 -->
-                                <h5 class="my-4">Shipping Details 3</h5>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_receiver_name_3">Shipping
-                                            Address Receiver Name 3</label>
-                                        <input type="text" wire:model="shipping_address_receiver_name_3"
-                                            class="form-control @error('shipping_address_receiver_name_3') is-invalid @enderror"
-                                            id="shipping_address_receiver_name_3">
-                                        @error('shipping_address_receiver_name_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label" for="shipping_address_3">Shipping Address 3</label>
-                                        <input type="text" wire:model="shipping_address_3"
-                                            class="form-control @error('shipping_address_3') is-invalid @enderror"
-                                            id="shipping_address_3">
-                                        @error('shipping_address_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_country_3">Shipping Country 3</label>
-                                        <select wire:model="shipping_country_3"
-                                            class="form-select @error('shipping_country_3') is-invalid @enderror"
-                                            id="shipping_country_3">
-                                            <option value="">Select</option>
-                                            <option value="LUX">Luxembourg</option>
-                                            <option value="USA">United States of America</option>
-                                            <option value="MAL">Malaysia</option>
-                                            <option value="IND">India</option>
-                                            <option value="SIN">Singapore</option>
-                                            <option value="CHI">China</option>
-                                            <option value="SWI">Switzerland</option>
-                                            <option value="THA">Thailand</option>
-                                            <option value="PHI">Philippines</option>
-                                        </select>
-                                        @error('shipping_country_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="shipping_postal_code_3">Shipping Postal Code
-                                            3</label>
-                                        <input type="text" wire:model="shipping_postal_code_3"
-                                            class="form-control @error('shipping_postal_code_3') is-invalid @enderror"
-                                            id="shipping_postal_code_3">
-                                        @error('shipping_postal_code_3')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                {{-- <!-- Status -->
-                                <div class="mt-4">
-                                    <label class="form-label d-block">Status</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" wire:model="status"
-                                            value="active" id="status_active">
-                                        <label class="form-check-label" for="status_active">Active</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" wire:model="status"
-                                            value="inactive" id="status_inactive">
-                                        <label class="form-check-label" for="status_inactive">Inactive</label>
-                                    </div>
-                                </div> --}}
-
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-12 mb-3 mt-6">
                                     <label class="form-label" for="image">Customer Image</label>
                                     <div class="d-flex gap-3 align-items-start">
                                         @if ($image && !is_string($image))
                                             <div class="position-relative">
-                                                <img src="{{ $image->temporaryUrl() }}" 
-                                                     class="rounded" 
-                                                     style="width: 100px; height: 100px; object-fit: cover;">
-                                                     <button type="button" 
-                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0" 
-                                                     wire:click="removeImage">
-                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                 </svg>
-                                             </button>                                             
+                                                <img src="{{ $image->temporaryUrl() }}" class="rounded"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    wire:click="removeImage">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-x"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         @elseif($oldImage)
                                             <div class="position-relative">
-                                                <img src="{{ Storage::url($oldImage) }}" 
-                                                     class="rounded" 
-                                                     style="width: 100px; height: 100px; object-fit: cover;">
-                                                     <button type="button" 
-                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0" 
-                                                     wire:click="removeImage">
-                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                 </svg>
-                                             </button> 
+                                                <img src="{{ Storage::url($oldImage) }}" class="rounded"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    wire:click="removeImage">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-x"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         @endif
-                                        
+
                                         <div class="flex-grow-1">
-                                            <input type="file" 
-                                                   wire:model="image" 
-                                                   class="form-control @error('image') is-invalid @enderror" 
-                                                   id="image"
-                                                   accept="image/jpeg,image/png,image/jpg">
-                                            <div class="form-text">Allowed file types: PNG, JPG, JPEG. Maximum size: 1MB</div>
+                                            <input type="file" wire:model="image"
+                                                class="form-control @error('image') is-invalid @enderror"
+                                                id="image" accept="image/jpeg,image/png,image/jpg">
+                                            <div class="form-text">Allowed file types: PNG, JPG, JPEG. Maximum size:
+                                                1MB</div>
                                             @error('image')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                                 <!-- Submit Button -->
                                 <div class="row g-3 mt-4">

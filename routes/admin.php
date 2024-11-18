@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::middleware(['permission:manage products'])->group(function () {
             Route::get('products', [ProductController::class, 'index'])->name('products.index');
             Route::get('products/add', [ProductController::class, 'add'])->name('products.add');
+            Route::get('admin/products/{id}/details', [ProductController::class, 'showProductDetails'])->name('products.details');
         });
 
         Route::middleware(['permission:manage warehouses'])->group(function () {

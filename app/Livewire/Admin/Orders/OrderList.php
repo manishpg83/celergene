@@ -26,6 +26,8 @@ class OrderList extends Component
     public $entities;
     public $dateStart = null;
     public $dateEnd = null;
+    public $statusFilter = '';
+    public $paymentModeFilter = '';
 
     public $perpagerecords = [
         10 => '10',
@@ -40,7 +42,7 @@ class OrderList extends Component
 
     protected $listeners = ['closeModal'];
 
-    protected $updatesQueryString = ['search', 'perPage', 'selectedEntityId'];
+    protected $updatesQueryString = ['search', 'perPage', 'selectedEntityId', 'statusFilter', 'paymentModeFilter'];
 
     public function mount()
     {
@@ -121,12 +123,9 @@ class OrderList extends Component
     {
         try {
             $order = OrderMaster::where('invoice_id', $invoiceId)->firstOrFail();
-            
-            // Simply update the is_generated status
             $order->update(['is_generated' => true]);
 
             notyf()->success('Invoice has been generated successfully.');
-
         } catch (\Exception $e) {
             Log::error('Invoice generation failed: ' . $e->getMessage());
             notyf()->error('Could not generate invoice.');
@@ -136,24 +135,53 @@ class OrderList extends Component
     public function downloadInvoice($invoiceId)
     {
         try {
+            // Load the order along with the related customer and other necessary relationships
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
                 ->where('invoice_id', $invoiceId)
                 ->firstOrFail();
 
+            // Check if the order is generated
             if (!$order->is_generated) {
                 notyf()->error('Invoice has not been generated yet.');
                 return;
             }
 
+            // Fetch the customer related to the order
+            $customer = $order->customer;
+
+            // Check if the customer exists
+            if (!$customer) {
+                notyf()->error('Customer details not found.');
+                return;
+            }
+
+            // Generate the file name using the customer's first and last name
+            $customerName = $customer->first_name . '_' . $customer->last_name; // Use first and last name
+            $fileName = 'Invoice-' . $customerName . '.pdf'; // File name with customer name
+
+            // Generate the PDF
             $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
 
+            // Stream the generated PDF for download with the customer name as the file name
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
-            }, 'Invoice-' . $invoiceId . '.pdf');
+            }, $fileName);
         } catch (\Exception $e) {
+            // Log any errors that occur
             Log::error('Invoice generation failed: ' . $e->getMessage());
             notyf()->error('Could not generate invoice PDF.');
         }
+    }
+
+
+    public function updatingStatusFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingPaymentModeFilter()
+    {
+        $this->resetPage();
     }
 
     public function render()
@@ -177,9 +205,15 @@ class OrderList extends Component
             ->when($this->selectedEntityId, function ($query) {
                 $query->where('entity_id', $this->selectedEntityId);
             })
-            ->when($this->dateStart && $this->dateEnd, function($query) {
+            ->when($this->dateStart && $this->dateEnd, function ($query) {
                 $query->whereDate('invoice_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
-                      ->whereDate('invoice_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
+                    ->whereDate('invoice_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
+            })
+            ->when($this->statusFilter !== '', function ($query) {
+                $query->where('invoice_status', $this->statusFilter);
+            })
+            ->when($this->paymentModeFilter !== '', function ($query) {
+                $query->where('payment_mode', $this->paymentModeFilter);
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);

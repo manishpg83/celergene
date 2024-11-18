@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Invoice #{{ $order->invoice_id }}</title>
+    <title>Invoice #{{ $order->customer->first_name }} {{ $order->customer->last_name }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -125,6 +125,15 @@
         .totals tr:last-child td {
             font-weight: bold;
         }
+
+        .bank-details p strong.bank-name {
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .bank-details p strong.bank-name-text {
+            margin-top: 10px;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -185,9 +194,9 @@
             <p><strong>Bank Charges must be borne by payer</strong></p>
 
             <p>For payment by Telegraphic Transfer:<br>
-                <strong>Account No:</strong> {{ $order->entity->bank_account_number }}<br>
-                <strong>Bank Name:</strong> {{ $order->entity->bank_account_name }}<br>
-                <strong>SWIFT:</strong> {{ $order->entity->bank_swift_code }}
+                <strong class="bank-name-text">Account No:</strong> {{ $order->entity->bank_account_number }}<br>
+                <strong class="bank-name">Bank Name:</strong> {{ $order->entity->bank_account_name }}<br>
+                <strong class="bank-name">SWIFT:</strong> {{ $order->entity->bank_swift_code }}
             </p>
         </div>
 

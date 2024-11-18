@@ -71,7 +71,7 @@
                         <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                        {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
                     </div>
                 </div>
                 <!-- Shipping Addresses -->
@@ -86,7 +86,7 @@
                         <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                        {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
                     </div>
                 </div>
                 @endif
@@ -102,7 +102,7 @@
                         <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                        {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
                     </div>
                 </div>
                 @endif
@@ -117,7 +117,7 @@
                         <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}" class="btn btn-link p-0 me-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button>
+                        {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
                     </div>
                 </div>
                 @endif

@@ -72,7 +72,7 @@
                                             <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black me-3" title="View Details" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
                                             </a>
-                                            
+                                             
                                             <!-- Dropdown menu -->
                                             <div class="dropdown">
                                                 <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">

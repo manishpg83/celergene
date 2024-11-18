@@ -52,13 +52,13 @@
         <!-- Customer Profile Card -->
         <div class="col-md-4">
             <div class="card shadow-sm p-3 mb-4">
-                <div class="customer-profile">
+                <div class="customer-profile mt-3">
                     <img src="{{ $customer->image ? asset('storage/' . $customer->image) : 'https://avatar.iran.liara.run/public' }}"
                         alt="Profile" class="rounded-circle mb-3" />
                     <h5 class="mb-1">{{ $customer->first_name }} {{ $customer->last_name }}</h5>
                     <p class="text-muted">Customer ID #{{ $customer->id }}</p>
                 </div>
-                <div class="d-flex justify-content-around my-3">
+                <div class="d-flex justify-content-around mb-5 mt-7">
                     <div class="text-center">
                         <i class="fas fa-shopping-cart fa-lg text-primary"></i>
                         <p class="fw-bold mt-1">{{ $customer->orders_count }}</p>
@@ -72,16 +72,16 @@
                 </div>
                 <hr>
                 <div class="mb-2">
-                    <p class="mt-1"><strong>Name:</strong>
+                    <p class="mt-4"><strong>Name:</strong>
                         {{ $customer->first_name }} {{ $customer->last_name }}</p>
-                    <p class="mt-1"><strong>Email:</strong> {{ $customer->email }}</p>
-                    <p class="mt-1"><strong>Status:</strong>
+                    <p class="mt-3"><strong>Email:</strong> {{ $customer->email }}</p>
+                    <p class="mt-3"><strong>Status:</strong>
                         <span class="badge {{ $customer->trashed() ? 'bg-label-danger' : 'bg-label-success' }}">
                             {{ $customer->trashed() ? 'Suspended' : 'Active' }}
                         </span>
                     </p>
-                    <p class="mt-1"><strong>Contact:</strong> {{ $customer->mobile_number }}</p>
-                    <p class="mt-1"><strong>Country:</strong> {{ $customer->billing_country }}</p>
+                    <p class="mt-3"><strong>Contact:</strong> {{ $customer->mobile_number }}</p>
+                    <p class="mt-3"><strong>Country:</strong> {{ $customer->billing_country }}</p>
                 </div>
                 {{-- <button class="btn btn-primary w-100 mt-3">Edit Details</button> --}}
             </div>
