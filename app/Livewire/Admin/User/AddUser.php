@@ -30,7 +30,6 @@ class AddUser extends Component
 
     public function mount()
     {
-        // Fetch available roles for vendor guard
         $this->availableRoles = Role::where('guard_name', 'web')->get();
         $this->userId = request()->query('id');
 

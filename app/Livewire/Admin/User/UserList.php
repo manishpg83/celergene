@@ -23,7 +23,7 @@ class UserList extends Component
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email',
         'role' => 'required|string',
-        'status' => 'required|in:active,inactive', // Validate status
+        'status' => 'required|in:active,inactive',
     ];
 
     public function mount()
@@ -75,7 +75,7 @@ class UserList extends Component
             'role',
             'status'
         ]);
-        $this->status = 'active'; // Set default status
+        $this->status = 'active';
     }
 
     public function updated($propertyName)
@@ -105,7 +105,7 @@ class UserList extends Component
 
         $user = $this->userId ? User::find($this->userId) : new User();
 
-        $user->fill($this->only(['name', 'email', 'role', 'status'])); // Update to use status
+        $user->fill($this->only(['name', 'email', 'role', 'status']));
         $user->save();
 
         $this->isEditing = false;

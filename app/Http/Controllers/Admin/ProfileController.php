@@ -78,7 +78,6 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($admin->profile_image);
             }
 
-            // Delete the admin account
             if ($admin instanceof User) {
                 $admin->delete();
                 notyf()->success('Account deleted successfully');

@@ -11,6 +11,7 @@ use App\Models\Inventory;
 use App\Models\OrderMaster;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\DB;
+use App\Rules\UniqueProductInOrder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -43,25 +44,45 @@ class CreateOrder extends Component
     public $shipping_addresses = [];
     public $is_generated = false;
 
-    protected $rules = [
-        'customer_id' => 'required|exists:customers,id',
-        'entity_id' => 'required|exists:entities,id',
-        'shipping_address' => 'required|string',
-        'orderDetails' => 'required|array|min:1',
-        'orderDetails.*.product_id' => 'required|exists:products,id',
-        'orderDetails.*.quantity' => 'required|numeric|min:1',
-        'orderDetails.*.unit_price' => 'required|numeric|min:0',
-        'orderDetails.*.discount' => 'required|numeric|min:0',
-        'tax' => 'required|numeric|min:0',
-        'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
-        'invoice_status' => 'required|in:Pending,Paid,Cancelled',
-        'selected_shipping_address' => 'required|in:1,2,3',
-        'invoice_date' => 'required|date',
-        'remarks' => 'nullable|string|max:1000',
-        'payment_terms' => 'nullable|string|max:255',
-        'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
-        'is_generated' => 'boolean',
-    ];
+    protected function rules()
+    {
+        return [
+            'customer_id' => 'required|exists:customers,id',
+            'entity_id' => 'required|exists:entities,id',
+            'shipping_address' => 'required|string',
+            'orderDetails' => 'required|array|min:1',
+            'orderDetails.*.product_id' => [
+                'required',
+                'exists:products,id',
+                new UniqueProductInOrder($this->orderDetails),
+            ],
+            'orderDetails.*.quantity' => 'required|numeric|min:1',
+            'orderDetails.*.unit_price' => 'required|numeric|min:0',
+            'orderDetails.*.discount' => 'required|numeric|min:0',
+            'tax' => 'required|numeric|min:0',
+            'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
+            'invoice_status' => 'required|in:Pending,Paid,Cancelled',
+            'selected_shipping_address' => 'required|in:1,2,3',
+            'invoice_date' => 'required|date',
+            'remarks' => 'nullable|string|max:1000',
+            'payment_terms' => 'nullable|string|max:255',
+            'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
+            'is_generated' => 'boolean',
+        ];
+    }
+
+    private function getAvailableProducts($index = null)
+    {
+        $selectedProductIds = array_column($this->orderDetails, 'product_id');
+
+        if ($index !== null && isset($this->orderDetails[$index]['product_id'])) {
+            $selectedProductIds = array_diff($selectedProductIds, [$this->orderDetails[$index]['product_id']]);
+        }
+
+        return $this->products->filter(function ($product) use ($selectedProductIds) {
+            return !in_array($product->id, $selectedProductIds);
+        });
+    }
 
     public function mount()
     {
@@ -80,14 +101,12 @@ class CreateOrder extends Component
     {
         $this->updateShippingAddresses();
 
-        // Fetch the selected customer details
         $customer = Customer::find($value);
 
-        // Check if the customer exists and update payment_terms
         if ($customer) {
             $this->payment_terms = $customer->payment_term_display;
         } else {
-            $this->payment_terms = ''; // Reset if no customer is selected
+            $this->payment_terms = '';
         }
     }
 
@@ -142,6 +161,8 @@ class CreateOrder extends Component
             'discount' => 0,
             'total' => 0,
         ];
+
+        $this->calculateTotals();
     }
 
     public function updatedOrderDetails($value, $key)
@@ -264,7 +285,7 @@ class CreateOrder extends Component
 
                         $quantityFromThisRecord = min($inventory->remaining, $remainingToConsume);
                         $newRemaining = $inventory->remaining - $quantityFromThisRecord;
-                        
+
                         $inventory->update([
                             'consumed' => $inventory->consumed + $quantityFromThisRecord,
                             'remaining' => $newRemaining
@@ -314,7 +335,7 @@ class CreateOrder extends Component
                 'delivery_status' => $this->delivery_status,
                 'created_by' => Auth::id(),
             ]);
-            
+
             if ($e->getMessage() !== "Insufficient inventory") {
                 notyf()->error('An error occurred while creating the order. Check logs for details.');
             }

@@ -9,7 +9,6 @@ class ProductDetails extends Component
 {
     public $productCode;
 
-    // Calculated properties
     public $totalStock = 0;
     public $totalConsumed = 0;
     public $warehouseCount = 0;
@@ -18,7 +17,6 @@ class ProductDetails extends Component
     {
         $this->productCode = $productCode;
 
-        // Fetch and calculate totals
         $this->calculateStockDetails();
     }
 
@@ -26,17 +24,14 @@ class ProductDetails extends Component
     {
         $inventoryData = Inventory::where('product_code', $this->productCode)->get();
 
-        // Calculate total stock and total consumed
         $this->totalStock = $inventoryData->sum('quantity');
         $this->totalConsumed = $inventoryData->sum('consumed');
 
-        // Calculate warehouse count (distinct warehouses)
         $this->warehouseCount = $inventoryData->groupBy('warehouse_id')->count();
     }
 
     public function render()
     {
-        // Fetch inventory data with warehouse details
         $inventoryData = Inventory::with('warehouse')
             ->where('product_code', $this->productCode)
             ->get();

@@ -15,12 +15,7 @@ class OrderDetails extends Component
         $this->invoice_id = $invoice_id;
         $this->order = OrderMaster::where('invoice_id', $invoice_id)->firstOrFail();
     }
-
-   /*  public function ($invoice_id)
-    {
-        // Your existing download logic here
-    } */
-
+    
     public function back()
     {
         return redirect()->route('admin.orders.index');

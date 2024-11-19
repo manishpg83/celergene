@@ -67,8 +67,6 @@ class CustomInvoiceList extends Component
         $this->resetPage();
     }
 
-
-
     public function downloadInvoice($invoiceId)
     {
         try {
@@ -88,7 +86,7 @@ class CustomInvoiceList extends Component
                 return;
             }
 
-            $customerName = $customer->first_name . '_' . $customer->last_name; // Use first and last name
+            $customerName = $customer->first_name . '_' . $customer->last_name;
             $fileName = 'Invoice-' . $customerName . '.pdf';
 
             $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
@@ -101,8 +99,6 @@ class CustomInvoiceList extends Component
             notyf()->error('Could not generate invoice PDF.');
         }
     }
-
-
 
     public function render()
     {

@@ -143,15 +143,14 @@
                                         <select wire:model.live="orderDetails.{{ $index }}.product_id"
                                             class="form-select @error('orderDetails.' . $index . '.product_id') is-invalid @enderror">
                                             <option value="">Select a product</option>
-                                            @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->product_name }}
-                                            </option>
+                                            @foreach ($this->getAvailableProducts($index) as $product)
+                                            <option value="{{ $product->id }}">{{ $product->product_name }}</option>
                                             @endforeach
                                         </select>
                                         @error('orderDetails.' . $index . '.product_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div>                                    
 
                                     <div class="col-md-2">
                                         <div class="col-6">Quantity</div>

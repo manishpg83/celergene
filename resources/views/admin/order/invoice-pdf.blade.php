@@ -27,7 +27,7 @@
         }
 
         .logo-container img {
-            height: 60px; /* Adjust height as needed */
+            height: 60px;
             width: auto;
             object-fit: contain;
         }

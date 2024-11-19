@@ -23,17 +23,14 @@ class DashboardController extends Controller
         $orders = OrderMaster::with('customer')->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
-        // Get orders by year for the graph
         $orderStats = OrderMaster::selectRaw('YEAR(invoice_date) as year, COUNT(*) as order_count')
             ->groupBy(DB::raw('YEAR(invoice_date)'))
             ->orderBy('year')
             ->get();
 
-        // Initialize arrays for the graph data
         $years = [];
         $orderCounts = [];
 
-        // Fill the arrays with data
         foreach ($orderStats as $stat) {
             $years[] = $stat->year;
             $orderCounts[] = $stat->order_count;
