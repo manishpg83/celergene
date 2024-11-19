@@ -16,7 +16,7 @@ class OrderDetails extends Component
         $this->order = OrderMaster::where('invoice_id', $invoice_id)->firstOrFail();
     }
 
-   /*  public function downloadInvoice($invoice_id)
+   /*  public function ($invoice_id)
     {
         // Your existing download logic here
     } */

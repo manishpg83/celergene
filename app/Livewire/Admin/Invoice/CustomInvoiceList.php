@@ -72,39 +72,31 @@ class CustomInvoiceList extends Component
     public function downloadInvoice($invoiceId)
     {
         try {
-            // Load the order along with the related customer and other necessary relationships
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
                 ->where('invoice_id', $invoiceId)
                 ->firstOrFail();
 
-            // Check if the order is generated
             if (!$order->is_generated) {
                 notyf()->error('Invoice has not been generated yet.');
                 return;
             }
 
-            // Fetch the customer related to the order
             $customer = $order->customer;
 
-            // Check if the customer exists
             if (!$customer) {
                 notyf()->error('Customer details not found.');
                 return;
             }
 
-            // Generate the file name using the customer's first and last name
             $customerName = $customer->first_name . '_' . $customer->last_name; // Use first and last name
             $fileName = 'Invoice-' . $customerName . '.pdf';
 
-            // Generate the PDF
             $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
 
-            // Stream the generated PDF for download with the file name
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
         } catch (\Exception $e) {
-            // Log any errors that occur
             Log::error('Invoice generation failed: ' . $e->getMessage());
             notyf()->error('Could not generate invoice PDF.');
         }

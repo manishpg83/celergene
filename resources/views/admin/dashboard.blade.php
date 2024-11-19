@@ -246,5 +246,82 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 rounded-lg bg-white"
+                    style="transition: all 0.3s ease; box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);"
+                    onmouseover="this.style.boxShadow='0 1rem 3rem rgba(0,0,0,.175)'"
+                    onmouseout="this.style.boxShadow='0 .5rem 1rem rgba(0,0,0,.15)'">
+                    <div class="card-header border-0 bg-white">
+                        <h5 class="mb-0 font-weight-bold text-primary">Yearly Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="orderChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('orderChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @json($years),
+                    datasets: [{
+                        label: 'Number of Orders',
+                        data: @json($orderCounts),
+                        borderColor: '#40E0D0',
+                        backgroundColor: 'transparent',
+                        pointBackgroundColor: '#40E0D0',
+                        pointBorderColor: '#40E0D0',
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        borderWidth: 2,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#E5E5E5',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                padding: 10
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#E5E5E5',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                padding: 10
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.4
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
