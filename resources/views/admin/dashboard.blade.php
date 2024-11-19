@@ -87,7 +87,7 @@
                         </a>
                     </div>
 
-                    <div class="table-responsive px-3">
+                    <div class="table-responsive px-3 mt-2">
                         <table class="table table-hover align-middle mb-0">
                             <thead>
                                 <tr style="background-color: #f8f9fa;">
@@ -100,7 +100,7 @@
                             <tbody>
                                 @foreach ($products as $product)
                                     <tr class="border-bottom" style="transition: all 0.3s ease;">
-                                        <td class="py-3">
+                                        <td class="py-2">
                                             <div class="d-flex align-items-center">
                                                 <div class="rounded-circle p-2 me-3"
                                                     style="background-color: rgba(13, 110, 253, 0.1);">
@@ -109,13 +109,13 @@
                                                 <span class="fw-semibold">{{ $product->product_name }}</span>
                                             </div>
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-2">
                                             <span
                                                 style="background-color: rgba(25, 135, 84, 0.1); color: #198754; padding: 0.5rem 1rem; border-radius: 0.375rem;">
                                                 ${{ number_format($product->unit_price, 2) }}
                                             </span>
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-2">
                                             <span class="text-muted">{{ $product->product_code }}</span>
                                         </td>
                                     </tr>

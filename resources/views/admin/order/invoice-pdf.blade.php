@@ -21,6 +21,17 @@
             color: white;
         }
 
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-container img {
+            height: 60px; /* Adjust height as needed */
+            width: auto;
+            object-fit: contain;
+        }
+
         .company-address {
             margin-bottom: 15px;
         }
@@ -138,6 +149,9 @@
 </head>
 
 <body>
+    <div class="logo-container">
+        <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
+    </div>
     <div class="header">
         <div class="company-name">{{ $order->entity->company_name }}</div>
         <div class="invoice-text">INVOICE <!-- {{ $order->invoice_number }} --></div>
