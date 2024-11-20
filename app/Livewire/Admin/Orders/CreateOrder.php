@@ -38,6 +38,7 @@ class CreateOrder extends Component
     public float $totalDiscount = 0;
     public float $tax = 0;
     public float $total = 0;
+    public float $freight = 0;
     public $payment_mode = 'Credit Card';
     public $invoice_status = 'Pending';
     public $selected_shipping_address = 1;
@@ -60,6 +61,7 @@ class CreateOrder extends Component
             'orderDetails.*.unit_price' => 'required|numeric|min:0',
             'orderDetails.*.discount' => 'required|numeric|min:0',
             'tax' => 'required|numeric|min:0',
+            'freight' => 'required|numeric|min:0',
             'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
             'invoice_status' => 'required|in:Pending,Paid,Cancelled',
             'selected_shipping_address' => 'required|in:1,2,3',
@@ -91,6 +93,7 @@ class CreateOrder extends Component
         $this->products = Product::all();
         $this->created_by = Auth::id();
         $this->modified_by = Auth::id();
+        $this->freight = 0;
         $this->addOrderDetail();
 
         $this->oldInvoiceStatus = $this->invoice_status;
@@ -204,7 +207,7 @@ class CreateOrder extends Component
 
     private function calculateFinalTotal()
     {
-        $this->total = max($this->subtotal - $this->totalDiscount + $this->tax, 0);
+        $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
     }
 
     public function updatedTax()
@@ -243,6 +246,7 @@ class CreateOrder extends Component
                     'invoice_date' => $this->invoice_date,
                     'subtotal' => $this->subtotal,
                     'discount' => $this->totalDiscount,
+                    'freight' => $this->freight,
                     'tax' => $this->tax,
                     'total' => $this->total,
                     'payment_mode' => $this->payment_mode,

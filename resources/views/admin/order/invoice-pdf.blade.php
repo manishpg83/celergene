@@ -225,6 +225,10 @@
                     <td><span style="color: red;">-{{ number_format($order->discount, 2) }}</span></td>
                 </tr>
                 <tr>
+                    <td>FREIGHT</td>
+                    <td><span style="color: green;">+{{ number_format($order->freight, 2) }}</span></td>
+                </tr>
+                <tr>
                     <td>TAX</td>
                     <td><span style="color: green;">+{{ number_format($order->tax, 2) }}</span></td>
                 </tr>

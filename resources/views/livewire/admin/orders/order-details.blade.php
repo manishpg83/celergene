@@ -116,6 +116,10 @@
                                         <span class="text-danger">-${{ number_format($order->discount, 2) }}</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted">Freight:</span>
+                                        <span class="text-success">+${{ number_format($order->freight, 2) }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="text-muted">Tax:</span>
                                         <span class="text-success">+${{ number_format($order->tax, 2) }}</span>
                                     </div>

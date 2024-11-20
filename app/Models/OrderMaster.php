@@ -20,6 +20,7 @@ class OrderMaster extends Model
         'shipping_address',
         'subtotal',
         'discount',
+        'freight',
         'tax',
         'total',
         'remarks',
