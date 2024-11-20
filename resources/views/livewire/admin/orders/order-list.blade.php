@@ -154,23 +154,25 @@
                                     <td class="text-center">
                                         <div class="d-flex align-items-center justify-content-center">
                                             @if ($order->is_generated)
-                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')"
-                                                    class="btn btn-sm btn-primary mx-2">
+                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')" class="btn btn-sm btn-primary ml-2">
                                                     <i class="bi bi-download mr-1"></i> Download
                                                 </button>
                                             @else
-                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')"
-                                                    class="btn btn-sm btn-success mx-2">
+                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')" class="btn btn-sm btn-success ml-2">
                                                     <i class="bi bi-file-earmark-plus mr-1"></i> Generate
                                                 </button>
                                             @endif
-
-                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}"
-                                                class="text-black ml-1 mt-1" title="View Order" target="_blank">
+                                    
+                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-1 mt-1" title="View Order" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
                                             </a>
+                                    
+                                            <!-- Delivery button -->
+                                            <a href="{{ route('admin.orders.delivery', $order->invoice_id) }}" class="btn btn-sm btn-warning ml-1">
+                                                <i class="bi bi-truck"></i>
+                                            </a>
                                         </div>
-                                    </td>
+                                    </td>                                    
                                 </tr>
                             @endforeach
                         @endif

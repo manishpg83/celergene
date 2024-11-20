@@ -20,6 +20,12 @@ class OrderMasterController extends Controller
         return view('admin.order.details', ['invoice_id' => $invoice_id]);
     }
 
+    public function orderDelivery($invoice_id)
+    {
+        return view('admin.order.order-delivery', ['invoice_id' => $invoice_id]);
+    }
+
+
     public function add()
     {
         $customers = Customer::all();
