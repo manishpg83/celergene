@@ -5,44 +5,35 @@ namespace App\Livewire\Admin\Orders;
 use Livewire\Component;
 use App\Models\OrderMaster;
 use App\Models\Inventory;
+use App\Models\Stock;
+use Illuminate\Support\Facades\DB;
 
 class OrderDelivery extends Component
 {
     public $invoiceId;
     public $order;
     public $deliveryStatus;
-    public $deliveryDate;
     public $selectedInventories = [];
+    public $inventoryQuantities = [];
 
     protected $rules = [
-        'deliveryStatus' => 'required|in:pending,shipped,delivered,cancelled',
-        'deliveryDate' => 'nullable|date|after_or_equal:today',
-        'selectedInventories.*.inventory_id' => 'required|exists:inventories,id',
-        'selectedInventories.*.quantity' => 'required|integer|min:1',
+        'deliveryStatus' => 'required|in:Pending,Shipped,Delivered,Cancelled',
+        'inventoryQuantities.*' => 'nullable|integer|min:0'
     ];
 
     public function mount($invoiceId)
     {
         $this->invoiceId = $invoiceId;
-
-        // Load the order details
-        $this->order = OrderMaster::with(['customer', 'orderDetails'])
+        $this->order = OrderMaster::with(['customer', 'orderDetails.product.inventories'])
             ->where('invoice_id', $invoiceId)
             ->firstOrFail();
 
-        // Initialize delivery details
-        $this->deliveryStatus = $this->order->delivery_status;
-        $this->deliveryDate = $this->order->delivery_date;
-
-        // Get all inventories for the products in the order
-        // Assuming that 'Inventory' has 'product_id' and 'warehouse_id' as columns
-        $this->selectedInventories = $this->order->orderDetails->map(function ($detail) {
-            return [
-                'product_id' => $detail->product_id,
-                'quantity' => $detail->quantity,
-                'inventories' => Inventory::where('product_code', $detail->product_id)->get()
-            ];
-        });
+        $this->deliveryStatus = $this->order->delivery_status;       
+        foreach ($this->order->orderDetails as $detail) {
+            foreach ($detail->product->inventories as $inventory) {
+                $this->inventoryQuantities[$inventory->id] = 0;
+            }
+        }
     }
 
     public function back()
@@ -54,29 +45,66 @@ class OrderDelivery extends Component
     {
         $this->validate();
 
-        // Update order delivery status
-        $this->order->delivery_status = $this->deliveryStatus;
-        $this->order->delivery_date = $this->deliveryDate;
-        $this->order->save();
+        try {
+            DB::transaction(function () {
+                foreach ($this->order->orderDetails as $detail) {
+                    $firstInventory = Inventory::where('product_code', $detail->product_id)
+                        ->orderBy('created_at')
+                        ->first();
 
-        // Loop through the selected inventories and update stock
-        foreach ($this->selectedInventories as $inventoryData) {
-            foreach ($inventoryData['inventories'] as $inventory) {
-                // Find the inventory record for the current warehouse
-                $inventoryRecord = Inventory::find($inventory->id);
+                    if ($firstInventory) {
+                        $firstInventory->consumed = (int)$firstInventory->consumed - (int)$detail->quantity;
+                        $firstInventory->remaining = (int)$firstInventory->quantity - (int)$firstInventory->consumed;
+                        $firstInventory->save();
 
-                if ($inventoryRecord && $inventoryRecord->quantity >= $inventoryData['quantity']) {
-                    // Reduce stock from the selected inventory
-                    $inventoryRecord->quantity -= $inventoryData['quantity'];
-                    $inventoryRecord->save();
-                } else {
-                    session()->flash('error', 'Not enough stock in the selected warehouse.');
-                    return;
+                        Stock::create([
+                            'inventory_id' => $firstInventory->id,
+                            'product_id' => $detail->product_id,
+                            'previous_quantity' => (int)$firstInventory->remaining - (int)$detail->quantity,
+                            'quantity_change' => (int)$detail->quantity,
+                            'new_quantity' => (int)$firstInventory->remaining,
+                            'reason' => 'Order Delivery Update - Restore',
+                            'created_by' => auth()->id(),
+                        ]);
+                    }
+                    $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
+                    if ($totalSelectedQuantity != (int)$detail->quantity) {
+                        throw new \Exception("Selected quantities must equal order quantity of {$detail->quantity}");
+                    }
+                    foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
+                        $quantity = (int)$quantity;
+                        if ($quantity > 0) {
+                            $inventory = Inventory::findOrFail($inventoryId);
+                            if ((int)$inventory->remaining < $quantity) {
+                                throw new \Exception("Insufficient quantity in inventory #{$inventoryId}");
+                            }
+                            $inventory->consumed = (int)$inventory->consumed + $quantity;
+                            $inventory->remaining = (int)$inventory->quantity - (int)$inventory->consumed;
+                            $inventory->modified_by = auth()->id();
+                            $inventory->save();
+
+                            Stock::create([
+                                'inventory_id' => $inventory->id,
+                                'product_id' => $detail->product_id,
+                                'previous_quantity' => (int)$inventory->remaining + $quantity,
+                                'quantity_change' => -$quantity,
+                                'new_quantity' => (int)$inventory->remaining,
+                                'reason' => 'Order Delivery Update - New Allocation',
+                                'created_by' => auth()->id(),
+                            ]);
+                        }
+                    }
                 }
-            }
-        }
+                $this->order->delivery_status = $this->deliveryStatus;
+                $this->order->modified_by = auth()->id();
+                $this->order->save();
+            });
 
-        session()->flash('success', 'Delivery details and inventory stock updated successfully.');
+            session()->flash('success', 'Delivery updated successfully');
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
+        }
     }
 
     public function render()
