@@ -100,10 +100,10 @@ class OrderDelivery extends Component
                 $this->order->save();
             });
 
-            session()->flash('success', 'Delivery updated successfully');
-            
+            notyf()->success('Delivery updated successfully.');
+
         } catch (\Exception $e) {
-            session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
+            notyf()->error('Error updating delivery: ' . $e->getMessage());
         }
     }
 
