@@ -23,6 +23,14 @@
                                 </div>
 
                                 <div class="col-md-6">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input wire:model="email" type="email" id="email" class="form-control" placeholder="Enter warehouse email" required>
+                                    @error('email')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-6">
                                     <label class="form-label" for="country">Country</label>
                                     <input wire:model="country" type="text" id="country" class="form-control" placeholder="Enter country" required>
                                     @error('country')

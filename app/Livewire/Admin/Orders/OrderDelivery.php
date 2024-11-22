@@ -7,6 +7,7 @@ use App\Models\OrderMaster;
 use App\Models\Inventory;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\WarehouseOrderUpdate;
 
 class OrderDelivery extends Component
 {
@@ -92,6 +93,11 @@ class OrderDelivery extends Component
                                 'reason' => 'Order Delivery Update - New Allocation',
                                 'created_by' => auth()->id(),
                             ]);
+
+                            $warehouse = $inventory->warehouse;
+                            if ($warehouse && $warehouse->email && $inventory->remaining > 0) {
+                                $warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
+                            }
                         }
                     }
                 }
@@ -106,7 +112,6 @@ class OrderDelivery extends Component
             notyf()->error('Error updating delivery: ' . $e->getMessage());
         }
     }
-
     public function render()
     {
         return view('livewire.admin.orders.order-delivery');

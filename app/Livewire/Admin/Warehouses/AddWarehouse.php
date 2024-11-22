@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddWarehouse extends Component
 {
-    public $warehouse_id, $warehouse_name, $country, $type, $remarks, $supplier_id;
+    public $warehouse_id, $warehouse_name, $country, $type, $remarks, $supplier_id, $email;
     public $isEditMode = false;
     public $suppliers;
 
@@ -24,11 +24,12 @@ class AddWarehouse extends Component
         if ($this->warehouse_id) {
             $warehouse = Warehouse::find($this->warehouse_id);
             if ($warehouse) {
-                $this->warehouse_name = $warehouse->warehouse_name;
+                $this->warehouse_name = $warehouse->warehouse_name;     
                 $this->country = $warehouse->country;
                 $this->type = $warehouse->type;
                 $this->remarks = $warehouse->remarks;
                 $this->supplier_id = $warehouse->supplier_id;
+                $this->email = $warehouse->email;
                 $this->isEditMode = true;
             }
         }
@@ -42,6 +43,7 @@ class AddWarehouse extends Component
         $this->type = '';
         $this->remarks = '';
         $this->supplier_id = null;
+        $this->email = '';
         $this->isEditMode = false;
     }
 
@@ -53,6 +55,7 @@ class AddWarehouse extends Component
             'type' => 'required|string|max:255',
             'remarks' => 'nullable|string',
             'supplier_id' => 'required|exists:suppliers,id',
+            'email' => 'required|email|unique:warehouses,email,' . $this->warehouse_id,
         ]);
 
         Warehouse::updateOrCreate(
@@ -63,6 +66,7 @@ class AddWarehouse extends Component
                 'type' => $this->type,
                 'remarks' => $this->remarks,
                 'supplier_id' => $this->supplier_id,
+                'email' => $this->email,
                 'created_by' => Auth::id(),
                 'modified_by' => Auth::id(),
             ]
@@ -82,6 +86,7 @@ class AddWarehouse extends Component
         $this->type = $warehouse->type;
         $this->remarks = $warehouse->remarks;
         $this->supplier_id = $warehouse->supplier_id;
+        $this->email = $warehouse->email;
         $this->isEditMode = true;
     }
 
