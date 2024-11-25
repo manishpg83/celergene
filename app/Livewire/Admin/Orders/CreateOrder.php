@@ -70,6 +70,11 @@ class CreateOrder extends Component
             'payment_terms' => 'nullable|string|max:255',
             'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
             'is_generated' => 'boolean',
+            'orderDetails.*.manual_product_name' => [
+                'required_if:orderDetails.*.product_id,1',
+                'string',
+                'max:255',
+            ],
         ];
     }
 
@@ -163,6 +168,8 @@ class CreateOrder extends Component
             'unit_price' => 0,
             'discount' => 0,
             'total' => 0,
+            'custom_product' => false,
+            'manual_product_name' => '',
         ];
 
         $this->calculateTotals();
@@ -181,8 +188,14 @@ class CreateOrder extends Component
 
     public function fetchUnitPrice($index, $productId)
     {
-        $product = Product::find($productId);
-        $this->orderDetails[$index]['unit_price'] = $product ? $product->unit_price : 0;
+        if ($productId == 1) {
+            $this->orderDetails[$index]['unit_price'] = 0;
+            $this->orderDetails[$index]['custom_product'] = true;
+        } else {
+            $product = Product::find($productId);
+            $this->orderDetails[$index]['unit_price'] = $product ? $product->unit_price : 0;
+            $this->orderDetails[$index]['custom_product'] = false;
+        }
         $this->calculateTotals();
     }
 
@@ -262,50 +275,53 @@ class CreateOrder extends Component
                 foreach ($this->orderDetails as $detail) {
                     $order->orderDetails()->create([
                         'product_id' => $detail['product_id'],
+                        'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
                         'discount' => $detail['discount'],
                         'total' => $detail['total'],
                     ]);
 
-                    $totalAvailable = Inventory::where('product_code', $detail['product_id'])
-                        ->sum('remaining');
+                    if ($detail['product_id'] != 1) {
+                        $totalAvailable = Inventory::where('product_code', $detail['product_id'])
+                            ->sum('remaining');
 
-                    if ($totalAvailable < $detail['quantity']) {
-                        $product = Product::find($detail['product_id']);
-                        $productName = $product ? $product->name : "Product #{$detail['product_id']}";
-                        notyf()->error("Insufficient inventory. Available: {$totalAvailable},Requested: {$detail['quantity']}");
-                        throw new \Exception("Insufficient inventory");
-                    }
+                        if ($totalAvailable < $detail['quantity']) {
+                            $product = Product::find($detail['product_id']);
+                            $productName = $product ? $product->name : "Product #{$detail['product_id']}";
+                            notyf()->error("Insufficient inventory. Available: {$totalAvailable}, Requested: {$detail['quantity']}");
+                            throw new \Exception("Insufficient inventory");
+                        }
 
-                    $remainingToConsume = $detail['quantity'];
-                    $inventories = Inventory::where('product_code', $detail['product_id'])
-                        ->where('remaining', '>', 0)
-                        ->orderBy('created_at')
-                        ->get();
+                        $remainingToConsume = $detail['quantity'];
+                        $inventories = Inventory::where('product_code', $detail['product_id'])
+                            ->where('remaining', '>', 0)
+                            ->orderBy('created_at')
+                            ->get();
 
-                    foreach ($inventories as $inventory) {
-                        if ($remainingToConsume <= 0) break;
+                        foreach ($inventories as $inventory) {
+                            if ($remainingToConsume <= 0) break;
 
-                        $quantityFromThisRecord = min($inventory->remaining, $remainingToConsume);
-                        $newRemaining = $inventory->remaining - $quantityFromThisRecord;
+                            $quantityFromThisRecord = min($inventory->remaining, $remainingToConsume);
+                            $newRemaining = $inventory->remaining - $quantityFromThisRecord;
 
-                        $inventory->update([
-                            'consumed' => $inventory->consumed + $quantityFromThisRecord,
-                            'remaining' => $newRemaining
-                        ]);
+                            $inventory->update([
+                                'consumed' => $inventory->consumed + $quantityFromThisRecord,
+                                'remaining' => $newRemaining
+                            ]);
 
-                        Stock::create([
-                            'inventory_id' => $inventory->id,
-                            'product_id' => $detail['product_id'],
-                            'previous_quantity' => $inventory->remaining,
-                            'quantity_change' => -$quantityFromThisRecord,
-                            'new_quantity' => $newRemaining,
-                            'reason' => 'Order Fulfillment',
-                            'created_by' => $currentUserId,
-                        ]);
+                            Stock::create([
+                                'inventory_id' => $inventory->id,
+                                'product_id' => $detail['product_id'],
+                                'previous_quantity' => $inventory->remaining,
+                                'quantity_change' => -$quantityFromThisRecord,
+                                'new_quantity' => $newRemaining,
+                                'reason' => 'Order Fulfillment',
+                                'created_by' => $currentUserId,
+                            ]);
 
-                        $remainingToConsume -= $quantityFromThisRecord;
+                            $remainingToConsume -= $quantityFromThisRecord;
+                        }
                     }
                 }
 

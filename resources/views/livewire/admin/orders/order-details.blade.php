@@ -84,7 +84,13 @@
                             <tbody>
                                 @foreach ($order->orderDetails as $detail)
                                     <tr>
-                                        <td class="text-center">{{ $detail->product->product_name }}</td>
+                                        <td>
+                                            @if($detail->product_id == 1)
+                                                {{ $detail->manual_product_name }}
+                                            @else
+                                                {{ $detail->product->product_name }}
+                                            @endif
+                                        </td>
                                         <td class="text-center">{{ $detail->quantity }}</td>
                                         <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">

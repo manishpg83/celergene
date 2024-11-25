@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateProductsTable extends Migration
 {
@@ -26,6 +27,25 @@ class CreateProductsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        // Add default product
+        DB::table('products')->insert([
+            'id' => 1,
+            'product_code' => 'DEFAULT001',
+            'brand' => 'Default Brand',
+            'product_name' => 'Other Product',
+            'product_category' => 'General',
+            'origin' => 'Unknown',
+            'batch_number' => 'B0001',
+            'expire_date' => now()->addYears(1),
+            'currency' => 'USD',
+            'unit_price' => 0.00,
+            'description' => 'Default product entry',
+            'created_by' => 'System',
+            'modified_by' => 'System',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     public function down()

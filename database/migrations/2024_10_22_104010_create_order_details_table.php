@@ -10,6 +10,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('invoice_id')->constrained('order_master', 'invoice_id')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('manual_product_name')->nullable();
             $table->decimal('unit_price', 10, 2);
             $table->integer('quantity');
             $table->decimal('discount', 10, 2)->default(0);

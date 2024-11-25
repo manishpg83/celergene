@@ -8,7 +8,7 @@ class OrderDetails extends Model
 {
     protected $table = 'order_details';
 
-    protected $fillable = ['invoice_id', 'product_id', 'unit_price', 'quantity', 'discount', 'total'];
+    protected $fillable = ['invoice_id', 'product_id', 'manual_product_name', 'unit_price', 'quantity', 'discount', 'total'];
 
     public function orderMaster()
     {

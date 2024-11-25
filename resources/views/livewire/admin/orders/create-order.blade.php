@@ -154,6 +154,21 @@
                                             @enderror
                                         </div>
 
+                                        @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] == 1)
+                                            <div class="col-md-2">
+                                                <div class="col-6">Manual Product Name</div>
+                                                <input 
+                                                    type="text" 
+                                                    wire:model="orderDetails.{{ $index }}.manual_product_name"
+                                                    placeholder="Enter custom product name"
+                                                    class="form-control"
+                                                >
+                                                @error("orderDetails.{$index}.manual_product_name") 
+                                                    <span class="error">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        @endif
+
                                         <div class="col-md-2">
                                             <div class="col-6">Quantity</div>
                                             <input type="number"
