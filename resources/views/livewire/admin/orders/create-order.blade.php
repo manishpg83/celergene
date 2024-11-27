@@ -53,6 +53,18 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="col-md-6">
+                                <label for="workflow_type" class="form-label">Order Type:</label>
+                                <select wire:model="workflow_type" id="workflow_type"
+                                    class="form-select @error('workflow_type') is-invalid @enderror">
+                                    @foreach(\App\Enums\OrderWorkflowType::options() as $value => $label)
+                                        <option value="{{ $value }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                                @error('workflow_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
                             @if ($customer_id)
                                 <div class="col-md-6">
@@ -199,6 +211,32 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+
+                                        @if($workflow_type === 'multi_delivery')
+                                            <div class="col-md-2">
+                                                <div class="col-6">Delivery Date</div>
+                                                <input type="date"
+                                                    wire:model="orderDetails.{{ $index }}.delivery_date"
+                                                    class="form-control @error('orderDetails.' . $index . '.delivery_date') is-invalid @enderror"
+                                                    min="{{ $invoice_date }}">
+                                                @error('orderDetails.' . $index . '.delivery_date')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        @endif
+
+                                        @if($workflow_type === 'consignment')
+                                            <div class="col-md-2">
+                                                <div class="col-6">Consignment Terms</div>
+                                                <input type="text"
+                                                    wire:model="orderDetails.{{ $index }}.consignment_terms"
+                                                    placeholder="Terms"
+                                                    class="form-control @error('orderDetails.' . $index . '.consignment_terms') is-invalid @enderror">
+                                                @error('orderDetails.' . $index . '.consignment_terms')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        @endif
 
                                         <div class="col-md-1 mb-1">
                                             <button wire:click.prevent="removeOrderDetail({{ $index }})"

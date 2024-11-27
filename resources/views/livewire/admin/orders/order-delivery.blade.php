@@ -73,6 +73,26 @@
                         </div>
                     </div>
 
+                    <!-- Add this after Order Information Card -->
+                    <div class="col-md-12 mt-3">
+                        <div class="alert alert-info">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-info-circle me-2"></i>
+                                <div>
+                                    <strong>Order Type: {{ $order->workflow_type->label() }}</strong>
+                                    @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                        <br>Total Order Quantity: {{ $totalOrderQuantity }}
+                                        <br>Remaining Quantity: {{ $remainingQuantity }}
+                                    @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                                        <br>{{ $isInitialConsignment ? 'Initial Consignment Delivery' : 'Consignment Sale Delivery' }}
+                                        @if(!$isInitialConsignment)
+                                            <br>Remaining Quantity: {{ $remainingQuantity }}
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Product List and Warehouse Delivery Selection -->
                     <div class="table-responsive mb-4 bg-white rounded">
@@ -80,7 +100,13 @@
                             <thead class="bg-light border-bottom border-2">
                                 <tr>
                                     <th class="text-center">Product</th>
-                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">
+                                        @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                            Remaining Quantity / Total Quantity
+                                        @else
+                                            Quantity
+                                        @endif
+                                    </th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Discount</th>
                                     <th class="text-center">Total Price</th>
@@ -91,7 +117,13 @@
                                 @foreach ($order->orderDetails as $detail)
                                     <tr>
                                         <td class="text-center">{{ $detail->product->product_name }}</td>
-                                        <td class="text-center">{{ $detail->quantity }}</td>
+                                        <td class="text-center">
+                                            @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                                {{ $detail->quantity - $detail->delivered_quantity }} / {{ $detail->quantity }}
+                                            @else
+                                                {{ $detail->quantity }}
+                                            @endif
+                                        </td>
                                         <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
@@ -127,7 +159,14 @@
                                                 {{ collect($inventoryQuantities)->filter(function ($qty, $invId) use ($detail) {
                                                         return $detail->product->inventories->contains('id', $invId);
                                                     })->sum() }}
-                                                / {{ $detail->quantity }}
+                                                / 
+                                                @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                                    {{ $detail->quantity - $detail->delivered_quantity }}
+                                                @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT && !$isInitialConsignment)
+                                                    {{ $remainingQuantity }}
+                                                @else
+                                                    {{ $detail->quantity }}
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -135,6 +174,21 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Add delivery status selection if needed -->
+                    @if($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
+                                <select wire:model="deliveryStatus" id="deliveryStatus" class="form-select">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Summary of the Order -->
                     <div class="row mb-4">
@@ -170,7 +224,15 @@
                     <!-- Update Delivery Button -->
                     <div class="d-flex justify-content-end">
                         <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled">
-                            <span wire:loading.remove wire:target="updateDelivery">Update Delivery</span>
+                            <span wire:loading.remove wire:target="updateDelivery">
+                                @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                    Update Partial Delivery
+                                @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                                    {{ $isInitialConsignment ? 'Process Initial Consignment' : 'Update Consignment Delivery' }}
+                                @else
+                                    Update Delivery
+                                @endif
+                            </span>
                             <span wire:loading wire:target="updateDelivery">Updating...</span>
                         </button>
                     </div>

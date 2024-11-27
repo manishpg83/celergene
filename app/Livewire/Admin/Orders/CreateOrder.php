@@ -15,6 +15,7 @@ use App\Rules\UniqueProductInOrder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Enums\OrderWorkflowType;
 
 class CreateOrder extends Component
 {
@@ -44,10 +45,11 @@ class CreateOrder extends Component
     public $selected_shipping_address = 1;
     public $shipping_addresses = [];
     public $is_generated = false;
+    public $workflow_type = OrderWorkflowType::STANDARD->value;
 
     protected function rules()
     {
-        return [
+        $rules = [
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
             'shipping_address' => 'required|string',
@@ -75,7 +77,18 @@ class CreateOrder extends Component
                 'string',
                 'max:255',
             ],
+            'workflow_type' => 'required|string|in:' . implode(',', array_keys(OrderWorkflowType::options())),
         ];
+
+        if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
+            $rules['orderDetails.*.delivery_date'] = 'required|date|after_or_equal:invoice_date';
+        }
+
+        if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
+            $rules['orderDetails.*.consignment_terms'] = 'required|string|max:255';
+        }
+
+        return $rules;
     }
 
     private function getAvailableProducts($index = null)
@@ -162,7 +175,7 @@ class CreateOrder extends Component
 
     public function addOrderDetail()
     {
-        $this->orderDetails[] = [
+        $newDetail = [
             'product_id' => '',
             'quantity' => 1,
             'unit_price' => 0,
@@ -172,6 +185,14 @@ class CreateOrder extends Component
             'manual_product_name' => '',
         ];
 
+        if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
+            $newDetail['delivery_date'] = '';
+        }
+        if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
+            $newDetail['consignment_terms'] = '';
+        }
+
+        $this->orderDetails[] = $newDetail;
         $this->calculateTotals();
     }
 
@@ -270,17 +291,27 @@ class CreateOrder extends Component
                     'created_by' => $currentUserId,
                     'modified_by' => $currentUserId,
                     'is_generated' => false,
+                    'workflow_type' => $this->workflow_type,
                 ]);
 
                 foreach ($this->orderDetails as $detail) {
-                    $order->orderDetails()->create([
+                    $orderDetail = [
                         'product_id' => $detail['product_id'],
                         'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
                         'discount' => $detail['discount'],
                         'total' => $detail['total'],
-                    ]);
+                    ];
+
+                    if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
+                        $orderDetail['delivery_date'] = $detail['delivery_date'];
+                    }
+                    if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
+                        $orderDetail['consignment_terms'] = $detail['consignment_terms'];
+                    }
+
+                    $order->orderDetails()->create($orderDetail);
 
                     if ($detail['product_id'] != 1) {
                         $totalAvailable = Inventory::where('product_code', $detail['product_id'])
@@ -354,6 +385,7 @@ class CreateOrder extends Component
                 'payment_terms' => $this->payment_terms,
                 'delivery_status' => $this->delivery_status,
                 'created_by' => Auth::id(),
+                'workflow_type' => $this->workflow_type,
             ]);
 
             if ($e->getMessage() !== "Insufficient inventory") {
