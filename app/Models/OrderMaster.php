@@ -35,6 +35,7 @@ class OrderMaster extends Model
         'remarks',
         'delivery_status',
         'invoice_status',
+        'invoice_type',
         'created_by',
         'modified_by'
     ];
@@ -49,6 +50,7 @@ class OrderMaster extends Model
         'is_initial_consignment' => 'boolean',
         'total_order_quantity' => 'decimal:2',
         'remaining_quantity' => 'decimal:2',
+        'invoice_type' => 'string',
     ];
 
     // Relationships

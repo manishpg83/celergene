@@ -56,7 +56,7 @@
     <script src="{{ asset('/admin/assets/js/config.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/pages-account-settings-account.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   
     @livewireStyles
     @stack('styles')
 </head>

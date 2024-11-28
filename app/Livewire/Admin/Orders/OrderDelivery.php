@@ -36,6 +36,21 @@ class OrderDelivery extends Component
 
         $this->deliveryStatus = $this->order->delivery_status;
         
+        if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
+            $this->isInitialConsignment = $this->order->is_initial_consignment;
+            
+            if ($this->order->parent_order_id) {                
+                $parentOrder = OrderMaster::find($this->order->parent_order_id);
+                if ($parentOrder) {
+                    $this->remainingQuantity = $parentOrder->remaining_quantity;
+                    $this->totalOrderQuantity = $parentOrder->remaining_quantity;
+                }
+            } else {                
+                $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
+                $this->remainingQuantity = $this->order->remaining_quantity ?? $this->totalOrderQuantity;
+            }
+        }
+        
         foreach ($this->order->orderDetails as $detail) {
             foreach ($detail->product->inventories as $inventory) {
                 $this->inventoryQuantities[$inventory->id] = 0;
@@ -46,22 +61,9 @@ class OrderDelivery extends Component
             ->where('product_id', $this->order->orderDetails->pluck('product_id')->toArray())
             ->sum('quantity_change'));
 
-        switch ($this->order->workflow_type) {
-            case OrderWorkflowType::MULTI_DELIVERY->value:
-                $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
-                $this->remainingQuantity = $this->totalOrderQuantity - $deliveredQuantity;
-                break;
-
-            case OrderWorkflowType::CONSIGNMENT->value:
-                $this->isInitialConsignment = !$this->order->is_initial_consignment;
-                if ($this->isInitialConsignment) {
-                    $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
-                    $this->remainingQuantity = $this->totalOrderQuantity;
-                } else {
-                    $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
-                    $this->remainingQuantity = $this->totalOrderQuantity - $deliveredQuantity;
-                }
-                break;
+        if ($this->order->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
+            $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
+            $this->remainingQuantity = $this->totalOrderQuantity - $deliveredQuantity;
         }
     }
 
@@ -77,92 +79,86 @@ class OrderDelivery extends Component
         try {
             DB::transaction(function () {
                 $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
-
-                // Validate total selected quantity matches order details
-                $orderTotalQuantity = $this->order->orderDetails->sum('quantity');
                 
-                if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
+                // Get the original order and its remaining quantity
+                $originalOrder = $this->order;
+                
+                // Calculate remaining quantity based on order type
+                if ($originalOrder->parent_order_id) {
+                    // This is a child order, get remaining from parent
+                    $parentOrder = OrderMaster::find($originalOrder->parent_order_id);
+                    $remainingQuantity = $parentOrder ? $parentOrder->remaining_quantity : 0;
+                } else {
+                    // This is the parent order
+                    $remainingQuantity = $originalOrder->remaining_quantity ?? $originalOrder->orderDetails->sum('quantity');
+                }
+
+                \Log::info('Delivery Validation', [
+                    'order_id' => $this->order->invoice_id,
+                    'total_selected' => $totalSelectedQuantity,
+                    'remaining' => $remainingQuantity,
+                    'is_initial' => $this->isInitialConsignment
+                ]);
+
+                // Validate quantities based on workflow type
+                if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
-                        // For initial consignment, must deliver full quantity
+                        // Initial consignment validation
+                        $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
                             throw new \Exception("Initial consignment delivery must equal full order quantity: {$orderTotalQuantity}");
                         }
                     } else {
-                        // For subsequent consignment deliveries, check remaining quantity
-                        if ($totalSelectedQuantity > $this->remainingQuantity) {
-                            throw new \Exception("Cannot deliver more than remaining quantity: {$this->remainingQuantity}");
+                        // For subsequent deliveries, validate against remaining quantity
+                        if ($totalSelectedQuantity > $remainingQuantity) {
+                            throw new \Exception("Cannot deliver more than remaining quantity: {$remainingQuantity}. Attempted: {$totalSelectedQuantity}");
                         }
                     }
                 }
 
-                // Process each order detail
+                // Process inventory updates
                 foreach ($this->order->orderDetails as $detail) {
-                    $detailSelectedQuantity = 0;
-                    
-                    // Process inventory updates for this detail
-                    foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
-                        if ($quantity > 0) {
-                            $inventory = Inventory::findOrFail($inventoryId);
-                            
-                            // Verify inventory belongs to this product
-                            if ($inventory->product_id !== $detail->product_id) {
-                                continue;
-                            }
-
-                            // Update inventory
-                            if ((int)$inventory->remaining < $quantity) {
-                                throw new \Exception("Insufficient quantity in inventory #{$inventoryId}");
-                            }
-
-                            // Update inventory quantities
-                            $inventory->consumed += $quantity;
-                            $inventory->remaining = $inventory->quantity - $inventory->consumed;
-                            $inventory->modified_by = auth()->id();
-                            $inventory->save();
-
-                            // Create stock movement record
-                            Stock::create([
-                                'inventory_id' => $inventory->id,
-                                'product_id' => $detail->product_id,
-                                'previous_quantity' => $inventory->remaining + $quantity,
-                                'quantity_change' => -$quantity,
-                                'new_quantity' => $inventory->remaining,
-                                'reason' => $this->isInitialConsignment ? 
-                                    'Initial Consignment Delivery' : 
-                                    'Consignment Sale Delivery',
-                                'created_by' => auth()->id(),
-                            ]);
-
-                            $detailSelectedQuantity += $quantity;
-
-                            // Notify warehouse if needed
-                            if ($inventory->warehouse && $inventory->warehouse->email) {
-                                $inventory->warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
-                            }
-                        }
-                    }
+                    $this->processInventoryUpdates($detail, $this->inventoryQuantities);
                 }
 
                 // Update order status
                 $this->order->delivery_status = $this->deliveryStatus;
                 
-                if ($this->isInitialConsignment) {
-                    $this->order->is_initial_consignment = true;
-                    $this->order->remaining_quantity = $orderTotalQuantity; // Set initial remaining quantity
-                } else {
-                    // Update remaining quantity for subsequent deliveries
-                    $this->order->remaining_quantity = ($this->order->remaining_quantity ?? $orderTotalQuantity) - $totalSelectedQuantity;
+                // Update remaining quantities
+                if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
+                    if ($this->isInitialConsignment) {
+                        // For initial consignment, set the full quantity as remaining
+                        $this->order->remaining_quantity = $this->order->orderDetails->sum('quantity');
+                    } else {
+                        // For subsequent deliveries, update the parent order's remaining quantity
+                        $parentOrder = $originalOrder->parent_order_id ? 
+                            OrderMaster::find($originalOrder->parent_order_id) : 
+                            $originalOrder;
+
+                        if ($parentOrder) {
+                            $newRemainingQuantity = $remainingQuantity - $totalSelectedQuantity;
+                            if ($newRemainingQuantity < 0) {
+                                throw new \Exception("Invalid remaining quantity calculation. Current: {$remainingQuantity}, Attempted: {$totalSelectedQuantity}");
+                            }
+                            $parentOrder->remaining_quantity = $newRemainingQuantity;
+                            $parentOrder->save();
+                        }
+                    }
                 }
-                
+
                 $this->order->modified_by = auth()->id();
                 $this->order->save();
 
-                // Create a new invoice for consignment sale if needed
+                // Generate sales invoice for consignment sales
                 if (!$this->isInitialConsignment && $totalSelectedQuantity > 0) {
-                    // Logic to generate new invoice for the delivered quantity
-                    // You'll need to implement this based on your requirements
                     $this->generateConsignmentSaleInvoice($totalSelectedQuantity);
                 }
+
+                \Log::info('Delivery Update Completed', [
+                    'order_id' => $this->order->invoice_id,
+                    'total_selected_quantity' => $totalSelectedQuantity,
+                    'new_remaining_quantity' => $this->order->remaining_quantity
+                ]);
             });
 
             session()->flash('success', 'Delivery updated successfully.');
@@ -170,11 +166,49 @@ class OrderDelivery extends Component
 
         } catch (\Exception $e) {
             session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
-            \Log::error('Delivery Update Error: ' . $e->getMessage(), [
-                'order_id' => $this->order->id,
-                'workflow_type' => $this->order->workflow_type,
+            \Log::error('Delivery Update Error', [
+                'order_id' => $this->order->invoice_id,
+                'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
+        }
+    }
+
+    private function processInventoryUpdates($detail, $inventoryQuantities)
+    {
+        foreach ($inventoryQuantities as $inventoryId => $quantity) {
+            if ($quantity <= 0) continue;
+
+            $inventory = Inventory::findOrFail($inventoryId);
+            if ($inventory->product_id !== $detail->product_id) continue;
+
+            if ($inventory->remaining < $quantity) {
+                throw new \Exception("Insufficient quantity in inventory #{$inventoryId}");
+            }
+
+            // Update inventory
+            $inventory->consumed += $quantity;
+            $inventory->remaining = $inventory->quantity - $inventory->consumed;
+            $inventory->modified_by = auth()->id();
+            $inventory->save();
+
+            // Create stock movement record
+            Stock::create([
+                'inventory_id' => $inventory->id,
+                'product_id' => $detail->product_id,
+                'previous_quantity' => $inventory->remaining + $quantity,
+                'quantity_change' => -$quantity,
+                'new_quantity' => $inventory->remaining,
+                'reason' => $this->isInitialConsignment ? 
+                    'Initial Consignment Delivery' : 
+                    'Consignment Sale Delivery',
+                'created_by' => auth()->id(),
+            ]);
+
+            // Notify warehouse if needed
+            if ($inventory->warehouse?->email) {
+                $inventory->warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
+            }
         }
     }
 
@@ -189,51 +223,64 @@ class OrderDelivery extends Component
                 // Create a new invoice for the consignment sale
                 $newInvoice = new OrderMaster();
                 $newInvoice->invoice_id = $nextInvoiceId;
-                $newInvoice->invoice_number = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
+                $newInvoice->invoice_number = 'DO-' . date('Ymd') . '-' . rand(1000, 9999);
+                $newInvoice->parent_order_id = $this->order->parent_order_id ?? $this->order->invoice_id;
                 $newInvoice->invoice_date = now();
                 $newInvoice->customer_id = $this->order->customer_id;
                 $newInvoice->entity_id = $this->order->entity_id;
                 $newInvoice->shipping_address = $this->order->shipping_address;
-                $newInvoice->subtotal = $this->order->subtotal;
-                $newInvoice->discount = $this->order->discount;
-                $newInvoice->freight = $this->order->freight;
-                $newInvoice->tax = $this->order->tax;
-                $newInvoice->total = $this->order->total;
-                $newInvoice->workflow_type = OrderWorkflowType::CONSIGNMENT->value;
-                $newInvoice->parent_order_id = $this->order->invoice_id; // Use invoice_id here
-                $newInvoice->is_initial_consignment = false;
-                $newInvoice->delivery_status = 'Delivered';
-                $newInvoice->invoice_status = 'Pending';
-                $newInvoice->total_order_quantity = $deliveredQuantity;
-                $newInvoice->remaining_quantity = 0;
+                
+                // Calculate proportional amounts
+                $ratio = $deliveredQuantity / $this->order->orderDetails->sum('quantity');
+                $newInvoice->subtotal = round($this->order->subtotal * $ratio, 2);
+                $newInvoice->discount = round($this->order->discount * $ratio, 2);
+                $newInvoice->freight = round($this->order->freight * $ratio, 2);
+                $newInvoice->tax = round($this->order->tax * $ratio, 2);
+                $newInvoice->total = round($this->order->total * $ratio, 2);
+                
                 $newInvoice->payment_mode = $this->order->payment_mode;
                 $newInvoice->payment_terms = $this->order->payment_terms;
-                $newInvoice->remarks = 'Consignment Sale - ' . now()->format('Y-m-d');
+                $newInvoice->delivery_status = 'Delivered';
+                $newInvoice->invoice_status = 'Pending';
+                $newInvoice->invoice_type = 'Partial';
+                $newInvoice->workflow_type = OrderWorkflowType::CONSIGNMENT;
+                $newInvoice->is_initial_consignment = false;
+                $newInvoice->total_order_quantity = $deliveredQuantity;
+                $newInvoice->remaining_quantity = 0;
+                $newInvoice->remarks = 'Consignment Sale DO - ' . now()->format('Y-m-d');
                 $newInvoice->created_by = auth()->id();
                 $newInvoice->modified_by = auth()->id();
                 $newInvoice->save();
 
                 // Copy order details with updated quantities
                 foreach ($this->order->orderDetails as $detail) {
-                    // Calculate proportional quantity for this detail
                     $detailQuantity = $this->calculateDetailQuantity($detail, $deliveredQuantity);
                     
                     if ($detailQuantity > 0) {
-                        $newDetail = new OrderDetails();
-                        $newDetail->invoice_id = $nextInvoiceId; // Use the same invoice_id here
-                        $newDetail->product_id = $detail->product_id;
-                        $newDetail->manual_product_name = $detail->manual_product_name;
-                        $newDetail->unit_price = $detail->unit_price;
-                        $newDetail->quantity = $detailQuantity;
-                        $newDetail->discount = $detail->discount;
-                        $newDetail->total = $detailQuantity * $detail->unit_price - $detail->discount;
-                        $newDetail->save();
+                        OrderDetails::create([
+                            'invoice_id' => $nextInvoiceId,
+                            'product_id' => $detail->product_id,
+                            'manual_product_name' => $detail->manual_product_name,
+                            'unit_price' => $detail->unit_price,
+                            'quantity' => $detailQuantity,
+                            'discount' => $detail->discount,
+                            'total' => round($detailQuantity * $detail->unit_price - $detail->discount, 2),
+                        ]);
                     }
                 }
+
+                \Log::info('Consignment DO generated', [
+                    'original_order_id' => $this->order->invoice_id,
+                    'new_do_id' => $nextInvoiceId,
+                    'delivered_quantity' => $deliveredQuantity,
+                    'remaining_quantity' => $this->order->remaining_quantity
+                ]);
             });
+
+            return true;
         } catch (\Exception $e) {
-            \Log::error('Error generating consignment sale invoice: ' . $e->getMessage(), [
-                'parent_order_id' => $this->order->invoice_id,
+            \Log::error('Error generating consignment DO: ' . $e->getMessage(), [
+                'order_id' => $this->order->invoice_id,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
@@ -243,13 +290,11 @@ class OrderDelivery extends Component
 
     private function calculateDetailQuantity($detail, $totalDeliveredQuantity)
     {
-        // Get the quantity selected for this detail's inventories
-        $detailSelectedQuantity = collect($this->inventoryQuantities)
-            ->filter(function ($qty, $invId) use ($detail) {
-                return $detail->product->inventories->contains('id', $invId);
-            })->sum();
-
-        return $detailSelectedQuantity;
+        $originalTotalQuantity = $this->order->orderDetails->sum('quantity');
+        if ($originalTotalQuantity <= 0) return 0;
+        
+        $ratio = $totalDeliveredQuantity / $originalTotalQuantity;
+        return round($detail->quantity * $ratio);
     }
 
     public function render()
