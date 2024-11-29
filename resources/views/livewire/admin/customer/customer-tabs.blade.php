@@ -31,8 +31,8 @@
                     <tbody>
                         @foreach ($orders as $order)
                             <tr class="text-center">
-                                <td>{{ $order->invoice_id }}</td>
-                                <td>{{ \Carbon\Carbon::parse($order->invoice_date)->format('Y-m-d') }}</td>
+                                <td>{{ $order->order_id }}</td>
+                                <td>{{ \Carbon\Carbon::parse($order->order_date)->format('Y-m-d') }}</td>
                                 <td>${{ number_format($order->total, 2) }}</td>
                                 <td>
                                     <span class="badge bg-label-{{ $order->invoice_status === 'Paid' ? 'success' : ($order->invoice_status === 'Pending' ? 'warning' : 'danger') }}">

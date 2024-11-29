@@ -110,10 +110,10 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="invoice_date" class="form-label">Invoice Date:</label>
-                                <input type="date" wire:model="invoice_date" id="invoice_date"
-                                    class="form-control @error('invoice_date') is-invalid @enderror">
-                                @error('invoice_date')
+                                <label for="order_date" class="form-label">Invoice Date:</label>
+                                <input type="date" wire:model="order_date" id="order_date"
+                                    class="form-control @error('order_date') is-invalid @enderror">
+                                @error('order_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -218,7 +218,7 @@
                                                 <input type="date"
                                                     wire:model="orderDetails.{{ $index }}.delivery_date"
                                                     class="form-control @error('orderDetails.' . $index . '.delivery_date') is-invalid @enderror"
-                                                    min="{{ $invoice_date }}">
+                                                    min="{{ $order_date }}">
                                                 @error('orderDetails.' . $index . '.delivery_date')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror

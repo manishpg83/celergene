@@ -16,7 +16,7 @@ $(function () {
       columns: [
         // columns according to JSON
         { data: '' },
-        { data: 'invoice_id' },
+        { data: 'order_id' },
         { data: 'invoice_status' },
         { data: 'total' },
         { data: 'issued_date' },
@@ -36,9 +36,9 @@ $(function () {
           // Invoice ID
           targets: 1,
           render: function (data, type, full, meta) {
-            var $invoice_id = full['invoice_id'];
+            var $order_id = full['order_id'];
             // Creates full output for row
-            var $row_output = '<a href="app-invoice-preview.html"><span>#' + $invoice_id + '</span></a>';
+            var $row_output = '<a href="app-invoice-preview.html"><span>#' + $order_id + '</span></a>';
             return $row_output;
           }
         },

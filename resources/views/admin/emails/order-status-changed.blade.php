@@ -9,13 +9,13 @@
         
         <p style="font-size: 16px;">Dear <strong>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</strong>,</p>
         
-        <p style="font-size: 16px;">Your order <strong>#{{ $order->invoice_id }}</strong> status has been updated.</p>
+        <p style="font-size: 16px;">Your order <strong>#{{ $order->order_id }}</strong> status has been updated.</p>
         
         <p style="font-size: 16px;"><strong>New Status:</strong> <span style="color: #ff5722;">{{ $newStatus }}</span></p>
         
         <h3 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Order Details:</h3>
         <ul style="list-style: none; padding: 0; font-size: 16px;">
-            <li style="margin-bottom: 8px;"><strong>Order Date:</strong> {{ date('M d, Y', strtotime($order->invoice_date)) }}</li>
+            <li style="margin-bottom: 8px;"><strong>Order Date:</strong> {{ date('M d, Y', strtotime($order->order_date)) }}</li>
             <li style="margin-bottom: 8px;"><strong>Total Amount:</strong> ${{ number_format($order->total, 2) }}</li>
             <li style="margin-bottom: 8px;"><strong>Payment Mode:</strong> {{ $order->payment_mode }}</li>
         </ul>

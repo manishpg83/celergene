@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('delivery_orders', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('order_id');  // Change to unsignedBigInteger
+            $table->foreignId('order_invoice_id')->constrained('order_invoice')->onDelete('cascade');
+            $table->string('delivery_number', 20);
+            $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
+            $table->date('delivery_date');
+            $table->enum('status', ['Pending', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');
+            $table->text('remarks')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('modified_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamps();
+            $table->softDeletes();
+
+            // Check the data type in your order_master table and adjust accordingly
+            $table->foreign('order_id')
+                  ->references('order_id')
+                  ->on('order_master')
+                  ->onDelete('cascade');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('delivery_orders');
+    }
+};

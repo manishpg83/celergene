@@ -49,11 +49,11 @@ class OrderList extends Component
         $this->entities = Entity::active()->get();
     }
 
-    public function viewOrderDetails($invoiceId)
+    public function viewOrderDetails($order_id)
     {
         try {
             $this->selectedOrder = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
-                ->where('invoice_id', $invoiceId)
+                ->where('order_id', $order_id)
                 ->firstOrFail();
             $this->viewOrder = true;
         } catch (\Exception $e) {
@@ -61,18 +61,18 @@ class OrderList extends Component
         }
     }
 
-    public function updateStatus($invoiceId)
+    public function updateStatus($order_id)
     {
-        $this->processingStatus = $invoiceId;
+        $this->processingStatus = $order_id;
         $currentUserId = Auth::id();
         try {
-            $order = OrderMaster::with(['customer', 'entity'])->find($invoiceId);
+            $order = OrderMaster::with(['customer', 'entity'])->find($order_id);
 
             if ($order) {
-                $oldStatus = $order->invoice_status;
-                $newStatus = $this->orderStatus[$invoiceId];
+                $oldStatus = $order->order_status;
+                $newStatus = $this->orderStatus[$order_id];
 
-                $order->invoice_status = $newStatus;
+                $order->order_status = $newStatus;
                 $order->modified_by = $currentUserId;
                 $order->save();
 
@@ -119,10 +119,10 @@ class OrderList extends Component
         $this->resetPage();
     }
 
-    public function generateInvoice($invoiceId)
+    public function generateInvoice($order_id)
     {
         try {
-            $order = OrderMaster::where('invoice_id', $invoiceId)->firstOrFail();
+            $order = OrderMaster::where('order_id', $order_id)->firstOrFail();
             $order->update(['is_generated' => true]);
 
             notyf()->success('Invoice has been generated successfully.');
@@ -132,11 +132,11 @@ class OrderList extends Component
         }
     }
 
-    public function downloadInvoice($invoiceId)
+    public function downloadInvoice($order_id)
     {
         try {
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
-                ->where('invoice_id', $invoiceId)
+                ->where('order_id', $order_id)
                 ->firstOrFail();
 
             if (!$order->is_generated) {
@@ -181,7 +181,7 @@ class OrderList extends Component
         $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('invoice_id', 'like', '%' . $this->search . '%')
+                    $q->where('order_id', 'like', '%' . $this->search . '%')
                         ->orWhereHas('customer', function ($customerQuery) {
                             $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
                                 ->orWhere('last_name', 'like', '%' . $this->search . '%');
@@ -190,7 +190,7 @@ class OrderList extends Component
                             $entityQuery->where('company_name', 'like', '%' . $this->search . '%');
                         })
                         ->orWhere('total', 'like', '%' . $this->search . '%')
-                        ->orWhere('invoice_date', 'like', '%' . $this->search . '%')
+                        ->orWhere('order_date', 'like', '%' . $this->search . '%')
                         ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
                 });
             })
@@ -198,11 +198,11 @@ class OrderList extends Component
                 $query->where('entity_id', $this->selectedEntityId);
             })
             ->when($this->dateStart && $this->dateEnd, function ($query) {
-                $query->whereDate('invoice_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
-                    ->whereDate('invoice_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
+                $query->whereDate('order_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
+                    ->whereDate('order_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
             })
             ->when($this->statusFilter !== '', function ($query) {
-                $query->where('invoice_status', $this->statusFilter);
+                $query->where('order_status', $this->statusFilter);
             })
             ->when($this->paymentModeFilter !== '', function ($query) {
                 $query->where('payment_mode', $this->paymentModeFilter);
@@ -212,7 +212,7 @@ class OrderList extends Component
 
         $this->orderStatus = [];
         foreach ($orders as $order) {
-            $this->orderStatus[$order->invoice_id] = $order->invoice_status;
+            $this->orderStatus[$order->order_id] = $order->order_status;
         }
 
         return view('livewire.admin.orders.order-list', [

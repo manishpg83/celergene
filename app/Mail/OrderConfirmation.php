@@ -13,13 +13,13 @@ class OrderConfirmation extends Mailable
 
     public $order;
     public $customer;
-    protected $invoice_id;
+    protected $order_id;
 
     public function __construct($order, $customer)
     {
         $this->order = $order;
         $this->customer = $customer;
-        $this->invoice_id = 'INV-' . str_pad($order->invoice_id, 8, '0', STR_PAD_LEFT);
+        $this->order_id = 'INV-' . str_pad($order->order_id, 8, '0', STR_PAD_LEFT);
     }
 
     public function build()
@@ -29,12 +29,12 @@ class OrderConfirmation extends Mailable
                 $this->order->load(['orderDetails.product']);
             }
 
-            return $this->subject('Order Confirmation #' . $this->invoice_id)
+            return $this->subject('Order Confirmation #' . $this->order_id)
                 ->view('admin.emails.order-confirmation')
                 ->with([
                     'order' => $this->order,
                     'customer' => $this->customer,
-                    'invoice_id' => $this->invoice_id,
+                    'order_id' => $this->order_id,
                     'company_details' => [
                         'name' => 'Celergen',
                         'address' => config('app.company_address', ''),

@@ -33,7 +33,7 @@ class CreateOrder extends Component
     public $orderDetails = [];
     public $customer_id;
     public $shipping_address;
-    public $invoice_date;
+    public $order_date;
     public $remarks;
     public float $subtotal = 0;
     public float $totalDiscount = 0;
@@ -67,7 +67,7 @@ class CreateOrder extends Component
             'payment_mode' => 'required|in:Credit Card,Bank Transfer,Cash',
             'invoice_status' => 'required|in:Pending,Paid,Cancelled',
             'selected_shipping_address' => 'required|in:1,2,3',
-            'invoice_date' => 'required|date',
+            'order_date' => 'required|date',
             'remarks' => 'nullable|string|max:1000',
             'payment_terms' => 'nullable|string|max:255',
             'delivery_status' => 'required|in:Pending,Shipped,Delivered,Cancelled',
@@ -81,7 +81,7 @@ class CreateOrder extends Component
         ];
 
         if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
-            $rules['orderDetails.*.delivery_date'] = 'required|date|after_or_equal:invoice_date';
+            $rules['orderDetails.*.delivery_date'] = 'required|date|after_or_equal:order_date';
         }
 
         if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
@@ -270,14 +270,14 @@ class CreateOrder extends Component
                     throw new \Exception('No authenticated user found');
                 }
 
-                $invoiceNumber = OrderMaster::generateInvoiceNumber();
+                $invoiceNumber = OrderMaster::generateOrderNumber();
 
                 $order = OrderMaster::create([
-                    'invoice_number' => $invoiceNumber,
+                    'order_number' => $invoiceNumber,
                     'customer_id' => $this->customer_id,
                     'entity_id' => $this->entity_id,
                     'shipping_address' => $this->shipping_address,
-                    'invoice_date' => $this->invoice_date,
+                    'order_date' => $this->order_date,
                     'subtotal' => $this->subtotal,
                     'discount' => $this->totalDiscount,
                     'freight' => $this->freight,
@@ -293,7 +293,7 @@ class CreateOrder extends Component
                     'is_generated' => false,
                     'workflow_type' => $this->workflow_type,
                 ]);
-
+                
                 foreach ($this->orderDetails as $detail) {
                     $orderDetail = [
                         'product_id' => $detail['product_id'],
@@ -362,7 +362,7 @@ class CreateOrder extends Component
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');
-            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total', 'invoice_date', 'remarks']);
+            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total', 'order_date', 'remarks']);
             $this->addOrderDetail();
             $this->isSubmitting = false;
 
@@ -374,7 +374,7 @@ class CreateOrder extends Component
                 'orderDetails' => $this->orderDetails,
                 'customer_id' => $this->customer_id,
                 'shipping_address' => $this->shipping_address,
-                'invoice_date' => $this->invoice_date,
+                'order_date' => $this->order_date,
                 'subtotal' => $this->subtotal,
                 'totalDiscount' => $this->totalDiscount,
                 'tax' => $this->tax,

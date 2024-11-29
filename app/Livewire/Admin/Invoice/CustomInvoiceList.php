@@ -71,7 +71,7 @@ class CustomInvoiceList extends Component
     {
         try {
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
-                ->where('invoice_id', $invoiceId)
+                ->where('order_id', $invoiceId)
                 ->firstOrFail();
 
             if (!$order->is_generated) {
@@ -105,7 +105,7 @@ class CustomInvoiceList extends Component
         $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('invoice_number', 'like', '%' . $this->search . '%')
+                    $q->where('order_number', 'like', '%' . $this->search . '%')
                         ->orWhereHas('customer', function ($customerQuery) {
                             $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
                                 ->orWhere('last_name', 'like', '%' . $this->search . '%');
@@ -114,7 +114,7 @@ class CustomInvoiceList extends Component
                             $entityQuery->where('company_name', 'like', '%' . $this->search . '%');
                         })
                         ->orWhere('total', 'like', '%' . $this->search . '%')
-                        ->orWhere('invoice_date', 'like', '%' . $this->search . '%')
+                        ->orWhere('order_date', 'like', '%' . $this->search . '%')
                         ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
                 });
             })
@@ -122,8 +122,8 @@ class CustomInvoiceList extends Component
                 $query->where('entity_id', $this->selectedEntityId);
             })
             ->when($this->dateStart && $this->dateEnd, function ($query) {
-                $query->whereDate('invoice_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
-                    ->whereDate('invoice_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
+                $query->whereDate('order_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
+                    ->whereDate('order_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
             })
             ->where('is_generated', true)
             ->orderBy($this->sortField, $this->sortDirection)
@@ -131,7 +131,7 @@ class CustomInvoiceList extends Component
 
         $this->orderStatus = [];
         foreach ($orders as $order) {
-            $this->orderStatus[$order->invoice_id] = $order->invoice_status;
+            $this->orderStatus[$order->order_id] = $order->order_status;
         }
 
         return view('livewire.admin.invoice.custom-invoice-list', [

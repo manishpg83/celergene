@@ -407,7 +407,7 @@ function getOrderID()
 		$prefix = ($year - 1) . '' . $year;
 	}
 
-	$data['invoice_id'] = 'NC' . $prefix . '-' . $order_no;
+	$data['order_id'] = 'NC' . $prefix . '-' . $order_no;
 	return $data;
 } */
 

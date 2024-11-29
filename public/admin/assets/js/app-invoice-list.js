@@ -14,9 +14,9 @@ $(function () {
       ajax: assetsPath + 'json/invoice-list.json', // JSON file to add data
       columns: [
         // columns according to JSON
-        { data: 'invoice_id' },
-        { data: 'invoice_id' },
-        { data: 'invoice_id' },
+        { data: 'order_id' },
+        { data: 'order_id' },
+        { data: 'order_id' },
         { data: 'invoice_status' },
         { data: 'issued_date' },
         { data: 'client_name' },
@@ -52,9 +52,9 @@ $(function () {
           // Invoice ID
           targets: 2,
           render: function (data, type, full, meta) {
-            var $invoice_id = full['invoice_id'];
+            var $order_id = full['order_id'];
             // Creates full output for row
-            var $row_output = '<a href="app-invoice-preview.html">#' + $invoice_id + '</a>';
+            var $row_output = '<a href="app-invoice-preview.html">#' + $order_id + '</a>';
             return $row_output;
           }
         },

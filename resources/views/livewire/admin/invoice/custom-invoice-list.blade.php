@@ -36,18 +36,18 @@
                 <table class="table text-center">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('invoice_id')" style="cursor: pointer;"
-                                class="{{ $sortField === 'invoice_id' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                            <th wire:click="sortBy('order_id')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_id' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Invoice Number
-                                @if ($sortField === 'invoice_id')
+                                @if ($sortField === 'order_id')
                                     <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
                             <th>Customer</th>
-                            <th wire:click="sortBy('invoice_date')" style="cursor: pointer;"
-                                class="{{ $sortField === 'invoice_date' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                            <th wire:click="sortBy('order_date')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_date' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Date
-                                @if ($sortField === 'invoice_date')
+                                @if ($sortField === 'order_date')
                                     <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
@@ -83,33 +83,33 @@
                         @else
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{ $order->invoice_number }}</td>
+                                    <td>{{ $order->order_number }}</td>
                                     <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($order->invoice_date)->format('M d, Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
                                     <td>${{ number_format($order->total, 2) }}</td>
                                     <td>{{ $order->payment_mode }}</td>
                                     <td>
                                         <span style="color:                                                   
-                                                    @if ($orderStatus[$order->invoice_id] === 'Paid') #28c76f 
-                                                    @elseif ($orderStatus[$order->invoice_id] === 'Pending') #FF9F43 
-                                                    @elseif ($orderStatus[$order->invoice_id] === 'Cancelled') #FF4C51 
+                                                    @if ($orderStatus[$order->order_id] === 'Paid') #28c76f 
+                                                    @elseif ($orderStatus[$order->order_id] === 'Pending') #FF9F43 
+                                                    @elseif ($orderStatus[$order->order_id] === 'Cancelled') #FF4C51 
                                                     @else white; @endif;">
-                                            {{ $orderStatus[$order->invoice_id] }}
+                                            {{ $orderStatus[$order->order_id] }}
                                         </span>
                                     </td>
                                     <!-- Action dropdown on the left -->
                                     <td class="text-center">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <!-- <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-3" title="View Order" target="_blank">
+                                            <!-- <a href="{{ route('admin.orders.details', $order->order_id) }}" class="text-black ml-3" title="View Order" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
                                             </a>   -->                                      
                                             @if($order->is_generated)
-                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')" 
+                                                <button wire:click="downloadInvoice('{{ $order->order_id }}')" 
                                                         class="btn btn-sm btn-primary mx-2">
                                                     <i class="bi bi-download mr-1"></i> Download
                                                 </button>
                                             @else
-                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')" 
+                                                <button wire:click="generateInvoice('{{ $order->order_id }}')" 
                                                         class="btn btn-sm btn-success mx-2">
                                                     <i class="bi bi-file-earmark-plus mr-1"></i> Generate
                                                 </button>

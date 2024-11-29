@@ -8,12 +8,12 @@ use App\Models\OrderMaster;
 class OrderDetails extends Component
 {
     public $order;
-    public $invoice_id;
+    public $order_id;
 
-    public function mount($invoice_id)
+    public function mount($order_id)
     {
-        $this->invoice_id = $invoice_id;
-        $this->order = OrderMaster::where('invoice_id', $invoice_id)->firstOrFail();
+        $this->order_id = $order_id;
+        $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
     }
     
     public function back()

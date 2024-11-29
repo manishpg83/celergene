@@ -40,7 +40,7 @@ class CustomerDetails extends Component
     {
         return view('livewire.admin.customer.customer-details', [
             'orders' => $this->customer->orders()
-                ->orderBy('invoice_date', 'desc')
+                ->orderBy('order_date', 'desc')
                 ->paginate(5),
             'addresses' => $this->getAddresses(),
         ]);

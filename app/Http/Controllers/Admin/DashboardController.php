@@ -23,8 +23,8 @@ class DashboardController extends Controller
         $orders = OrderMaster::with('customer')->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
-        $orderStats = OrderMaster::selectRaw('YEAR(invoice_date) as year, COUNT(*) as order_count')
-            ->groupBy(DB::raw('YEAR(invoice_date)'))
+        $orderStats = OrderMaster::selectRaw('YEAR(order_date) as year, COUNT(*) as order_count')
+            ->groupBy(DB::raw('YEAR(order_date)'))
             ->orderBy('year')
             ->get();
 

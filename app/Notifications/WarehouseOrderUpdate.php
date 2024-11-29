@@ -28,7 +28,7 @@ class WarehouseOrderUpdate extends Notification
     {
         return (new MailMessage)
             ->subject('Order Update Notification')
-            ->line('Order with Invoice ID: ' . $this->order->invoice_id . ' has been updated.')
+            ->line('Order with Invoice ID: ' . $this->order->order_id . ' has been updated.')
             ->line('Order Status: ' . $this->order->delivery_status)
             ->line('Product: ' . $this->inventory->product->name)
             ->line('Quantity Used: ' . $this->inventory->consumed)

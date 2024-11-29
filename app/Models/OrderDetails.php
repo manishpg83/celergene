@@ -8,11 +8,19 @@ class OrderDetails extends Model
 {
     protected $table = 'order_details';
 
-    protected $fillable = ['invoice_id', 'product_id', 'manual_product_name', 'unit_price', 'quantity', 'discount', 'total'];
+    protected $fillable = [
+        'order_id',            // Updated from order_id
+        'product_id',
+        'manual_product_name',
+        'unit_price',
+        'quantity',
+        'discount',
+        'total'
+    ];
 
     public function orderMaster()
     {
-        return $this->belongsTo(OrderMaster::class, 'invoice_id');
+        return $this->belongsTo(OrderMaster::class, 'order_id'); // Updated from order_id to order_id
     }
 
     public function product()
@@ -20,4 +28,3 @@ class OrderDetails extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 }
-

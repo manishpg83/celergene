@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Order Confirmation #{{ $order->invoice_id }}</title>
+    <title>Order Confirmation #{{ $order->order_id }}</title>
 </head>
 
 <body
@@ -46,8 +46,8 @@
         </div>
 
         <div>
-            <p><strong>Order No:</strong> #{{ $order->invoice_id }}</p>
-            <p><strong>Order Date:</strong> {{ date('d M Y', strtotime($order->invoice_date)) }}</p>
+            <p><strong>Order No:</strong> #{{ $order->order_id }}</p>
+            <p><strong>Order Date:</strong> {{ date('d M Y', strtotime($order->order_date)) }}</p>
         </div>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">

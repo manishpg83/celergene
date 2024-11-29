@@ -30,7 +30,8 @@
                     </select>
 
                     <!-- Status Filter -->
-                    <select wire:model.live="statusFilter" class="form-select" style="cursor: pointer; width: auto; min-width: 120px;">
+                    <select wire:model.live="statusFilter" class="form-select"
+                        style="cursor: pointer; width: auto; min-width: 120px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
@@ -38,7 +39,8 @@
                     </select>
 
                     <!-- Payment Mode Filter -->
-                    <select wire:model.live="paymentModeFilter" class="form-select" style="cursor: pointer; width: auto;">
+                    <select wire:model.live="paymentModeFilter" class="form-select"
+                        style="cursor: pointer; width: auto;">
                         <option value="">All Payment Modes</option>
                         <option value="Credit Card">Credit Card</option>
                         <option value="Bank Transfer">Bank Transfer</option>
@@ -54,7 +56,8 @@
                             <i class="fa fa-caret-down"></i>
                         </div>
 
-                        <button id="clearDateRange" class="btn p-0 border-0 bg-transparent" title="Clear Date Range" style="box-shadow: none;">
+                        <button id="clearDateRange" class="btn p-0 border-0 bg-transparent" title="Clear Date Range"
+                            style="box-shadow: none;">
                             <i class="fa fa-times text-danger"></i>
                         </button>
                     </div>
@@ -74,18 +77,18 @@
                 <table class="table text-center">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('invoice_id')" style="cursor: pointer;"
-                                class="{{ $sortField === 'invoice_id' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                            <th wire:click="sortBy('order_id')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_id' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Order ID
-                                @if ($sortField === 'invoice_id')
-                                    <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @if ($sortField === 'order_id')
+                                    <span class="text-mute">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
                             <th>Customer</th>
-                            <th wire:click="sortBy('invoice_date')" style="cursor: pointer;"
-                                class="{{ $sortField === 'invoice_date' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                            <th wire:click="sortBy('order_date')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_date' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Date
-                                @if ($sortField === 'invoice_date')
+                                @if ($sortField === 'order_date')
                                     <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
@@ -103,10 +106,10 @@
                                     <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
-                            <th wire:click="sortBy('invoice_status')" style="cursor: pointer;"
-                                class="{{ $sortField === 'invoice_status' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                            <th wire:click="sortBy('order_status')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_status' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Status
-                                @if ($sortField === 'invoice_status')
+                                @if ($sortField === 'order_status')
                                     <span class="text-muted">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
@@ -120,60 +123,66 @@
                             </tr>
                         @else
                             @foreach ($orders as $order)
-                                <tr>
-                                    <td>#{{ $order->invoice_id }}</td>
-                                    <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($order->invoice_date)->format('M d, Y') }}</td>
-                                    <td>${{ number_format($order->total, 2) }}</td>
-                                    <td>{{ $order->payment_mode }}</td>
-                                    <td>
-                                        <select wire:model="orderStatus.{{ $order->invoice_id }}"
-                                            wire:change="updateStatus({{ $order->invoice_id }})"
-                                            @if ($processingStatus === $order->invoice_id) disabled @endif
-                                            class="form-select form-select-sm"
-                                            style="color: white; 
-                                                       background-color: 
-                                                       @if ($orderStatus[$order->invoice_id] === 'Paid') #28c76f 
-                                                       @elseif ($orderStatus[$order->invoice_id] === 'Pending') #FF9F43 
-                                                       @elseif ($orderStatus[$order->invoice_id] === 'Cancelled') #FF4C51 
-                                                       @else white; @endif;">
-                                            <option value="Paid" style="background-color: white; color: black;">
-                                                @if ($processingStatus === $order->invoice_id)
-                                                    Processing...
+                                @if ($order->parent_order_id === null)
+                                    <tr>
+                                        <td>#{{ $order->order_id }}</td>
+                                        <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
+                                        <td>${{ number_format($order->total, 2) }}</td>
+                                        <td>{{ $order->payment_mode }}</td>
+                                        <td>
+                                            <select wire:model="orderStatus.{{ $order->order_id }}"
+                                                wire:change="updateStatus({{ $order->order_id }})"
+                                                @if ($processingStatus === $order->order_id) disabled @endif
+                                                class="form-select form-select-sm"
+                                                style="color: white; background-color: 
+                                            @if ($orderStatus[$order->order_id] === 'Paid') #28c76f 
+                                            @elseif ($orderStatus[$order->order_id] === 'Pending') #FF9F43 
+                                            @elseif ($orderStatus[$order->order_id] === 'Cancelled') #FF4C51 
+                                            @else white; @endif;">
+                                                <option value="Paid" style="background-color: white; color: black;">
+                                                    @if ($processingStatus === $order->order_id)
+                                                        Processing...
+                                                    @else
+                                                        Paid
+                                                    @endif
+                                                </option>
+                                                <option value="Pending" style="background-color: white; color: black;">
+                                                    Pending</option>
+                                                <option value="Cancelled"
+                                                    style="background-color: white; color: black;">Cancelled</option>
+                                            </select>
+                                        </td>
+                                        <!-- Action dropdown on the left -->
+                                        <td class="text-center">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                @if ($order->is_generated)
+                                                    <button wire:click="downloadInvoice('{{ $order->order_id }}')"
+                                                        class="btn btn-sm btn-primary ml-2">
+                                                        <i class="bi bi-download mx-1"></i> Download
+                                                    </button>
                                                 @else
-                                                    Paid
+                                                    <button wire:click="generateInvoice('{{ $order->order_id }}')"
+                                                        class="btn btn-sm btn-success ml-2">
+                                                        <i class="bi bi-file-earmark-plus mx-1"></i> Generate
+                                                    </button>
                                                 @endif
-                                            </option>
-                                            <option value="Pending" style="background-color: white; color: black;">
-                                                Pending</option>
-                                            <option value="Cancelled" style="background-color: white; color: black;">
-                                                Cancelled</option>
-                                        </select>
-                                    </td>
-                                    <!-- Action dropdown on the left -->
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            @if ($order->is_generated)
-                                                <button wire:click="downloadInvoice('{{ $order->invoice_id }}')" class="btn btn-sm btn-primary ml-2">
-                                                    <i class="bi bi-download mr-1"></i> Download
-                                                </button>
-                                            @else
-                                                <button wire:click="generateInvoice('{{ $order->invoice_id }}')" class="btn btn-sm btn-success ml-2">
-                                                    <i class="bi bi-file-earmark-plus mr-1"></i> Generate
-                                                </button>
-                                            @endif
-                                    
-                                            <a href="{{ route('admin.orders.details', $order->invoice_id) }}" class="text-black ml-1 mt-1" title="View Order" target="_blank">
-                                                <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
-                                            </a>
-                                    
-                                            <!-- Delivery button -->
-                                            <a href="{{ route('admin.orders.delivery', $order->invoice_id) }}" class="btn btn-sm btn-warning ml-1">
-                                                <i class="bi bi-truck"></i>
-                                            </a>
-                                        </div>
-                                    </td>                                    
-                                </tr>
+
+                                                <a href="{{ route('admin.orders.details', $order->order_id) }}"
+                                                    class="text-black ml-1 mt-1" title="View Order" target="_blank">
+                                                    <i class="fa fa-eye mx-1"
+                                                        style="font-size: 20px; color: rgb(94, 59, 190);"></i>
+                                                </a>
+
+                                                <!-- Delivery button -->
+                                                <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
+                                                    class="btn btn-sm btn-warning mr-1">
+                                                    <i class="bi bi-truck" style="font-size: 14px;"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @endif
                     </tbody>
@@ -193,7 +202,7 @@
                 <div class="modal-content rounded-3">
                     <div class="modal-header">
                         <h5 class="modal-title" id="orderDetailsModalLabel">Order Details
-                            #{{ $selectedOrder->invoice_id }}</h5>
+                            #{{ $selectedOrder->order_id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
                             aria-label="Close"></button>
                     </div>
@@ -228,12 +237,12 @@
                             <div class="col-md-6">
                                 <h6 class="mb-2">Order Information:</h6>
                                 <p class="mb-1">Order Date:
-                                    {{ date('M d, Y', strtotime($selectedOrder->invoice_date)) }}</p>
+                                    {{ date('M d, Y', strtotime($selectedOrder->order_date)) }}</p>
                                 <p class="mb-1">Payment Mode: {{ $selectedOrder->payment_mode }}</p>
                                 <p class="mb-1">Status:
                                     <span
-                                        class="badge bg-{{ $selectedOrder->invoice_status === 'Paid' ? 'success' : ($selectedOrder->invoice_status === 'Pending' ? 'warning' : 'danger') }}">
-                                        {{ $selectedOrder->invoice_status }}
+                                        class="badge bg-{{ $selectedOrder->order_status === 'Paid' ? 'success' : ($selectedOrder->order_status === 'Pending' ? 'warning' : 'danger') }}">
+                                        {{ $selectedOrder->order_status }}
                                     </span>
                                 </p>
                                 <p class="mb-1">Remarks: {{ $selectedOrder->remarks }}</p>
@@ -318,7 +327,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary"
-                            wire:click="downloadInvoice('{{ $selectedOrder->invoice_id }}')">
+                            wire:click="downloadInvoice('{{ $selectedOrder->order_id }}')">
                             Download Invoice
                         </button>
                         <button type="button" class="btn btn-secondary" wire:click="closeModal">Close</button>

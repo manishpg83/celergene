@@ -165,13 +165,13 @@
                                                     style="background-color: rgba(13, 110, 253, 0.1);">
                                                     <i class="fas fa-calendar text-primary"></i>
                                                 </div>
-                                                <span>{{ $order->invoice_date->format('M d, Y') }}</span>
+                                                <span>{{ $order->order_date->format('M d, Y') }}</span>
                                             </div>
                                         </td>
                                         <td class="py-3">
                                             <span
                                                 style="background-color: #f8f9fa; color: #212529; padding: 0.5rem 1rem; border-radius: 0.375rem;">
-                                                IN {{ $order->invoice_id }}
+                                                IN {{ $order->order_id }}
                                             </span>
                                         </td>
                                         <td class="py-3">

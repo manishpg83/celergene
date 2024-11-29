@@ -13,7 +13,7 @@ use App\Models\OrderDetails;
 
 class OrderDelivery extends Component
 {
-    public $invoiceId;
+    public $order_id;
     public $order;
     public $deliveryStatus;
     public $selectedInventories = [];
@@ -27,11 +27,11 @@ class OrderDelivery extends Component
         'inventoryQuantities.*' => 'nullable|integer|min:0'
     ];
 
-    public function mount($invoiceId)
+    public function mount($order_id)
     {
-        $this->invoiceId = $invoiceId;
+        $this->order_id = $order_id;
         $this->order = OrderMaster::with(['customer', 'orderDetails.product.inventories'])
-            ->where('invoice_id', $invoiceId)
+            ->where('order_id', $order_id)
             ->firstOrFail();
 
         $this->deliveryStatus = $this->order->delivery_status;
@@ -94,7 +94,7 @@ class OrderDelivery extends Component
                 }
 
                 \Log::info('Delivery Validation', [
-                    'order_id' => $this->order->invoice_id,
+                    'order_id' => $this->order->order_id,
                     'total_selected' => $totalSelectedQuantity,
                     'remaining' => $remainingQuantity,
                     'is_initial' => $this->isInitialConsignment
@@ -155,19 +155,19 @@ class OrderDelivery extends Component
                 }
 
                 \Log::info('Delivery Update Completed', [
-                    'order_id' => $this->order->invoice_id,
+                    'order_id' => $this->order->order_id,
                     'total_selected_quantity' => $totalSelectedQuantity,
                     'new_remaining_quantity' => $this->order->remaining_quantity
                 ]);
             });
 
             session()->flash('success', 'Delivery updated successfully.');
-            return redirect()->route('admin.orders.delivery', $this->invoiceId);
+            return redirect()->route('admin.orders.delivery', $this->order_id);
 
         } catch (\Exception $e) {
             session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
             \Log::error('Delivery Update Error', [
-                'order_id' => $this->order->invoice_id,
+                'order_id' => $this->order->order_id,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
@@ -216,16 +216,16 @@ class OrderDelivery extends Component
     {
         try {
             DB::transaction(function () use ($deliveredQuantity) {
-                // Get the next invoice_id
-                $lastInvoiceId = OrderMaster::max('invoice_id');
-                $nextInvoiceId = $lastInvoiceId + 1;
+                // Get the next order_id
+                $lastorder_id = OrderMaster::max('order_id');
+                $nextorder_id = $lastorder_id + 1;
 
                 // Create a new invoice for the consignment sale
                 $newInvoice = new OrderMaster();
-                $newInvoice->invoice_id = $nextInvoiceId;
-                $newInvoice->invoice_number = 'DO-' . date('Ymd') . '-' . rand(1000, 9999);
-                $newInvoice->parent_order_id = $this->order->parent_order_id ?? $this->order->invoice_id;
-                $newInvoice->invoice_date = now();
+                $newInvoice->order_id = $nextorder_id;
+                $newInvoice->order_number = 'DO-' . date('Ymd') . '-' . rand(1000, 9999);
+                $newInvoice->parent_order_id = $this->order->parent_order_id ?? $this->order->order_id;
+                $newInvoice->order_date = now();
                 $newInvoice->customer_id = $this->order->customer_id;
                 $newInvoice->entity_id = $this->order->entity_id;
                 $newInvoice->shipping_address = $this->order->shipping_address;
@@ -241,8 +241,8 @@ class OrderDelivery extends Component
                 $newInvoice->payment_mode = $this->order->payment_mode;
                 $newInvoice->payment_terms = $this->order->payment_terms;
                 $newInvoice->delivery_status = 'Delivered';
-                $newInvoice->invoice_status = 'Pending';
-                $newInvoice->invoice_type = 'Partial';
+                $newInvoice->order_status = 'Pending';
+                $newInvoice->order_type = 'Partial';
                 $newInvoice->workflow_type = OrderWorkflowType::CONSIGNMENT;
                 $newInvoice->is_initial_consignment = false;
                 $newInvoice->total_order_quantity = $deliveredQuantity;
@@ -258,7 +258,7 @@ class OrderDelivery extends Component
                     
                     if ($detailQuantity > 0) {
                         OrderDetails::create([
-                            'invoice_id' => $nextInvoiceId,
+                            'order_id' => $nextorder_id,
                             'product_id' => $detail->product_id,
                             'manual_product_name' => $detail->manual_product_name,
                             'unit_price' => $detail->unit_price,
@@ -270,8 +270,8 @@ class OrderDelivery extends Component
                 }
 
                 \Log::info('Consignment DO generated', [
-                    'original_order_id' => $this->order->invoice_id,
-                    'new_do_id' => $nextInvoiceId,
+                    'original_order_id' => $this->order->order_id,
+                    'new_do_id' => $nextorder_id,
                     'delivered_quantity' => $deliveredQuantity,
                     'remaining_quantity' => $this->order->remaining_quantity
                 ]);
@@ -280,7 +280,7 @@ class OrderDelivery extends Component
             return true;
         } catch (\Exception $e) {
             \Log::error('Error generating consignment DO: ' . $e->getMessage(), [
-                'order_id' => $this->order->invoice_id,
+                'order_id' => $this->order->order_id,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);

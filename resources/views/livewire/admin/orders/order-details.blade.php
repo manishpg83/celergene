@@ -12,7 +12,7 @@
                     </div>
                 </div>
                  <div class="card-header pr-6 py-0 pt-4 ml-3">
-                        <h5 class="card-title">Order ID #{{ $order->invoice_id }}</h5>
+                        <h5 class="card-title">Order ID #{{ $order->order_id }}</h5>
                     </div>
                 <div class="card-body">
                     <div class="row mb-4">
@@ -45,12 +45,12 @@
                         <div class="col-md-6">
                             <h6 class="mb-2">Order Information:</h6>
                             <p class="mb-1">Order Date:
-                                {{ date('M d, Y', strtotime($order->invoice_date)) }}</p>
+                                {{ date('M d, Y', strtotime($order->order_date)) }}</p>
                             <p class="mb-1">Payment Mode: {{ $order->payment_mode }}</p>
                             <p class="mb-1">Status:
                                 <span
-                                    class="badge bg-{{ $order->invoice_status === 'Paid' ? 'success' : ($order->invoice_status === 'Pending' ? 'warning' : 'danger') }}">
-                                    {{ $order->invoice_status }}
+                                    class="badge bg-{{ $order->order_status === 'Paid' ? 'success' : ($order->order_status === 'Pending' ? 'warning' : 'danger') }}">
+                                    {{ $order->order_status }}
                                 </span>
                             </p>
                             <p class="mb-1">Remarks: {{ $order->remarks }}</p>

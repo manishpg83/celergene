@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use App\Enums\OrderWorkflowType;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderMaster extends Model
 {
     protected $table = 'order_master';
-    protected $primaryKey = 'invoice_id';
+    protected $primaryKey = 'order_id'; 
     public $incrementing = true;
 
     protected $fillable = [
-        'invoice_number',
-        'invoice_date',
+        'order_date', 
+        'order_number',
         'customer_id',
         'entity_id',
         'shipping_address',
@@ -34,10 +33,10 @@ class OrderMaster extends Model
         'payment_terms',
         'remarks',
         'delivery_status',
-        'invoice_status',
-        'invoice_type',
+        'order_status',
+        'order_type',  
         'created_by',
-        'modified_by'
+        'modified_by',
     ];
 
     protected $casts = [
@@ -45,12 +44,12 @@ class OrderMaster extends Model
         'discount' => 'decimal:2',
         'tax' => 'decimal:2',
         'total' => 'decimal:2',
-        'invoice_date' => 'datetime',
+        'order_date' => 'datetime', 
         'workflow_type' => OrderWorkflowType::class,
         'is_initial_consignment' => 'boolean',
         'total_order_quantity' => 'decimal:2',
         'remaining_quantity' => 'decimal:2',
-        'invoice_type' => 'string',
+        'order_type' => 'string', 
     ];
 
     // Relationships
@@ -66,7 +65,7 @@ class OrderMaster extends Model
 
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetails::class, 'invoice_id', 'invoice_id');
+        return $this->hasMany(OrderDetails::class, 'order_id', 'order_id'); // Updated keys
     }
 
     public function creator()
@@ -81,12 +80,12 @@ class OrderMaster extends Model
 
     public function parentOrder()
     {
-        return $this->belongsTo(self::class, 'parent_order_id', 'invoice_id');
+        return $this->belongsTo(self::class, 'parent_order_id', 'order_id'); // Updated keys
     }
 
     public function childOrders()
     {
-        return $this->hasMany(self::class, 'parent_order_id', 'invoice_id');
+        return $this->hasMany(self::class, 'parent_order_id', 'order_id'); // Updated keys
     }
 
     // Workflow Type Methods
@@ -126,7 +125,6 @@ class OrderMaster extends Model
     {
         switch ($this->workflow_type) {
             case OrderWorkflowType::STANDARD:
-                // Standard order validation
                 break;
             
             case OrderWorkflowType::MULTI_DELIVERY:
@@ -143,36 +141,47 @@ class OrderMaster extends Model
         }
     }
 
-    // Invoice Number Generation
-    public static function generateInvoiceNumber($workflowType = null, $parentOrderId = null)
+    // Order Number Generation
+    public static function generateOrderNumber($workflowType = null, $parentOrderId = null)
     {
         $currentDate = now();
         $financialYear = $currentDate->month >= 4 
             ? $currentDate->year 
             : $currentDate->year - 1;
-        
-        $query = self::where('invoice_number', 'like', $financialYear . '%');
-        
-        // Consignment sub-invoice logic
+
+        Log::info("Financial Year: {$financialYear}");
+
+        $query = self::where('order_number', 'like', $financialYear . '%');
+
         if ($workflowType === OrderWorkflowType::CONSIGNMENT && $parentOrderId) {
             $parentOrder = self::find($parentOrderId);
+            Log::info("Parent Order Found: " . ($parentOrder ? $parentOrder->order_number : 'None'));
+
             if ($parentOrder) {
-                $subInvoiceCount = self::where('parent_order_id', $parentOrderId)->count() + 1;
-                return $parentOrder->invoice_number . '-' . str_pad($subInvoiceCount, 2, '0', STR_PAD_LEFT);
+                $subOrderCount = self::where('parent_order_id', $parentOrderId)->count() + 1;
+                $generatedOrderNumber = $parentOrder->order_number . '-' . str_pad($subOrderCount, 2, '0', STR_PAD_LEFT);
+                Log::info("Generated Sub-Order Number: {$generatedOrderNumber}");
+                return $generatedOrderNumber;
             }
         }
 
-        $lastOrder = $query->orderBy('invoice_number', 'desc')->first();
+        $lastOrder = $query->orderBy('order_number', 'desc')->first();
+        Log::info("Last Order Found: " . ($lastOrder ? $lastOrder->order_number : 'None'));
 
         if (!$lastOrder) {          
-            return $financialYear . '0001';
+            $generatedOrderNumber = $financialYear . '0001';
+            Log::info("No Previous Orders. Generated Order Number: {$generatedOrderNumber}");
+            return $generatedOrderNumber;
         }
 
-        $lastNumber = intval(substr($lastOrder->invoice_number, -4));
+        $lastNumber = intval(substr($lastOrder->order_number, -4));
         $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-        
-        return $financialYear . $newNumber;
+
+        $generatedOrderNumber = $financialYear . $newNumber;
+        Log::info("Generated Order Number: {$generatedOrderNumber}");
+        return $generatedOrderNumber;
     }
+
 
     // Quantity Management for Multi-Delivery
     public function updateRemainingQuantity()
@@ -189,7 +198,6 @@ class OrderMaster extends Model
         }
     }
 
-    // Check if more deliveries can be created
     public function canCreateMoreDeliveries(): bool
     {
         return $this->workflow_type === OrderWorkflowType::MULTI_DELIVERY 

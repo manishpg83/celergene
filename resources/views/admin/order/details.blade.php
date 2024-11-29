@@ -4,5 +4,5 @@
 @section('header', 'Add orders')
 
 @section('content')
-    @livewire('admin.orders.order-details', ['invoice_id' => $invoice_id])
+    @livewire('admin.orders.order-details', ['order_id' => $order_id])
 @endsection
