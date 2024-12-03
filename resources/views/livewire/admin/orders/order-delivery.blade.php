@@ -32,7 +32,6 @@
                     @endif
 
                     <div class="row mb-4">
-                        <!-- Customer Details Card -->
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
@@ -45,8 +44,6 @@
                             </div>
                         </div>
 
-
-                        <!-- Order Information Card -->
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
@@ -73,7 +70,6 @@
                         </div>
                     </div>
 
-                    <!-- Add this after Order Information Card -->
                     <div class="col-md-12 mt-3">
                         <div class="alert alert-info">
                             <div class="d-flex align-items-center">
@@ -94,7 +90,6 @@
                         </div>
                     </div>
 
-                    <!-- Product List and Warehouse Delivery Selection -->
                     <div class="table-responsive mb-4 bg-white rounded">
                         <table class="table table-bordered align-middle">
                             <thead class="bg-light border-bottom border-2">
@@ -153,7 +148,6 @@
                                                 </div>
                                             @endforeach
 
-                                            <!-- Show total selected quantity -->
                                             <div class="mt-2">
                                                 <strong>Total Selected: </strong>
                                                 {{ collect($inventoryQuantities)->filter(function ($qty, $invId) use ($detail) {
@@ -175,7 +169,6 @@
                         </table>
                     </div>
 
-                    <!-- Add delivery status selection if needed -->
                     @if($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -190,7 +183,6 @@
                         </div>
                     @endif
 
-                    <!-- Summary of the Order -->
                     <div class="row mb-4">
                         <div class="col-md-6 ms-auto">
                             <div class="card rounded-3 shadow-sm border">
@@ -221,7 +213,6 @@
                         </div>
                     </div>
 
-                    <!-- Update Delivery Button -->
                     <div class="d-flex justify-content-end">
                         <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="updateDelivery">
@@ -240,3 +231,4 @@
             </div>
         </div>
     </div>
+</div>

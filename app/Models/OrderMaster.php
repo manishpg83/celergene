@@ -32,6 +32,7 @@ class OrderMaster extends Model
         'payment_mode',
         'payment_terms',
         'remarks',
+        'is_generated',
         'delivery_status',
         'order_status',
         'order_type',  
@@ -52,7 +53,6 @@ class OrderMaster extends Model
         'order_type' => 'string', 
     ];
 
-    // Relationships
     public function entity()
     {
         return $this->belongsTo(Entity::class);
@@ -88,7 +88,6 @@ class OrderMaster extends Model
         return $this->hasMany(self::class, 'parent_order_id', 'order_id'); // Updated keys
     }
 
-    // Workflow Type Methods
     public function isStandardWorkflow(): bool
     {
         return $this->workflow_type === OrderWorkflowType::STANDARD;
@@ -104,7 +103,6 @@ class OrderMaster extends Model
         return $this->workflow_type === OrderWorkflowType::CONSIGNMENT;
     }
 
-    // Scopes
     public function scopeStandardWorkflow($query)
     {
         return $query->where('workflow_type', OrderWorkflowType::STANDARD);
@@ -120,7 +118,6 @@ class OrderMaster extends Model
         return $query->where('workflow_type', OrderWorkflowType::CONSIGNMENT);
     }
 
-    // Workflow Validation
     public function validateWorkflow()
     {
         switch ($this->workflow_type) {
@@ -141,7 +138,6 @@ class OrderMaster extends Model
         }
     }
 
-    // Order Number Generation
     public static function generateOrderNumber($workflowType = null, $parentOrderId = null)
     {
         $currentDate = now();
@@ -182,8 +178,6 @@ class OrderMaster extends Model
         return $generatedOrderNumber;
     }
 
-
-    // Quantity Management for Multi-Delivery
     public function updateRemainingQuantity()
     {
         if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {

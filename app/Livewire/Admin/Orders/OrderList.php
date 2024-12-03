@@ -2,15 +2,19 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Models\Entity;
 use Livewire\Component;
 use App\Models\OrderMaster;
-use App\Models\Entity;
+use App\Models\OrderInvoice;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\OrderStatusChanged;
+use App\Models\OrderInvoiceDetail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class OrderList extends Component
 {
@@ -121,15 +125,90 @@ class OrderList extends Component
 
     public function generateInvoice($order_id)
     {
+        DB::beginTransaction();
         try {
-            $order = OrderMaster::where('order_id', $order_id)->firstOrFail();
-            $order->update(['is_generated' => true]);
+            $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+                ->where('order_id', $order_id)
+                ->firstOrFail();
 
-            notyf()->success('Invoice has been generated successfully.');
+            $invoiceNumber = $this->generateUniqueInvoiceNumber();
+
+            $invoice = OrderInvoice::create([
+                'invoice_number' => $invoiceNumber,
+                'order_id' => $order->order_id,
+                'customer_id' => $order->customer_id,
+                'entity_id' => $order->entity_id,
+                'shipping_address' => $order->shipping_address,
+                'subtotal' => $order->subtotal,
+                'discount' => $order->discount,
+                'freight' => $order->freight,
+                'tax' => $order->tax,
+                'total' => $order->total,
+                'remarks' => $order->remarks,
+                'payment_terms' => $order->payment_terms,
+                'status' => 'Confirmed',
+                'created_by' => Auth::id(),
+                'invoice_type' => $this->determineInvoiceType($order)
+            ]);
+
+            $invoiceDetails = [];
+            foreach ($order->orderDetails as $orderDetail) {
+                $invoiceDetails[] = [
+                    'order_invoice_id' => $invoice->id,
+                    'product_id' => $orderDetail->product_id,
+                    'unit_price' => $orderDetail->unit_price,
+                    'quantity' => $orderDetail->quantity,
+                    'delivered_quantity' => $orderDetail->quantity,
+                    'invoiced_quantity' => $orderDetail->quantity,
+                    'discount' => $orderDetail->discount,
+                    'total' => $orderDetail->total,
+                    'manual_product_name' => $orderDetail->manual_product_name,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+
+            OrderInvoiceDetail::insert($invoiceDetails);
+
+            $order->update([
+                'is_generated' => true,
+                'modified_by' => Auth::id()
+            ]);
+
+            DB::commit();
+
+            notyf()->success('Invoice generated successfully with number: ' . $invoiceNumber);
+            return $invoice;
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Invoice generation failed: ' . $e->getMessage());
-            notyf()->error('Could not generate invoice.');
+            notyf()->error('Could not generate invoice: ' . $e->getMessage());
+            return null;
         }
+    }
+
+    protected function generateUniqueInvoiceNumber()
+    {
+        do {
+            $prefix = 'INV-' . now()->format('Ymd') . '-';
+            $randomSuffix = Str::random(4);
+            $invoiceNumber = $prefix . $randomSuffix;
+        } while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists());
+
+        return $invoiceNumber;
+    }
+
+    protected function determineInvoiceType($order)
+    {
+        if ($order->workflow_type === 'multi_delivery' || $order->workflow_type === 'consignment') {
+            return 'consignment';
+        }
+
+        if ($order->parent_order_id !== null) {
+            return 'split_delivery';
+        }
+
+        return 'regular';
     }
 
     public function downloadInvoice($order_id)

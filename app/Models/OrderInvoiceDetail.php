@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class OrderInvoiceDetail extends Model
+{
+    protected $table = 'order_invoice_details';
+
+    protected $fillable = [
+        'order_invoice_id',
+        'product_id',
+        'unit_price',
+        'quantity',
+        'delivered_quantity',
+        'invoiced_quantity',
+        'discount',
+        'total',
+        'manual_product_name'
+    ];
+
+    protected $casts = [
+        'unit_price' => 'decimal:2',
+        'quantity' => 'integer',
+        'delivered_quantity' => 'integer',
+        'invoiced_quantity' => 'integer',
+        'discount' => 'decimal:2',
+        'total' => 'decimal:2',
+    ];
+
+    public function invoice()
+    {
+        return $this->belongsTo(OrderInvoice::class, 'order_invoice_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+}
