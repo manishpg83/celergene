@@ -86,31 +86,22 @@ class OrderDelivery extends Component
 
                 $originalOrder = $this->order;
 
-                if ($originalOrder->workflow_type === OrderWorkflowType::STANDARD) {
-                    $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
-
-                    if ($totalSelectedQuantity !== $orderTotalQuantity) {
-                        notyf()->error("For Standard orders, the delivered quantity must equal the order quantity: {$orderTotalQuantity}. You entered: {$totalSelectedQuantity}");
-                        return;
-                    }
+                if ($originalOrder->parent_order_id) {
+                    $parentOrder = OrderMaster::find($originalOrder->parent_order_id);
+                    $remainingQuantity = $parentOrder ? $parentOrder->remaining_quantity : 0;
+                } else {
+                    $remainingQuantity = $originalOrder->remaining_quantity ?? $originalOrder->orderDetails->sum('quantity');
                 }
-                else if ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
+
+                if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
                         $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
-                            notyf()->error("Initial consignment delivery must equal full order quantity: {$orderTotalQuantity}");
-                            return;
+                            throw new \Exception("Initial consignment delivery must equal full order quantity: {$orderTotalQuantity}");
                         }
                     } else {
-                        $parentOrder = $originalOrder->parent_order_id ?
-                            OrderMaster::find($originalOrder->parent_order_id) :
-                            $originalOrder;
-
-                        $remainingQuantity = $parentOrder ? $parentOrder->remaining_quantity : 0;
-
                         if ($totalSelectedQuantity > $remainingQuantity) {
-                            notyf()->error("Cannot deliver more than the remaining quantity: {$remainingQuantity}. Attempted: {$totalSelectedQuantity}");
-                            return;
+                            throw new \Exception("Cannot deliver more than remaining quantity: {$remainingQuantity}. Attempted: {$totalSelectedQuantity}");
                         }
                     }
                 }
@@ -132,8 +123,7 @@ class OrderDelivery extends Component
                         if ($parentOrder) {
                             $newRemainingQuantity = $remainingQuantity - $totalSelectedQuantity;
                             if ($newRemainingQuantity < 0) {
-                                notyf()->error("Invalid remaining quantity calculation. Current: {$remainingQuantity}, Attempted: {$totalSelectedQuantity}");
-                                return;
+                                throw new \Exception("Invalid remaining quantity calculation. Current: {$remainingQuantity}, Attempted: {$totalSelectedQuantity}");
                             }
                             $parentOrder->remaining_quantity = $newRemainingQuantity;
                             $parentOrder->save();
@@ -145,14 +135,14 @@ class OrderDelivery extends Component
                 $this->order->save();
 
                 if (!$this->isInitialConsignment && $totalSelectedQuantity > 0) {
-                    $this->generateConsignmentSaleInvoice($totalSelectedQuantity);
+                    $this->generateConsignmentSaleInvoice($totalSelectedQuantity); // This now creates DeliveryOrder entries.
                 }
             });
 
-            notyf()->success('Delivery updated successfully.');
+            session()->flash('success', 'Delivery updated successfully.');
             return redirect()->route('admin.orders.delivery', $this->order_id);
         } catch (\Exception $e) {
-            notyf()->error('Error updating delivery: ' . $e->getMessage());
+            session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
         }
     }
 
