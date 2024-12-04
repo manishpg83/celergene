@@ -177,12 +177,12 @@
                                         <td class="py-3">
                                             <span
                                                 style="padding: 0.5rem 1rem; border-radius: 50rem;
-                                @if ($order->invoice_status === 'Paid') background-color: rgba(25, 135, 84, 0.1); color: #198754;
-                                @elseif ($order->invoice_status === 'Pending')
+                                @if ($order->order_status === 'Paid') background-color: rgba(25, 135, 84, 0.1); color: #198754;
+                                @elseif ($order->order_status === 'Pending')
                                     background-color: rgba(255, 193, 7, 0.1); color: #ffc107;
-                                @elseif ($order->invoice_status === 'Cancelled')
+                                @elseif ($order->order_status === 'Cancelled')
                                     background-color: rgba(220, 53, 69, 0.1); color: #dc3545; @endif">
-                                                {{ ucfirst($order->invoice_status) }}
+                                                {{ ucfirst($order->order_status) }}
                                             </span>
                                         </td>
                                     </tr>
@@ -212,7 +212,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="table-responsive px-3">
+                <div class="table-responsive px-3 mb-2">
                     <table class="table align-middle mb-0 table-hover">
                         <thead>
                             <tr style="background-color: #f8f9fa;">
