@@ -43,8 +43,8 @@ class OrderDelivery extends Component
         if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
             $this->isInitialConsignment = $this->order->is_initial_consignment;
 
-            if ($this->order->parent_order_id) {
-                $parentOrder = OrderMaster::find($this->order->parent_order_id);
+            if ($this->order->parent_order_id) { 
+                $parentOrder = OrderMaster::find($this->order->parent_order_id);                
                 if ($parentOrder) {
                     $this->remainingQuantity = $parentOrder->remaining_quantity;
                     $this->totalOrderQuantity = $parentOrder->remaining_quantity;
@@ -162,7 +162,6 @@ class OrderDelivery extends Component
                                         'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
                                     ]
                                 );
-                                break; // Ensure one entry per product-inventory pair
                             }
                         }
                     }
@@ -247,12 +246,12 @@ class OrderDelivery extends Component
         try {
             DB::transaction(function () use ($deliveredQuantity) {
                 $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
-                if (!$orderInvoice) {
-                    // Either retrieve the order invoice again or handle this case differently
-                    $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                    // or
-                    throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
-                }
+                    if (!$orderInvoice) {
+                        // Either retrieve the order invoice again or handle this case differently
+                        $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
+                        // or
+                        throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
+                    }
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity <= 0) continue;
 
