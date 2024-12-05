@@ -43,8 +43,8 @@ class OrderDelivery extends Component
         if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
             $this->isInitialConsignment = $this->order->is_initial_consignment;
 
-            if ($this->order->parent_order_id) { 
-                $parentOrder = OrderMaster::find($this->order->parent_order_id);                
+            if ($this->order->parent_order_id) {
+                $parentOrder = OrderMaster::find($this->order->parent_order_id);
                 if ($parentOrder) {
                     $this->remainingQuantity = $parentOrder->remaining_quantity;
                     $this->totalOrderQuantity = $parentOrder->remaining_quantity;
@@ -93,8 +93,7 @@ class OrderDelivery extends Component
                         notyf()->error("For Standard orders, the delivered quantity must equal the order quantity: {$orderTotalQuantity}. You entered: {$totalSelectedQuantity}");
                         return;
                     }
-                }
-                else if ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
+                } else if ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
                         $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
@@ -112,66 +111,64 @@ class OrderDelivery extends Component
                     }
                 }
 
-                foreach ($this->order->orderDetails as $detail) {
-                    $this->processInventoryUpdates($detail, $this->inventoryQuantities);
-                    $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
-                    if (!$orderInvoice) {
-                        // Either retrieve the order invoice again or handle this case differently
-                        $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                        // or
-                        throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
-                    }
-                    foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
-                        if ($quantity > 0) {
-                            if ($quantity > $this->remainingQuantity) {
-                                notyf()->error("Cannot deliver more than the remaining quantity: {$this->remainingQuantity}. Attempted: {$quantity}");
-                                Log::error("Delivery update failed for Order ID {$this->order_id}: Attempted quantity {$quantity} exceeds remaining quantity {$this->remainingQuantity} for product ID {$detail->product_id}.");
-                                return;
-                            }
-                
-                           
-                            $inventory = Inventory::find($inventoryId);
-                            if (!$inventory) {
-                                throw new \Exception("Inventory not found for inventory_id: {$inventoryId}");
-                            }
-                            
-                            $warehouseId = $inventory->warehouse_id;
-                            
-                            if (!$warehouseId) {
-                                throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
-                            }
+                foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
+                    if ($quantity > 0) {
+                        if ($quantity > $this->remainingQuantity) {
+                            notyf()->error("Cannot deliver more than the remaining quantity: {$this->remainingQuantity}. Attempted: {$quantity}");
+                            Log::error("Delivery update failed for Order ID {$this->order_id}: Attempted quantity {$quantity} exceeds remaining quantity {$this->remainingQuantity} for inventory ID {$inventoryId}.");
+                            return;
+                        }
+                        $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
+                        if (!$orderInvoice) {
+                            // Either retrieve the order invoice again or handle this case differently
+                            $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
+                            // or
+                            throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
+                        }
+                        $inventory = Inventory::find($inventoryId);
+                        if (!$inventory) {
+                            throw new \Exception("Inventory not found for inventory_id: {$inventoryId}");
+                        }
 
-                            Log::info("Updating DeliveryOrderDetail for Order ID {$this->order_id}, Product ID {$detail->product_id}, Inventory ID {$inventoryId}, Quantity: {$quantity}");
-                            
-                            $deliveryOrder = DeliveryOrder::create([
-                                'order_id' => $this->order->order_id,
-                                'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
-                                'warehouse_id' => $warehouseId,
-                                'delivery_date' => now(),
-                                'status' => 'Delivered',
-                                'remarks' => 'Generated for partial delivery',
-                                'created_by' => Auth::id(),
-                                'modified_by' => Auth::id(),
-                                'order_invoice_id' => $orderInvoice->id, 
-                            ]);
-                
-                            DeliveryOrderDetail::updateOrCreate(
-                                [
-                                    'delivery_order_id' => $deliveryOrder->id,
-                                    'product_id' => $detail->product_id,
-                                    'inventory_id' => $inventoryId,
-                                ],
-                                [
-                                    'quantity' => $quantity,
-                                    'unit_price' => $detail->unit_price,
-                                    'discount' => $detail->discount,
-                                    'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
-                                ]
-                            );
+                        $warehouseId = $inventory->warehouse_id;
+                        if (!$warehouseId) {
+                            throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
+                        }
+
+                        $deliveryOrder = DeliveryOrder::create([
+                            'order_id' => $this->order->order_id,
+                            'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
+                            'warehouse_id' => $warehouseId,
+                            'delivery_date' => now(),
+                            'status' => 'Delivered',
+                            'remarks' => 'Generated for partial delivery',
+                            'created_by' => Auth::id(),
+                            'modified_by' => Auth::id(),
+                            'order_invoice_id' => $orderInvoice->id,
+                        ]);
+
+                        foreach ($this->order->orderDetails as $detail) {
+                            if ($detail->product_id === $inventory->product_id) {
+                                DeliveryOrderDetail::updateOrCreate(
+                                    [
+                                        'delivery_order_id' => $deliveryOrder->id,
+                                        'product_id' => $detail->product_id,
+                                        'inventory_id' => $inventoryId,
+                                    ],
+                                    [
+                                        'quantity' => $quantity,
+                                        'unit_price' => $detail->unit_price,
+                                        'discount' => $detail->discount,
+                                        'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
+                                    ]
+                                );
+                                break; // Ensure one entry per product-inventory pair
+                            }
                         }
                     }
                 }
-                
+
+
 
                 $this->order->delivery_status = $this->deliveryStatus;
 
@@ -199,7 +196,7 @@ class OrderDelivery extends Component
                 $this->order->save();
 
                 if (!$this->isInitialConsignment && $totalSelectedQuantity > 0) {
-                    $this->generateConsignmentSaleInvoice($totalSelectedQuantity);
+                    // $this->generateConsignmentSaleInvoice($totalSelectedQuantity);
                 }
             });
 
@@ -250,12 +247,12 @@ class OrderDelivery extends Component
         try {
             DB::transaction(function () use ($deliveredQuantity) {
                 $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
-                    if (!$orderInvoice) {
-                        // Either retrieve the order invoice again or handle this case differently
-                        $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                        // or
-                        throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
-                    }
+                if (!$orderInvoice) {
+                    // Either retrieve the order invoice again or handle this case differently
+                    $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
+                    // or
+                    throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
+                }
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity <= 0) continue;
 
