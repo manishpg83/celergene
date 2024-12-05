@@ -13,6 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');  // Change to unsignedBigInteger
             $table->foreignId('order_invoice_id')->constrained('order_invoice')->onDelete('cascade');
             $table->string('delivery_number', 20);
+            $table->decimal('received_quantity', 10, 2)->nullable();
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->date('delivery_date');
             $table->enum('status', ['Pending', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');

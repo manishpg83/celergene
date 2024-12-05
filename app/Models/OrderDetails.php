@@ -9,10 +9,11 @@ class OrderDetails extends Model
     protected $table = 'order_details';
 
     protected $fillable = [
-        'order_id',            // Updated from order_id
+        'order_id',     
         'product_id',
         'manual_product_name',
         'unit_price',
+        'remaining_quantity',
         'quantity',
         'discount',
         'total'

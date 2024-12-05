@@ -15,7 +15,12 @@ class DeliveryOrderDetail extends Model
     protected $fillable = [
         'delivery_order_id',
         'product_id',
-        'quantity'
+        'quantity',
+        'unit_price',
+        'discount',
+        'total',
+        'order_detail_id',
+        'inventory_id'
     ];
 
     public function deliveryOrder(): BelongsTo
@@ -26,5 +31,10 @@ class DeliveryOrderDetail extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function inventory(): BelongsTo
+    {
+        return $this->belongsTo(Inventory::class, 'inventory_id', 'id');
     }
 }

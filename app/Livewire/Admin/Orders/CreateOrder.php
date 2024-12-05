@@ -263,6 +263,21 @@ class CreateOrder extends Component
         $this->isSubmitting = true;
 
         try {
+            // Check inventory availability first
+            foreach ($this->orderDetails as $detail) {
+                if ($detail['product_id'] != 1) { // Skip check for custom products
+                    $totalAvailable = Inventory::where('product_code', $detail['product_id'])
+                        ->sum('remaining');
+
+                    if ($totalAvailable < $detail['quantity']) {
+                        $product = Product::find($detail['product_id']);
+                        $productName = $product ? $product->name : "Product #{$detail['product_id']}";
+                        notyf()->error("Insufficient inventory for {$productName}. Available: {$totalAvailable}, Requested: {$detail['quantity']}");
+                        throw new \Exception("Insufficient inventory");
+                    }
+                }
+            }
+
             DB::transaction(function () {
                 $currentUserId = Auth::id();
 
@@ -295,65 +310,27 @@ class CreateOrder extends Component
                 ]);
                 
                 foreach ($this->orderDetails as $detail) {
+                    // Add debugging log
+                    Log::info('Order Detail Values:', [
+                        'quantity' => $detail['quantity'],
+                        'remaining_quantity' => $detail['quantity'],
+                        'detail_array' => $detail
+                    ]);
+
                     $orderDetail = [
                         'product_id' => $detail['product_id'],
                         'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
-                        'discount' => $detail['discount'],
+                        'remaining_quantity' => $detail['quantity'],
+                        'discount' => $detail['discount'],  
                         'total' => $detail['total'],
                     ];
 
-                    if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
-                        $orderDetail['delivery_date'] = $detail['delivery_date'];
-                    }
-                    if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
-                        $orderDetail['consignment_terms'] = $detail['consignment_terms'];
-                    }
+                    // Add another log to verify the final array
+                    Log::info('Final Order Detail Array:', $orderDetail);
 
                     $order->orderDetails()->create($orderDetail);
-
-                    if ($detail['product_id'] != 1) {
-                        $totalAvailable = Inventory::where('product_code', $detail['product_id'])
-                            ->sum('remaining');
-
-                        if ($totalAvailable < $detail['quantity']) {
-                            $product = Product::find($detail['product_id']);
-                            $productName = $product ? $product->name : "Product #{$detail['product_id']}";
-                            notyf()->error("Insufficient inventory. Available: {$totalAvailable}, Requested: {$detail['quantity']}");
-                            throw new \Exception("Insufficient inventory");
-                        }
-
-                        $remainingToConsume = $detail['quantity'];
-                        $inventories = Inventory::where('product_code', $detail['product_id'])
-                            ->where('remaining', '>', 0)
-                            ->orderBy('created_at')
-                            ->get();
-
-                        foreach ($inventories as $inventory) {
-                            if ($remainingToConsume <= 0) break;
-
-                            $quantityFromThisRecord = min($inventory->remaining, $remainingToConsume);
-                            $newRemaining = $inventory->remaining - $quantityFromThisRecord;
-
-                            $inventory->update([
-                                'consumed' => $inventory->consumed + $quantityFromThisRecord,
-                                'remaining' => $newRemaining
-                            ]);
-
-                            Stock::create([
-                                'inventory_id' => $inventory->id,
-                                'product_id' => $detail['product_id'],
-                                'previous_quantity' => $inventory->remaining,
-                                'quantity_change' => -$quantityFromThisRecord,
-                                'new_quantity' => $newRemaining,
-                                'reason' => 'Order Fulfillment',
-                                'created_by' => $currentUserId,
-                            ]);
-
-                            $remainingToConsume -= $quantityFromThisRecord;
-                        }
-                    }
                 }
 
                 if ($customer = Customer::find($this->customer_id)) {

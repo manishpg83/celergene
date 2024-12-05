@@ -43,8 +43,8 @@ class OrderDelivery extends Component
         if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
             $this->isInitialConsignment = $this->order->is_initial_consignment;
 
-            if ($this->order->parent_order_id) {
-                $parentOrder = OrderMaster::find($this->order->parent_order_id);
+            if ($this->order->parent_order_id) { 
+                $parentOrder = OrderMaster::find($this->order->parent_order_id);                
                 if ($parentOrder) {
                     $this->remainingQuantity = $parentOrder->remaining_quantity;
                     $this->totalOrderQuantity = $parentOrder->remaining_quantity;
@@ -86,28 +86,62 @@ class OrderDelivery extends Component
 
                 $originalOrder = $this->order;
 
-                if ($originalOrder->parent_order_id) {
-                    $parentOrder = OrderMaster::find($originalOrder->parent_order_id);
-                    $remainingQuantity = $parentOrder ? $parentOrder->remaining_quantity : 0;
-                } else {
-                    $remainingQuantity = $originalOrder->remaining_quantity ?? $originalOrder->orderDetails->sum('quantity');
-                }
+                if ($originalOrder->workflow_type === OrderWorkflowType::STANDARD) {
+                    $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
 
-                if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
+                    if ($totalSelectedQuantity !== $orderTotalQuantity) {
+                        notyf()->error("For Standard orders, the delivered quantity must equal the order quantity: {$orderTotalQuantity}. You entered: {$totalSelectedQuantity}");
+                        return;
+                    }
+                }
+                else if ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
                         $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
-                            throw new \Exception("Initial consignment delivery must equal full order quantity: {$orderTotalQuantity}");
+                            notyf()->error("Initial consignment delivery must equal full order quantity: {$orderTotalQuantity}");
+                            return;
                         }
                     } else {
+                        $remainingQuantity = $originalOrder->orderDetails()
+                            ->sum('remaining_quantity');
+
                         if ($totalSelectedQuantity > $remainingQuantity) {
-                            throw new \Exception("Cannot deliver more than remaining quantity: {$remainingQuantity}. Attempted: {$totalSelectedQuantity}");
+                            notyf()->error("Cannot deliver more than the remaining quantity: {$remainingQuantity}. Attempted: {$totalSelectedQuantity}");
+                            return;
                         }
                     }
                 }
 
+                $deliveryOrderId = 1;
+
                 foreach ($this->order->orderDetails as $detail) {
                     $this->processInventoryUpdates($detail, $this->inventoryQuantities);
+                    
+                    foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
+                        if ($quantity > 0) {
+                            if ($quantity > $this->remainingQuantity) {
+                                notyf()->error("Cannot deliver more than the remaining quantity: {$this->remainingQuantity}. Attempted: {$quantity}");
+                                Log::error("Delivery update failed for Order ID {$this->order_id}: Attempted quantity {$quantity} exceeds remaining quantity {$this->remainingQuantity} for product ID {$detail->product_id}.");
+                                return;
+                            }
+
+                            Log::info("Updating DeliveryOrderDetail for Order ID {$this->order_id}, Product ID {$detail->product_id}, Inventory ID {$inventoryId}, Quantity: {$quantity}");
+
+                            DeliveryOrderDetail::updateOrCreate(
+                                [
+                                    'delivery_order_id' => $deliveryOrderId,
+                                    'product_id' => $detail->product_id,
+                                    'inventory_id' => $inventoryId,
+                                ],
+                                [
+                                    'quantity' => $quantity,
+                                    'unit_price' => $detail->unit_price,
+                                    'discount' => $detail->discount,
+                                    'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
+                                ]
+                            );
+                        }
+                    }
                 }
 
                 $this->order->delivery_status = $this->deliveryStatus;
@@ -123,7 +157,8 @@ class OrderDelivery extends Component
                         if ($parentOrder) {
                             $newRemainingQuantity = $remainingQuantity - $totalSelectedQuantity;
                             if ($newRemainingQuantity < 0) {
-                                throw new \Exception("Invalid remaining quantity calculation. Current: {$remainingQuantity}, Attempted: {$totalSelectedQuantity}");
+                                notyf()->error("Invalid remaining quantity calculation. Current: {$remainingQuantity}, Attempted: {$totalSelectedQuantity}");
+                                return;
                             }
                             $parentOrder->remaining_quantity = $newRemainingQuantity;
                             $parentOrder->save();
@@ -135,14 +170,14 @@ class OrderDelivery extends Component
                 $this->order->save();
 
                 if (!$this->isInitialConsignment && $totalSelectedQuantity > 0) {
-                    $this->generateConsignmentSaleInvoice($totalSelectedQuantity); // This now creates DeliveryOrder entries.
+                    $this->generateConsignmentSaleInvoice($totalSelectedQuantity);
                 }
             });
 
-            session()->flash('success', 'Delivery updated successfully.');
+            notyf()->success('Delivery updated successfully.');
             return redirect()->route('admin.orders.delivery', $this->order_id);
         } catch (\Exception $e) {
-            session()->flash('error', 'Error updating delivery: ' . $e->getMessage());
+            notyf()->error('Error updating delivery: ' . $e->getMessage());
         }
     }
 
@@ -185,34 +220,40 @@ class OrderDelivery extends Component
     {
         try {
             DB::transaction(function () use ($deliveredQuantity) {
-                $deliveryOrder = DeliveryOrder::create([
-                    'order_id' => $this->order->order_id,
-                    'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
-                    'warehouse_id' => null,
-                    'delivery_date' => now(),
-                    'status' => 'Delivered',
-                    'remarks' => 'Generated for partial delivery',
-                    'created_by' => Auth::id(),
-                    'modified_by' => Auth::id(),
-                ]);
+                foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
+                    if ($quantity <= 0) continue;
 
-                foreach ($this->order->orderDetails as $detail) {
-                    $detailQuantity = $this->calculateDetailQuantity($detail, $deliveredQuantity);
-
-                    if ($detailQuantity > 0) {
-                        DeliveryOrderDetail::create([
-                            'delivery_order_id' => $deliveryOrder->id,
-                            'product_id' => $detail->product_id,
-                            'quantity' => $detailQuantity,
-                        ]);
+                    $inventory = Inventory::find($inventoryId);
+                    if (!$inventory) continue;
+                    $warehouseId = $inventory->warehouse_id;
+                    $deliveryOrder = DeliveryOrder::create([
+                        'order_id' => $this->order->order_id,
+                        'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
+                        'warehouse_id' => $warehouseId,
+                        'delivery_date' => now(),
+                        'status' => 'Delivered',
+                        'remarks' => 'Generated for partial delivery',
+                        'created_by' => Auth::id(),
+                        'modified_by' => Auth::id(),
+                    ]);
+                    foreach ($this->order->orderDetails as $detail) {
+                        if ($detail->product_id !== $inventory->product_id) continue;
+                        $detailQuantity = $this->calculateDetailQuantity($detail, $quantity);
+                        if ($detailQuantity > 0) {
+                            DeliveryOrderDetail::create([
+                                'delivery_order_id' => $deliveryOrder->id,
+                                'product_id' => $detail->product_id,
+                                'quantity' => $detailQuantity,
+                            ]);
+                        }
                     }
-                }
 
-                Log::info('Delivery Order generated', [
-                    'order_id' => $this->order->order_id,
-                    'delivery_order_id' => $deliveryOrder->id,
-                    'delivered_quantity' => $deliveredQuantity,
-                ]);
+                    Log::info('Delivery Order generated', [
+                        'order_id' => $this->order->order_id,
+                        'delivery_order_id' => $deliveryOrder->id,
+                        'delivered_quantity' => $quantity,
+                    ]);
+                }
             });
 
             return true;
