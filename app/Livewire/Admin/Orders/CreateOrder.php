@@ -263,9 +263,8 @@ class CreateOrder extends Component
         $this->isSubmitting = true;
 
         try {
-            // Check inventory availability first
             foreach ($this->orderDetails as $detail) {
-                if ($detail['product_id'] != 1) { // Skip check for custom products
+                if ($detail['product_id'] != 1) {
                     $totalAvailable = Inventory::where('product_code', $detail['product_id'])
                         ->sum('remaining');
 
@@ -287,7 +286,7 @@ class CreateOrder extends Component
 
                 $invoiceNumber = OrderMaster::generateOrderNumber();
 
-                $order = OrderMaster::create([
+                $orderData = [
                     'order_number' => $invoiceNumber,
                     'customer_id' => $this->customer_id,
                     'entity_id' => $this->entity_id,
@@ -307,10 +306,17 @@ class CreateOrder extends Component
                     'modified_by' => $currentUserId,
                     'is_generated' => false,
                     'workflow_type' => $this->workflow_type,
-                ]);
-                
+                ];
+
+                if ($this->workflow_type === 'consignment') {
+                    $orderData['subtotal'] = 0;
+                    $orderData['tax'] = 0;
+                    $orderData['total'] = 0;
+                }
+
+                $order = OrderMaster::create($orderData);
+
                 foreach ($this->orderDetails as $detail) {
-                    // Add debugging log
                     Log::info('Order Detail Values:', [
                         'quantity' => $detail['quantity'],
                         'remaining_quantity' => $detail['quantity'],
@@ -323,13 +329,11 @@ class CreateOrder extends Component
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],
-                        'discount' => $detail['discount'],  
-                        'total' => $detail['total'],
+                        'discount' => $detail['discount'],
+                        'total' => ($this->workflow_type === 'consignment') ? 0 : $detail['total'],
                     ];
 
-                    // Add another log to verify the final array
                     Log::info('Final Order Detail Array:', $orderDetail);
-
                     $order->orderDetails()->create($orderDetail);
                 }
 
@@ -370,6 +374,7 @@ class CreateOrder extends Component
             }
         }
     }
+
 
     public function back()
     {

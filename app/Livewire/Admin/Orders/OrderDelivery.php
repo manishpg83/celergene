@@ -120,9 +120,7 @@ class OrderDelivery extends Component
                         }
                         $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
                         if (!$orderInvoice) {
-                            // Either retrieve the order invoice again or handle this case differently
                             $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                            // or
                             throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
                         }
                         $inventory = Inventory::find($inventoryId);
@@ -166,8 +164,6 @@ class OrderDelivery extends Component
                         }
                     }
                 }
-
-
 
                 $this->order->delivery_status = $this->deliveryStatus;
 

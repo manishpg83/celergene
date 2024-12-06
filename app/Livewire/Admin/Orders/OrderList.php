@@ -5,16 +5,17 @@ namespace App\Livewire\Admin\Orders;
 use App\Models\Entity;
 use Livewire\Component;
 use App\Models\OrderMaster;
+use Illuminate\Support\Str;
 use App\Models\OrderInvoice;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Enums\OrderWorkflowType;
 use App\Mail\OrderStatusChanged;
 use App\Models\OrderInvoiceDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class OrderList extends Component
 {
@@ -32,6 +33,7 @@ class OrderList extends Component
     public $dateEnd = null;
     public $statusFilter = '';
     public $paymentModeFilter = '';
+    public $workflow_type = OrderWorkflowType::STANDARD->value;
 
     public $perpagerecords = [
         10 => '10',
@@ -125,6 +127,15 @@ class OrderList extends Component
 
     public function generateInvoice($order_id)
     {
+        $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+            ->where('order_id', $order_id)
+            ->firstOrFail();
+
+        $this->generateInvoiceWithWorkflow($order_id, $order->workflow_type);
+    }
+
+    public function generateInvoiceWithWorkflow($order_id, $workflow_type)
+    {
         DB::beginTransaction();
         try {
             $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
@@ -133,35 +144,37 @@ class OrderList extends Component
 
             $invoiceNumber = $this->generateUniqueInvoiceNumber();
 
-            $invoice = OrderInvoice::create([
+            $invoiceData = [
                 'invoice_number' => $invoiceNumber,
                 'order_id' => $order->order_id,
                 'customer_id' => $order->customer_id,
                 'entity_id' => $order->entity_id,
                 'shipping_address' => $order->shipping_address,
-                'subtotal' => $order->subtotal,
-                'discount' => $order->discount,
-                'freight' => $order->freight,
-                'tax' => $order->tax,
-                'total' => $order->total,
+                'subtotal' => $workflow_type === 'consignment' ? 0 : $order->subtotal,
+                'discount' => $workflow_type === 'consignment' ? 0 : $order->discount,
+                'freight' => $workflow_type === 'consignment' ? 0 : $order->freight,
+                'tax' => $workflow_type === 'consignment' ? 0 : $order->tax,
+                'total' => $workflow_type === 'consignment' ? 0 : $order->total,
                 'remarks' => $order->remarks,
                 'payment_terms' => $order->payment_terms,
                 'status' => 'Confirmed',
                 'created_by' => Auth::id(),
                 'invoice_type' => $this->determineInvoiceType($order)
-            ]);
+            ];
+
+            $invoice = OrderInvoice::create($invoiceData);
 
             $invoiceDetails = [];
             foreach ($order->orderDetails as $orderDetail) {
                 $invoiceDetails[] = [
                     'order_invoice_id' => $invoice->id,
                     'product_id' => $orderDetail->product_id,
-                    'unit_price' => $orderDetail->unit_price,
-                    'quantity' => $orderDetail->quantity,
-                    'delivered_quantity' => $orderDetail->quantity,
-                    'invoiced_quantity' => $orderDetail->quantity,
-                    'discount' => $orderDetail->discount,
-                    'total' => $orderDetail->total,
+                    'unit_price' => $workflow_type === 'consignment' ? 0 : $orderDetail->unit_price,
+                    'quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
+                    'delivered_quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
+                    'invoiced_quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
+                    'discount' => $workflow_type === 'consignment' ? 0 : $orderDetail->discount,
+                    'total' => $workflow_type === 'consignment' ? 0 : $orderDetail->total,
                     'manual_product_name' => $orderDetail->manual_product_name,
                     'created_at' => now(),
                     'updated_at' => now()

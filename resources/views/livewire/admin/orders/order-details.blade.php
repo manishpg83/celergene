@@ -138,6 +138,34 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="table-responsive mt-4 mb-4 bg-white rounded">
+                        <table class="table table-bordered align-middle">
+                            <thead class="bg-light border-bottom border-2">
+                                <tr>
+                                    <th class="text-center">Delivery Order Number</th>
+                                    <th class="text-center">Delivery Date</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($deliveryOrders as $deliveryOrder)
+                                    <tr>
+                                        <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
+                                        <td class="text-center">{{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
+                                                {{ $deliveryOrder->status }}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">{{ $deliveryOrder->remarks }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
