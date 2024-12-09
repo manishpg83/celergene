@@ -184,7 +184,7 @@
                 <th>DESCRIPTION</th>
                 <th>QUANTITY</th>
                 <th>UNIT PRICE</th>
-                <th>DISCOUNT</th>
+                {{-- <th>DISCOUNT</th> --}}
                 <th>TOTAL AMOUNT</th>
             </tr>
         </thead>
@@ -194,7 +194,7 @@
                     <td>{{ $detail->product->product_name }}</td>
                     <td>{{ $detail->quantity }}</td>
                     <td>{{ number_format($detail->unit_price, 2) }}</td>
-                    <td>${{ number_format($detail->discount, 2) }}</td>
+                    {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
                     <td>{{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
@@ -220,10 +220,10 @@
                     <td>SUBTOTAL</td>
                     <td>{{ number_format($order->subtotal, 2) }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td>TOTAL DISCOUNT</td>
                     <td><span style="color: red;">-{{ number_format($order->discount, 2) }}</span></td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
                     <td><span style="color: green;">+{{ number_format($order->freight, 2) }}</span></td>

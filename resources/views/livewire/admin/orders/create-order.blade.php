@@ -200,7 +200,7 @@
                                                 placeholder="Unit Price" class="form-control">
                                         </div>
 
-                                        <div class="col-md-2">
+                                        {{-- <div class="col-md-2">
                                             <div class="col-6">Discount</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.discount"
@@ -210,7 +210,7 @@
                                             @error('orderDetails.' . $index . '.discount')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                         @if($workflow_type === 'multi_delivery')
                                             <div class="col-md-2">
@@ -260,11 +260,11 @@
                                             <div class="col-6">Subtotal:</div>
                                             <div class="col-6 text-end">${{ number_format($subtotal, 2) }}</div>
                                         </div>
-                                        <div class="row mb-2">
+                                        {{-- <div class="row mb-2">
                                             <div class="col-6">Discount:</div>
                                             <div class="col-6 text-end text-danger">
                                                 -${{ number_format($totalDiscount, 2) }}</div>
-                                        </div>
+                                        </div> --}}
                                         <div class="row mb-2">
                                             <div class="col-6">Freight:</div>
                                             <div class="col-6">

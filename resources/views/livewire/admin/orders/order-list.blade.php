@@ -157,27 +157,26 @@
                                             <div class="d-flex align-items-center justify-content-center">
                                                 @if ($order->is_generated)
                                                     <button wire:click="downloadInvoice('{{ $order->order_id }}')"
-                                                        class="btn btn-sm btn-primary ml-2">
+                                                        class="btn btn-sm btn-primary ml-2" data-bs-toggle="tooltip" title="Download Invoice">
                                                         <i class="bi bi-download mx-1"></i> Download
                                                     </button>
                                                 @else
                                                     <button wire:click="generateInvoice('{{ $order->order_id }}')"
-                                                        class="btn btn-sm btn-success ml-2">
+                                                        class="btn btn-sm btn-success ml-2" data-bs-toggle="tooltip" title="Generate Invoice">
                                                         <i class="bi bi-file-earmark-plus mx-1"></i> Generate
                                                     </button>
                                                 @endif
-
+                                            
                                                 <a href="{{ route('admin.orders.details', $order->order_id) }}"
-                                                    class="text-black ml-1 mt-1" title="View Order" target="_blank">
-                                                    <i class="fa fa-eye mx-1"
-                                                        style="font-size: 20px; color: rgb(94, 59, 190);"></i>
+                                                    class="text-black ml-1 mt-1" data-bs-toggle="tooltip" title="View Order" target="_blank">
+                                                    <i class="fa fa-eye mx-1" style="font-size: 20px; color: rgb(94, 59, 190);"></i>
                                                 </a>
-
+                                            
                                                 <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
-                                                    class="btn btn-sm btn-warning mr-1">
+                                                    class="btn btn-sm btn-warning mr-1" data-bs-toggle="tooltip" title="Manage Delivery">
                                                     <i class="bi bi-truck" style="font-size: 14px;"></i>
                                                 </a>
-                                            </div>
+                                            </div>                                                                                      
                                         </td>
                                     </tr>
                                 @endif
@@ -194,6 +193,13 @@
 </div>
 
 <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+
     document.addEventListener('livewire:initialized', () => {
         // Make sure moment.js and daterangepicker are loaded
         if (typeof moment === 'undefined') {

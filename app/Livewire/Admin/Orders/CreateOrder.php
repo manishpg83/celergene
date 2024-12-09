@@ -40,7 +40,7 @@ class CreateOrder extends Component
     public float $tax = 0;
     public float $total = 0;
     public float $freight = 0;
-    public $payment_mode = 'Credit Card';
+    public $payment_mode = 'Bank Transfer';
     public $invoice_status = 'Pending';
     public $selected_shipping_address = 1;
     public $shipping_addresses = [];
@@ -310,6 +310,7 @@ class CreateOrder extends Component
 
                 if ($this->workflow_type === 'consignment') {
                     $orderData['subtotal'] = 0;
+                    $orderData['freight'] = 0;
                     $orderData['tax'] = 0;
                     $orderData['total'] = 0;
                 }
@@ -327,9 +328,9 @@ class CreateOrder extends Component
                         'product_id' => $detail['product_id'],
                         'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
                         'quantity' => $detail['quantity'],
-                        'unit_price' => $detail['unit_price'],
+                        'unit_price' => ($this->workflow_type === 'consignment') ? 0 : $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],
-                        'discount' => $detail['discount'],
+                        // 'discount' => $detail['discount'],
                         'total' => ($this->workflow_type === 'consignment') ? 0 : $detail['total'],
                     ];
 
