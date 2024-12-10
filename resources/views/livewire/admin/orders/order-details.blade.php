@@ -11,9 +11,9 @@
                         </button>
                     </div>
                 </div>
-                 <div class="card-header pr-6 py-0 pt-4 ml-3">
-                        <h5 class="card-title">Order ID #{{ $order->order_id }}</h5>
-                    </div>
+                <div class="card-header pr-6 py-0 pt-4 ml-3">
+                    <h5 class="card-title">Order ID #{{ $order->order_id }}</h5>
+                </div>
                 <div class="card-body">
                     <div class="row mb-4">
                         <div class="col-md-12 mb-4">
@@ -139,33 +139,80 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive mt-4 mb-4 bg-white rounded">
-                        <table class="table table-bordered align-middle">
-                            <thead class="bg-light border-bottom border-2">
-                                <tr>
-                                    <th class="text-center">Delivery Order Number</th>
-                                    <th class="text-center">Delivery Date</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($deliveryOrders as $deliveryOrder)
-                                    <tr>
-                                        <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
-                                        <td class="text-center">{{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
-                                        <td class="text-center">
-                                            <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
-                                                {{ $deliveryOrder->status }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center">{{ $deliveryOrder->remarks }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Invoice Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="bg-light border-bottom border-2">
+                                        <tr>
+                                            <th class="text-center">Invoice Number</th>
+                                            <th class="text-center">Invoice Date</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Remarks</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($invoices as $invoice)
+                                            <tr>
+                                                <td class="text-center">{{ $invoice->invoice_number }}</td>
+                                                <td class="text-center">{{ date('M d, Y', strtotime($invoice->created_at)) }}</td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-{{ 
+                                                        $invoice->status === 'Confirmed' ? 'success' : 
+                                                        ($invoice->status === 'Draft' ? 'warning' : 
+                                                        ($invoice->status === 'Cancelled' ? 'danger' : 'info')) }}">
+                                                        {{ $invoice->status }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">{{ $invoice->remarks }}</td>
+                                                <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Delivery Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="bg-light border-bottom border-2">
+                                        <tr>
+                                            <th class="text-center">Delivery Order Number</th>
+                                            <th class="text-center">Delivery Date</th>
+                                            <th class="text-center">Warehouse Name</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($deliveryOrders as $deliveryOrder)
+                                            <tr>
+                                                <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
+                                                <td class="text-center">{{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
+                                                <td class="text-center">{{ $deliveryOrder->warehouse->warehouse_name }}</td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
+                                                        {{ $deliveryOrder->status }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">{{ $deliveryOrder->remarks }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
