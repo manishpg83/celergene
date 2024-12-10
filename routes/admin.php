@@ -74,7 +74,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::middleware(['permission:manage orders'])->group(function () {
             Route::get('orders/', [OrderMasterController::class, 'index'])->name('orders.index');
             Route::get('orders/add', [OrderMasterController::class, 'add'])->name('orders.add');
-            Route::get('/admin/orders/delivery/{order_id}', [OrderMasterController::class, 'orderDelivery'])->name('orders.delivery');
+            Route::get('orders/delivery/{order_id}', [OrderMasterController::class, 'orderDelivery'])->name('orders.delivery');
             Route::get('orders/{order_id}', [OrderMasterController::class, 'showOrderDetails'])->name('orders.details');
         });
         

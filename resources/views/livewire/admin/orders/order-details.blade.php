@@ -213,6 +213,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Generate Split Invoices</h5>
+                        </div>
+                        <div class="card-body">
+                            <form wire:submit.prevent="generateInvoices">
+                                @foreach ($order->orderDetails as $index => $detail)
+                                    <div class="mb-3">
+                                        <label for="quantitySplit_{{ $index }}" class="form-label">
+                                            {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->remaining_quantity }})
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id="quantitySplit_{{ $index }}"
+                                            wire:model="quantitySplits.{{ $index }}"
+                                            class="form-control"
+                                            min="0"
+                                            max="{{ $detail->remaining_quantity }}"
+                                        />
+                                    </div>
+                                @endforeach
+                                <button type="submit" class="btn btn-primary">Generate Invoices</button>
+                            </form>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
