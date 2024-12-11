@@ -178,7 +178,7 @@
                                                 <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
                                                 <td class="text-center">
                                                     <!-- Add a button for downloading each delivery order as an invoice -->
-                                                    <button class="btn btn-success" wire:click="downloadInvoice({{ $invoice->id }})">
+                                                    <button class="btn btn-success" wire:click="downloadInvoice({{ $deliveryOrder->id }})">
                                                         <i class="fas fa-download"></i> Download Invoice
                                                     </button>
                                                 </td>

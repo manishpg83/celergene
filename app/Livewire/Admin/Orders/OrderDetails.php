@@ -112,8 +112,6 @@ class OrderDetails extends Component
         return $invoice;
     }
 
-    
-
     private function calculateInvoiceTotal($quantity)
     {
         $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
@@ -126,16 +124,13 @@ class OrderDetails extends Component
         return $total;
     }
 
-   
-
     public function downloadInvoice($invoiceDetailId)
     {
         try {            
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
-
             $invoiceid =  $invoiceDetail->order_invoice_id;
             $invoice = OrderInvoice::findOrFail($invoiceid);
-            $customerid =  1;
+            $customerid =  $invoice->customer_id;
             $customer = Customer::findOrFail($customerid);
             $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";            
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
