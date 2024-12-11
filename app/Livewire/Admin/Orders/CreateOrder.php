@@ -2,20 +2,23 @@
 
 namespace App\Livewire\Admin\Orders;
 
-use App\Models\Stock;
-use App\Models\Entity;
-use App\Models\Product;
-use Livewire\Component;
-use App\Models\Customer;
-use App\Models\Inventory;
-use App\Models\OrderMaster;
-use App\Mail\OrderConfirmation;
-use Illuminate\Support\Facades\DB;
-use App\Rules\UniqueProductInOrder;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Enums\OrderWorkflowType;
+use App\Mail\OrderConfirmation;
+use App\Models\Customer;
+use App\Models\Entity;
+use App\Models\Inventory;
+use App\Models\OrderInvoice;
+use App\Models\OrderInvoiceDetail;
+use App\Models\OrderMaster;
+use App\Models\Product;
+use App\Models\Stock;
+use App\Rules\UniqueProductInOrder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Livewire\Component;
 
 class CreateOrder extends Component
 {
@@ -308,12 +311,12 @@ class CreateOrder extends Component
                     'workflow_type' => $this->workflow_type,
                 ];
 
-                if ($this->workflow_type === 'consignment') {
+                /* if ($this->workflow_type === 'consignment') {
                     $orderData['subtotal'] = 0;
                     $orderData['freight'] = 0;
                     $orderData['tax'] = 0;
                     $orderData['total'] = 0;
-                }
+                } */
 
                 $order = OrderMaster::create($orderData);
 
@@ -328,10 +331,11 @@ class CreateOrder extends Component
                         'product_id' => $detail['product_id'],
                         'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
                         'quantity' => $detail['quantity'],
-                        'unit_price' => ($this->workflow_type === 'consignment') ? 0 : $detail['unit_price'],
+                        'unit_price' => $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],
+                        'invoice_rem' => $detail['quantity'],
                         // 'discount' => $detail['discount'],
-                        'total' => ($this->workflow_type === 'consignment') ? 0 : $detail['total'],
+                        'total' => $detail['total'],
                     ];
 
                     Log::info('Final Order Detail Array:', $orderDetail);
@@ -341,6 +345,7 @@ class CreateOrder extends Component
                 if ($customer = Customer::find($this->customer_id)) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
                 }
+                $this->generateInvoice($order->order_id);
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');
@@ -375,8 +380,107 @@ class CreateOrder extends Component
             }
         }
     }
+    public function generateInvoice($order_id)
+    {
+        $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+            ->where('order_id', $order_id)
+            ->firstOrFail();
 
+        $this->generateInvoiceWithWorkflow($order_id, $order->workflow_type);
+    }
 
+    public function generateInvoiceWithWorkflow($order_id, $workflow_type)
+    {
+        DB::beginTransaction();
+        try {
+            $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+                ->where('order_id', $order_id)
+                ->firstOrFail();
+
+            $invoiceNumber = $this->generateUniqueInvoiceNumber();
+            $workflowType = strtolower($workflow_type->value);
+            // dd($workflow_type);
+            $invoiceData = [
+                'invoice_number' => $invoiceNumber,
+                'order_id' => $order->order_id,
+                'customer_id' => $order->customer_id,
+                'entity_id' => $order->entity_id,
+                'shipping_address' => $order->shipping_address,
+                'subtotal' => ($workflowType === 'consignment') ? 0 : $order->subtotal,
+                'discount' => ($workflowType === 'consignment') ? 0 : $order->discount,
+                'freight' => ($workflowType === 'consignment') ? 0 : $order->freight,
+                'tax' => ($workflowType === 'consignment') ? 0 : $order->tax,
+                'total' => ($workflowType === 'consignment') ? 0 : $order->total,
+                'remarks' => $order->remarks,
+                'payment_terms' => $order->payment_terms,
+                'status' => 'Confirmed',
+                'created_by' => Auth::id(),
+                'invoice_type' => $this->determineInvoiceType($order)
+            ];
+            // dd($invoiceData);
+            $invoice = OrderInvoice::create($invoiceData);
+
+            $invoiceDetails = [];
+            foreach ($order->orderDetails as $orderDetail) {
+                $invoiceDetails[] = [
+                    'order_invoice_id' => $invoice->id,
+                    'product_id' => $orderDetail->product_id,
+                    'unit_price' => ($workflow_type === 'consignment') ? 0 : $orderDetail->unit_price,
+                    'quantity' => $orderDetail->quantity,
+                    'delivered_quantity' => ($workflow_type === 'consignment') ? 0 : $orderDetail->quantity,
+                    'invoiced_quantity' => ($workflow_type === 'consignment') ? 0 : $orderDetail->quantity,
+                    'discount' => ($workflow_type === 'consignment') ? 0 : $orderDetail->discount,
+                    'total' => ($workflow_type === 'consignment') ? 0 : $orderDetail->total,
+                    'manual_product_name' => $orderDetail->manual_product_name,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+
+            OrderInvoiceDetail::insert($invoiceDetails);
+
+            $order->update([
+                'is_generated' => true,
+                'modified_by' => Auth::id()
+            ]);
+
+            DB::commit();
+
+            notyf()->success('Invoice generated successfully with number: ' . $invoiceNumber);
+            return $invoice;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Invoice generation failed: ' . $e->getMessage());
+            notyf()->error('Could not generate invoice: ' . $e->getMessage());
+            return null;
+        }
+    }
+    protected function generateUniqueInvoiceNumber()
+    {
+        do {
+            $prefix = 'INV-' . now()->format('Ymd') . '-';
+            $randomSuffix = Str::random(4);
+            $invoiceNumber = $prefix . $randomSuffix;
+        } while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists());
+
+        return $invoiceNumber;
+    }
+    protected function determineInvoiceType($order)
+    {
+        if ($order->workflow_type === 'consignment') {
+            return 'consignment';
+        }
+
+        if ($order->workflow_type === 'multi_delivery') {
+            return 'consignment';
+        }
+
+        if ($order->parent_order_id !== null) {
+            return 'split_delivery';
+        }
+
+        return 'regular';
+    }
     public function back()
     {
         return redirect()->route('admin.orders.index');

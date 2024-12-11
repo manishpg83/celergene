@@ -84,18 +84,14 @@ class OrderDelivery extends Component
             DB::transaction(function () {
                 $originalOrder = $this->order;
 
-                // Calculate total selected quantity
                 $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
 
-                // Check existing deliveries
                 $existingDeliveries = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                     $query->where('order_id', $originalOrder->order_id);
                 })->sum('quantity');
 
-                // Get total order quantity
                 $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
 
-                // Debug logging
                 Log::info('Delivery Update Debug', [
                     'workflow_type' => $originalOrder->workflow_type,
                     'is_initial_consignment' => $this->isInitialConsignment,
@@ -104,7 +100,6 @@ class OrderDelivery extends Component
                     'existing_deliveries' => $existingDeliveries
                 ]);
 
-                // Prevent multiple deliveries for Standard and Consignment orders
                 if (
                     $existingDeliveries > 0 &&
                     in_array($originalOrder->workflow_type, [
@@ -116,28 +111,21 @@ class OrderDelivery extends Component
                     return false;
                 }
 
-                // Workflow type specific validations
                 if ($originalOrder->workflow_type === OrderWorkflowType::STANDARD) {
-                    // Must deliver exactly full quantity for Standard orders
                     if ($totalSelectedQuantity !== $orderTotalQuantity) {
                         notyf()->error("For Standard orders, you must deliver the exact order quantity of {$orderTotalQuantity}.");
                         return false;
                     }
                 } elseif ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
-                    // Initial Consignment delivery
                     if ($this->isInitialConsignment) {
-                        // Must deliver exactly full quantity
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
                             notyf()->error("Initial Consignment delivery must be the exact order quantity of {$orderTotalQuantity}.");
                             return false;
                         }
                     }
-                    // Subsequent Consignment delivery
                     else {
-                        // Check remaining quantity
                         $remainingQuantity = $originalOrder->orderDetails()->sum('remaining_quantity');
 
-                        // Debug remaining quantity
                         Log::info('Remaining Quantity Debug', [
                             'remaining_quantity' => $remainingQuantity,
                             'total_selected_quantity' => $totalSelectedQuantity
@@ -148,7 +136,6 @@ class OrderDelivery extends Component
                             return false;
                         }
 
-                        // Modify the comparison to handle floating point precision
                         if (abs($totalSelectedQuantity - $remainingQuantity) > 0.001) {
                             notyf()->error("You must deliver the exact remaining quantity of {$remainingQuantity}.");
                             return false;
@@ -156,13 +143,10 @@ class OrderDelivery extends Component
                     }
                 }
 
-                // Proceed with delivery creation
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity > 0) {
-                        // Fetch order invoice
                         $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
 
-                        // Fetch inventory and warehouse
                         $inventory = Inventory::findOrFail($inventoryId);
                         $warehouseId = $inventory->warehouse_id;
 
@@ -170,7 +154,6 @@ class OrderDelivery extends Component
                             throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
                         }
 
-                        // Create delivery order
                         $deliveryOrder = DeliveryOrder::create([
                             'order_id' => $this->order->order_id,
                             'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
@@ -183,7 +166,6 @@ class OrderDelivery extends Component
                             'order_invoice_id' => $orderInvoice->id,
                         ]);
 
-                        // Create delivery order details
                         foreach ($this->order->orderDetails as $detail) {
                             DeliveryOrderDetail::create([
                                 'delivery_order_id' => $deliveryOrder->id,
@@ -199,24 +181,19 @@ class OrderDelivery extends Component
                     }
                 }
 
-                // Update order status
                 $this->order->delivery_status = $this->deliveryStatus;
                 $this->order->modified_by = Auth::id();
                 $this->order->save();
 
-                // Handle remaining quantity for Consignment orders
                 if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
-                        // Set remaining quantity to full order quantity for initial consignment
                         $this->order->remaining_quantity = $this->order->orderDetails->sum('quantity');
                     } else {
-                        // Find parent order
                         $parentOrder = $originalOrder->parent_order_id ?
                             OrderMaster::find($originalOrder->parent_order_id) :
                             $originalOrder;
 
                         if ($parentOrder) {
-                            // Calculate and update remaining quantity
                             $newRemainingQuantity = $remainingQuantity - $totalSelectedQuantity;
 
                             if ($newRemainingQuantity < 0) {
@@ -280,9 +257,7 @@ class OrderDelivery extends Component
             DB::transaction(function () use ($deliveredQuantity) {
                 $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
                 if (!$orderInvoice) {
-                    // Either retrieve the order invoice again or handle this case differently
                     $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                    // or
                     throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
                 }
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {

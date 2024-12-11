@@ -85,7 +85,7 @@
                                 @foreach ($order->orderDetails as $detail)
                                     <tr>
                                         <td>
-                                            @if($detail->product_id == 1)
+                                            @if ($detail->product_id == 1)
                                                 {{ $detail->manual_product_name }}
                                             @else
                                                 {{ $detail->product->product_name }}
@@ -153,23 +153,35 @@
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Remarks</th>
                                             <th class="text-center">Total</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($invoices as $invoice)
                                             <tr>
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
-                                                <td class="text-center">{{ date('M d, Y', strtotime($invoice->created_at)) }}</td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-{{ 
-                                                        $invoice->status === 'Confirmed' ? 'success' : 
-                                                        ($invoice->status === 'Draft' ? 'warning' : 
-                                                        ($invoice->status === 'Cancelled' ? 'danger' : 'info')) }}">
+                                                    {{ date('M d, Y', strtotime($invoice->created_at)) }}</td>
+                                                <td class="text-center">
+                                                    <span
+                                                        class="badge bg-{{ $invoice->status === 'Confirmed'
+                                                            ? 'success'
+                                                            : ($invoice->status === 'Draft'
+                                                                ? 'warning'
+                                                                : ($invoice->status === 'Cancelled'
+                                                                    ? 'danger'
+                                                                    : 'info')) }}">
                                                         {{ $invoice->status }}
                                                     </span>
                                                 </td>
                                                 <td class="text-center">{{ $invoice->remarks }}</td>
                                                 <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
+                                                <td class="text-center">
+                                                    <!-- Add a button for downloading each delivery order as an invoice -->
+                                                    <button class="btn btn-success" wire:click="downloadInvoice({{ $invoice->id }})">
+                                                        <i class="fas fa-download"></i> Download Invoice
+                                                    </button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -198,10 +210,13 @@
                                         @foreach ($deliveryOrders as $deliveryOrder)
                                             <tr>
                                                 <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
-                                                <td class="text-center">{{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
-                                                <td class="text-center">{{ $deliveryOrder->warehouse->warehouse_name }}</td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
+                                                    {{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
+                                                <td class="text-center">
+                                                    {{ $deliveryOrder->warehouse->warehouse_name }}</td>
+                                                <td class="text-center">
+                                                    <span
+                                                        class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
                                                         {{ $deliveryOrder->status }}
                                                     </span>
                                                 </td>
@@ -223,23 +238,20 @@
                                 @foreach ($order->orderDetails as $index => $detail)
                                     <div class="mb-3">
                                         <label for="quantitySplit_{{ $index }}" class="form-label">
-                                            {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->remaining_quantity }})
+                                            {{ $detail->product->product_name }} (Remaining Qty:
+                                            {{ $detail->invoice_rem }})
                                         </label>
-                                        <input
-                                            type="number"
-                                            id="quantitySplit_{{ $index }}"
-                                            wire:model="quantitySplits.{{ $index }}"
-                                            class="form-control"
-                                            min="0"
-                                            max="{{ $detail->remaining_quantity }}"
-                                        />
+                                        <input type="number" id="quantitySplit_{{ $index }}"
+                                            wire:model="quantitySplits.{{ $index }}" class="form-control"
+                                            min="0" max="{{ $detail->invoice_rem }}" step="1" />
+
                                     </div>
                                 @endforeach
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
                             </form>
+
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>

@@ -3,11 +3,16 @@
 namespace App\Livewire\Admin\Orders;
 
 use Livewire\Component;
-use Barryvdh\DomPDF\PDF;
+use App\Models\Customer;
 use App\Models\OrderMaster;
-use App\Models\OrderDetails as NewOrderDetails;
 use App\Models\OrderInvoice;
 use App\Models\DeliveryOrder;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\OrderInvoiceDetail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\OrderDetails as NewOrderDetails;
+
 
 class OrderDetails extends Component
 {
@@ -27,55 +32,87 @@ class OrderDetails extends Component
 
     public function generateInvoices()
     {
+        $this->quantitySplits = array_map('intval', $this->quantitySplits);
+
         $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
 
-        $remainingQuantity = $orderDetails->sum('remaining_quantity');
-        $totalRequested = array_sum($this->quantitySplits);
-
-        if ($totalRequested > $remainingQuantity) {
-            session()->flash('error', 'Requested quantities exceed remaining quantity!');
-            return;
-        }
-
-        foreach ($this->quantitySplits as $splitQty) {
-            if ($splitQty > 0) {
-                $invoiceData = $this->createInvoice($splitQty);
-                $this->downloadInvoice($invoiceData);
+        // Validate quantities product-wise
+        foreach ($orderDetails as $index => $detail) {
+            $requestedQty = $this->quantitySplits[$index] ?? 0;
+            
+            if ($requestedQty > $detail->invoice_rem) {
+                session()->flash('error', "Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
+                return;
             }
         }
 
-        $this->mount($this->order_id); // Refresh the data
+        // Generate invoices for each product separately
+        foreach ($orderDetails as $index => $detail) {
+            $splitQty = $this->quantitySplits[$index] ?? 0;
+            
+            if ($splitQty > 0) {
+                $invoice = $this->createInvoice($splitQty, $detail->id);
+            }
+        }
+
+        $this->mount($this->order_id);
+        session()->flash('success', 'Invoices generated successfully!');
     }
 
-    private function createInvoice($quantity)
+    // Modify createInvoice method to accept a specific order detail ID
+    private function createInvoice($quantity, $orderDetailId)
     {
-        // Adjust remaining quantities in the order details
-        $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->orderBy('id')->get();
+        // Find the original order detail
+        $originalOrderDetail = NewOrderDetails::findOrFail($orderDetailId);
 
-        foreach ($orderDetails as $detail) {
-            if ($quantity > 0 && $detail->remaining_quantity > 0) {
-                $deductQty = min($quantity, $detail->remaining_quantity);
-                $quantity -= $deductQty;
+        // Subtract the split quantity from the original order detail's remaining quantity
+        $originalOrderDetail->invoice_rem -= $quantity;
+        $originalOrderDetail->save();
 
-                $detail->remaining_quantity -= $deductQty;
-                $detail->save();
-            }
-        }
+        $mainOrder = $this->order;
 
-        // Create invoice in the database
+        $subtotal = $quantity * $originalOrderDetail->unit_price;
+
+        // Proportionally calculate tax and freight based on the specific quantity
+        $totalOrderQuantity = $mainOrder->orderDetails->sum('quantity');
+        $tax = ($mainOrder->tax / $totalOrderQuantity) * $quantity;
+        $freight = ($mainOrder->freight / $totalOrderQuantity) * $quantity;
+
+        $total = $subtotal + $tax + $freight;
+
+        // Create the invoice
         $invoice = OrderInvoice::create([
             'order_id' => $this->order_id,
             'invoice_number' => 'INV-' . strtoupper(uniqid()),
             'status' => 'Draft',
-            'total' => $this->calculateInvoiceTotal($quantity),
-            'remarks' => 'Generated for consignment',
-            'customer_id' => $this->order->customer_id, // Ensure this field is set
-            'entity_id' => $this->order->entity_id,
-            'shipping_address' => $this->order->shipping_address, // Add shipping address
+            'total' => $total,
+            'remarks' => 'Generated for split quantity',
+            'customer_id' => $mainOrder->customer_id,
+            'entity_id' => $mainOrder->entity_id,
+            'shipping_address' => $mainOrder->shipping_address,
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'freight' => $freight,
+            'created_by' => Auth::id(),
+        ]);
+
+        // Create an entry in order_invoice_details
+        OrderInvoiceDetail::create([
+            'order_invoice_id' => $invoice->id,
+            'product_id' => $originalOrderDetail->product_id,
+            'unit_price' => $originalOrderDetail->unit_price,
+            'quantity' => $quantity,
+            'delivered_quantity' => 0, // You might want to adjust this based on your business logic
+            'invoiced_quantity' => $quantity,
+            'discount' => $originalOrderDetail->discount,
+            'total' => $quantity * $originalOrderDetail->unit_price - $originalOrderDetail->discount,
+            'manual_product_name' => $originalOrderDetail->manual_product_name,
         ]);
 
         return $invoice;
     }
+
+    
 
     private function calculateInvoiceTotal($quantity)
     {
@@ -89,10 +126,30 @@ class OrderDetails extends Component
         return $total;
     }
 
-    private function downloadInvoice($invoice)
+   
+
+    public function downloadInvoice($invoiceDetailId)
     {
-        $pdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice, 'order' => $this->order]);
-        return $pdf->download("Invoice-{$invoice->invoice_number}.pdf");
+        try {            
+            $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
+
+            $invoiceid =  $invoiceDetail->order_invoice_id;
+            $invoice = OrderInvoice::findOrFail($invoiceid);
+            $customerid =  1;
+            $customer = Customer::findOrFail($customerid);
+            $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";            
+            $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
+                'invoiceDetail' => $invoiceDetail,
+                'invoice' => $invoice,
+                'customer' => $customer,
+            ]);            
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, $fileName);
+        } catch (\Exception $e) {
+            Log::error('Invoice detail download failed: ' . $e->getMessage());
+            notyf()->error('Could not download invoice detail PDF.');
+        }
     }
 
     public function back()

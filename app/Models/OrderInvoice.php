@@ -19,6 +19,7 @@ class OrderInvoice extends Model
         'customer_id',
         'entity_id',
         'shipping_address',
+        'remaining_quantity',
         'subtotal',
         'discount',
         'freight',

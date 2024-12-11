@@ -143,25 +143,26 @@ class OrderList extends Component
                 ->firstOrFail();
 
             $invoiceNumber = $this->generateUniqueInvoiceNumber();
-
+            $workflowType = strtolower($workflow_type->value);
+            // dd($workflow_type);
             $invoiceData = [
                 'invoice_number' => $invoiceNumber,
                 'order_id' => $order->order_id,
                 'customer_id' => $order->customer_id,
                 'entity_id' => $order->entity_id,
                 'shipping_address' => $order->shipping_address,
-                'subtotal' => $workflow_type === 'consignment' ? 0 : $order->subtotal,
-                'discount' => $workflow_type === 'consignment' ? 0 : $order->discount,
-                'freight' => $workflow_type === 'consignment' ? 0 : $order->freight,
-                'tax' => $workflow_type === 'consignment' ? 0 : $order->tax,
-                'total' => $workflow_type === 'consignment' ? 0 : $order->total,
+                'subtotal' => ($workflowType === 'consignment') ? 0 : $order->subtotal,
+                'discount' => ($workflowType === 'consignment') ? 0 : $order->discount,
+                'freight' => ($workflowType === 'consignment') ? 0 : $order->freight,
+                'tax' => ($workflowType === 'consignment') ? 0 : $order->tax,
+                'total' => ($workflowType === 'consignment') ? 0 : $order->total,
                 'remarks' => $order->remarks,
                 'payment_terms' => $order->payment_terms,
                 'status' => 'Confirmed',
                 'created_by' => Auth::id(),
                 'invoice_type' => $this->determineInvoiceType($order)
             ];
-
+            // dd($invoiceData);
             $invoice = OrderInvoice::create($invoiceData);
 
             $invoiceDetails = [];
@@ -169,12 +170,12 @@ class OrderList extends Component
                 $invoiceDetails[] = [
                     'order_invoice_id' => $invoice->id,
                     'product_id' => $orderDetail->product_id,
-                    'unit_price' => $workflow_type === 'consignment' ? 0 : $orderDetail->unit_price,
-                    'quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
-                    'delivered_quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
-                    'invoiced_quantity' => $workflow_type === 'consignment' ? 0 : $orderDetail->quantity,
-                    'discount' => $workflow_type === 'consignment' ? 0 : $orderDetail->discount,
-                    'total' => $workflow_type === 'consignment' ? 0 : $orderDetail->total,
+                    'unit_price' => ($workflow_type === 'consignment') ? 0 : $orderDetail->unit_price,
+                    'quantity' => $orderDetail->quantity,
+                    'delivered_quantity' => ($workflow_type === 'consignment') ? 0 : $orderDetail->quantity,
+                    'invoiced_quantity' => ($workflow_type === 'consignment') ? 0 : $orderDetail->quantity,
+                    'discount' => ($workflow_type === 'consignment') ? 0 : $orderDetail->discount,
+                    'total' => ($workflow_type === 'consignment') ? 0 : $orderDetail->total,
                     'manual_product_name' => $orderDetail->manual_product_name,
                     'created_at' => now(),
                     'updated_at' => now()
@@ -199,7 +200,6 @@ class OrderList extends Component
             return null;
         }
     }
-
     protected function generateUniqueInvoiceNumber()
     {
         do {
@@ -213,7 +213,11 @@ class OrderList extends Component
 
     protected function determineInvoiceType($order)
     {
-        if ($order->workflow_type === 'multi_delivery' || $order->workflow_type === 'consignment') {
+        if ($order->workflow_type === 'consignment') {
+            return 'consignment';
+        }
+
+        if ($order->workflow_type === 'multi_delivery') {
             return 'consignment';
         }
 
@@ -236,6 +240,25 @@ class OrderList extends Component
                 return;
             }
 
+            $workflowType = strtolower($order->workflow_type->value);
+
+            // Apply consignment logic
+            if ($workflowType === 'consignment') {
+                $order->subtotal = 0;
+                $order->discount = 0;
+                $order->freight = 0;
+                $order->tax = 0;
+                $order->total = 0;
+
+                foreach ($order->orderDetails as $detail) {
+                    $detail->unit_price = 0;
+                    $detail->delivered_quantity = 0;
+                    $detail->invoiced_quantity = 0;
+                    $detail->discount = 0;
+                    $detail->total = 0;
+                }
+            }
+
             $customer = $order->customer;
 
             if (!$customer) {
@@ -252,10 +275,11 @@ class OrderList extends Component
                 echo $pdf->output();
             }, $fileName);
         } catch (\Exception $e) {
-            Log::error('Invoice generation failed: ' . $e->getMessage());
-            notyf()->error('Could not generate invoice PDF.');
+            Log::error('Invoice download failed: ' . $e->getMessage());
+            notyf()->error('Could not download invoice PDF.');
         }
     }
+
 
 
     public function updatingStatusFilter()

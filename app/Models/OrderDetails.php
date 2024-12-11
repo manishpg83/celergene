@@ -14,6 +14,7 @@ class OrderDetails extends Model
         'manual_product_name',
         'unit_price',
         'remaining_quantity',
+        'invoice_rem',
         'quantity',
         'discount',
         'total'
@@ -21,7 +22,7 @@ class OrderDetails extends Model
 
     public function orderMaster()
     {
-        return $this->belongsTo(OrderMaster::class, 'order_id'); // Updated from order_id to order_id
+        return $this->belongsTo(OrderMaster::class, 'order_id');
     }
 
     public function product()
