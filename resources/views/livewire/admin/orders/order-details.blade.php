@@ -14,25 +14,6 @@
                 <div class="card-header pr-6 py-0 pt-4 ml-3">
                     <h5 class="card-title">Order ID #{{ $order->order_id }}</h5>
                 </div>
-                <div class="mt-4">
-        <div class="flex items-center space-x-4">
-            <div class="w-64">
-                <label for="actual_freight" class="block text-sm font-medium text-gray-700">Actual Freight</label>
-                <input 
-                    type="number" 
-                    step="0.01" 
-                    wire:model="actual_freight" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-            </div>
-            <button 
-                wire:click="updateActualFreight" 
-                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Update Freight
-            </button>
-        </div>
-    </div>
                 <div class="card-body">
                     <div class="row mb-4">
                         <div class="col-md-12 mb-4">
@@ -129,7 +110,34 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 ms-auto">
+                        <!-- Left Side: Product Section -->
+                        <div class="col-md-6">
+                            <div class="mt-32">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="flex-grow-1">
+                                        <label for="actual_freight" class="form-label">Actual Freight</label>
+                                        <input 
+                                            type="number" 
+                                            step="0.01" 
+                                            wire:model="actual_freight" 
+                                            id="actual_freight"
+                                            class="form-control shadow-sm"
+                                        >
+                                    </div>
+                                    <div>
+                                        <button 
+                                            wire:click="updateActualFreight" 
+                                            class="btn btn-primary mt-6"
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Right Side: Card Section -->
+                        <div class="col-md-6">
                             <div class="card rounded-3 shadow-sm border">
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -157,6 +165,8 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
 
                     <div class="card mt-4">
                         <div class="card-header">
