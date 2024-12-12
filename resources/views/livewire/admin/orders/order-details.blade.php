@@ -161,26 +161,21 @@
                                             <tr>
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
                                                 <td class="text-center">
-                                                    {{ date('M d, Y', strtotime($invoice->created_at)) }}</td>
+                                                    {{ date('M d, Y', strtotime($invoice->created_at)) }}
+                                                </td>
                                                 <td class="text-center">
-                                                    <span
-                                                        class="badge bg-{{ $invoice->status === 'Confirmed'
-                                                            ? 'success'
-                                                            : ($invoice->status === 'Draft'
-                                                                ? 'warning'
-                                                                : ($invoice->status === 'Cancelled'
-                                                                    ? 'danger'
-                                                                    : 'info')) }}">
+                                                    <span class="badge bg-{{ $invoice->status === 'Confirmed' ? 'success' : ($invoice->status === 'Draft' ? 'warning' : 'danger') }}">
                                                         {{ $invoice->status }}
                                                     </span>
                                                 </td>
                                                 <td class="text-center">{{ $invoice->remarks }}</td>
                                                 <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
                                                 <td class="text-center">
-                                                    <!-- Add a button for downloading each delivery order as an invoice -->
-                                                    <button class="btn btn-success" wire:click="downloadInvoice({{ $deliveryOrder->id }})">
-                                                        <i class="fas fa-download"></i> Download Invoice
-                                                    </button>
+                                                    @if ($invoice->invoiceDetails->count() > 0)
+                                                        <button class="btn btn-success" wire:click="downloadInvoice({{ $invoice->invoiceDetails->first()->id }})">
+                                                            <i class="fas fa-download"></i> Download Invoice
+                                                        </button>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

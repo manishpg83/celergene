@@ -190,7 +190,13 @@
         <tbody>
             @foreach ($invoice->invoiceDetails as $invoiceDetail)
                 <tr>
-                    <td>{{ $invoiceDetail->product->product_name }}</td>
+                    <td>
+                        @if ($invoiceDetail->product_id == 1 || empty($invoiceDetail->product->product_name))
+                            {{ $invoiceDetail->manual_product_name }}
+                        @else
+                            {{ $invoiceDetail->product->product_name }}
+                        @endif
+                    </td>
                     <td>{{ $invoiceDetail->quantity }}</td>
                     <td>{{ number_format($invoiceDetail->unit_price, 2) }}</td>
                     <td>{{ number_format($invoiceDetail->total, 2) }}</td>
