@@ -173,7 +173,7 @@
                                                 <td class="text-center">
                                                     @if ($invoice->invoiceDetails->count() > 0)
                                                         <button class="btn btn-success" wire:click="downloadInvoice({{ $invoice->invoiceDetails->first()->id }})">
-                                                            <i class="fas fa-download"></i> Download Invoice
+                                                            <i class="fas fa-download"></i>
                                                         </button>
                                                     @endif
                                                 </td>
