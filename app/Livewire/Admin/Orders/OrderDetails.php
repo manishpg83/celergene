@@ -36,7 +36,6 @@ class OrderDetails extends Component
     
         $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
     
-        // Validate quantities product-wise
         foreach ($orderDetails as $index => $detail) {
             $requestedQty = $this->quantitySplits[$index] ?? 0;
             
@@ -46,11 +45,9 @@ class OrderDetails extends Component
             }
         }
     
-        // Check if there are any quantities to invoice
         $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0;
         
         if ($hasQuantitiesToInvoice) {
-            // Create a single invoice for all selected quantities
             $this->createCombinedInvoice($orderDetails);
         }
     
@@ -62,7 +59,6 @@ class OrderDetails extends Component
     {
         $mainOrder = $this->order;
         
-        // Prepare invoice details and update remaining quantities
         $invoiceDetails = [];
         $totalSubtotal = 0;
         $totalQuantity = 0;
@@ -71,16 +67,13 @@ class OrderDetails extends Component
             $splitQty = $this->quantitySplits[$index] ?? 0;
             
             if ($splitQty > 0) {
-                // Subtract the split quantity from the original order detail's remaining quantity
                 $detail->invoice_rem -= $splitQty;
                 $detail->save();
     
-                // Calculate subtotal for this product
                 $productSubtotal = $splitQty * $detail->unit_price;
                 $totalSubtotal += $productSubtotal;
                 $totalQuantity += $splitQty;
     
-                // Prepare invoice detail entry
                 $invoiceDetails[] = [
                     'product_id' => $detail->product_id,
                     'unit_price' => $detail->unit_price,
@@ -94,14 +87,12 @@ class OrderDetails extends Component
             }
         }
     
-        // Proportionally calculate tax and freight based on the total quantity
         $totalOrderQuantity = $mainOrder->orderDetails->sum('quantity');
         $tax = ($mainOrder->tax / $totalOrderQuantity) * $totalQuantity;
         $freight = ($mainOrder->freight / $totalOrderQuantity) * $totalQuantity;
     
         $total = $totalSubtotal + $tax + $freight;
     
-        // Create the invoice
         $invoice = OrderInvoice::create([
             'order_id' => $this->order_id,
             'invoice_number' => 'INV-' . strtoupper(uniqid()),
@@ -117,7 +108,6 @@ class OrderDetails extends Component
             'created_by' => Auth::id(),
         ]);
     
-        // Create invoice details entries
         foreach ($invoiceDetails as $detailData) {
             OrderInvoiceDetail::create([
                 'order_invoice_id' => $invoice->id,
