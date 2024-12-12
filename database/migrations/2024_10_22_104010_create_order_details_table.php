@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->foreignId('order_id')->constrained('order_master', 'order_id')->onDelete('cascade'); // Updated from order_id to order_id
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('manual_product_name')->nullable();
+            $table->string('sample_quantity')->nullable();
             $table->decimal('unit_price', 10, 2);
             $table->integer('quantity');
             $table->integer('invoice_rem')->default(0);

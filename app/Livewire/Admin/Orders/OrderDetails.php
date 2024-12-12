@@ -21,6 +21,7 @@ class OrderDetails extends Component
     public $deliveryOrders;
     public $invoices;
     public $quantitySplits = [];
+    public $actual_freight;
 
     public function mount($order_id)
     {
@@ -28,8 +29,21 @@ class OrderDetails extends Component
         $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
         $this->deliveryOrders = DeliveryOrder::where('order_id', $order_id)->get();
         $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
+        $this->actual_freight = $this->order->actual_freight;
     }
+    public function updateActualFreight()
+    {
+        try {
+            $order = OrderMaster::where('order_id', $this->order_id)->firstOrFail();
+            $order->actual_freight = $this->actual_freight;
+            $order->save();
 
+            session()->flash('success', 'Actual freight updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Failed to update actual freight: ' . $e->getMessage());
+            session()->flash('error', 'Failed to update actual freight.');
+        }
+    }
     public function generateInvoices()
     {
         $this->quantitySplits = array_map('intval', $this->quantitySplits);

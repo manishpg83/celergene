@@ -192,7 +192,17 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-
+                                        <div class="col-md-2">
+                                            <div class="col-6">sample_quantity</div>
+                                            <input type="number"
+                                                wire:model.live="orderDetails.{{ $index }}.sample_quantity"
+                                                placeholder="sample_quantity"
+                                                class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror"
+                                                min="1">
+                                            @error('orderDetails.' . $index . '.sample_quantity')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-2">
                                             <div class="col-6">Unit Price</div>
                                             <input type="number"
@@ -312,6 +322,19 @@
                                 <label for="remarks" class="form-label">Remarks:</label>
                                 <textarea wire:model="remarks" id="remarks" class="form-control @error('remarks') is-invalid @enderror"></textarea>
                                 @error('remarks')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="actual_freight" class="form-label">Actual Freight:</label>
+                                <input 
+                                    type="number" 
+                                    step="0.01"
+                                    wire:model="actual_freight" 
+                                    id="actual_freight" 
+                                    class="form-control @error('actual_freight') is-invalid @enderror"
+                                />
+                                @error('actual_freight')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

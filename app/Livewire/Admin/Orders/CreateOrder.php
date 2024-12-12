@@ -43,6 +43,7 @@ class CreateOrder extends Component
     public float $tax = 0;
     public float $total = 0;
     public float $freight = 0;
+    public float $actual_freight = 0;
     public $payment_mode = 'Bank Transfer';
     public $invoice_status = 'Pending';
     public $selected_shipping_address = 1;
@@ -56,6 +57,7 @@ class CreateOrder extends Component
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
             'shipping_address' => 'required|string',
+            'actual_freight' => 'required|numeric|min:0',
             'orderDetails' => 'required|array|min:1',
             'orderDetails.*.product_id' => [
                 'required',
@@ -79,6 +81,11 @@ class CreateOrder extends Component
                 'required_if:orderDetails.*.product_id,1',
                 'string',
                 'max:255',
+            ],
+            'orderDetails.*.sample_quantity' => [
+                'nullable',
+                'numeric',
+                'min:0',
             ],
             'workflow_type' => 'required|string|in:' . implode(',', array_keys(OrderWorkflowType::options())),
         ];
@@ -186,6 +193,7 @@ class CreateOrder extends Component
             'total' => 0,
             'custom_product' => false,
             'manual_product_name' => '',
+            'sample_quantity' => ''
         ];
 
         if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
@@ -229,14 +237,21 @@ class CreateOrder extends Component
         $this->totalDiscount = 0;
 
         foreach ($this->orderDetails as $index => $detail) {
+            $regularQuantity = floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0);
+            //$unitPrice = floatval($detail['unit_price']);
             $quantity = floatval($detail['quantity']);
             $unitPrice = floatval($detail['unit_price']);
             $discount = floatval($detail['discount']);
 
-            $this->subtotal += $quantity * $unitPrice;
-            $this->totalDiscount += $discount;
-
-            $this->orderDetails[$index]['total'] = max(($quantity * $unitPrice) - $discount, 0);
+            if ($regularQuantity > 0) {
+                $this->subtotal += $regularQuantity * $unitPrice;
+                $this->totalDiscount += $discount;
+                
+                // Update the total for this line item
+                $this->orderDetails[$index]['total'] = max(($regularQuantity * $unitPrice) - $discount, 0);
+            } else {
+                $this->orderDetails[$index]['total'] = 0;
+            }
         }
 
         $this->calculateFinalTotal();
@@ -298,6 +313,7 @@ class CreateOrder extends Component
                     'subtotal' => $this->subtotal,
                     'discount' => $this->totalDiscount,
                     'freight' => $this->freight,
+                    'actual_freight' => $this->actual_freight,
                     'tax' => $this->tax,
                     'total' => $this->total,
                     'payment_mode' => $this->payment_mode,
@@ -321,6 +337,7 @@ class CreateOrder extends Component
                 $order = OrderMaster::create($orderData);
 
                 foreach ($this->orderDetails as $detail) {
+                    $regularQuantity = floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0);
                     Log::info('Order Detail Values:', [
                         'quantity' => $detail['quantity'],
                         'remaining_quantity' => $detail['quantity'],
@@ -334,7 +351,7 @@ class CreateOrder extends Component
                         'unit_price' => $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],
                         'invoice_rem' => $detail['quantity'],
-                        // 'discount' => $detail['discount'],
+                        'sample_quantity' => $detail['sample_quantity'] ?? 0,
                         'total' => $detail['total'],
                     ];
 

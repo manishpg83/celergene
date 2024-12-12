@@ -29,6 +29,7 @@ class OrderMaster extends Model
         'is_initial_consignment',
         'total_order_quantity',
         'remaining_quantity',
+        'actual_freight',
         'payment_mode',
         'payment_terms',
         'remarks',

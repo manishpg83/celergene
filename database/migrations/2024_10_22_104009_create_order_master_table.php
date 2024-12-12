@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->decimal('total_order_quantity', 10, 2)->nullable();
             $table->decimal('remaining_quantity', 10, 2)->nullable();
             $table->boolean('is_generated')->default(false);
+            $table->string('actual_freight')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('modified_by')->nullable()->constrained('users')->onDelete('set null');
             $table->string('payment_terms')->nullable();
