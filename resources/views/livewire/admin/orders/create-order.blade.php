@@ -100,8 +100,8 @@
                                 <label for="payment_mode" class="form-label">Payment Mode:</label>
                                 <select wire:model="payment_mode" id="payment_mode"
                                     class="form-select @error('payment_mode') is-invalid @enderror">
-                                    <option value="Credit Card">Credit Card</option>
                                     <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Credit Card">Credit Card</option>
                                     <option value="Cash">Cash</option>
                                 </select>
                                 @error('payment_mode')
@@ -182,7 +182,7 @@
                                         @endif
 
                                         <div class="col-md-2">
-                                            <div class="col-6">Quantity</div>
+                                            <div class="col-6 mb-1">Quantity</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.quantity"
                                                 placeholder="Quantity"
@@ -193,7 +193,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-6">sample_quantity</div>
+                                            <div class="col-6 mb-1" style="width: 70%;">sample_quantity</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="sample_quantity"
@@ -204,7 +204,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-6">Unit Price</div>
+                                            <div class="col-6 mb-1">Unit Price</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.unit_price"
                                                 placeholder="Unit Price" class="form-control">
@@ -224,7 +224,7 @@
 
                                         @if($workflow_type === 'multi_delivery')
                                             <div class="col-md-2">
-                                                <div class="col-6">Delivery Date</div>
+                                                <div class="col-6 mb-1">Delivery Date</div>
                                                 <input type="date"
                                                     wire:model="orderDetails.{{ $index }}.delivery_date"
                                                     class="form-control @error('orderDetails.' . $index . '.delivery_date') is-invalid @enderror"
@@ -237,7 +237,7 @@
 
                                         @if($workflow_type === 'consignment')
                                             <div class="col-md-2">
-                                                <div class="col-6">Consignment Terms</div>
+                                                <div class="col-6 mb-1">Consignment Terms</div>
                                                 <input type="text"
                                                     wire:model="orderDetails.{{ $index }}.consignment_terms"
                                                     placeholder="Terms"
