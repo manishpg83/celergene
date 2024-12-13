@@ -193,10 +193,10 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-6 mb-1" style="width: 70%;">sample_quantity</div>
+                                            <div class="col-6 mb-1" style="width: 70%;">Sample Quantity</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.sample_quantity"
-                                                placeholder="sample_quantity"
+                                                placeholder="Sample Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror"
                                                 min="1">
                                             @error('orderDetails.' . $index . '.sample_quantity')
