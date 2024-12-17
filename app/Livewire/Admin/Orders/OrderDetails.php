@@ -2,22 +2,24 @@
 
 namespace App\Livewire\Admin\Orders;
 
+use App\Models\Entity;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\OrderMaster;
 use App\Models\OrderInvoice;
 use App\Models\DeliveryOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Enums\OrderWorkflowType;
 use App\Models\OrderInvoiceDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OrderDetails as NewOrderDetails;
 
-
 class OrderDetails extends Component
 {
     public $order;
     public $order_id;
+    public $isConsignment;
     public $deliveryOrders;
     public $invoices;
     public $quantitySplits = [];
@@ -26,11 +28,17 @@ class OrderDetails extends Component
     public function mount($order_id)
     {
         $this->order_id = $order_id;
-        $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
-        $this->deliveryOrders = DeliveryOrder::where('order_id', $order_id)->get();
-        $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
-        $this->actual_freight = $this->order->actual_freight;
+
+        try {
+            $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
+            $this->deliveryOrders = DeliveryOrder::where('order_id', $order_id)->get();
+            $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
+            $this->actual_freight = $this->order->actual_freight;
+        } catch (\Exception $e) {
+            notyf()->error("Unable to load order details.");
+        }
     }
+    
     public function updateActualFreight()
     {
         try {
@@ -38,35 +46,35 @@ class OrderDetails extends Component
             $order->actual_freight = $this->actual_freight;
             $order->save();
 
-            session()->flash('success', 'Actual freight updated successfully!');
+            notyf()->success("Actual freight updated successfully!");
         } catch (\Exception $e) {
-            Log::error('Failed to update actual freight: ' . $e->getMessage());
-            session()->flash('error', 'Failed to update actual freight.');
+            notyf()->error("Failed to update actual freight.");
         }
     }
+    
     public function generateInvoices()
     {
         $this->quantitySplits = array_map('intval', $this->quantitySplits);
-    
+
         $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
-    
+
         foreach ($orderDetails as $index => $detail) {
             $requestedQty = $this->quantitySplits[$index] ?? 0;
-            
+
             if ($requestedQty > $detail->invoice_rem) {
-                session()->flash('error', "Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
+                notyf()->error("Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
                 return;
             }
         }
-    
+
         $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0;
-        
+
         if ($hasQuantitiesToInvoice) {
             $this->createCombinedInvoice($orderDetails);
         }
-    
+
         $this->mount($this->order_id);
-        session()->flash('success', 'Invoices generated successfully!');
+        notyf()->success('Invoices generated successfully!');
     }
     
     private function createCombinedInvoice($orderDetails)
@@ -139,18 +147,6 @@ class OrderDetails extends Component
         return $invoice;
     }
 
-    private function calculateInvoiceTotal($quantity)
-    {
-        $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
-
-        $total = 0;
-        foreach ($orderDetails as $detail) {
-            $total += $detail->unit_price * $quantity - $detail->discount;
-        }
-
-        return $total;
-    }
-
     public function downloadInvoice($invoiceDetailId)
     {
         try {            
@@ -169,12 +165,47 @@ class OrderDetails extends Component
                 echo $pdf->output();
             }, $fileName);
         } catch (\Exception $e) {
-            Log::error('Invoice detail download failed: ' . $e->getMessage());
-            session()->flash('error', 'Could not download invoice detail PDF.');
+            notyf()->error("Could not download invoice detail PDF.");
             return redirect()->back();
         }
     }
 
+    public function downloadDeliveryOrder($deliveryOrderId)
+    {
+        try {
+            $deliveryOrder = DeliveryOrder::with([
+                'details.product', 
+                'warehouse', 
+                'orderMaster'
+            ])->findOrFail($deliveryOrderId);
+    
+            $customer = optional($deliveryOrder->orderMaster)->customer;
+    
+            $entity = Entity::first();
+    
+            if (!$customer) {
+                notyf()->error("Customer not found.");
+                return redirect()->back();
+            }
+    
+            $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
+    
+            $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
+                'deliveryOrder' => $deliveryOrder,
+                'customer' => $customer,
+                'entity' => $entity,
+            ]);
+    
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, $fileName);
+    
+        } catch (\Exception $e) {
+            notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+    
     public function back()
     {
         return redirect()->route('admin.orders.index');
@@ -182,7 +213,15 @@ class OrderDetails extends Component
 
     public function render()
     {
-        return view('livewire.admin.orders.order-details');
+        try {
+            $workflowType = $this->order->workflow_type;
+    
+            return view('livewire.admin.orders.order-details', [
+                'showSplitInvoices' => $workflowType === OrderWorkflowType::CONSIGNMENT,
+            ]);
+        } catch (\Exception $e) {
+            notyf()->error("An error occurred while rendering the view.");
+            return view('livewire.admin.orders.order-details', ['showSplitInvoices' => false]);
+        }
     }
 }
-

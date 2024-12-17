@@ -227,6 +227,7 @@
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Quantity</th>
                                             <th class="text-center">Remarks</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -246,6 +247,11 @@
                                                     {{ $deliveryOrder->details->sum('quantity') ?? 0 }}
                                                 </td>
                                                 <td class="text-center">{{ $deliveryOrder->remarks }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-primary" wire:click="downloadDeliveryOrder({{ $deliveryOrder->id }})">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -254,7 +260,7 @@
                         </div>
                     </div>
                     
-                    <div class="card mt-4">
+                    <div class="card mt-4" @if(!$showSplitInvoices) style="display: none;" @endif>
                         <div class="card-header">
                             <h5 class="card-title">Generate Split Invoices</h5>
                         </div>
@@ -263,19 +269,17 @@
                                 @foreach ($order->orderDetails as $index => $detail)
                                     <div class="mb-3">
                                         <label for="quantitySplit_{{ $index }}" class="form-label">
-                                            {{ $detail->product->product_name }} (Remaining Qty:
-                                            {{ $detail->invoice_rem }})
+                                            {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->invoice_rem }})
                                         </label>
                                         <input type="number" id="quantitySplit_{{ $index }}"
                                             wire:model="quantitySplits.{{ $index }}" class="form-control"
                                             min="0" max="{{ $detail->invoice_rem }}" step="1" />
-
                                     </div>
                                 @endforeach
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
                             </form>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

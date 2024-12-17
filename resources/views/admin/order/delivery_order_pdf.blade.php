@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Delivery Order #{{ $deliveryOrder->delivery_number }}</title>
@@ -60,8 +59,8 @@
             border: 1px solid #000;
         }
 
-        .billing-address,
-        .shipping-address,
+        .customer-details,
+        .warehouse-details,
         .delivery-details {
             width: 30%;
             float: left;
@@ -69,7 +68,7 @@
             box-sizing: border-box;
         }
 
-        .shipping-address {
+        .warehouse-details {
             text-align: center;
         }
 
@@ -135,86 +134,80 @@
         .totals tr:last-child td {
             font-weight: bold;
         }
+
+        .contact-details p {
+            margin: 5px 0;
+        }
     </style>
 </head>
-
 <body>
     <div class="logo-container">
         <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
     </div>
+
     <div class="header">
-        <div class="company-name">{{ $deliveryOrder->company_name }}</div>
-        <div class="delivery-text">DELIVERY ORDER #{{ $deliveryOrder->delivery_number }}</div>
+        <div class="company-name">{{ $entity->company_name ?? 'Your Company Name' }}</div>
+        <div class="delivery-text">DELIVERY ORDER</div>
     </div>
+    
     <div>
-        <div class="company-address">{{ $deliveryOrder->company_address }}</div>
+        <div class="company-address">{{ $entity->address ?? 'Company Address' }}</div>
     </div>
 
     <div class="addresses">
-        <div class="billing-address">
-            <strong>Billing Address</strong><br>
+        <div class="customer-details">
+            <strong>Customer Details</strong><br>
             {{ $customer->first_name }} {{ $customer->last_name }}<br>
             {{ $customer->billing_address }}<br>
             VAT No: {{ $customer->vat_number }}
         </div>
-        <div class="shipping-address">
-            <strong>Shipping Address</strong><br>
-            {{ $deliveryOrder->shipping_address }}
+        <div class="warehouse-details">
+            <strong>Warehouse Details</strong><br>
+            {{ $deliveryOrder->warehouse->warehouse_name }}<br>
+            {{ $deliveryOrder->warehouse->address }}
         </div>
         <div class="delivery-details">
-            <strong>DELIVERY NO:</strong> {{ $deliveryOrder->delivery_number }}<br>
+            <strong>DELIVERY ORDER NO:</strong> {{ $deliveryOrder->delivery_number }}<br>
             <strong>DELIVERY DATE:</strong> {{ date('d/m/Y', strtotime($deliveryOrder->delivery_date)) }}<br>
-            <strong>ORDER REF:</strong> {{ $deliveryOrder->order_reference ?? 'N/A' }}
+            <strong>REFERENCE:</strong> {{ $deliveryOrder->reference_number ?? 'N/A' }}
         </div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>DESCRIPTION</th>
+                <th>PRODUCT NAME</th>
                 <th>QUANTITY</th>
                 <th>UNIT PRICE</th>
                 <th>TOTAL AMOUNT</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($deliveryOrder->deliveryDetails as $deliveryDetail)
+            @foreach ($deliveryOrder->details as $detail)
                 <tr>
-                    <td>{{ $deliveryDetail->product->product_name ?? $deliveryDetail->manual_product_name }}</td>
-                    <td>{{ $deliveryDetail->quantity }}</td>
-                    <td>{{ number_format($deliveryDetail->unit_price, 2) }}</td>
-                    <td>{{ number_format($deliveryDetail->total, 2) }}</td>
+                    <td>{{ $detail->product->product_name }}</td>
+                    <td>{{ $detail->quantity }}</td>
+                    <td>{{ number_format($detail->unit_price, 2) }}</td>
+                    <td>{{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
     <div class="summary-section">
-        <div class="left">
-            <!-- Add optional notes or instructions here -->
+        <div class="left contact-details">
+            <p><strong>DIRECT ALL INQUIRIES TO:</strong> info@example.com</p>
+            <p><strong>Note:</strong> This is a delivery order, not a tax invoice</p>
         </div>
 
         <div class="right totals">
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ number_format($deliveryOrder->subtotal, 2) }}</td>
-                </tr>
-                <tr>
-                    <td>FREIGHT</td>
-                    <td><span style="color: green;">+{{ number_format($deliveryOrder->freight, 2) }}</span></td>
-                </tr>
-                <tr>
-                    <td>TAX</td>
-                    <td><span style="color: green;">+{{ number_format($deliveryOrder->tax, 2) }}</span></td>
-                </tr>
-                <tr>
-                    <td><strong>TOTAL</strong></td>
-                    <td><strong>{{ number_format($deliveryOrder->total, 2) }}</strong></td>
+                    <td>{{ number_format($deliveryOrder->details->sum('total'), 2) }}</td>
                 </tr>
             </table>
         </div>
     </div>
 </body>
-
 </html>

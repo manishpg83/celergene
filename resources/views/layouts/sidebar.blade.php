@@ -189,7 +189,7 @@
             <ul class="menu-sub {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                 <li class="menu-item {{ request()->routeIs('admin.orders.add') ? 'active' : '' }}">
                     <a href="{{ route('admin.orders.add') }}" class="menu-link">
-                        <div data-i18n="Orders">Orders</div>
+                        <div data-i18n="Add Orders">Add Orders</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
