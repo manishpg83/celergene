@@ -66,7 +66,7 @@ class OrderMaster extends Model
 
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetails::class, 'order_id', 'order_id'); // Updated keys
+        return $this->hasMany(OrderDetails::class, 'order_id', 'order_id');
     }
 
     public function creator()
@@ -81,12 +81,12 @@ class OrderMaster extends Model
 
     public function parentOrder()
     {
-        return $this->belongsTo(self::class, 'parent_order_id', 'order_id'); // Updated keys
+        return $this->belongsTo(self::class, 'parent_order_id', 'order_id');
     }
 
     public function childOrders()
     {
-        return $this->hasMany(self::class, 'parent_order_id', 'order_id'); // Updated keys
+        return $this->hasMany(self::class, 'parent_order_id', 'order_id');
     }
 
     public function isStandardWorkflow(): bool

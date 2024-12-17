@@ -166,8 +166,6 @@
                         </div>
                     </div>
                     
-                    
-
                     <div class="card mt-4">
                         <div class="card-header">
                             <h5 class="card-title">Invoice Details</h5>
@@ -227,6 +225,7 @@
                                             <th class="text-center">Delivery Date</th>
                                             <th class="text-center">Warehouse Name</th>
                                             <th class="text-center">Status</th>
+                                            <th class="text-center">Quantity</th>
                                             <th class="text-center">Remarks</th>
                                         </tr>
                                     </thead>
@@ -235,14 +234,16 @@
                                             <tr>
                                                 <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
                                                 <td class="text-center">
-                                                    {{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}</td>
+                                                    {{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}
+                                                </td>
+                                                <td class="text-center">{{ $deliveryOrder->warehouse->warehouse_name }}</td>
                                                 <td class="text-center">
-                                                    {{ $deliveryOrder->warehouse->warehouse_name }}</td>
-                                                <td class="text-center">
-                                                    <span
-                                                        class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
+                                                    <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
                                                         {{ $deliveryOrder->status }}
                                                     </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $deliveryOrder->details->sum('quantity') ?? 0 }}
                                                 </td>
                                                 <td class="text-center">{{ $deliveryOrder->remarks }}</td>
                                             </tr>
@@ -252,7 +253,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="card mt-4">
                         <div class="card-header">
                             <h5 class="card-title">Generate Split Invoices</h5>
@@ -273,7 +274,6 @@
                                 @endforeach
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
                             </form>
-
                         </div>
                     </div>
                 </div>

@@ -76,12 +76,12 @@
                                 <i class="bx bx-info-circle me-2"></i>
                                 <div>
                                     <strong>Order Type: {{ $order->workflow_type->label() }}</strong>
-                                    @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                    @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                         <br>Total Order Quantity: {{ $totalOrderQuantity }}
                                         <br>Remaining Quantity: {{ $remainingQuantity }}
                                     @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
                                         <br>{{ $isInitialConsignment ? 'Initial Consignment Delivery' : 'Consignment Sale Delivery' }}
-                                        @if(!$isInitialConsignment)
+                                        @if (!$isInitialConsignment)
                                             <br>Remaining Quantity: {{ $remainingQuantity }}
                                         @endif
                                     @endif
@@ -96,7 +96,7 @@
                                 <tr>
                                     <th class="text-center">Product</th>
                                     <th class="text-center">
-                                        @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                        @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                             Remaining Quantity / Total Quantity
                                         @else
                                             Quantity
@@ -113,8 +113,9 @@
                                     <tr>
                                         <td class="text-center">{{ $detail->product->product_name }}</td>
                                         <td class="text-center">
-                                            @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                {{ $detail->quantity - $detail->delivered_quantity }} / {{ $detail->quantity }}
+                                            @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                                {{ $detail->quantity - $detail->delivered_quantity }} /
+                                                {{ $detail->quantity }}
                                             @else
                                                 {{ $detail->quantity }}
                                             @endif
@@ -135,13 +136,14 @@
                                                 <div class="mb-3 p-2 border rounded">
                                                     <div class="mb-2">
                                                         <strong>Batch: {{ $inventory->batch_number }}</strong><br>
-                                                        Available: {{ $inventory->remaining }} |
+                                                        Available: {{ (float) $inventory->remaining }} |
                                                         Warehouse: {{ $inventory->warehouse->warehouse_name }}
                                                     </div>
                                                     <input type="number"
                                                         wire:model.live="inventoryQuantities.{{ $inventory->id }}"
                                                         class="form-control" min="0"
-                                                        max="{{ $inventory->remaining }}" placeholder="Enter quantity">
+                                                        max="{{ (float) $inventory->remaining }}"
+                                                        placeholder="Enter quantity">
                                                     @error("inventoryQuantities.{$inventory->id}")
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -152,14 +154,14 @@
                                                 <strong>Total Selected: </strong>
                                                 {{ collect($inventoryQuantities)->filter(function ($qty, $invId) use ($detail) {
                                                         return $detail->product->inventories->contains('id', $invId);
-                                                    })->sum() }}
-                                                / 
-                                                @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                    {{ $detail->quantity - $detail->delivered_quantity }}
+                                                    })->map(fn($value) => (float) $value)->sum() }}
+                                                /
+                                                @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                                    {{ (float) $detail->quantity - (float) $detail->delivered_quantity }}
                                                 @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT && !$isInitialConsignment)
-                                                    {{ $remainingQuantity }}
+                                                    {{ (float) $remainingQuantity }}
                                                 @else
-                                                    {{ $detail->quantity }}
+                                                    {{ (float) $detail->quantity }}
                                                 @endif
                                             </div>
                                         </td>
@@ -169,7 +171,7 @@
                         </table>
                     </div>
 
-                    @if($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
+                    @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
@@ -206,7 +208,8 @@
                                     <hr class="my-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="h6 mb-0">Total:</span>
-                                        <span class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
+                                        <span
+                                            class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +219,7 @@
                     <div class="d-flex justify-content-end">
                         <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="updateDelivery">
-                                @if($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                     Update Partial Delivery
                                 @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
                                     {{ $isInitialConsignment ? 'Process Initial Consignment' : 'Update Consignment Delivery' }}

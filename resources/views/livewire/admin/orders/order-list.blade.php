@@ -41,10 +41,18 @@
                     <!-- Payment Mode Filter -->
                     <select wire:model.live="paymentModeFilter" class="form-select"
                         style="cursor: pointer; width: auto;">
-                        <option value="">All Payment Modes</option>
-                        <option value="Credit Card">Credit Card</option>
-                        <option value="Bank Transfer">Bank Transfer</option>
-                        <option value="Cash">Cash</option>
+                        <option value="" class="bg-gray-100 text-gray-800">
+                            All Payment Modes
+                        </option>
+                        <option value="Credit Card" class="bg-blue-50 text-blue-800 hover:bg-blue-100">
+                            💳 Credit Card
+                        </option>
+                        <option value="Bank Transfer" class="bg-green-50 text-green-800 hover:bg-green-100">
+                            🏦 Bank Transfer
+                        </option>
+                        <option value="Cash" class="bg-orange-50 text-orange-800 hover:bg-orange-100">
+                            💵 Cash
+                        </option>
                     </select>
 
                     <!-- Date Range Picker -->
@@ -129,7 +137,49 @@
                                         <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
                                         <td>${{ number_format($order->total, 2) }}</td>
-                                        <td>{{ $order->payment_mode }}</td>
+                                        <td
+                                            class="
+                                        text-sm 
+                                        font-medium 
+                                        items-center 
+                                    ">
+                                            @if ($order->payment_mode == 'Credit Card')
+                                                <span
+                                                    class="
+                                                bg-orange-50 
+                                                text-orange-800 
+                                                px-2 
+                                                py-1 
+                                                rounded-md 
+                                            ">
+                                                    <span class="mr-1">💳</span> {{ $order->payment_mode }}
+                                                </span>
+                                            @elseif ($order->payment_mode == 'Bank Transfer')
+                                                <span
+                                                    class="
+                                                bg-green-50 
+                                                text-green-800 
+                                                px-2 
+                                                py-1 
+                                                rounded-md
+                                            ">
+                                                    <span class="mr-1">🏦</span> {{ $order->payment_mode }}
+                                                </span>
+                                            @elseif ($order->payment_mode == 'Cash')
+                                                <span
+                                                    class="
+                                                bg-blue-50 
+                                                text-blue-800 
+                                                px-2 
+                                                py-1 
+                                                rounded-md
+                                            ">
+                                                    <span class="mr-1">💵</span> {{ $order->payment_mode }}
+                                                </span>
+                                            @else
+                                                <span>{{ $order->payment_mode }}</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <select wire:model="orderStatus.{{ $order->order_id }}"
                                                 wire:change="updateStatus({{ $order->order_id }})"
@@ -157,26 +207,31 @@
                                             <div class="d-flex align-items-center justify-content-center">
                                                 @if ($order->is_generated)
                                                     <button wire:click="downloadInvoice('{{ $order->order_id }}')"
-                                                        class="btn btn-sm btn-primary ml-2" data-bs-toggle="tooltip" title="Download Invoice">
-                                                        <i class="bi bi-download mx-1"></i> Download
+                                                        class="btn btn-sm btn-primary ml-2" data-bs-toggle="tooltip"
+                                                        title="Download Invoice">
+                                                        <i class="fas fa-download mx-1 px-0 py-0"></i>
                                                     </button>
                                                 @else
                                                     <button wire:click="generateInvoice('{{ $order->order_id }}')"
-                                                        class="btn btn-sm btn-success ml-2" data-bs-toggle="tooltip" title="Generate Invoice">
+                                                        class="btn btn-sm btn-success ml-2" data-bs-toggle="tooltip"
+                                                        title="Generate Invoice">
                                                         <i class="bi bi-file-earmark-plus mx-1"></i> Generate
                                                     </button>
                                                 @endif
-                                            
+
                                                 <a href="{{ route('admin.orders.details', $order->order_id) }}"
-                                                    class="text-black ml-1 mt-1" data-bs-toggle="tooltip" title="View Order" target="_blank">
-                                                    <i class="fa fa-eye mx-1" style="font-size: 20px; color: rgb(94, 59, 190);"></i>
+                                                    class="text-black ml-1 mr-1 mt-1" data-bs-toggle="tooltip"
+                                                    title="View Order" target="_blank">
+                                                    <i class="fa fa-eye mx-1"
+                                                        style="font-size: 20px; color: rgb(94, 59, 190);"></i>
                                                 </a>
-                                            
+
                                                 <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
-                                                    class="btn btn-sm btn-warning mr-1" data-bs-toggle="tooltip" title="Manage Delivery">
+                                                    class="btn btn-sm btn-warning mr-1" data-bs-toggle="tooltip"
+                                                    title="Manage Delivery">
                                                     <i class="bi bi-truck" style="font-size: 14px;"></i>
                                                 </a>
-                                            </div>                                                                                      
+                                            </div>
                                         </td>
                                     </tr>
                                 @endif
@@ -193,9 +248,9 @@
 </div>
 
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
+        tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });

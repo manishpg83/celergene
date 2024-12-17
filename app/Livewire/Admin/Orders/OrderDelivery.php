@@ -216,6 +216,7 @@ class OrderDelivery extends Component
             return false;
         }
     }
+    
     private function processInventoryUpdates($detail, $inventoryQuantities)
     {
         foreach ($inventoryQuantities as $inventoryId => $quantity) {

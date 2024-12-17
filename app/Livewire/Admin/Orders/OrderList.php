@@ -144,7 +144,6 @@ class OrderList extends Component
 
             $invoiceNumber = $this->generateUniqueInvoiceNumber();
             $workflowType = strtolower($workflow_type->value);
-            // dd($workflow_type);
             $invoiceData = [
                 'invoice_number' => $invoiceNumber,
                 'order_id' => $order->order_id,
@@ -162,7 +161,6 @@ class OrderList extends Component
                 'created_by' => Auth::id(),
                 'invoice_type' => $this->determineInvoiceType($order)
             ];
-            // dd($invoiceData);
             $invoice = OrderInvoice::create($invoiceData);
 
             $invoiceDetails = [];
@@ -242,7 +240,6 @@ class OrderList extends Component
 
             $workflowType = strtolower($order->workflow_type->value);
 
-            // Apply consignment logic
             if ($workflowType === 'consignment') {
                 $order->subtotal = 0;
                 $order->discount = 0;
@@ -251,7 +248,7 @@ class OrderList extends Component
                 $order->total = 0;
 
                 foreach ($order->orderDetails as $detail) {
-                    $detail->unit_price = 0;
+                    // $detail->unit_price = 0;
                     $detail->delivered_quantity = 0;
                     $detail->invoiced_quantity = 0;
                     $detail->discount = 0;
@@ -279,8 +276,6 @@ class OrderList extends Component
             notyf()->error('Could not download invoice PDF.');
         }
     }
-
-
 
     public function updatingStatusFilter()
     {

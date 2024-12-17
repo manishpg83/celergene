@@ -193,7 +193,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-6 mb-1" style="width: 70%;">Sample Quantity</div>
+                                            <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="Sample Quantity"
@@ -290,11 +290,10 @@
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
-                                                    <input type="number" wire:model.live="tax" class="form-control"
-                                                        min="0" step="0.01">
+                                                    <input type="number" wire:model.live="tax" class="form-control" min="0" step="0.01" value="0">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                         <hr>
                                         <div class="row">
                                             <div class="col-6"><strong>Total:</strong></div>

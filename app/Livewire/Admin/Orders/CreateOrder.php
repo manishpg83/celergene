@@ -57,7 +57,7 @@ class CreateOrder extends Component
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
             'shipping_address' => 'required|string',
-            'actual_freight' => 'required|numeric|min:0',
+            'actual_freight' => 'nullable|numeric|min:0',
             'orderDetails' => 'required|array|min:1',
             'orderDetails.*.product_id' => [
                 'required',
@@ -122,8 +122,8 @@ class CreateOrder extends Component
         $this->created_by = Auth::id();
         $this->modified_by = Auth::id();
         $this->freight = 0;
+        $this->tax = 0;
         $this->addOrderDetail();
-
         $this->oldInvoiceStatus = $this->invoice_status;
         $this->oldDeliveryStatus = $this->delivery_status;
     }
@@ -247,7 +247,6 @@ class CreateOrder extends Component
                 $this->subtotal += $regularQuantity * $unitPrice;
                 $this->totalDiscount += $discount;
                 
-                // Update the total for this line item
                 $this->orderDetails[$index]['total'] = max(($regularQuantity * $unitPrice) - $discount, 0);
             } else {
                 $this->orderDetails[$index]['total'] = 0;
@@ -264,7 +263,12 @@ class CreateOrder extends Component
 
     public function updatedTax()
     {
-        $this->tax = floatval($this->tax);
+        if (empty($this->tax) || !is_numeric($this->tax)) {
+            $this->tax = 0;
+        } else {
+            $this->tax = floatval($this->tax);
+        }
+
         $this->calculateFinalTotal();
     }
 
@@ -416,7 +420,6 @@ class CreateOrder extends Component
 
             $invoiceNumber = $this->generateUniqueInvoiceNumber();
             $workflowType = strtolower($workflow_type->value);
-            // dd($workflow_type);
             $invoiceData = [
                 'invoice_number' => $invoiceNumber,
                 'order_id' => $order->order_id,
@@ -434,7 +437,6 @@ class CreateOrder extends Component
                 'created_by' => Auth::id(),
                 'invoice_type' => $this->determineInvoiceType($order)
             ];
-            // dd($invoiceData);
             $invoice = OrderInvoice::create($invoiceData);
 
             $invoiceDetails = [];
