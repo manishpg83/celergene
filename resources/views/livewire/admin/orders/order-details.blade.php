@@ -76,6 +76,7 @@
                                 <tr>
                                     <th class="text-center">Product</th>
                                     <th class="text-center">Quantity</th>
+                                    <th class="text-center">Sample Qty</th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Discount</th>
                                     <th class="text-center">Total Price</th>
@@ -84,7 +85,7 @@
                             <tbody>
                                 @foreach ($order->orderDetails as $detail)
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($detail->product_id == 1)
                                                 {{ $detail->manual_product_name }}
                                             @else
@@ -92,6 +93,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">{{ $detail->quantity }}</td>
+                                        <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
@@ -101,18 +103,19 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            ${{ number_format($detail->quantity * $detail->unit_price - $detail->discount, 2) }}
+                                            ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    
 
                     <div class="row">
                         <!-- Left Side: Product Section -->
                         <div class="col-md-6">
-                            <div class="mt-32">
+                            <div class="mt-8">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="flex-grow-1">
                                         <label for="actual_freight" class="form-label">Actual Freight</label>

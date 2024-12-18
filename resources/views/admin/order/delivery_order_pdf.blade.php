@@ -178,21 +178,25 @@
             <tr>
                 <th>PRODUCT NAME</th>
                 <th>QUANTITY</th>
+                <th>SAMPLE QTY</th>
                 <th>UNIT PRICE</th>
                 <th>TOTAL AMOUNT</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($deliveryOrder->details as $detail)
+            @foreach ($deliveryDetails as $detail)
                 <tr>
-                    <td>{{ $detail->product->product_name }}</td>
-                    <td>{{ $detail->quantity }}</td>
-                    <td>{{ number_format($detail->unit_price, 2) }}</td>
-                    <td>{{ number_format($detail->total, 2) }}</td>
+                    <td>{{ $detail['product']->product_name }}</td>
+                    <td>{{ $detail['quantity'] }}</td>
+                    <td>{{ $detail['sample_quantity'] }}</td>
+                    <td>{{ number_format($detail['unit_price'], 2) }}</td>
+                    <td>
+                        {{ number_format($detail['quantity'] * $detail['unit_price'], 2) }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
-    </table>
+    </table>    
 
     <div class="summary-section">
         <div class="left contact-details">

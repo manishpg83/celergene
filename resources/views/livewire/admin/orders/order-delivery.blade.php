@@ -78,7 +78,6 @@
                                     <strong>Order Type: {{ $order->workflow_type->label() }}</strong>
                                     @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                         <br>Total Order Quantity: {{ $totalOrderQuantity }}
-                                        <br>Remaining Quantity: {{ $remainingQuantity }}
                                     @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
                                         <br>{{ $isInitialConsignment ? 'Initial Consignment Delivery' : 'Consignment Sale Delivery' }}
                                         @if (!$isInitialConsignment)
@@ -97,11 +96,12 @@
                                     <th class="text-center">Product</th>
                                     <th class="text-center">
                                         @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                            Remaining Quantity / Total Quantity
+                                            Remaining Qty / Total Qty
                                         @else
                                             Quantity
                                         @endif
                                     </th>
+                                    <th class="text-center">Samlple Qty</th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Discount</th>
                                     <th class="text-center">Total Price</th>
@@ -114,12 +114,13 @@
                                         <td class="text-center">{{ $detail->product->product_name }}</td>
                                         <td class="text-center">
                                             @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                {{ $detail->quantity - $detail->delivered_quantity }} /
+                                                {{ $this->calculateRemainingQuantity($detail) }} /
                                                 {{ $detail->quantity }}
                                             @else
                                                 {{ $detail->quantity }}
                                             @endif
                                         </td>
+                                        <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
@@ -129,7 +130,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            ${{ number_format($detail->quantity * $detail->unit_price - $detail->discount, 2) }}
+                                            ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
                                         </td>
                                         <td class="text-center">
                                             @foreach ($detail->product->inventories as $inventory)
@@ -157,7 +158,7 @@
                                                     })->map(fn($value) => (float) $value)->sum() }}
                                                 /
                                                 @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                    {{ (float) $detail->quantity - (float) $detail->delivered_quantity }}
+                                                    {{ $this->calculateRemainingQuantity($detail) }}
                                                 @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT && !$isInitialConsignment)
                                                     {{ (float) $remainingQuantity }}
                                                 @else

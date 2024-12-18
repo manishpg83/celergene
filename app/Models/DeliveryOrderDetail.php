@@ -37,4 +37,9 @@ class DeliveryOrderDetail extends Model
     {
         return $this->belongsTo(Inventory::class, 'inventory_id', 'id');
     }
+
+    public function orderDetail()
+    {
+        return $this->belongsTo(OrderDetails::class, 'order_detail_id', 'id');
+    }
 }

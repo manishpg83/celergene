@@ -59,6 +59,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
+    <style>
+        .mt-8 {
+            margin-top: 8rem !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -121,8 +126,9 @@
                     let billingAddress = $('#billing_address').val();
                     let billingCountry = $('#billing_country').val();
                     let billingPostalCode = $('#billing_postal_code').val();
-    
-                    $('#shipping_address_receiver_name_1').val($('#first_name').val() + ' ' + $('#last_name').val());
+
+                    $('#shipping_address_receiver_name_1').val($('#first_name').val() + ' ' + $(
+                        '#last_name').val());
                     $('#shipping_address_1').val(billingAddress);
                     $('#shipping_country_1').val(billingCountry);
                     $('#shipping_postal_code_1').val(billingPostalCode);

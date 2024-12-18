@@ -149,62 +149,93 @@ class OrderDetails extends Component
 
     public function downloadInvoice($invoiceDetailId)
     {
-        try {            
+        try {
+            Log::info("Attempting to download invoice for detail ID: {$invoiceDetailId}");
+    
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-            
+    
             $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";            
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
                 'customer' => $customer,
             ]);            
-            
+    
+            Log::info("PDF successfully generated for invoice detail ID: {$invoiceDetailId}");
+    
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
+    
         } catch (\Exception $e) {
+            Log::error("Failed to download invoice detail PDF: " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'invoiceDetailId' => $invoiceDetailId,
+            ]);
             notyf()->error("Could not download invoice detail PDF.");
             return redirect()->back();
         }
     }
+    
 
     public function downloadDeliveryOrder($deliveryOrderId)
-    {
-        try {
-            $deliveryOrder = DeliveryOrder::with([
-                'details.product', 
-                'warehouse', 
-                'orderMaster'
-            ])->findOrFail($deliveryOrderId);
-    
-            $customer = optional($deliveryOrder->orderMaster)->customer;
-    
-            $entity = Entity::first();
-    
-            if (!$customer) {
-                notyf()->error("Customer not found.");
-                return redirect()->back();
-            }
-    
-            $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
-    
-            $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
-                'deliveryOrder' => $deliveryOrder,
-                'customer' => $customer,
-                'entity' => $entity,
-            ]);
-    
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->output();
-            }, $fileName);
-    
-        } catch (\Exception $e) {
-            notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
+{
+    try {
+        $deliveryOrder = DeliveryOrder::with([
+            'details.product', 
+            'warehouse', 
+            'orderMaster'
+        ])->findOrFail($deliveryOrderId);
+
+        $isFirstDelivery = DeliveryOrder::where('order_id', $deliveryOrder->order_id)
+            ->where('id', '<=', $deliveryOrderId)
+            ->count() === 1;
+
+        $customer = optional($deliveryOrder->orderMaster)->customer;
+        $entity = Entity::first();
+
+        if (!$customer) {
+            notyf()->error("Customer not found.");
             return redirect()->back();
         }
+
+        $deliveryDetailsWithSamples = $deliveryOrder->details->map(function ($detail) use ($isFirstDelivery) {
+            $sampleQuantity = $isFirstDelivery ? 
+                optional($detail->orderDetail)->sample_quantity ?? 0 : 
+                0;
+                
+            return [
+                'product' => $detail->product,
+                'quantity' => $detail->quantity,
+                'sample_quantity' => $sampleQuantity,
+                'unit_price' => $detail->unit_price,
+                'discount' => $detail->discount,
+                'total' => $detail->total
+            ];
+        });
+
+        $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
+
+        $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
+            'deliveryOrder' => $deliveryOrder,
+            'customer' => $customer,
+            'entity' => $entity,
+            'deliveryDetails' => $deliveryDetailsWithSamples,
+            'isFirstDelivery' => $isFirstDelivery
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, $fileName);
+
+    } catch (\Exception $e) {
+        Log::error('Delivery Order PDF generation error: ' . $e->getMessage());
+        notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
+        return redirect()->back();
     }
+}
     
     public function back()
     {
