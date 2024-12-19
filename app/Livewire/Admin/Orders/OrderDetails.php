@@ -11,6 +11,7 @@ use App\Models\DeliveryOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Enums\OrderWorkflowType;
 use App\Models\OrderInvoiceDetail;
+use App\Models\DeliveryOrderDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OrderDetails as NewOrderDetails;
@@ -31,14 +32,41 @@ class OrderDetails extends Component
 
         try {
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
-            $this->deliveryOrders = DeliveryOrder::where('order_id', $order_id)->get();
+            $this->deliveryOrders = DeliveryOrder::with('warehouse', 'details')
+                ->where('order_id', $order_id)
+                ->get()
+                ->groupBy('warehouse_id')
+                ->map(function ($orders, $warehouseId) {
+                    $firstOrder = $orders->first();
+                    return [
+                        'warehouse_id' => $warehouseId,
+                        'delivery_number' => $firstOrder->delivery_number,
+                        'delivery_date' => $firstOrder->delivery_date,
+                        'warehouse_name' => $firstOrder->warehouse->warehouse_name,
+                        'status' => $firstOrder->status,
+                        'quantity' => $orders->flatMap->details->sum('quantity'),
+                        'remarks' => $firstOrder->remarks,
+                        'id' => $firstOrder->id,
+                        'products' => $orders->flatMap->details->map(function ($detail) {
+                            return [
+                                'product' => $detail->product,
+                                'quantity' => $detail->quantity,
+                                'unit_price' => $detail->unit_price,
+                                'total' => $detail->total,
+                            ];
+                        }),
+                    ];
+                })
+                ->values();
+
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
         } catch (\Exception $e) {
             notyf()->error("Unable to load order details.");
         }
     }
-    
+
+
     public function updateActualFreight()
     {
         try {
@@ -51,7 +79,7 @@ class OrderDetails extends Component
             notyf()->error("Failed to update actual freight.");
         }
     }
-    
+
     public function generateInvoices()
     {
         $this->quantitySplits = array_map('intval', $this->quantitySplits);
@@ -76,26 +104,26 @@ class OrderDetails extends Component
         $this->mount($this->order_id);
         notyf()->success('Invoices generated successfully!');
     }
-    
+
     private function createCombinedInvoice($orderDetails)
     {
         $mainOrder = $this->order;
-        
+
         $invoiceDetails = [];
         $totalSubtotal = 0;
         $totalQuantity = 0;
-    
+
         foreach ($orderDetails as $index => $detail) {
             $splitQty = $this->quantitySplits[$index] ?? 0;
-            
+
             if ($splitQty > 0) {
                 $detail->invoice_rem -= $splitQty;
                 $detail->save();
-    
+
                 $productSubtotal = $splitQty * $detail->unit_price;
                 $totalSubtotal += $productSubtotal;
                 $totalQuantity += $splitQty;
-    
+
                 $invoiceDetails[] = [
                     'product_id' => $detail->product_id,
                     'unit_price' => $detail->unit_price,
@@ -108,13 +136,13 @@ class OrderDetails extends Component
                 ];
             }
         }
-    
+
         $totalOrderQuantity = $mainOrder->orderDetails->sum('quantity');
         $tax = ($mainOrder->tax / $totalOrderQuantity) * $totalQuantity;
         $freight = ($mainOrder->freight / $totalOrderQuantity) * $totalQuantity;
-    
+
         $total = $totalSubtotal + $tax + $freight;
-    
+
         $invoice = OrderInvoice::create([
             'order_id' => $this->order_id,
             'invoice_number' => 'INV-' . strtoupper(uniqid()),
@@ -129,7 +157,7 @@ class OrderDetails extends Component
             'freight' => $freight,
             'created_by' => Auth::id(),
         ]);
-    
+
         foreach ($invoiceDetails as $detailData) {
             OrderInvoiceDetail::create([
                 'order_invoice_id' => $invoice->id,
@@ -143,32 +171,28 @@ class OrderDetails extends Component
                 'manual_product_name' => $detailData['manual_product_name'],
             ]);
         }
-    
+
         return $invoice;
     }
 
     public function downloadInvoice($invoiceDetailId)
     {
         try {
-            Log::info("Attempting to download invoice for detail ID: {$invoiceDetailId}");
-    
+
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-    
-            $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";            
+
+            $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
                 'customer' => $customer,
-            ]);            
-    
-            Log::info("PDF successfully generated for invoice detail ID: {$invoiceDetailId}");
-    
+            ]);
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
-    
         } catch (\Exception $e) {
             Log::error("Failed to download invoice detail PDF: " . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -178,65 +202,64 @@ class OrderDetails extends Component
             return redirect()->back();
         }
     }
-    
 
     public function downloadDeliveryOrder($deliveryOrderId)
-{
-    try {
-        $deliveryOrder = DeliveryOrder::with([
-            'details.product', 
-            'warehouse', 
-            'orderMaster'
-        ])->findOrFail($deliveryOrderId);
-
-        $isFirstDelivery = DeliveryOrder::where('order_id', $deliveryOrder->order_id)
-            ->where('id', '<=', $deliveryOrderId)
-            ->count() === 1;
-
-        $customer = optional($deliveryOrder->orderMaster)->customer;
-        $entity = Entity::first();
-
-        if (!$customer) {
-            notyf()->error("Customer not found.");
+    {
+        try {
+            $deliveryOrder = DeliveryOrder::with([
+                'details.product',
+                'warehouse',
+                'orderMaster'
+            ])->findOrFail($deliveryOrderId);
+    
+            $isFirstDelivery = DeliveryOrder::where('order_id', $deliveryOrder->order_id)
+                ->where('id', '<=', $deliveryOrderId)
+                ->count() === 1;
+    
+            $allDetails = DeliveryOrderDetail::with('product')
+                ->whereHas('deliveryOrder', function($query) use ($deliveryOrder) {
+                    $query->where('order_id', $deliveryOrder->order_id)
+                        ->where('warehouse_id', $deliveryOrder->warehouse_id);
+                })
+                ->get();
+    
+    
+            $customer = $deliveryOrder->orderMaster->customer;
+            $entity = Entity::first();
+    
+            if (!$customer) {
+                notyf()->error("Customer not found.");
+                return redirect()->back();
+            }
+    
+            foreach ($allDetails as $detail) {
+                $detail->sample_quantity = $isFirstDelivery ? 
+                    optional($detail->orderDetail)->sample_quantity ?? 0 : 
+                    0;
+            }
+    
+            $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
+            
+            $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
+                'deliveryOrder' => $deliveryOrder,
+                'customer' => $customer,
+                'entity' => $entity,
+                'allDetails' => $allDetails,
+            ]);
+           
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, $fileName);
+    
+        } catch (\Exception $e) {
+            Log::error('Delivery Order PDF generation error: ' . $e->getMessage());
+            notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
             return redirect()->back();
         }
-
-        $deliveryDetailsWithSamples = $deliveryOrder->details->map(function ($detail) use ($isFirstDelivery) {
-            $sampleQuantity = $isFirstDelivery ? 
-                optional($detail->orderDetail)->sample_quantity ?? 0 : 
-                0;
-                
-            return [
-                'product' => $detail->product,
-                'quantity' => $detail->quantity,
-                'sample_quantity' => $sampleQuantity,
-                'unit_price' => $detail->unit_price,
-                'discount' => $detail->discount,
-                'total' => $detail->total
-            ];
-        });
-
-        $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
-
-        $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
-            'deliveryOrder' => $deliveryOrder,
-            'customer' => $customer,
-            'entity' => $entity,
-            'deliveryDetails' => $deliveryDetailsWithSamples,
-            'isFirstDelivery' => $isFirstDelivery
-        ]);
-
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->output();
-        }, $fileName);
-
-    } catch (\Exception $e) {
-        Log::error('Delivery Order PDF generation error: ' . $e->getMessage());
-        notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
-        return redirect()->back();
     }
-}
     
+
+
     public function back()
     {
         return redirect()->route('admin.orders.index');
@@ -246,7 +269,7 @@ class OrderDetails extends Component
     {
         try {
             $workflowType = $this->order->workflow_type;
-    
+
             return view('livewire.admin.orders.order-details', [
                 'showSplitInvoices' => $workflowType === OrderWorkflowType::CONSIGNMENT,
             ]);

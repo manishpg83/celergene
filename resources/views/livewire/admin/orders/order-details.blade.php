@@ -110,7 +110,7 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
 
                     <div class="row">
                         <!-- Left Side: Product Section -->
@@ -119,26 +119,18 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="flex-grow-1">
                                         <label for="actual_freight" class="form-label">Actual Freight</label>
-                                        <input 
-                                            type="number" 
-                                            step="0.01" 
-                                            wire:model="actual_freight" 
-                                            id="actual_freight"
-                                            class="form-control shadow-sm"
-                                        >
+                                        <input type="number" step="0.01" wire:model="actual_freight"
+                                            id="actual_freight" class="form-control shadow-sm">
                                     </div>
                                     <div>
-                                        <button 
-                                            wire:click="updateActualFreight" 
-                                            class="btn btn-primary mt-6"
-                                        >
+                                        <button wire:click="updateActualFreight" class="btn btn-primary mt-6">
                                             Update
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
+
                         <!-- Right Side: Card Section -->
                         <div class="col-md-6">
                             <div class="card rounded-3 shadow-sm border">
@@ -168,7 +160,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card mt-4">
                         <div class="card-header">
                             <h5 class="card-title">Invoice Details</h5>
@@ -194,7 +186,8 @@
                                                     {{ date('M d, Y', strtotime($invoice->created_at)) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-{{ $invoice->status === 'Confirmed' ? 'success' : ($invoice->status === 'Draft' ? 'warning' : 'danger') }}">
+                                                    <span
+                                                        class="badge bg-{{ $invoice->status === 'Confirmed' ? 'success' : ($invoice->status === 'Draft' ? 'warning' : 'danger') }}">
                                                         {{ $invoice->status }}
                                                     </span>
                                                 </td>
@@ -202,7 +195,8 @@
                                                 <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
                                                 <td class="text-center">
                                                     @if ($invoice->invoiceDetails->count() > 0)
-                                                        <button class="btn btn-success" wire:click="downloadInvoice({{ $invoice->invoiceDetails->first()->id }})">
+                                                        <button class="btn btn-success"
+                                                            wire:click="downloadInvoice({{ $invoice->invoiceDetails->first()->id }})">
                                                             <i class="fas fa-download"></i>
                                                         </button>
                                                     @endif
@@ -234,36 +228,45 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($deliveryOrders as $deliveryOrder)
+                                        @foreach ($deliveryOrders as $group)
                                             <tr>
-                                                <td class="text-center">{{ $deliveryOrder->delivery_number }}</td>
+                                                <td class="text-center">{{ $group['delivery_number'] }}</td>
                                                 <td class="text-center">
-                                                    {{ date('M d, Y', strtotime($deliveryOrder->delivery_date)) }}
+                                                    {{ date('M d, Y', strtotime($group['delivery_date'])) }}
                                                 </td>
-                                                <td class="text-center">{{ $deliveryOrder->warehouse->warehouse_name }}</td>
+                                                <td class="text-center">{{ $group['warehouse_name'] }}</td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-{{ $deliveryOrder->status === 'Delivered' ? 'success' : 'warning' }}">
-                                                        {{ $deliveryOrder->status }}
+                                                    <span
+                                                        class="badge bg-{{ $group['status'] === 'Delivered' ? 'success' : 'warning' }}">
+                                                        {{ $group['status'] }}
                                                     </span>
                                                 </td>
+                                                <td class="text-center">{{ $group['quantity'] ?? 0 }}</td>
+                                                <td class="text-center">{{ $group['remarks'] }}</td>
                                                 <td class="text-center">
-                                                    {{ $deliveryOrder->details->sum('quantity') ?? 0 }}
-                                                </td>
-                                                <td class="text-center">{{ $deliveryOrder->remarks }}</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-primary" wire:click="downloadDeliveryOrder({{ $deliveryOrder->id }})">
+                                                    <button class="btn btn-primary"
+                                                        wire:click="downloadDeliveryOrder({{ $group['id'] }})">
                                                         <i class="fas fa-download"></i>
                                                     </button>
                                                 </td>
                                             </tr>
+                                            @foreach ($group['products'] as $product)
+                                                <tr>
+                                                    <td class="text-center">{{ $product['product']->product_name }}
+                                                    </td>
+                                                    <td class="text-center">{{ $product['quantity'] }}</td>
+                                                    <td class="text-center">{{ $product['unit_price'] }}</td>
+                                                    <td class="text-center">{{ $product['total'] }}</td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="card mt-4" @if(!$showSplitInvoices) style="display: none;" @endif>
+
+                    <div class="card mt-4" @if (!$showSplitInvoices) style="display: none;" @endif>
                         <div class="card-header">
                             <h5 class="card-title">Generate Split Invoices</h5>
                         </div>
@@ -272,7 +275,8 @@
                                 @foreach ($order->orderDetails as $index => $detail)
                                     <div class="mb-3">
                                         <label for="quantitySplit_{{ $index }}" class="form-label">
-                                            {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->invoice_rem }})
+                                            {{ $detail->product->product_name }} (Remaining Qty:
+                                            {{ $detail->invoice_rem }})
                                         </label>
                                         <input type="number" id="quantitySplit_{{ $index }}"
                                             wire:model="quantitySplits.{{ $index }}" class="form-control"
@@ -282,7 +286,7 @@
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
                             </form>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>

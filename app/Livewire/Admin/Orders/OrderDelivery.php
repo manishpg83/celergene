@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DeliveryOrderDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\WarehouseOrderUpdate;
 
 class OrderDelivery extends Component
 {
@@ -161,23 +160,9 @@ class OrderDelivery extends Component
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity > 0) {
                         $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-    
                         $inventory = Inventory::findOrFail($inventoryId);
                         $warehouseId = $inventory->warehouse_id;
-    
-                        if ($quantity > $inventory->remaining) {
-                            throw new \Exception("Insufficient inventory for inventory ID {$inventoryId}. Available: {$inventory->remaining}, Requested: {$quantity}");
-                        }
-    
-                        if (!$warehouseId) {
-                            throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
-                        }
-    
-                        $inventory->decrement('remaining', $quantity);
-                        $inventory->increment('consumed', $quantity);
-                        $inventory->modified_by = Auth::id();
-                        $inventory->save();
-    
+                
                         $deliveryOrder = DeliveryOrder::create([
                             'order_id' => $this->order->order_id,
                             'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
@@ -189,22 +174,33 @@ class OrderDelivery extends Component
                             'modified_by' => Auth::id(),
                             'order_invoice_id' => $orderInvoice->id,
                         ]);
-    
+                
                         foreach ($this->order->orderDetails as $detail) {
-                            DeliveryOrderDetail::create([
-                                'delivery_order_id' => $deliveryOrder->id,
-                                'product_id' => $detail->product_id,
-                                'inventory_id' => $inventoryId,
-                                'quantity' => $quantity,
-                                'unit_price' => $detail->unit_price,
-                                'discount' => $detail->discount,
-                                'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
-                                'order_detail_id' => $detail->id
-                            ]);
+                            if ($detail->quantity > 0) {
+                                $deliveryQuantity = min($quantity, $detail->quantity);
+                                DeliveryOrderDetail::create([
+                                    'delivery_order_id' => $deliveryOrder->id,
+                                    'product_id' => $detail->product_id,
+                                    'inventory_id' => $inventoryId,
+                                    'quantity' => $deliveryQuantity,
+                                    'unit_price' => $detail->unit_price,
+                                    'discount' => $detail->discount,
+                                    'total' => $deliveryQuantity * $detail->unit_price * (1 - $detail->discount / 100),
+                                    'order_detail_id' => $detail->id,
+                                ]);
+                
+                                $quantity -= $deliveryQuantity;
+                                $detail->quantity -= $deliveryQuantity;
+                                $detail->save();
+                
+                                if ($quantity <= 0) {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
-    
+            
                 $this->order->delivery_status = $this->deliveryStatus;
                 $this->order->modified_by = Auth::id();
                 $this->order->save();
@@ -241,107 +237,6 @@ class OrderDelivery extends Component
         }
     }
     
-    private function processInventoryUpdates($detail, $inventoryQuantities)
-    {
-        foreach ($inventoryQuantities as $inventoryId => $quantity) {
-            if ($quantity <= 0) continue;
-
-            $inventory = Inventory::findOrFail($inventoryId);
-            if ($inventory->product_id !== $detail->product_id) continue;
-
-            if ($inventory->remaining < $quantity) {
-                throw new \Exception("Insufficient quantity in inventory #{$inventoryId}");
-            }
-
-            $inventory->consumed += $quantity;
-            $inventory->remaining = $inventory->quantity - $inventory->consumed;
-            $inventory->modified_by = Auth::id();
-            $inventory->save();
-
-            Stock::create([
-                'inventory_id' => $inventory->id,
-                'product_id' => $detail->product_id,
-                'previous_quantity' => $inventory->remaining + $quantity,
-                'quantity_change' => -$quantity,
-                'new_quantity' => $inventory->remaining,
-                'reason' => $this->isInitialConsignment ?
-                    'Initial Consignment Delivery' :
-                    'Consignment Sale Delivery',
-                'created_by' => Auth::id(),
-            ]);
-
-            if ($inventory->warehouse?->email) {
-                $inventory->warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
-            }
-        }
-    }
-
-    private function generateConsignmentSaleInvoice($deliveredQuantity)
-    {
-        try {
-            DB::transaction(function () use ($deliveredQuantity) {
-                $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->first();
-                if (!$orderInvoice) {
-                    $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-                    throw new \Exception("OrderInvoice not found for order_id: {$this->order->order_id}");
-                }
-                foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
-                    if ($quantity <= 0) continue;
-
-                    $inventory = Inventory::find($inventoryId);
-                    if (!$inventory) continue;
-                    $warehouseId = $inventory->warehouse_id;
-                    $deliveryOrder = DeliveryOrder::create([
-                        'order_id' => $this->order->order_id,
-                        'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
-                        'warehouse_id' => $warehouseId,
-                        'delivery_date' => now(),
-                        'status' => 'Delivered',
-                        'remarks' => 'Generated for partial delivery',
-                        'created_by' => Auth::id(),
-                        'modified_by' => Auth::id(),
-                        'order_invoice_id' => $orderInvoice->id
-                    ]);
-                    foreach ($this->order->orderDetails as $detail) {
-                        if ($detail->product_id !== $inventory->product_id) continue;
-                        $detailQuantity = $this->calculateDetailQuantity($detail, $quantity);
-                        if ($detailQuantity > 0) {
-                            DeliveryOrderDetail::create([
-                                'delivery_order_id' => $deliveryOrder->id,
-                                'product_id' => $detail->product_id,
-                                'quantity' => $detailQuantity,
-                            ]);
-                        }
-                    }
-
-                    Log::info('Delivery Order generated', [
-                        'order_id' => $this->order->order_id,
-                        'delivery_order_id' => $deliveryOrder->id,
-                        'delivered_quantity' => $quantity,
-                    ]);
-                }
-            });
-
-            return true;
-        } catch (\Exception $e) {
-            Log::error('Error generating delivery order: ' . $e->getMessage(), [
-                'order_id' => $this->order->order_id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw $e;
-        }
-    }
-
-    private function calculateDetailQuantity($detail, $totalDeliveredQuantity)
-    {
-        $originalTotalQuantity = $this->order->orderDetails->sum('quantity');
-        if ($originalTotalQuantity <= 0) return 0;
-
-        $ratio = $totalDeliveredQuantity / $originalTotalQuantity;
-        return round($detail->quantity * $ratio);
-    }
-
     public function render()
     {
         return view('livewire.admin.orders.order-delivery');

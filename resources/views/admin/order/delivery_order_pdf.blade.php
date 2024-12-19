@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Delivery Order #{{ $deliveryOrder->delivery_number }}</title>
@@ -140,6 +141,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="logo-container">
         <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
@@ -149,7 +151,7 @@
         <div class="company-name">{{ $entity->company_name ?? 'Your Company Name' }}</div>
         <div class="delivery-text">DELIVERY ORDER</div>
     </div>
-    
+
     <div>
         <div class="company-address">{{ $entity->address ?? 'Company Address' }}</div>
     </div>
@@ -184,19 +186,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($deliveryDetails as $detail)
+            @foreach ($allDetails as $detail)
                 <tr>
-                    <td>{{ $detail['product']->product_name }}</td>
-                    <td>{{ $detail['quantity'] }}</td>
-                    <td>{{ $detail['sample_quantity'] }}</td>
-                    <td>{{ number_format($detail['unit_price'], 2) }}</td>
-                    <td>
-                        {{ number_format($detail['quantity'] * $detail['unit_price'], 2) }}
-                    </td>
+                    <td>{{ $detail->product->product_name }}</td>
+                    <td>{{ $detail->quantity }}</td>
+                    <td>{{ $detail->sample_quantity }}</td>
+                    <td>{{ number_format($detail->unit_price, 2) }}</td>
+                    <td>{{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
-    </table>    
+    </table>
 
     <div class="summary-section">
         <div class="left contact-details">
@@ -208,10 +208,11 @@
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ number_format($deliveryOrder->details->sum('total'), 2) }}</td>
+                    <td>{{ number_format($allDetails->sum('total'), 2) }}</td>
                 </tr>
             </table>
         </div>
     </div>
 </body>
+
 </html>
