@@ -40,9 +40,9 @@ class CreateOrder extends Component
     public $remarks;
     public float $subtotal = 0;
     public float $totalDiscount = 0;
-    public float $tax = 0;
+    public $tax = 0;
     public float $total = 0;
-    public float $freight = 0;
+    public $freight = 0;
     public float $actual_freight = 0;
     public $payment_mode = 'Bank Transfer';
     public $invoice_status = 'Pending';
@@ -57,7 +57,7 @@ class CreateOrder extends Component
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
             'shipping_address' => 'required|string',
-            'actual_freight' => 'nullable|numeric',
+            'actual_freight' => 'numeric|min:0',
             'orderDetails' => 'required|array|min:1',
             'orderDetails.*.product_id' => [
                 'required',
@@ -124,6 +124,7 @@ class CreateOrder extends Component
         $this->freight = 0;
         $this->tax = 0;
         $this->addOrderDetail();
+        $this->order_date = now()->format('Y-m-d'); // Set current date
         $this->oldInvoiceStatus = $this->invoice_status;
         $this->oldDeliveryStatus = $this->delivery_status;
     }
@@ -258,19 +259,26 @@ class CreateOrder extends Component
 
     private function calculateFinalTotal()
     {
+        $this->subtotal = floatval($this->subtotal);
+        $this->totalDiscount = floatval($this->totalDiscount);
+        $this->freight = floatval($this->freight);
+        $this->tax = floatval($this->tax);
+    
         $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
     }
+    
 
-    public function updatedTax()
+    public function updatedFreight()
     {
-        if (empty($this->tax) || !is_numeric($this->tax)) {
-            $this->tax = 0;
+        if (empty($this->freight) || !is_numeric($this->freight)) {
+            $this->freight = 0;
         } else {
-            $this->tax = floatval($this->tax);
+            $this->freight = floatval($this->freight);
         }
-
+    
         $this->calculateFinalTotal();
     }
+    
 
     public function removeOrderDetail($index)
     {

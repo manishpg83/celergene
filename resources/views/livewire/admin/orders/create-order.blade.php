@@ -57,7 +57,7 @@
                                 <label for="workflow_type" class="form-label">Order Type:</label>
                                 <select wire:model="workflow_type" id="workflow_type"
                                     class="form-select @error('workflow_type') is-invalid @enderror">
-                                    @foreach(\App\Enums\OrderWorkflowType::options() as $value => $label)
+                                    @foreach (\App\Enums\OrderWorkflowType::options() as $value => $label)
                                         <option value="{{ $value }}">{{ $label }}</option>
                                     @endforeach
                                 </select>
@@ -111,12 +111,18 @@
 
                             <div class="col-md-6">
                                 <label for="order_date" class="form-label">Invoice Date:</label>
-                                <input type="date" wire:model="order_date" id="order_date"
-                                     min="{{ date('Y-m-d') }}" class="form-control @error('order_date') is-invalid @enderror">
+                                <input 
+                                    type="date" 
+                                    wire:model="order_date" 
+                                    id="order_date" 
+                                    min="{{ now()->format('Y-m-d') }}" 
+                                    class="form-control @error('order_date') is-invalid @enderror"
+                                >
                                 @error('order_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                         </div>
 
                         <div class="row g-3 mt-4">
@@ -166,16 +172,13 @@
                                             @enderror
                                         </div>
 
-                                        @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] == 1)
+                                        @if (isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] == 1)
                                             <div class="col-md-2">
                                                 <div class="col-6">Manual Product Name</div>
-                                                <input 
-                                                    type="text" 
+                                                <input type="text"
                                                     wire:model="orderDetails.{{ $index }}.manual_product_name"
-                                                    placeholder="Enter custom product name"
-                                                    class="form-control"
-                                                >
-                                                @error("orderDetails.{$index}.manual_product_name") 
+                                                    placeholder="Enter custom product name" class="form-control">
+                                                @error("orderDetails.{$index}.manual_product_name")
                                                     <span class="error">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -197,8 +200,7 @@
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="Sample Quantity"
-                                                class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror"
-                                                >
+                                                class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror">
                                             @error('orderDetails.' . $index . '.sample_quantity')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -222,7 +224,7 @@
                                             @enderror
                                         </div> --}}
 
-                                        @if($workflow_type === 'multi_delivery')
+                                        @if ($workflow_type === 'multi_delivery')
                                             <div class="col-md-2">
                                                 <div class="col-6 mb-1">Delivery Date</div>
                                                 <input type="date"
@@ -235,7 +237,7 @@
                                             </div>
                                         @endif
 
-                                        @if($workflow_type === 'consignment')
+                                        @if ($workflow_type === 'consignment')
                                             <div class="col-md-2">
                                                 <div class="col-6 mb-1">Consignment Terms</div>
                                                 <input type="text"
@@ -290,10 +292,11 @@
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
-                                                    <input type="number" wire:model.live="tax" class="form-control" min="0" step="0.01" value="0">
+                                                    <input type="number" wire:model.live="tax" class="form-control"
+                                                        min="0" step="0.01" value="0">
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-6"><strong>Total:</strong></div>
@@ -336,7 +339,7 @@
                                 @error('actual_freight')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div>                            
                         </div>
 
                         <div class="d-flex justify-content-end mt-4">
