@@ -102,9 +102,9 @@
                                         @endif
                                     </th>
                                     <th class="text-center">Samlple Qty</th>
-                                    <th class="text-center">Price</th>
-                                    <th class="text-center">Discount</th>
-                                    <th class="text-center">Total Price</th>
+                                    {{-- <th class="text-center">Price</th> --}}
+                                    {{-- <th class="text-center">Discount</th> --}}
+                                    {{-- <th class="text-center">Total Price</th> --}}
                                     <th class="text-center">Warehouse Selection</th>
                                 </tr>
                             </thead>
@@ -120,15 +120,15 @@
                                                 {{ $detail->quantity }}
                                             @endif
                                         </td>
-                                        <td class="text-center">{{ $detail->sample_quantity }}</td>
-                                        <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
-                                        <td class="text-danger text-center">
+                                        {{-- <td class="text-center">{{ $detail->sample_quantity }}</td> --}}
+                                        {{-- <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td> --}}
+                                       {{--  <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
                                                 -${{ number_format($detail->discount, 2) }}
                                             @else
                                                 $0.00
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center">
                                             ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
                                         </td>

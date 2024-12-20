@@ -181,8 +181,8 @@
                 <th>PRODUCT NAME</th>
                 <th>QUANTITY</th>
                 <th>SAMPLE QTY</th>
-                <th>UNIT PRICE</th>
-                <th>TOTAL AMOUNT</th>
+                {{-- <th>UNIT PRICE</th> --}}
+                {{-- <th>TOTAL AMOUNT</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -191,8 +191,8 @@
                     <td>{{ $detail->product->product_name }}</td>
                     <td>{{ $detail->quantity }}</td>
                     <td>{{ $detail->sample_quantity }}</td>
-                    <td>{{ number_format($detail->unit_price, 2) }}</td>
-                    <td>{{ number_format($detail->total, 2) }}</td>
+                    {{-- <td>{{ number_format($detail->unit_price, 2) }}</td> --}}
+                    {{-- <td>{{ number_format($detail->total, 2) }}</td> --}}
                 </tr>
             @endforeach
         </tbody>
@@ -204,7 +204,7 @@
             <p><strong>Note:</strong> This is a delivery order, not a tax invoice</p>
         </div>
 
-        <div class="right totals">
+        {{-- <div class="right totals">
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
@@ -212,7 +212,7 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div> --}}
 </body>
 
 </html>

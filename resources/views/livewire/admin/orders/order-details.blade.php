@@ -250,7 +250,7 @@
                                                     </button>
                                                 </td>
                                             </tr>
-                                            @foreach ($group['products'] as $product)
+                                            {{-- @foreach ($group['products'] as $product)
                                                 <tr>
                                                     <td class="text-center">{{ $product['product']->product_name }}
                                                     </td>
@@ -258,7 +258,7 @@
                                                     <td class="text-center">{{ $product['unit_price'] }}</td>
                                                     <td class="text-center">{{ $product['total'] }}</td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         @endforeach
                                     </tbody>
                                 </table>
