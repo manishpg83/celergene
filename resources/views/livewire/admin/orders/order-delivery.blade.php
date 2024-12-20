@@ -113,13 +113,34 @@
                                     <tr>
                                         <td class="text-center">{{ $detail->product->product_name }}</td>
                                         <td class="text-center">
-                                            @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                {{ $this->calculateRemainingQuantity($detail) }} /
-                                                {{ $detail->quantity }}
-                                            @else
-                                                {{ $detail->quantity }}
-                                            @endif
-                                        </td>
+    @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+        <div>
+            <strong>Remaining:</strong> {{ $this->calculateRemainingQuantity($detail) }} / {{ $detail->quantity }}
+        </div>
+        <div class="mt-2">
+            <strong>Selected:</strong> 
+            {{ collect($inventoryQuantities)
+                ->filter(function ($qty, $invId) use ($detail) {
+                    return $detail->product->inventories->contains('id', $invId);
+                })
+                ->sum() 
+            }}
+        </div>
+    @else
+        <div>
+            <strong>Quantity:</strong> {{ $detail->quantity }}
+        </div>
+        <div class="mt-2">
+            <strong>Selected:</strong>
+            {{ collect($inventoryQuantities)
+                ->filter(function ($qty, $invId) use ($detail) {
+                    return $detail->product->inventories->contains('id', $invId);
+                })
+                ->sum() 
+            }}
+        </div>
+    @endif
+</td>
                                         <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">

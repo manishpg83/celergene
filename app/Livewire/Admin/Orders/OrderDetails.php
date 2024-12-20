@@ -29,39 +29,58 @@ class OrderDetails extends Component
     public function mount($order_id)
     {
         $this->order_id = $order_id;
+        Log::info('Mounting OrderDetails component with order_id: ' . $order_id);
 
         try {
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
-            $this->deliveryOrders = DeliveryOrder::with('warehouse', 'details')
+            Log::info('Order found:', ['order' => $this->order->toArray()]);
+
+            // Log raw delivery orders before processing
+            $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details')
+                ->where('order_id', $order_id)
+                ->get();
+            Log::info('Raw delivery orders:', ['delivery_orders' => $rawDeliveryOrders->toArray()]);
+
+            // Log after grouping
+            $groupedOrders = $rawDeliveryOrders->groupBy('warehouse_id');
+            Log::info('Grouped by warehouse:', ['grouped_orders' => $groupedOrders->toArray()]);
+
+            $this->deliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
                 ->where('order_id', $order_id)
                 ->get()
                 ->groupBy('warehouse_id')
                 ->map(function ($orders, $warehouseId) {
                     $firstOrder = $orders->first();
+                    // Get only the details for this specific delivery order
                     return [
                         'warehouse_id' => $warehouseId,
                         'delivery_number' => $firstOrder->delivery_number,
                         'delivery_date' => $firstOrder->delivery_date,
                         'warehouse_name' => $firstOrder->warehouse->warehouse_name,
                         'status' => $firstOrder->status,
-                        'quantity' => $orders->flatMap->details->sum('quantity'),
+                        'quantity' => $firstOrder->details->sum('quantity'), 
                         'remarks' => $firstOrder->remarks,
                         'id' => $firstOrder->id,
-                        'products' => $orders->flatMap->details->map(function ($detail) {
+                        'products' => $firstOrder->details->map(function ($detail) { 
                             return [
                                 'product' => $detail->product,
                                 'quantity' => $detail->quantity,
                                 'unit_price' => $detail->unit_price,
                                 'total' => $detail->total,
                             ];
-                        }),
+                        })->toArray(), 
                     ];
                 })
                 ->values();
+            Log::info('Final processed delivery orders:', ['delivery_orders' => $this->deliveryOrders->toArray()]);
 
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
         } catch (\Exception $e) {
+            Log::error('Error in OrderDetails mount:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             notyf()->error("Unable to load order details.");
         }
     }
