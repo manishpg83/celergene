@@ -50,7 +50,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expiry">Expiry Date</label>
-                                    <input type="date" wire:model="expiry" id="expiry" class="form-control" required>
+                                    <input type="date" wire:model="expiry" id="expiry"  min="{{ date('Y-m-d') }}" class="form-control" required>
                                     @error('expiry') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
 

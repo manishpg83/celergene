@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -16,7 +18,6 @@ use App\Http\Controllers\Admin\OrderMasterController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\ProductCategoryController;
-use App\Http\Controllers\Admin\InvoiceController;
 
 
 
@@ -113,10 +114,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::middleware(['permission:manage invoices'])->group(function () {           
             Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
         });
-        // Routes for managing roles and permissions (accessible only to super admins)
-        /*  Route::middleware(['role:super-admin'])->group(function () {
+         Route::middleware(['role:super-admin'])->group(function () {
             Route::resource('roles', RoleController::class);
-        }); */
+
+            Route::get('truncate-orders', function() {
+                try {
+                    DB::statement('SET FOREIGN_KEY_CHECKS=0');
+                    
+                    DB::table('delivery_orders')->truncate();
+                    DB::table('delivery_order_details')->truncate();
+                    DB::table('order_details')->truncate();
+                    DB::table('order_invoice')->truncate();
+                    DB::table('order_invoice_details')->truncate();
+                    DB::table('order_master')->truncate();
+                    
+                    DB::statement('SET FOREIGN_KEY_CHECKS=1');
+                    
+                    return response()->json(['message' => 'All order related tables truncated successfully']);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
+            })->name('truncate.orders');
+        });
 
         Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware('role:super-admin');
     });

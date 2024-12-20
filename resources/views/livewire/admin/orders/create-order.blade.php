@@ -112,7 +112,7 @@
                             <div class="col-md-6">
                                 <label for="order_date" class="form-label">Invoice Date:</label>
                                 <input type="date" wire:model="order_date" id="order_date"
-                                    class="form-control @error('order_date') is-invalid @enderror">
+                                     min="{{ date('Y-m-d') }}" class="form-control @error('order_date') is-invalid @enderror">
                                 @error('order_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

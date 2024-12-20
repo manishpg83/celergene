@@ -48,7 +48,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="created_date">Created Date</label>
-                                    <input type="datetime-local" class="form-control" id="created_date" wire:model="created_date" required>
+                                    <input type="datetime-local"  min="{{ date('Y-m-d\TH:i') }}" class="form-control" id="created_date" wire:model="created_date" required>
                                     @error('created_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -56,7 +56,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="modified_date">Modified Date</label>
-                                    <input type="datetime-local" class="form-control" id="modified_date" wire:model="modified_date" required>
+                                    <input type="datetime-local"  min="{{ date('Y-m-d\TH:i') }}" class="form-control" id="modified_date" wire:model="modified_date" required>
                                     @error('modified_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
