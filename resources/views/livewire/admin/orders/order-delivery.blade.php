@@ -159,8 +159,8 @@
                                                 /
                                                 @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                                     {{ $this->calculateRemainingQuantity($detail) }}
-                                                @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT && !$isInitialConsignment)
-                                                    {{ (float) $remainingQuantity }}
+                                                @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                                                    {{ $this->calculateRemainingQuantity($detail) }}
                                                 @else
                                                     {{ (float) $detail->quantity }}
                                                 @endif
