@@ -208,13 +208,18 @@ class OrderDelivery extends Component
                                     'inventory_id' => $inventoryId,
                                     'quantity' => $quantity,
                                     'unit_price' => $detail->unit_price,
-                                    'discount' => $detail->discount,    
+                                    'discount' => $detail->discount,
                                     'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
                                     'order_detail_id' => $detail->id,
                                 ]);
 
                                 break; // Avoid creating multiple entries for the same product in the same loop
                             }
+                        }
+                        $warehouse = $inventory->warehouse;
+                        // dd($warehouse);
+                        if ($warehouse && $warehouse->email && $inventory->remaining > 0) {
+                            $warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
                         }
                     }
                 }

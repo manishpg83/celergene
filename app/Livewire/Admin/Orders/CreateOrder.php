@@ -57,7 +57,7 @@ class CreateOrder extends Component
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
             'shipping_address' => 'required|string',
-            'actual_freight' => 'nullable|numeric|min:0',
+            'actual_freight' => 'nullable|numeric',
             'orderDetails' => 'required|array|min:1',
             'orderDetails.*.product_id' => [
                 'required',
