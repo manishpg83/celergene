@@ -35,45 +35,36 @@ class OrderDetails extends Component
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
             Log::info('Order found:', ['order' => $this->order->toArray()]);
 
-            // Log raw delivery orders before processing
-            $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details')
+            // Retrieve all delivery orders with necessary relations
+            $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
                 ->where('order_id', $order_id)
                 ->get();
             Log::info('Raw delivery orders:', ['delivery_orders' => $rawDeliveryOrders->toArray()]);
 
-            // Log after grouping
-            $groupedOrders = $rawDeliveryOrders->groupBy('warehouse_id');
-            Log::info('Grouped by warehouse:', ['grouped_orders' => $groupedOrders->toArray()]);
-
-            $this->deliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
-                ->where('order_id', $order_id)
-                ->get()
-                ->groupBy('warehouse_id')
-                ->map(function ($orders, $warehouseId) {
-                    $firstOrder = $orders->first();
-                    // Get only the details for this specific delivery order
-                    return [
-                        'warehouse_id' => $warehouseId,
-                        'delivery_number' => $firstOrder->delivery_number,
-                        'delivery_date' => $firstOrder->delivery_date,
-                        'warehouse_name' => $firstOrder->warehouse->warehouse_name,
-                        'status' => $firstOrder->status,
-                        'quantity' => $firstOrder->details->sum('quantity'), 
-                        'remarks' => $firstOrder->remarks,
-                        'id' => $firstOrder->id,
-                        'products' => $firstOrder->details->map(function ($detail) { 
-                            return [
-                                'product' => $detail->product,
-                                'quantity' => $detail->quantity,
-                                'unit_price' => $detail->unit_price,
-                                'total' => $detail->total,
-                            ];
-                        })->toArray(), 
-                    ];
-                })
-                ->values();
+            // Process each delivery order separately without grouping by warehouse
+            $this->deliveryOrders = $rawDeliveryOrders->map(function ($deliveryOrder) {
+                return [
+                    'warehouse_id' => $deliveryOrder->warehouse_id,
+                    'delivery_number' => $deliveryOrder->delivery_number,
+                    'delivery_date' => $deliveryOrder->delivery_date,
+                    'warehouse_name' => $deliveryOrder->warehouse->warehouse_name,
+                    'status' => $deliveryOrder->status,
+                    'quantity' => $deliveryOrder->details->sum('quantity'),
+                    'remarks' => $deliveryOrder->remarks,
+                    'id' => $deliveryOrder->id,
+                    'products' => $deliveryOrder->details->map(function ($detail) {
+                        return [
+                            'product' => $detail->product,
+                            'quantity' => $detail->quantity,
+                            'unit_price' => $detail->unit_price,
+                            'total' => $detail->total,
+                        ];
+                    })->toArray(),
+                ];
+            })->values();
             Log::info('Final processed delivery orders:', ['delivery_orders' => $this->deliveryOrders->toArray()]);
 
+            // Load invoices and other necessary data
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
         } catch (\Exception $e) {
@@ -84,6 +75,7 @@ class OrderDetails extends Component
             notyf()->error("Unable to load order details.");
         }
     }
+
 
 
     public function updateActualFreight()
@@ -230,54 +222,47 @@ class OrderDetails extends Component
                 'warehouse',
                 'orderMaster'
             ])->findOrFail($deliveryOrderId);
-    
+
             $isFirstDelivery = DeliveryOrder::where('order_id', $deliveryOrder->order_id)
                 ->where('id', '<=', $deliveryOrderId)
                 ->count() === 1;
-    
+
             $allDetails = DeliveryOrderDetail::with('product')
-                ->whereHas('deliveryOrder', function($query) use ($deliveryOrder) {
-                    $query->where('order_id', $deliveryOrder->order_id)
-                        ->where('warehouse_id', $deliveryOrder->warehouse_id);
-                })
+                ->where('delivery_order_id', $deliveryOrderId)
                 ->get();
-    
-    
+
             $customer = $deliveryOrder->orderMaster->customer;
             $entity = Entity::first();
-    
+
             if (!$customer) {
                 notyf()->error("Customer not found.");
                 return redirect()->back();
             }
-    
+
             foreach ($allDetails as $detail) {
-                $detail->sample_quantity = $isFirstDelivery ? 
-                    optional($detail->orderDetail)->sample_quantity ?? 0 : 
+                $detail->sample_quantity = $isFirstDelivery ?
+                    optional($detail->orderDetail)->sample_quantity ?? 0 :
                     0;
             }
-    
+
             $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
-            
+
             $pdf = PDF::loadView('admin.order.delivery_order_pdf', [
                 'deliveryOrder' => $deliveryOrder,
                 'customer' => $customer,
                 'entity' => $entity,
                 'allDetails' => $allDetails,
             ]);
-           
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
-    
         } catch (\Exception $e) {
             Log::error('Delivery Order PDF generation error: ' . $e->getMessage());
             notyf()->error("Could not download Delivery Order PDF: " . $e->getMessage());
             return redirect()->back();
         }
     }
-    
-
 
     public function back()
     {

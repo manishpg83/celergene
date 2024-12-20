@@ -198,7 +198,7 @@
                                                 wire:model.live="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="Sample Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror"
-                                                min="1">
+                                                >
                                             @error('orderDetails.' . $index . '.sample_quantity')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
