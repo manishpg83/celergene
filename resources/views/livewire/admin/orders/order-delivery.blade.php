@@ -120,7 +120,7 @@
                                                 {{ $detail->quantity }}
                                             @endif
                                         </td>
-                                        {{-- <td class="text-center">{{ $detail->sample_quantity }}</td> --}}
+                                        <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         {{-- <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td> --}}
                                        {{--  <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
@@ -129,9 +129,9 @@
                                                 $0.00
                                             @endif
                                         </td> --}}
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center">
                                             @foreach ($detail->product->inventories as $inventory)
                                                 <div class="mb-3 p-2 border rounded">
