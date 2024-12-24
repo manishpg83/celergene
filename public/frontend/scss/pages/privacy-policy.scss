@@ -1,0 +1,28 @@
+.privacy-content{
+   p{
+    margin-bottom: 35px;
+    @include respond("phone"){
+        margin-bottom: 25px;
+    }
+   }
+
+   h3{
+    @include respond("phone"){
+        font-size: 22px;
+    }
+   }
+}
+.privacy-point{
+    li{
+        font-size: 20px;
+        font-family: var(--font-family-title);
+        color: var(--title);
+        padding: 0px 0px 0px 22px !important;
+        p{
+            font-size: 16px;
+            margin-bottom: 20px;
+
+    
+        }
+    }
+}

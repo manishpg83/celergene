@@ -1,0 +1,279 @@
+.compare-box {
+	margin: 0 auto 0 auto;
+    margin-top: -287px;
+    position: relative;
+    z-index: 99;
+}
+.compare-table{
+	margin-top: -400px;
+    position: relative;
+    z-index: 99;
+	@include respond('tab-land'){
+		margin-top: 0px;
+	}
+	
+	
+	.shop-card.style-1 .dz-media{
+		@include respond('tab-port'){
+			width: auto;
+			height: auto;
+		}
+	}
+	tr{
+		&.compare-product{
+			.compare-top-data{
+				@include respond("tab-land"){
+					flex: 0 0 100%;
+					width: 100%;
+				}
+			}
+			.compare-top-table{
+				tr{
+					display: flex;
+					td{
+						@include respond('tab-land'){
+							flex: 0 0 20%;
+							width: 20%;
+							word-break: break-word;
+						}
+					}
+				}
+			}
+			td{
+				&:first-child{
+					background:transparent;
+					min-width: 200px;
+					margin-bottom: 30px;
+
+					@include respond("laptop"){
+						min-width: 175px;
+						margin-bottom: 0px;
+					}
+					@include respond ("tab-land"){
+						min-width: 135px;
+					}
+					@include respond("tab-port"){
+						min-width: 90px;
+					}
+					@include respond("phone-land"){
+						min-width: 80px;
+					}
+					@include respond("phone"){
+						min-width: 70px;
+					}
+					@include respond("tab-port"){
+						flex: 0 0 100%;
+						width: 100%;
+					}
+				}
+			}
+			.shop-card.style-1 {
+				@include respond('phone-land'){
+					.dz-media{
+						margin: 0px auto 0px auto;
+					}
+				}
+				@include respond('phone-land'){
+					.dz-content{
+						padding: 10px 0 0 0;
+					}
+					.price,
+					.star-rating{
+						display:none;
+					}
+					.title{
+						font-size: 12px;
+						margin-bottom:15px;
+					}
+				}
+				.compare-table{
+					margin-top: -150px;
+				}
+			}
+			
+		}
+		
+		td:empty {
+			padding: 0 !important;
+		}
+		td{
+			background:#fff;			
+			padding: 7px 30px;
+			font-size: 14px;
+			line-height: 20px;
+			border: 0;
+			color: var(--title);
+			font-weight: 400;
+			width: 20%;
+			border-right: 1px solid #D7D7D7;
+			@include respond('laptop'){
+				padding: 10px 15px;
+				font-size: 13px;
+			}
+			@include respond('tab-land'){
+				// flex: 0 0 25%;
+				// width: 25%;
+				// word-break: break-word;
+				// display: flex;
+
+				span{
+					margin-right: 10px;
+					display: inline-block;
+				}
+			}
+			@include respond('phone-land'){
+				padding: 5px 8px;
+			}	
+			@include respond('phone'){
+				font-size: 11px;
+				line-height: 1.4;
+			}	
+			&:first-child{
+				background:var(--bg-primary-light);
+				min-width:450px;
+				@include respond('tab-land'){
+					wflex: 0 0 100%;
+					idth: 100%;
+				}
+				@include respond("laptop"){
+					min-width: 280px;
+				}
+				@include respond("phone-land"){
+					min-width: 110px;
+				}
+				@include respond("phone"){
+					min-width: 85px;
+				}
+			}
+			&:last-child{
+				border-#{$dz-pos-right}:0;
+			}
+			i{
+			font-size: 10px;
+			width: 17px;
+			height: 17px;
+			line-height: 17px;
+			text-align: center;
+			background: var(--secondary);
+			color: #fff;
+
+		
+				margin-#{$dz-pos-right}: 15px;
+				@include respond('laptop'){
+					margin-#{$dz-pos-right}: 5px;
+				}
+				@include respond('tab-land'){
+					margin:auto;
+					display: block;
+				}
+				@include respond('phone'){
+					width: 13px;
+					height: 14px;
+					line-height: 14px;
+					margin-bottom:5px;
+				}	
+			}
+		}
+		&.compare-table-head{
+			td{
+				padding: 15px 30px;
+			    background: var(--secondary);
+				border: 0;
+				@include respond('laptop'){
+				    padding: 10px 15px;
+				}
+				h5{
+					margin:0;
+					line-height: 30px;
+					color: #fff;
+					@include respond('phone'){
+						font-size: 14px;
+						line-height: 1.3;
+					}
+				}
+			}
+		}
+		&.compare-start{
+			td{
+				padding-top: 35px;
+				@include respond('laptop'){
+				    padding-top: 15px;
+				}
+			
+			}
+		
+		}
+		&.compare-end{
+			td{
+				padding-bottom: 35px;
+				@include respond('laptop'){
+				    padding-bottom: 15px;
+				}
+			}
+		}
+	}
+}
+
+.dz-bnr-inr-entry{
+	&.style-1{
+		h1{
+			@include respond("laptop"){
+				font-size: 60px;
+			}
+		}
+	}
+} 
+
+
+.table-responsive{
+	@include respond("tab-land"){
+		overflow: auto !important;
+	}
+}
+
+.compare-table > tbody > tr >td:first-child{
+	position: sticky;
+	left: 0;
+	border: 0;
+}
+	
+.compare-icon-bx{
+	background-color: var(--secondary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 100%;
+	position: relative;
+	margin: 30px 0px 10px 0px;
+	svg{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	@include respond("tab-port"){
+		svg{
+			width: 50px;
+		}
+	}
+	@include respond("phone-land"){
+		margin-top: 0px;
+	}
+}
+
+.compare-top-table{
+	width: 100%;
+	tr > td{
+		border: 0;
+	}
+}
+
+.disable{
+	span{
+		i{
+			background-color: transparent !important;
+			border: 1px solid var(--border-color);
+			color: transparent;
+		}
+	}
+}

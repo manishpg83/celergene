@@ -1,0 +1,310 @@
+@charset "utf-8";
+/* CSS Document */
+/* ============ Header & Footer CSS =========== */
+.header {
+    z-index: 99;
+    background: white;
+    position: fixed;
+    float: left;
+    width: 100%;
+    top: 0px;
+}
+.headerhide {
+    z-index: 99;
+    float: left;
+    width: 100%;
+    top: 0px;
+}
+#menubar2 {
+    font-size: 12px;
+    transition: all 0.8s;
+}
+
+.red-btn,
+.red-btn:hover {
+    background-color: #b11230 !important;
+}
+.cart-count-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    font-size: 7pt;
+    padding: 3px 0;
+}
+.cart-count-badge1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    font-size: 7pt;
+    padding: 3px 0;
+}
+
+.menubar1 {
+    color: #00355f;
+    font-size: 16px;
+    font-family: "AdelleSansW01-Regular";
+}
+.offcanvas-backdrop {
+    background: rgba(0, 45, 89, 0.7);
+}
+.offcanvas {
+    transition: all 0.6s;
+}
+.menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    float: right;
+    transition: all 0.8s;
+    position: relative;
+}
+.logo {
+    position: absolute;
+    top: 30%;
+    float: left;
+}
+.offcanvas-backdrop.show {
+    opacity: 1 !important;
+}
+/*===============================
+	max 576 px 
+===============================*/
+@media (max-width: 576px) {
+    #header {
+        padding: 5px 10px !important;
+    }
+    .offcanvas {
+        width: 70% !important;
+    }
+    .expand-logo {
+        transition: all 0.8s;
+        width: 150px;
+    }
+    .cart-img,
+    .burger-menu {
+        width: 20px;
+    }
+    .myaccount-img {
+        width: 17px;
+    }
+}
+/*===============================
+	min 576 - max 992 
+===============================*/
+@media (min-width: 577px) and (max-width: 768px) {
+    .offcanvas {
+        width: 40% !important;
+    }
+}
+@media (min-width: 769px) and (max-width: 991px) {
+    #header {
+        padding: 0 30px;
+    }
+    .offcanvas {
+        width: 40% !important;
+    }
+}
+
+/*===============================
+	max 992 px 
+===============================*/
+
+@media (max-width: 991px) {
+    .cart-img,
+    .burger-menu {
+        width: 20px;
+    }
+    .myaccount-img {
+        width: 17px;
+    }
+    .menubar2 {
+        font-size: 12px;
+        transition: all 0.8s;
+        padding: 0;
+        text-align: right;
+    }
+    .sidbar-main-menu li a {
+        padding: 10px 35px 10px 25px;
+        font-family: "AdelleSansW01-Regular";
+        font-size: 14px;
+        color: #00355f;
+    }
+    .sidbar-main-menu li a:hover {
+        padding: 10px 25px 10px 25px;
+        border-right: 10px solid #b31b2a;
+        background-color: #f2f2f2;
+    }
+    .sidbar-main-menu .active {
+        padding: 10px 25px 10px 25px;
+        border-right: 10px solid #b31b2a;
+        background-color: #f2f2f2;
+    }
+    .sub-menu {
+        margin: 0 !important;
+        padding-right: 15px;
+        border-radius: 0 !important;
+        border: none;
+        background-color: #002d59;
+        color: #ffffff;
+        text-align: right;
+    }
+    .sub-menu li a {
+        color: #ffffff;
+        font-size: 12px;
+        padding: 15px 20px;
+    }
+    .sub-menu li a:hover {
+        color: #ffffff;
+        background: none;
+        border: none;
+    }
+    .mobile-menubar {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+    .opacity-zero {
+        opacity: 0;
+        transition: all 0.5s;
+        z-index: -1000;
+    }
+    .footer-link {
+        display: block;
+        padding: 10px !important;
+        border-bottom: 1px solid #a0a0a0;
+    }
+}
+
+/*===============================
+	above 992 px 
+===============================*/
+@media (min-width: 992px) {
+    .menubar1 {
+        transition: all 0.8s;
+        height: 55px;
+        opacity: 1;
+        float: right;
+        right: 0;
+        width: 100%;
+        top: 5px;
+        position: relative;
+    }
+    .menubar1-hide {
+        transition: all 0.8s;
+        height: 0;
+        float: right;
+        right: 0;
+        opacity: 0;
+        top: -20px !important;
+        position: relative;
+    }
+    .menubar2 {
+        padding-top: 10px !important;
+        transition: all 1s;
+    }
+    .menubar2-border {
+        border-top: 1px solid rgb(145, 145, 145);
+        transition: all 1s;
+    }
+    .sidbar-main-menu li a {
+        color: #00355f;
+        font-size: 12px;
+        font-family: "AdelleSansW01-Regular";
+    }
+    .customer-menu {
+        list-style: none;
+        float: right;
+        font-family: "AdelleSansW01-Regular";
+        padding-bottom: 10px;
+    }
+
+    .expand-logo {
+        transition: all 0.8s;
+        width: 240px;
+        position: relative;
+    }
+    .shrink-logo {
+        width: 200px;
+        transition: all 0.8s;
+    }
+    .menu-container {
+        padding-left: 255px;
+        transition: all 0.8s;
+    }
+    .menu-container-p0 {
+        padding-left: 0 !important;
+        transition: all 0.8s;
+        width: 100%;
+    }
+    .dropdown {
+        border-radius: 20px;
+    }
+    .dropdown:hover .dropdown {
+        background-color: #00355f;
+        color: #ffffff !important;
+        border-radius: 20px;
+    }
+    .dropdown-menu {
+        font-size: 12px;
+        background-color: #d3d3d3 !important;
+        color: #808080;
+        text-align: start;
+        --bs-dropdown-link-active-bg: none;
+        --bs-dropdown-link-hover-bg: none;
+        border: none;
+        margin-top: 5px;
+        padding: 15px;
+        width: 220px;
+        margin-left: -110px !important;
+        left: 45% !important;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    .dropdown-item:hover {
+        color: #00355f !important;
+    }
+
+    .dropdown-item {
+        color: #808080 !important;
+    }
+    .sub-menu:before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #d3d3d3;
+        position: absolute;
+        top: -9px;
+        left: 50%;
+        margin-top: 0;
+        margin-left: -5px;
+    }
+}
+
+@media (min-width: 993px) {
+    .expand-header {
+        padding: 0 60px;
+        transition: all 0.8s ease-in;
+    }
+    .shrink-header {
+        padding: 0 60px;
+        transition: all 0.5s ease-in;
+    }
+}
+@media (min-width: 1367px) {
+    .menu-container {
+        padding-left: 330px !important;
+        transition: all 0.8s;
+    }
+}
+
+/* ============ Header & Footer CSS End ============== */

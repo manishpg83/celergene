@@ -1,0 +1,217 @@
+.under-construct{
+	position:relative;
+	z-index:1;
+	overflow: hidden;
+	min-height: 100vh;
+
+	@include respond("tab-port"){
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
+	.bg-img{
+		position:absolute;
+		bottom:-30px;
+		#{$dz-pos-left}:0;
+		z-index: -1;
+	}
+	.dz-social-icon.style-2 li a{
+		@include respond('phone'){
+			width: 45px; 
+			height: 45px;
+			line-height: 45px;
+			font-size: 18px;
+		}
+	}
+}
+
+.construct-box-1{
+	padding:90px 75px 50px 80px;
+	@include respond("tab-port"){
+		background-color: var(--bg-primary-light);
+	}
+	position: relative;
+	&::after{
+		content: '';
+		position: absolute;
+		top: 0;
+		right: -90%;
+		width: 100%;
+		height: 100%;
+		background-image: url('data:image/svg+xml,<svg width="420" height="980" viewBox="0 0 420 980" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_362_201)"><path d="M-711 980.5H419L344.343 917.74C316.047 893.954 311.847 851.957 334.873 823.039C365.296 784.83 346.879 727.965 299.834 714.846L267.522 705.835C215.356 691.288 187.585 634.463 208.159 584.367L243.452 498.427C259.149 460.204 249.721 416.262 219.723 387.843L149.585 321.396C124.875 297.987 118.352 261.186 133.509 230.711C146.663 204.262 143.622 172.633 125.669 149.176L11.5 0H-711V980.5Z" fill="black"/><path d="M-730.998 981.057L416.643 981.057L340.113 918.708C311.197 895.15 307.005 852.548 330.774 823.806C361.934 786.127 343.693 728.845 296.484 716.121L260.642 706.462C207.231 692.067 178.888 633.767 200.558 582.871L235.867 499.94C252.306 461.33 242.89 416.564 212.29 387.847L140.537 320.511C115.919 297.408 109.201 260.974 123.96 230.61C136.654 204.493 133.593 173.459 116.041 150.325L2.14357 0.211059L-730.716 0.211347L-730.998 981.057Z" fill="white"/></g><defs><clipPath id="clip0_362_201"><rect width="420" height="980" fill="white"/></clipPath></defs></svg>');
+		background-repeat: no-repeat;
+		z-index: 9;
+		background-size: contain;
+		@include respond("tab-port"){
+			display: none;
+		}
+
+		&::before{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 2px;
+			height: 100%;
+		}
+	}
+
+	&::before{
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 92%;
+		height: 100%;
+		background-color: #fff;
+		z-index: -1;
+		@include respond("tab-port"){
+			width: 100%;
+		}
+	}
+
+	@include respond('wide-desktop'){
+		padding:50px;
+	}
+	@include respond('tab-port'){
+		padding:50px 50px 100px 50px;
+	}
+	@include respond('phone'){
+		padding:30px 30px 60px 30px;
+	}
+	.logo{
+		width:160px;
+		@include respond("tab-port"){
+			margin: auto;
+		}
+	}
+	.dz-content{
+		margin-top:45px;
+		@include respond('phone'){
+			margin-top:20px;
+		}
+		.dz-media-title{
+			font-size: 100px;
+			font-weight: 600;
+			color:var(--title);
+			text-transform: uppercase;
+			display:inline-flex;
+			align-items:center;
+			line-height:1.2;
+			margin-bottom:15px;
+			img{
+				margin-#{$dz-pos-right}:22px;
+				@include respond('wide-desktop'){
+				    width: 70px;
+				}
+				@include respond('phone'){
+					width: 50px;
+				}
+			}
+			@include respond('wide-desktop'){
+				font-size: 70px;
+			}
+			@include respond('phone'){
+				font-size: 50px;
+			}
+			
+		}
+		.dz-title{
+			font-size: 50px;
+			font-weight: 400;
+			color:var(--title);
+			line-height:1.4;
+			max-width:480px;
+			margin-bottom: 36px;
+			@include respond('wide-desktop'){
+				margin-bottom: 25px;
+				font-size: 45px;
+			}
+			@include respond("tab-port"){
+				max-width: 100%;
+			}
+			@include respond('phone'){
+				font-size: 30px;
+			}
+		}
+		.dzSubscribe{
+			&.style-3{
+				max-width: 500px;	
+				@include respond("tab-port"){
+					margin: auto;
+				}
+				.form-control{
+					height: 50px;
+				}
+				
+				.btn{
+					height: 50px;
+				}
+			}
+		}
+
+	}
+	.dz-social-icon {
+		&.style-2{
+			position: absolute;
+			bottom: 85px;	
+			top:auto;
+			z-index:1;
+			
+			@include respond('wide-desktop'){
+				bottom: 50px;	
+			}
+			@include respond('tab-port'){
+				bottom: 30px;	
+				left: 50%;
+    			transform: translate(-50%);
+			}
+			
+			@include respond("phone"){
+				bottom: 0;
+			}
+		}
+	}
+	
+}
+.construct-box-2{
+	position:relative;
+	z-index:1;
+
+	@include respond("tab-port"){
+		display: none;
+	}
+	&:after{
+		content: "";
+		position: absolute;
+		bottom: 0px;
+		#{$dz-pos-left}: 33%;
+		width: 42%;
+		height: 58%;
+		background: white;
+		border-radius: 300px 300px 0px 0px;
+		z-index: -1;
+	}
+	.construct-media{
+		position: relative;
+		margin: auto;
+		margin-top: 0;
+		text-align: center;
+		display: flex;
+		align-items: end;
+		justify-content: center;
+		height: 100%;
+		left: 10%;
+		img{
+		    width: 59%;
+			@include respond('laptop'){
+				width: 80%;
+			}
+			@include respond('tab-land'){
+				width: 100%;
+			}
+		}
+	}
+	
+}
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Title -->
+    <title>{{ isset($pageTitle) ? $pageTitle . ' —' : '' }} {{ isset($siteTitle) ? $siteTitle : 'Celergen' }}</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="IndianCoder" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords"
+        content="android, ios, template, ui kit, app, glamour, delivery, skincare template, elegance, grace, luxury, beauty eCommerce, fashion, ios, material design, order, 
+      shopping, store, web app, Gaya, fashion app, fashion template, flair app, apparel app, fashion UI,fashion design, app template, fashion store, responsive design, fashion showcase, modern 
+      UI, fashion technology, e-shop, beauty eCommerce web, eCommerce Website, minimal shop, online shop, woocommerce, online beauty shopping, glower, user interface, user experience, Design Elements,
+      Trendy, Stylish, User-Friendly, Navigation, Product Display, Branding, Development, Visual Design, Mobile UI Elements, UI Kit for Online Store, UX/UI, UI/UX, Website, Web Design" />
+    <meta name="description"
+        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich template 
+      offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your website 
+      into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
+    <meta property="og:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
+    <meta property="og:description"
+        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich
+      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform 
+      your website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
+    <meta property="og:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="twitter:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
+    <meta name="twitter:description"
+        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich 
+      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your
+      website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
+    <meta name="twitter:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- FAVICONS ICON -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.png" />
+
+    <!-- MOBILE SPECIFIC -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/aos.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/header-footer.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/common.css') }}" />
+    <!-- Custom Stylesheet -->
+    <link class="main-css" rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/style.css') }}" />
+
+    <!-- GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+
+    <!-- Favicon -->
+    @stack('styles')
+    <style>
+        .mt-8 {
+            margin-top: 8rem !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+
+            <div class="layout-page">
+                @include('frontend.layouts.header')
+
+                <div class="content-wrapper">
+                    @yield('content')
+
+                    @include('frontend.layouts.footer')
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <div class="drag-target"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script> -->
+  <script>
+    function toggleClass1() {
+      var screensize = screen.width;
+      var dropmenu1 = document.getElementById("sub-menu1");
+      var mainmenu1 = document.getElementById("main-menu1");
+      if (screensize < 991) {
+        dropmenu1.classList.toggle("show");
+        mainmenu1.classList.toggle("active");
+      }
+
+      var plusicon1 = document.getElementById("plusicon1");
+      if (plusicon1.classList.contains("fa-plus")) {
+        plusicon1.classList.remove("fa-plus");
+        plusicon1.classList.add("fa-minus");
+      } else {
+        plusicon1.classList.remove("fa-minus");
+        plusicon1.classList.add("fa-plus");
+      }
+    }
+
+    function toggleClass2() {
+      var screensize = screen.width;
+      var dropmenu2 = document.getElementById("sub-menu2");
+      var mainmenu2 = document.getElementById("main-menu2");
+      if (screensize < 991) {
+        dropmenu2.classList.toggle("show");
+        mainmenu2.classList.toggle("active");
+      }
+      var plusicon2 = document.getElementById("plusicon2");
+      if (plusicon2.classList.contains("fa-plus")) {
+        plusicon2.classList.remove("fa-plus");
+        plusicon2.classList.add("fa-minus");
+      } else {
+        plusicon2.classList.remove("fa-minus");
+        plusicon2.classList.add("fa-plus");
+      }
+    }
+
+    function toggleClass3() {
+      var screensize = screen.width;
+      var dropmenu3 = document.getElementById("sub-menu3");
+      var mainmenu3 = document.getElementById("main-menu4");
+      if (screensize < 991) {
+        dropmenu3.classList.toggle("show");
+        mainmenu3.classList.toggle("active");
+      }
+
+      if (plusicon3.classList.contains("fa-plus")) {
+        plusicon3.classList.remove("fa-plus");
+        plusicon3.classList.add("fa-minus");
+      } else {
+        plusicon3.classList.remove("fa-minus");
+        plusicon3.classList.add("fa-plus");
+      }
+    }
+
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+          $("#header").removeClass("expand-header");
+          $("#header").addClass("shrink-header");
+          $("#menubar1").addClass("menubar1-hide");
+          $("#menubar2").removeClass("menubar2-border");
+          $("#headerlogo").addClass("shrink-logo");
+          $("#headerlogo").removeClass("expand-logo");
+          $("#menu-wrap").removeClass("menu-container");
+          $("#menu-wrap").addClass("menu-container-p0");
+        } else {
+          $("#header").removeClass("shrink-header");
+          $("#header").addClass("expand-header");
+          $("#menubar1").removeClass("menubar1-hide");
+          $("#menubar2").addClass("menubar2-border");
+          $("#headerlogo").removeClass("shrink-logo");
+          $("#headerlogo").addClass("expand-logo");
+          $("#menu-wrap").removeClass("menu-container-p0");
+          $("#menu-wrap").addClass("menu-container");
+        }
+      });
+    }); // JavaScript Document
+  </script>
+  <!-- GLOBAL-JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="{vendor/global/global.min.js"></script>
+  <!-- GLOBAL-JS -->
+  <script src="{{ asset ('/frontend/vendor/magnific-popup/magnific-popup.js') }}"></script>
+  <!-- MAGNIFIC POPUP JS -->
+  <script src="{{ asset ('/frontend/vendor/masonry/masonry-4.2.2.js') }}"></script>
+  <!-- MASONRY -->
+  <script src="{{ asset ('/frontend/vendor/masonry/isotope.pkgd.min.js') }}"></script>
+  <!-- ISOTOPE -->
+  <script src="{{ asset ('/frontend/vendor/countdown/jquery.countdown.js') }}"></script>
+  <!-- COUNTDOWN FUCTIONS  -->
+  <script src="{{ asset ('/frontend/vendor/wnumb/wNumb.js') }}"></script>
+  <!-- WNUMB -->
+  <script src="{{ asset ('/frontend/vendor/nouislider/nouislider.min.js') }}"></script>
+  <!-- NOUSLIDER MIN JS-->
+  <script src="{{ asset ('/frontend/js/dz.carousel.js') }}"></script>
+  <!-- DZ CAROUSEL JS -->
+  <script src="{{ asset ('/frontend/js/dz.ajax.js') }}"></script>
+  <!-- AJAX -->
+  <script src="{{ asset ('/frontend/js/custom.js') }}"></script>
+
+  <script src="{{ asset ('/frontend/js/test.js') }}"></script>
+  <script src="{{ asset ('/frontend/js/aos.js') }}"></script>
+  <!-- CUSTOM JS -->
+
+
+    @yield('scripts')
+</body>
+
+</html>

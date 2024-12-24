@@ -1,0 +1,294 @@
+@charset "utf-8";
+/* CSS Document */
+*-----------------------------------------------------------------*/
+/* 1. CSS RESET
+/*-----------------------------------------------------------------*/
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video, a {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*-----------------------------------------------------------------*/
+/* 2. Global styles
+/*-----------------------------------------------------------------*/
+
+html {
+  margin: 0;
+  padding: 0px;
+  background: white;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "AdelleSansW01-Light", sans-serif;
+  letter-spacing: 0.5px;
+  font-size: 16px;
+  line-height: 1.5;
+  background: white;
+  font-weight: 300;
+  position: relative;
+}
+
+div,
+section {
+  box-sizing: border-box;
+}
+
+/* fonts */
+@font-face {
+  font-family: "Calluna-Light";
+  src: url("fonts/Calluna-Light.eot?#iefix") format("embedded-opentype"),
+    url("fonts/Calluna-Light.otf") format("opentype"),
+    url("fonts/Calluna-Light.woff") format("woff"),
+    url("fonts/Calluna-Light.ttf") format("truetype"),
+    url("fonts/Calluna-Light.svg#Calluna-Light") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Calluna-Regular";
+  src: url("fonts/Calluna-Regular.eot") format("embedded-opentype"),
+    url("fonts/Calluna-Regular.otf") format("opentype"),
+    url("fonts/Calluna-Regular.woff") format("woff"),
+    url("fonts/Calluna-Regular.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AdelleSansW01-Bold";
+  src: url("fonts/AdelleSansW01-Bold.eot?#iefix") format("embedded-opentype"),
+    url("fonts/AdelleSansW01-Bold.woff") format("woff"),
+    url("fonts/AdelleSansW01-Bold.ttf") format("truetype"),
+    url("fonts/AdelleSansW01-Bold.svg#AdelleSansW01-Bold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AdelleSansW01-light";
+  src: url("fonts/AdelleSansW01-light.eot?#iefix") format("embedded-opentype"),
+    url("fonts/AdelleSansW01-Light.woff") format("woff"),
+    url("fonts/AdelleSansW01-light.svg#AdelleSansW01-light") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AdelleSansW01-Regular";
+  src: url("fonts/AdelleSansW01-Regular.eot?#iefix") format("embedded-opentype"),
+    url("fonts/AdelleSansW01-Regular.woff") format("woff"),
+    url("fonts/AdelleSansW01-Regular.ttf") format("truetype"),
+    url("fonts/AdelleSansW01-Regular.svg#AdelleSansW01-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "opensans-Regular";
+  src: url("fonts/OpenSans-Regular.eot") format("embedded-opentype"),
+    url("fonts/OpenSans-Regular.woff") format("woff"),
+    url("fonts/OpenSans-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "opensans-light";
+  src: url("fonts/OpenSans-Light.eot") format("embedded-opentype"),
+    url("fonts/OpenSans-Light.woff") format("woff"),
+    url("fonts/OpenSans-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+/* fonts */
+
+/* Colors */
+.text-dark-blue {
+  color: #002d59;
+}
+.bg-blue {
+  background-color: #002d59;
+}
+.text-blue {
+  color: #002d59;
+}
+.bg-grey {
+  background-color: #d3d3d3;
+}
+.bg-darkred {
+  background-color: #b11230;
+}
+.text-darkred {
+  color: #b11230;
+}
+.text-grey {
+  color: #868686;
+}
+.text-darkgrey {
+  color: #666666;
+}
+.bg-lightgrey {
+  background-color: #dedede;
+}
+.bg-greycolor {
+  background-color: #e7eaec;
+}
+.text-lightgrey {
+  color: #8290a0;
+}
+
+/* Colors */
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 16px;
+}
+a {
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1;
+  position: relative;
+}
+p a {
+  text-decoration: underline;
+  display: inline;
+  color: #98b7ba;
+  letter-spacing: 1px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border: 0;
+}
+
+.CallunaLight {
+  font-family: "Calluna-Light";
+}
+.CallunaRegular {
+  font-family: "Calluna-Regular";
+}
+
+.AdelleSansRegular {
+  font-family: "AdelleSansW01-Regular";
+}
+.AdelleSansBold {
+  font-family: "AdelleSansW01-Bold";
+}
+.AdelleSansLight {
+  font-family: "AdelleSanW01-Light";
+}
+
+.opensans {
+  font-family: "opensans-Regular";
+}
+.AdelleSan-Bold-Opensans {
+  font-family: "AdelleSansW01-Bold", "Open Sans", sans-serif;
+}
+.AdelleSan-Light-Opensans {
+  font-family: "AdelleSansW01-Light", "Open Sans", sans-serif;
+}
+
+.CallunaLight-Opensans {
+  font-family: "Calluna-Light", "Open Sans", sans-serif;
+}
+.CallunaReguler-Opensans {
+  font-family: "Calluna-Light", "Open Sans", sans-serif;
+}
+.AdelleSan-Regular-Opensans {
+  font-family: "AdelleSansW01-Regular", "Open Sans", sans-serif;
+}
+/* headings, sub-headings, Paragraph end */
+
+/* box-shadow */
+.box-shadow {
+  box-shadow: 0px 6px 22px -10px black;
+}
+
+.view-btn {
+  border-radius: 25px 0 0 25px;
+  padding: 12px 18px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+.add-btn {
+  border-radius: 0 25px 25px 0;
+  padding: 8px 18px 9px 15px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+.view-btn:hover,
+.add-btn:hover {
+  color: white;
+}
+
+.checkout-btn {
+  cursor: pointer;
+  border: 1px solid #555;
+  padding: 15px 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  width: 100%;
+  color: #555;
+  transition: 0.2s ease-out;
+}
+.checkout-btn:hover {
+  background: #555;
+  color: #fff;
+  transition: 0.1s ease-out;
+}
+
+@media (max-width: 576px) {
+  .modal-dialog {
+    width: 100% !important;
+  }
+}
+@media (min-width: 577px) {
+  .modal-dialog {
+    max-width: 600px;
+    width: 100% !important;
+    margin: auto;
+    top: 50%;
+    -ms-transform: translateY(-50%) !important;
+    transform: translateY(-50%) !important;
+  }
+}
+.modal-backdrop {
+  background-color: rgba(255, 255, 255, 1) !important;
+  opacity: 0.5 !important;
+  animation: fade1 0.6s;
+  animation-delay: 0.6s;
+}
+.fade {
+  animation: fade1 0.6s;
+}
+@keyframes fade1 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

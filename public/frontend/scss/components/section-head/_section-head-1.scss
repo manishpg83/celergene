@@ -1,0 +1,124 @@
+// Section Head
+.section-head{
+	margin-bottom: 50px;
+
+	@include respond('tab-port'){
+		margin-bottom: 30px;
+	}
+
+	&.style-1{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.title{
+			color: var(--title);
+			font-size: 65px;
+			font-weight: 400;
+			line-height: 1.2;
+			text-transform: capitalize;
+		}
+		@include respond('laptop'){
+			.title{
+				font-size: 55px;
+			}
+		}
+
+		@include respond('tab-land'){
+			.title{
+				font-size: 50px;
+			}
+		}
+
+		@include respond('tab-port'){
+			.title{
+				font-size: 40px;
+			}
+		}
+		@include respond('phone-land'){
+			.title{
+				font-size: 30px;
+				margin-bottom: 6px;
+			}
+		}
+		@include respond('phone'){
+			.title{
+				font-size: 20px;
+				margin-bottom: 6px;
+			}
+		}
+		
+	}	
+
+	
+	
+	&.style-2{
+		.title{
+			color: var(--title);
+			font-size: 50px;
+			font-weight: 400;
+			line-height: 1.2;
+			text-transform: capitalize;
+		}
+		.left-content{
+			.left-title{
+			font-size: 24px;
+			font-family: var(--font-family-base);
+			font-weight: 500;
+			text-transform: capitalize;
+
+			@include respond("phone"){
+				font-size: 18px;
+			}
+		}
+		}
+		@include respond('laptop'){
+			.title{
+				font-size: 55px;
+			}
+		}
+		@include respond('tab-land'){
+			.title{
+				font-size: 50px;
+			}
+		}
+		@include respond('tab-port'){
+			.title{
+				font-size: 40px;
+			}
+		}
+		@include respond('phone'){
+			.title{
+				font-size: 20px;
+				margin-bottom: 6px;
+			}
+		}
+	}	
+
+	&.style-3{
+		max-width: 305px;
+		margin-bottom: 0;
+		display: block;
+
+		@include respond("tab-port"){
+		    max-width: 100%;
+    		margin-bottom: 20px
+		}
+		.title{
+			color: #000;
+			font-size: 28px;
+			line-height: 1.2;
+			text-transform: capitalize;
+		}
+	
+		@include respond('phone'){
+			.title{
+				font-size: 24px;
+			}
+		}
+	}	
+}
+
+
+.left-title{
+	font-family: var(--font-family-base) !important;
+}

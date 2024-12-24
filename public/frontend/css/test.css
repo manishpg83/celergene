@@ -1,0 +1,2422 @@
+@charset "utf-8";
+
+/* CSS Document */
+/* ============ Header & Footer CSS =========== */
+.header {
+  z-index: 99;
+  background: white;
+  position: fixed;
+  float: left;
+  width: 100%;
+  top: 0px;
+}
+.headerhide {
+  z-index: 99;
+  float: left;
+  width: 100%;
+  top: 0px;
+}
+#menubar2 {
+  font-size: 12px;
+  transition: all 0.8s;
+}
+
+.red-btn,
+.red-btn:hover {
+  background-color: #b11230;
+}
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  font-size: 7pt;
+  padding: 3px 0;
+}
+.cart-count-badge1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  font-size: 7pt;
+  padding: 3px 0;
+}
+
+.menubar1 {
+  color: #00355f;
+  font-size: 16px;
+  font-family: "AdelleSansW01-Regular";
+}
+.offcanvas-backdrop {
+  background: rgba(0, 45, 89, 0.7);
+}
+.offcanvas {
+  transition: all 0.6s;
+}
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  float: right;
+  transition: all 0.8s;
+  position: relative;
+}
+.logo {
+  position: absolute;
+  top: 30%;
+  float: left;
+}
+/* .offcanvas-backdrop.show{opacity: 1!important;}	 */
+/*===============================
+	max 576 px 
+===============================*/
+@media (max-width: 576px) {
+  #header {
+    padding: 5px 10px !important;
+  }
+  .offcanvas {
+    width: 70% !important;
+  }
+  .expand-logo {
+    transition: all 0.8s;
+    width: 150px;
+  }
+  .cart-img,
+  .burger-menu {
+    width: 20px;
+  }
+  .myaccount-img {
+    width: 17px;
+  }
+}
+/*===============================
+	min 576 - max 992 
+===============================*/
+@media (min-width: 577px) and (max-width: 768px) {
+  .offcanvas {
+    width: 40% !important;
+  }
+}
+@media (min-width: 769px) and (max-width: 991px) {
+  #header {
+    padding: 0 30px;
+  }
+  .offcanvas {
+    width: 40% !important;
+  }
+}
+
+/*===============================
+	max 992 px 
+===============================*/
+
+@media (max-width: 991px) {
+  .cart-img,
+  .burger-menu {
+    width: 20px;
+  }
+  .myaccount-img {
+    width: 17px;
+  }
+  .menubar2 {
+    font-size: 12px;
+    transition: all 0.8s;
+    padding: 0;
+    text-align: right;
+  }
+  .sidbar-main-menu li a {
+    padding: 10px 35px 10px 25px;
+    font-family: "AdelleSansW01-Regular";
+    font-size: 14px;
+  }
+  .sidbar-main-menu li a:hover {
+    padding: 10px 25px 10px 25px;
+    border-right: 10px solid #b31b2a;
+    background-color: #f2f2f2;
+  }
+  .sidbar-main-menu .active {
+    padding: 10px 25px 10px 25px;
+    border-right: 10px solid #b31b2a;
+    background-color: #f2f2f2;
+  }
+  .sub-menu {
+    margin: 0 !important;
+    padding-right: 15px;
+    border-radius: 0 !important;
+    border: none;
+    background-color: #002d59;
+    color: #ffffff;
+    text-align: right;
+  }
+  .sub-menu li a {
+    color: #ffffff;
+    font-size: 12px;
+    padding: 15px 20px;
+    line-height: 1;
+    letter-spacing: 0.5px;
+  }
+  .sub-menu li a:hover {
+    color: #ffffff;
+    background: none;
+    border: none;
+    padding: 15px 20px;
+  }
+  .mobile-menubar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+  .opacity-zero {
+    opacity: 0;
+    transition: all 0.5s;
+    z-index: -1000;
+  }
+  .footer-link {
+    display: block;
+    padding: 10px !important;
+    border-bottom: 1px solid #a0a0a0;
+  }
+}
+
+/*===============================
+	above 992 px 
+===============================*/
+@media (min-width: 992px) {
+  .menubar1 {
+    transition: all 0.8s;
+    height: 55px;
+    opacity: 1;
+    float: right;
+    right: 0;
+    width: 100%;
+    top: 5px;
+    position: relative;
+  }
+  .menubar1-hide {
+    transition: all 0.8s;
+    height: 0;
+    float: right;
+    right: 0;
+    opacity: 0;
+    top: -20px !important;
+    position: relative;
+  }
+  .menubar2 {
+    padding-top: 10px !important;
+    transition: all 1s;
+  }
+  .menubar2-border {
+    border-top: 1px solid rgb(145, 145, 145);
+    transition: all 1s;
+  }
+  .sidbar-main-menu li a {
+    color: #00355f;
+    font-size: 12px;
+    font-family: "AdelleSansW01-Regular";
+  }
+  .customer-menu {
+    list-style: none;
+    float: right;
+    font-family: "AdelleSansW01-Regular";
+    padding-bottom: 10px;
+  }
+
+  .expand-logo {
+    transition: all 0.8s;
+    width: 240px;
+    position: relative;
+  }
+  .shrink-logo {
+    width: 200px;
+    transition: all 0.8s;
+  }
+  .menu-container {
+    padding-left: 255px;
+    transition: all 0.8s;
+  }
+  .menu-container-p0 {
+    padding-left: 0 !important;
+    transition: all 0.8s;
+    width: 100%;
+  }
+  .dropdown {
+    border-radius: 20px;
+  }
+  .dropdown:hover .dropdown {
+    background-color: #00355f;
+    color: #ffffff !important;
+    border-radius: 20px;
+  }
+  .dropdown-menu1 {
+    font-size: 12px;
+    background-color: #d3d3d3 !important;
+    color: #808080;
+    text-align: start;
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-hover-bg: none;
+    border: none;
+    margin-top: 5px;
+    padding: 15px;
+    width: 220px;
+    margin-left: -110px !important;
+    left: 45% !important;
+  }
+  .dropdown:hover .dropdown-menu1 {
+    display: block;
+  }
+  .dropdown-item:hover {
+    color: #00355f !important;
+  }
+
+  .dropdown-item {
+    color: #808080 !important;
+  }
+  .sub-menu:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #d3d3d3;
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    margin-top: 0;
+    margin-left: -5px;
+  }
+}
+
+@media (min-width: 993px) {
+  .expand-header {
+    padding: 0 60px;
+    transition: all 0.8s ease-in;
+  }
+  .shrink-header {
+    padding: 0 60px;
+    transition: all 0.5s ease-in;
+  }
+}
+@media (min-width: 1367px) {
+  .menu-container {
+    padding-left: 330px !important;
+    transition: all 0.8s;
+  }
+}
+
+/* ============ Header & Footer CSS End ============== */
+
+@mixin make-container($gutter: $container-padding-x) {
+  --#{$prefix}gutter-x: #{$gutter};
+  --#{$prefix}gutter-y: 0;
+  width: 100%;
+  padding-right: calc(
+    var(--#{$prefix}gutter-x) * 0.5
+  ); // stylelint-disable-line function-disallowed-list
+  padding-left: calc(
+    var(--#{$prefix}gutter-x) * 0.5
+  ); // stylelint-disable-line function-disallowed-list
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dropdown-menu1 {
+  margin-top: 7px;
+  --bs-dropdown-zindex: 1000;
+  --bs-dropdown-min-width: 10rem;
+  --bs-dropdown-padding-x: 0;
+  --bs-dropdown-padding-y: 0.5rem;
+  --bs-dropdown-spacer: 0.125rem;
+  --bs-dropdown-font-size: 1rem;
+  --bs-dropdown-color: #212529;
+  --bs-dropdown-bg: #fff;
+  --bs-dropdown-border-color: var(--bs-border-color-translucent);
+  --bs-dropdown-border-radius: 0.375rem;
+  --bs-dropdown-border-width: 1px;
+  --bs-dropdown-inner-border-radius: calc(0.375rem - 1px);
+  --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
+  --bs-dropdown-divider-margin-y: 0.5rem;
+  --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --bs-dropdown-link-color: #212529;
+  --bs-dropdown-link-hover-color: #1e2125;
+  --bs-dropdown-link-hover-bg: #e9ecef;
+  --bs-dropdown-link-active-color: #fff;
+  --bs-dropdown-link-active-bg: #0d6efd;
+  --bs-dropdown-link-disabled-color: #adb5bd;
+  --bs-dropdown-item-padding-x: 1rem;
+  --bs-dropdown-item-padding-y: 0.25rem;
+  --bs-dropdown-header-color: #6c757d;
+  --bs-dropdown-header-padding-x: 1rem;
+  --bs-dropdown-header-padding-y: 0.5rem;
+  position: absolute;
+  z-index: var(--bs-dropdown-zindex);
+  display: none;
+  min-width: var(--bs-dropdown-min-width);
+  padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
+  font-size: var(--bs-dropdown-font-size);
+  color: var(--bs-dropdown-color);
+  text-align: left;
+  list-style: none;
+  background-color: var(--bs-dropdown-bg);
+  background-clip: padding-box;
+  border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
+  border-radius: var(--bs-dropdown-border-radius);
+}
+
+@media screen and (min-width: 1025px) {
+  .header-transparent .container-fluid {
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+  }
+}
+
+/* =========================================================================================== */
+/* CSS Document */
+
+/* headings, sub-headings, Paragraph */
+.section-heading {
+  font-family: "Calluna-Regular";
+  letter-spacing: 2px;
+  font-size: 45px;
+}
+.section-subheading {
+  font-family: "AdelleSansW01-Regular", "Open Sans", sans-serif;
+  font-size: 25px;
+}
+.heading {
+  font-size: 18px !important;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+}
+@media (max-width: 576px) {
+  .section-heading {
+    font-size: 32px;
+  }
+  .section-subheading {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .heading {
+    font-size: 14px;
+  }
+}
+
+/* section 1 Top Banner */
+
+.home-slider .owl-nav {
+  opacity: 0;
+  transition: all 0.3s;
+  margin: 0;
+}
+.home-slider:hover .owl-nav {
+  opacity: 1;
+  transition: all 0.3s;
+}
+.home-slider .owl-nav {
+  overflow: hidden;
+  height: 0;
+}
+.home-slider .owl-nav .prev-btn,
+.home-slider .owl-nav .next-btn {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  display: block;
+  z-index: 1000;
+  border-radius: 50%;
+  position: absolute;
+  top: 50% !important;
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  box-sizing: border-box;
+}
+.home-slider .owl-nav .prev-btn:hover,
+.home-slider .owl-nav .next-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.home-slider .owl-nav .prev-btn {
+  left: 20px;
+}
+.home-slider .owl-nav .next-btn {
+  right: 20px;
+}
+.home-slider .owl-dot {
+  float: left;
+}
+.home-slider .owl-dot span {
+  width: 13px !important;
+  height: 13px !important;
+  background-color: #ccc !important;
+  margin: 2px 2px !important;
+}
+.home-slider .owl-dots .active span {
+  background-color: #ffffff !important;
+}
+.slide1-text-box h2,
+.slide2-text-box h2,
+.slide3-text-box h2,
+.slide4-text-box h2,
+.slide5-text-box h2 {
+  font-family: "Calluna-Regular";
+  font-weight: 500;
+  line-height: 1.2;
+  font-variant: small-caps;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1 !important;
+  }
+}
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 1.5s !important;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1 !important;
+  }
+  90% {
+    opacity: 1 !important;
+  }
+  100% {
+    opacity: 1 !important;
+  }
+}
+.fadeIn2 {
+  animation-name: fadeIn2;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+
+@media (max-width: 576px) {
+  .home-slider {
+    margin-top: 60px;
+  }
+  .home-slide-item {
+    background-position: center top;
+    background-size: 160% auto;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 33vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 5%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+    text-align: center;
+  }
+  .slide1-text-box h2,
+  .slide2-text-box h2,
+  .slide3-text-box h2,
+  .slide4-text-box h2,
+  .slide5-text-box h2 {
+    font-size: 3.7vw !important;
+  }
+}
+@media (min-width: 768px) {
+  .home-slider {
+    margin-top: 66px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 40vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 8%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 5%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+    text-align: center;
+  }
+}
+@media (min-width: 993px) {
+  .home-slider {
+    margin-top: 66px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 40vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 15%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 15%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 25%;
+  }
+  .slide1-text-box h2,
+  .slide2-text-box h2,
+  .slide3-text-box h2,
+  .slide4-text-box h2,
+  .slide5-text-box h2 {
+    font-size: 2.5vw !important;
+  }
+  .blue-btn1 {
+    padding: 12px 40px;
+    text-align: center;
+    color: #fff;
+    background-color: #002d59;
+    font-family: "opensans-Regular";
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.5s;
+  }
+  .blue-btn1:hover {
+    text-align: center;
+    color: #fff;
+    background-color: #b11230;
+    transition: all 0.5s;
+  }
+  .home-slider .owl-dots {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    z-index: 1000;
+    text-align: right;
+  }
+}
+@media (max-width: 992px) {
+  .blue-btn1 {
+    padding: 10px 25px;
+    text-align: center;
+    color: #fff;
+    background-color: #002d59;
+    font-family: "opensans-Regular";
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.5s;
+  }
+  .blue-btn1:hover {
+    text-align: center;
+    color: #fff;
+    background-color: #b11230;
+    transition: all 0.5s;
+  }
+  .home-slider .owl-dots {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    text-align: right;
+  }
+}
+@media (min-width: 1200px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 75vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 15%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 15%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 25%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 70vh;
+  }
+}
+
+@media (min-width: 2560px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 60vh;
+  }
+}
+
+/* section 1 Top Banner end */
+
+/* section 2 EVIDENCE BASED BENEFITS */
+
+.benefits-heading {
+  margin-bottom: 0px;
+  font-weight: 700;
+  line-height: initial;
+}
+.benefits {
+  position: relative;
+  float: left;
+  margin-bottom: 60px;
+  padding: 0px 45px 0px 85px;
+  height: initial !important;
+}
+.benefits-icon {
+  float: left;
+  position: absolute;
+  width: 50px;
+  left: 5px;
+}
+.benefits-content-heading {
+  line-height: initial;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  font-family: "AdelleSansW01-Regular";
+}
+.benefits-content {
+  line-height: 24px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 576px) {
+  .benefits {
+    margin-bottom: 30px;
+    padding: 0px 35px 0px 75px;
+  }
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (mx-width: 992px) {
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+}
+@media (min-width: 993px) {
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+  }
+}
+/* section 2 EVIDENCE BASED BENEFITS end */
+
+/* section 3 GUARDED SECRET  */
+.guarded-secret-bg {
+  background-image: url("../images/home/celergen-guarded-secret-1.png");
+  background-repeat: no-repeat;
+  color: white !important;
+  padding: 50px 0px 50px 0;
+  text-align: center;
+}
+.guarded-image {
+  background: linear-gradient(transparent 5%, white 5%);
+  margin-top: 50px;
+  padding: 0px 30px;
+}
+.down-arrow {
+  position: relative;
+  background: transparent !important;
+  bottom: 45px !important;
+  box-shadow: none !important;
+  padding: 0px !important;
+}
+
+@media (max-width: 576px) {
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 30px 15px !important;
+  }
+  .guarded-text {
+    padding: 35px 20px !important;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .guarded-secret .section-heading {
+    font-size: 25px;
+  }
+  .guarded-secret .section-subheading {
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+  .guarded-image {
+    margin-top: 30px;
+  }
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 30px 40px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 40px 60px !important;
+  }
+}
+@media (min-width: 993px) {
+  .guarded-secret-bg {
+    background-size: 100%;
+    background-position: center -100px;
+  }
+  .guarded-box1 {
+    background: white;
+    padding: 0 80px 0 80px;
+  }
+  .guarded-box2 {
+    background: white;
+    padding: 40px 0px 60px 0;
+  }
+  .guarded-img {
+    position: relative;
+    top: -20px;
+    left: 0;
+    width: 100%;
+  }
+}
+@media (max-width: 992px) {
+  .guarded-box1 {
+    background: white;
+    padding: 0 20px 0 20px;
+  }
+  .guarded-box2 {
+    background: white;
+    padding: 20px;
+  }
+  .guarded-img {
+    position: relative;
+    top: -10px;
+    left: 0;
+    width: 100%;
+  }
+}
+@media all and (min-width: 2560px) {
+  .guarded-secret-bg {
+    padding-bottom: 100px !important;
+  }
+}
+
+/* section 2 GUARDED SECRET end */
+
+/* section 3 WHAT IS CELERGEN  */
+.what-is-celergen-bg {
+  background-image: url("../images/home/what-is-celergen-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-attachment: fixed;
+  width: 100%;
+  height: auto;
+}
+.blue-button {
+  background-color: #dfdfdf;
+  width: 100%;
+  height: 90px;
+  vertical-align: middle;
+  padding: 30px;
+  line-height: 25px;
+  font-family: "AdelleSansW01-Regular";
+}
+.blue-button:hover {
+  background-color: #00355f;
+  color: #ffffff !important;
+  transition: all 0.8s;
+}
+.global .heading1 {
+  font-size: 16px;
+}
+@media (max-width: 576px) {
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (min-width: 769px) and (max-width: 992px) {
+}
+@media (min-width: 993px) {
+}
+
+/* section 3 WHAT IS CELERGEN end */
+
+/* section 4 WHY DOCTORS USE CELERGEN */
+.doctors-review {
+  color: white;
+  border-bottom: 1px solid white;
+  margin-bottom: 0px;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  font-family: "AdelleSansW01-Regular";
+}
+.doctor-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  float: left;
+  font-family: "AdelleSansW01-Bold";
+}
+.doctor-designation {
+  float: left;
+  color: white;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: bold;
+  font-family: "AdelleSansW01-Bold";
+}
+.img-frame {
+  width: 100%;
+  box-shadow: 15px 15px 0px 1px #9f9f9f;
+}
+
+@media (max-width: 576px) {
+  .doctors-use-celergen .section-heading {
+    font-size: 20px;
+  }
+  .img-frame {
+    width: 150px !important;
+    height: 150px;
+  }
+  .quatation {
+    width: 15px !important;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (min-width: 769px) and (max-width: 992px) {
+  .doctors-use-celergen .section-heading {
+    font-size: 28px;
+  }
+  .img-frame {
+    width: 150px !important;
+    height: 150px;
+  }
+}
+@media (min-width: 993px) {
+}
+/* section 4 WHY DOCTORS USE CELERGEN end */
+
+/* section 7 - clinical-science */
+.clinical-button {
+  padding: 20px 30px;
+  display: block;
+  background-color: #ddd;
+  text-align: center;
+  color: #002d59;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 1s;
+}
+.clinical-button:hover {
+  background-color: #002d59;
+  color: #fff;
+  transition: all 1s;
+}
+.clinical-button:hover > .clinical-button-downarrow {
+  background-image: url("../images/common/ic_clinical_white.png");
+  transition: all 0.8s;
+}
+.clinical-button-downarrow {
+  background-image: url("../images/common/ic_clinical_red.png");
+  background-repeat: no-repeat;
+  width: 13px;
+  height: 13px;
+  background-size: 13px;
+  float: right;
+  background-position: top left;
+  transition: all 0.8s;
+}
+/* section 7 - clinical-science end */
+
+/* section 8 - user reivew */
+.img-frame {
+  max-width: 250px;
+  margin: auto;
+}
+.customer-section-heading {
+  font-family: "Calluna-Regular";
+  font-size: 20px;
+}
+.reviewer-details {
+  min-height: 310px;
+  padding: 20px 20px 0 20px;
+  text-align: center;
+}
+.reviewer-pic {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  width: 100%;
+  height: 250px;
+  border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -ms-border-radius: 10px 10px 0 0;
+  -o-border-radius: 10px 10px 0 0;
+}
+.reviewer-name {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 20px;
+  text-align: center;
+  line-height: 26px;
+  font-family: "AdelleSansW01-Bold";
+}
+.reviewer-job {
+  color: #1a1a1a;
+  font-size: 15px;
+  text-align: center;
+  line-height: 24px;
+  font-family: "AdelleSansW01-Regular";
+}
+.review {
+  color: #868686;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  margin-top: 25px;
+  font-family: "Open Sans", sans-serif;
+}
+#customer-review .item::after {
+  content: "";
+  background: url("../images/common/shadow-arrow-slick.png");
+  position: absolute;
+  bottom: 2px;
+  width: 84px;
+  height: 38px;
+  z-index: 2;
+  visibility: visible;
+  left: 50%;
+  margin-left: -42px;
+}
+
+.customer-slide .item {
+  box-shadow: 0px 0px 17px -2px #5f5f5f;
+  background: transparent;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+.customer-slide .owl-nav {
+  overflow: hidden;
+  height: 0;
+}
+
+.customer-slide .owl-prev {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  padding: 15px !important;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.customer-slide .owl-prev:hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+
+.customer-slide .owl-next {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15%;
+  height: 100%;
+  padding: 15px !important;
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.customer-slide .owl-next:hover {
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.review {
+  font-family: "Open Sans", sans-serif;
+  line-height: 20px;
+  font-weight: 300;
+  font-size: 16px !important;
+}
+.prev-btn,
+.next-btn {
+  top: 50%;
+  opacity: 0.5;
+}
+.customer-slide .owl-prev:hover .prev-btn,
+.customer-slide .owl-next:hover .next-btn {
+  opacity: 1;
+}
+.next-btn {
+  float: right;
+}
+.Read-btn {
+  font-size: 16px;
+  font-family: "AdelleSansW01-Bold";
+}
+.Read-btn:hover {
+  color: #b11230;
+}
+.customer-slide .owl-stage {
+  display: flex;
+}
+.customer-slide .owl-stage .item {
+  min-height: calc(100% - 47px);
+  box-sizing: border-box;
+}
+/* section 8 - user reivew end */
+
+/* section 9 - products */
+.home-products-bg {
+  background-image: url("../images/home/celergen-product-bg_83.png");
+  background-size: cover;
+  background-position: 50% bottom;
+  background-attachment: fixed;
+}
+.home-product-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.home-product-list ul li {
+  text-align: center;
+  box-sizing: border-box;
+  clear: none;
+  padding: 30px 45px 25px 45px;
+  transition: all 0.3s;
+}
+.home-product {
+  background-color: white;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 100%;
+  box-shadow: 0 0 10px 5px rgba(73, 73, 73, 0.3);
+}
+h3 {
+  font-size: 20px;
+  font-family: "AdelleSansW01-Bold";
+  line-height: 1.3;
+}
+
+@media (max-width: 992px) {
+  .home-products-bg {
+    padding: 50px 0;
+  }
+}
+@media (min-width: 993px) {
+  .scale1 {
+    scale: 1.1;
+    transition: all 0.3s;
+    z-index: 2;
+  }
+  .home-products-bg {
+    padding: 100px 0;
+  }
+}
+/* section 9 end */
+
+/* by Mohana */
+
+@media (max-width: 768px) {
+  [data-aos] {
+    pointer-events: auto !important;
+  }
+  html:not(.no-js) [data-aos^="fade"] {
+    opacity: 1 !important;
+  }
+  html:not(.no-js) [data-aos="fade-up"] {
+    transform: none !important;
+  }
+  html:not(.no-js) [data-aos="fade-down"] {
+    animation: none;
+    transform: none !important;
+    -webkit-animation: none;
+  }
+
+  .bordertop {
+    border-top: 1px solid #d2d2d2;
+  }
+  .margintop {
+    margin-top: 69px;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+  [data-aos] {
+    pointer-events: auto !important;
+  }
+  html:not(.no-js) [data-aos^="fade"] {
+    opacity: 1 !important;
+  }
+  html:not(.no-js) [data-aos="fade-up"] {
+    transform: none !important;
+  }
+  html:not(.no-js) [data-aos="fade-down"] {
+    animation: none;
+    transform: none !important;
+    -webkit-animation: none;
+  }
+  .bordertop {
+    border-top: 1px solid #d2d2d2;
+  }
+  .margintop {
+    margin-top: 69px;
+  }
+}
+
+/**
+ * Owl Carousel v2.3.4
+ * Copyright 2013-2018 David Deutsch
+ * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
+ */
+.owl-carousel,
+.owl-carousel .owl-item {
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+.owl-carousel {
+  display: none;
+  width: 100%;
+  z-index: 1;
+}
+
+.owl-carousel .owl-stage {
+  position: relative;
+  -ms-touch-action: pan-Y;
+  touch-action: manipulation;
+  -moz-backface-visibility: hidden;
+}
+
+.owl-carousel .owl-stage:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.owl-carousel .owl-stage-outer {
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.owl-carousel .owl-item,
+.owl-carousel .owl-wrapper {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+}
+
+.owl-carousel .owl-item {
+  min-height: 1px;
+  float: left;
+  -webkit-backface-visibility: hidden;
+  -webkit-touch-callout: none;
+}
+
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+}
+
+.owl-carousel .owl-dots.disabled,
+.owl-carousel .owl-nav.disabled {
+  display: none;
+}
+
+.no-js .owl-carousel,
+.owl-carousel.owl-loaded {
+  display: block;
+}
+
+.owl-carousel .owl-dot,
+.owl-carousel .owl-nav .owl-next,
+.owl-carousel .owl-nav .owl-prev {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel button.owl-dot {
+  background: 0 0;
+  color: inherit;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+}
+
+.owl-carousel.owl-loading {
+  opacity: 0;
+  display: block;
+}
+
+.owl-carousel.owl-hidden {
+  opacity: 0;
+}
+
+.owl-carousel.owl-refresh .owl-item {
+  visibility: hidden;
+}
+
+.owl-carousel.owl-drag .owl-item {
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.owl-carousel.owl-grab {
+  cursor: move;
+  cursor: grab;
+}
+
+.owl-carousel.owl-rtl {
+  direction: rtl;
+}
+
+.owl-carousel.owl-rtl .owl-item {
+  float: right;
+}
+
+.owl-carousel .animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.owl-carousel .owl-animated-in {
+  z-index: 0;
+}
+
+.owl-carousel .owl-animated-out {
+  z-index: 1;
+}
+
+.owl-carousel .fadeOut {
+  animation-name: fadeOut;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.owl-height {
+  transition: height 0.5s ease-in-out;
+}
+
+.owl-carousel .owl-item .owl-lazy {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.owl-carousel .owl-item .owl-lazy:not([src]),
+.owl-carousel .owl-item .owl-lazy[src^=""] {
+  max-height: 0;
+}
+
+.owl-carousel .owl-item img.owl-lazy {
+  transform-style: preserve-3d;
+}
+
+.owl-carousel .owl-video-wrapper {
+  position: relative;
+  height: 100%;
+  background: #000;
+}
+
+.owl-carousel .owl-video-play-icon {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  left: 50%;
+  top: 50%;
+  margin-left: -40px;
+  margin-top: -40px;
+  background: url(owl.video.play.png) no-repeat;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.1s ease;
+}
+
+.owl-carousel .owl-video-play-icon:hover {
+  -ms-transform: scale(1.3, 1.3);
+  transform: scale(1.3, 1.3);
+}
+
+.owl-carousel .owl-video-playing .owl-video-play-icon,
+.owl-carousel .owl-video-playing .owl-video-tn {
+  display: none;
+}
+
+.owl-carousel .owl-video-tn {
+  opacity: 0;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 0.4s ease;
+}
+
+.owl-carousel .owl-video-frame {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+}
+
+/* headings, sub-headings, Paragraph */
+.section-heading {
+  font-family: "Calluna-Regular";
+  letter-spacing: 2px;
+  font-size: 45px;
+}
+.section-subheading {
+  font-family: "AdelleSansW01-Regular", "Open Sans", sans-serif;
+  font-size: 25px;
+}
+.heading {
+  font-size: 18px !important;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+}
+@media (max-width: 576px) {
+  .section-heading {
+    font-size: 32px;
+  }
+  .section-subheading {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .heading {
+    font-size: 14px;
+  }
+}
+
+/* section 1 Top Banner */
+
+.home-slider .owl-nav {
+  opacity: 0;
+  transition: all 0.3s;
+  margin: 0;
+}
+.home-slider:hover .owl-nav {
+  opacity: 1;
+  transition: all 0.3s;
+}
+.home-slider .owl-nav {
+  overflow: hidden;
+  height: 0;
+}
+.home-slider .owl-nav .prev-btn,
+.home-slider .owl-nav .next-btn {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  display: block;
+  z-index: 1000;
+  border-radius: 50%;
+  position: absolute;
+  top: 50% !important;
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  box-sizing: border-box;
+}
+.home-slider .owl-nav .prev-btn:hover,
+.home-slider .owl-nav .next-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.home-slider .owl-nav .prev-btn {
+  left: 20px;
+}
+.home-slider .owl-nav .next-btn {
+  right: 20px;
+}
+.home-slider .owl-dot {
+  float: left;
+}
+.home-slider .owl-dot span {
+  width: 13px !important;
+  height: 13px !important;
+  background-color: #ccc !important;
+  margin: 2px 2px !important;
+}
+.home-slider .owl-dots .active span {
+  background-color: #ffffff !important;
+}
+.slide1-text-box h2,
+.slide2-text-box h2,
+.slide3-text-box h2,
+.slide4-text-box h2,
+.slide5-text-box h2 {
+  font-family: "Calluna-Regular";
+  font-weight: 500;
+  line-height: 1.2;
+  font-variant: small-caps;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1 !important;
+  }
+}
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 1.5s !important;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1 !important;
+  }
+  90% {
+    opacity: 1 !important;
+  }
+  100% {
+    opacity: 1 !important;
+  }
+}
+.fadeIn2 {
+  animation-name: fadeIn2;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+
+@media (max-width: 576px) {
+  .home-slider {
+    margin-top: 60px;
+  }
+  .home-slide-item {
+    background-position: center top;
+    background-size: 160% auto;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 33vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 5%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+    text-align: center;
+  }
+  .slide1-text-box h2,
+  .slide2-text-box h2,
+  .slide3-text-box h2,
+  .slide4-text-box h2,
+  .slide5-text-box h2 {
+    font-size: 3.7vw !important;
+  }
+}
+@media (min-width: 768px) {
+  .home-slider {
+    margin-top: 66px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 40vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 8%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 5%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+    text-align: center;
+  }
+}
+@media (min-width: 993px) {
+  .home-slider {
+    margin-top: 66px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 40vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 15%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 15%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 25%;
+  }
+  .slide1-text-box h2,
+  .slide2-text-box h2,
+  .slide3-text-box h2,
+  .slide4-text-box h2,
+  .slide5-text-box h2 {
+    font-size: 2.5vw !important;
+  }
+  .blue-btn1 {
+    padding: 12px 40px;
+    text-align: center;
+    color: #fff;
+    background-color: #002d59;
+    font-family: "opensans-Regular";
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.5s;
+  }
+  .blue-btn1:hover {
+    text-align: center;
+    color: #fff;
+    background-color: #b11230;
+    transition: all 0.5s;
+  }
+  .home-slider .owl-dots {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    z-index: 1000;
+    text-align: right;
+  }
+}
+@media (max-width: 992px) {
+  .blue-btn1 {
+    padding: 10px 25px;
+    text-align: center;
+    color: #fff;
+    background-color: #002d59;
+    font-family: "opensans-Regular";
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.5s;
+  }
+  .blue-btn1:hover {
+    text-align: center;
+    color: #fff;
+    background-color: #b11230;
+    transition: all 0.5s;
+  }
+  .home-slider .owl-dots {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    text-align: right;
+  }
+}
+@media (min-width: 1200px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 75vh;
+  }
+  .slide1-text-box,
+  .slide2-text-box,
+  .slide4-text-box {
+    position: absolute;
+    top: 25%;
+    left: 15%;
+  }
+  .slide3-text-box {
+    position: absolute;
+    top: 25%;
+    right: 15%;
+  }
+  .slide5-text-box {
+    position: absolute;
+    top: 25%;
+    right: 25%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 70vh;
+  }
+}
+
+@media (min-width: 2560px) {
+  .home-slider {
+    margin-top: 123px;
+  }
+  .home-slide-item {
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 60vh;
+  }
+}
+
+/* section 1 Top Banner end */
+
+/* section 2 EVIDENCE BASED BENEFITS */
+
+.benefits-heading {
+  margin-bottom: 0px;
+  font-weight: 700;
+  line-height: initial;
+}
+.benefits {
+  position: relative;
+  float: left;
+  margin-bottom: 60px;
+  padding: 0px 45px 0px 85px;
+  height: initial !important;
+}
+.benefits-icon {
+  float: left;
+  position: absolute;
+  width: 50px;
+  left: 5px;
+}
+.benefits-content-heading {
+  line-height: initial;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  font-family: "AdelleSansW01-Regular";
+}
+.benefits-content {
+  line-height: 24px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 576px) {
+  .benefits {
+    margin-bottom: 30px;
+    padding: 0px 35px 0px 75px;
+  }
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (mx-width: 992px) {
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+}
+@media (min-width: 993px) {
+  .based-benefits-bg {
+    background-image: url("../images/home/celergen_02.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+  }
+}
+/* section 2 EVIDENCE BASED BENEFITS end */
+
+/* section 3 GUARDED SECRET  */
+.guarded-secret-bg {
+  background-image: url("../images/home/celergen-guarded-secret-1.png");
+  background-repeat: no-repeat;
+  color: white;
+  padding: 50px 0px 50px 0;
+  text-align: center;
+}
+.guarded-image {
+  background: linear-gradient(transparent 5%, white 5%);
+  margin-top: 50px;
+  padding: 0px 30px;
+}
+.down-arrow {
+  position: relative;
+  background: transparent !important;
+  bottom: 45px !important;
+  box-shadow: none !important;
+  padding: 0px !important;
+}
+
+@media (max-width: 576px) {
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 30px 15px !important;
+  }
+  .guarded-text {
+    padding: 35px 20px !important;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .guarded-secret .section-heading {
+    font-size: 25px;
+  }
+  .guarded-secret .section-subheading {
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+  .guarded-image {
+    margin-top: 30px;
+  }
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 30px 40px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .guarded-secret-bg {
+    background-size: 100% 60% !important;
+    padding: 40px 60px !important;
+  }
+}
+@media (min-width: 993px) {
+  .guarded-secret-bg {
+    background-size: 100%;
+    background-position: center -100px;
+  }
+  .guarded-box1 {
+    background: white;
+    padding: 0 80px 0 80px;
+  }
+  .guarded-box2 {
+    background: white;
+    padding: 40px 0px 60px 0;
+  }
+  .guarded-img {
+    position: relative;
+    top: -20px;
+    left: 0;
+    width: 100%;
+  }
+}
+@media (max-width: 992px) {
+  .guarded-box1 {
+    background: white;
+    padding: 0 20px 0 20px;
+  }
+  .guarded-box2 {
+    background: white;
+    padding: 20px;
+  }
+  .guarded-img {
+    position: relative;
+    top: -10px;
+    left: 0;
+    width: 100%;
+  }
+}
+@media all and (min-width: 2560px) {
+  .guarded-secret-bg {
+    padding-bottom: 100px !important;
+  }
+}
+
+/* section 2 GUARDED SECRET end */
+
+/* section 3 WHAT IS CELERGEN  */
+.what-is-celergen-bg {
+  background-image: url("../images/home/what-is-celergen-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-attachment: fixed;
+  width: 100%;
+  height: auto;
+}
+.blue-button {
+  background-color: #dfdfdf;
+  width: 100%;
+  height: 90px;
+  vertical-align: middle;
+  padding: 30px;
+  line-height: 25px;
+  font-family: "AdelleSansW01-Regular";
+}
+.blue-button:hover {
+  background-color: #00355f;
+  color: #ffffff !important;
+  transition: all 0.8s;
+}
+.global .heading1 {
+  font-size: 16px;
+}
+@media (max-width: 576px) {
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (min-width: 769px) and (max-width: 992px) {
+}
+@media (min-width: 993px) {
+}
+
+/* section 3 WHAT IS CELERGEN end */
+
+/* section 4 WHY DOCTORS USE CELERGEN */
+.doctors-review {
+  color: white;
+  border-bottom: 1px solid white;
+  margin-bottom: 0px;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  font-family: "AdelleSansW01-Regular";
+}
+.doctor-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  float: left;
+  font-family: "AdelleSansW01-Bold";
+}
+.doctor-designation {
+  float: left;
+  color: white;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: bold;
+  font-family: "AdelleSansW01-Bold";
+}
+.img-frame {
+  width: 100%;
+  box-shadow: 15px 15px 0px 1px #9f9f9f;
+}
+
+@media (max-width: 576px) {
+  .doctors-use-celergen .section-heading {
+    font-size: 20px;
+  }
+  .img-frame {
+    width: 150px !important;
+    height: 150px;
+  }
+  .quatation {
+    width: 15px !important;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+}
+@media (min-width: 769px) and (max-width: 992px) {
+  .doctors-use-celergen .section-heading {
+    font-size: 28px;
+  }
+  .img-frame {
+    width: 150px !important;
+    height: 150px;
+  }
+}
+@media (min-width: 993px) {
+}
+/* section 4 WHY DOCTORS USE CELERGEN end */
+
+/* section 7 - clinical-science */
+.clinical-button {
+  padding: 20px 30px;
+  display: block;
+  background-color: #ddd;
+  text-align: center;
+  color: #002d59;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 1s;
+}
+.clinical-button:hover {
+  background-color: #002d59;
+  color: #fff;
+  transition: all 1s;
+}
+.clinical-button:hover > .clinical-button-downarrow {
+  background-image: url("../images/common/ic_clinical_white.png");
+  transition: all 0.8s;
+}
+.clinical-button-downarrow {
+  background-image: url("../images/common/ic_clinical_red.png");
+  background-repeat: no-repeat;
+  width: 13px;
+  height: 13px;
+  background-size: 13px;
+  float: right;
+  background-position: top left;
+  transition: all 0.8s;
+}
+/* section 7 - clinical-science end */
+
+/* section 8 - user reivew */
+.img-frame {
+  max-width: 250px;
+  margin: auto;
+}
+.customer-section-heading {
+  font-family: "Calluna-Regular";
+  font-size: 20px;
+}
+.reviewer-details {
+  min-height: 310px;
+  padding: 20px 20px 0 20px;
+  text-align: center;
+}
+.reviewer-pic {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  width: 100%;
+  height: 250px;
+  border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -ms-border-radius: 10px 10px 0 0;
+  -o-border-radius: 10px 10px 0 0;
+}
+.reviewer-name {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 20px;
+  text-align: center;
+  line-height: 26px;
+  font-family: "AdelleSansW01-Bold";
+}
+.reviewer-job {
+  color: #1a1a1a;
+  font-size: 15px;
+  text-align: center;
+  line-height: 24px;
+  font-family: "AdelleSansW01-Regular";
+}
+.review {
+  color: #868686;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  margin-top: 25px;
+  font-family: "Open Sans", sans-serif;
+}
+#customer-review .item::after {
+  content: "";
+  background: url("../images/common/shadow-arrow-slick.png");
+  position: absolute;
+  bottom: 2px;
+  width: 84px;
+  height: 38px;
+  z-index: 2;
+  visibility: visible;
+  left: 50%;
+  margin-left: -42px;
+}
+
+.customer-slide .item {
+  box-shadow: 0px 0px 17px -2px #5f5f5f;
+  background: transparent;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+.customer-slide .owl-nav {
+  overflow: hidden;
+  height: 0;
+}
+
+.customer-slide .owl-prev {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  padding: 15px !important;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.customer-slide .owl-prev:hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+
+.customer-slide .owl-next {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15%;
+  height: 100%;
+  padding: 15px !important;
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.customer-slide .owl-next:hover {
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  transition: all 1s;
+}
+.review {
+  font-family: "Open Sans", sans-serif;
+  line-height: 20px;
+  font-weight: 300;
+  font-size: 16px !important;
+}
+.prev-btn,
+.next-btn {
+  top: 50%;
+  opacity: 0.5;
+}
+.customer-slide .owl-prev:hover .prev-btn,
+.customer-slide .owl-next:hover .next-btn {
+  opacity: 1;
+}
+.next-btn {
+  float: right;
+}
+.Read-btn {
+  font-size: 16px;
+  font-family: "AdelleSansW01-Bold";
+}
+.Read-btn:hover {
+  color: #b11230;
+}
+.customer-slide .owl-stage {
+  display: flex;
+}
+.customer-slide .owl-stage .item {
+  min-height: calc(100% - 47px);
+  box-sizing: border-box;
+}
+/* section 8 - user reivew end */
+
+/* section 9 - products */
+.home-products-bg {
+  background-image: url("../images/home/celergen-product-bg_83.png");
+  background-size: cover;
+  background-position: 50% bottom;
+  background-attachment: fixed;
+}
+.home-product-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.home-product-list ul li {
+  text-align: center;
+  box-sizing: border-box;
+  clear: none;
+  padding: 30px 45px 25px 45px;
+  transition: all 0.3s;
+}
+.home-product {
+  background-color: white;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 100%;
+  box-shadow: 0 0 10px 5px rgba(73, 73, 73, 0.3);
+}
+h3 {
+  font-size: 20px;
+  font-family: "AdelleSansW01-Bold";
+  line-height: 1.3;
+}
+
+@media (max-width: 992px) {
+  .home-products-bg {
+    padding: 50px 0;
+  }
+}
+@media (min-width: 993px) {
+  .scale1 {
+    scale: 1.1;
+    transition: all 0.3s;
+    z-index: 2;
+  }
+  .home-products-bg {
+    padding: 100px 0;
+  }
+}
+/* section 9 end */
+
+/* by Mohana */
+
+@media (max-width: 768px) {
+  [data-aos] {
+    pointer-events: auto !important;
+  }
+  html:not(.no-js) [data-aos^="fade"] {
+    opacity: 1 !important;
+  }
+  html:not(.no-js) [data-aos="fade-up"] {
+    transform: none !important;
+  }
+  html:not(.no-js) [data-aos="fade-down"] {
+    animation: none;
+    transform: none !important;
+    -webkit-animation: none;
+  }
+
+  .bordertop {
+    border-top: 1px solid #d2d2d2;
+  }
+  .margintop {
+    margin-top: 69px;
+  }
+}
+@media (min-width: 577px) and (max-width: 768px) {
+  [data-aos] {
+    pointer-events: auto !important;
+  }
+  html:not(.no-js) [data-aos^="fade"] {
+    opacity: 1 !important;
+  }
+  html:not(.no-js) [data-aos="fade-up"] {
+    transform: none !important;
+  }
+  html:not(.no-js) [data-aos="fade-down"] {
+    animation: none;
+    transform: none !important;
+    -webkit-animation: none;
+  }
+  .bordertop {
+    border-top: 1px solid #d2d2d2;
+  }
+  .margintop {
+    margin-top: 69px;
+  }
+}
+
+/**
+ * Owl Carousel v2.3.4
+ * Copyright 2013-2018 David Deutsch
+ * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
+ */
+.owl-theme .owl-dots,
+.owl-theme .owl-nav {
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.owl-theme .owl-nav {
+  margin-top: 10px;
+}
+.owl-theme .owl-nav [class*="owl-"] {
+  color: #fff;
+  font-size: 14px;
+  margin: 5px;
+  padding: 4px 7px;
+  background: #d6d6d6;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.owl-theme .owl-nav [class*="owl-"]:hover {
+  background: none;
+  color: #fff;
+  text-decoration: none;
+}
+.owl-theme .owl-nav .disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.owl-theme .owl-nav.disabled + .owl-dots {
+  margin-top: 10px;
+}
+.owl-theme .owl-dots .owl-dot {
+  display: inline-block;
+  zoom: 1;
+}
+.owl-theme .owl-dots .owl-dot span {
+  width: 10px;
+  height: 10px;
+  margin: 5px 7px;
+  background: #d6d6d6;
+  display: block;
+  -webkit-backface-visibility: visible;
+  transition: opacity 0.2s ease;
+  border-radius: 30px;
+}
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+  background: #869791;
+}
+
+
+
+/* by mohana end */
+/* by mohana end */

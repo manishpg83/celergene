@@ -11,7 +11,7 @@ Route::get('/', function () {
     if (Auth::guard('vendor')->check()) {
         return redirect()->route('vendor.dashboard');
     } */
-    return view('welcome');
+    return view('frontend.home');
 });
 include __DIR__.'/admin.php';
 include __DIR__.'/vendor.php';
