@@ -74,7 +74,9 @@
 
             <div class="layout-page">
                 @include('frontend.layouts.header')
-
+                <section class="margin-top">
+    
+                </section>
                 <div class="content-wrapper">
                     @yield('content')
 

@@ -138,7 +138,7 @@
                       alt="logo" width="120" /></a>
                   <ul class="navbar-nav justify-content-end sidbar-main-menu text-end">
                     <li class="nav-item mx-xl-2 mx-lg-0 py-xl-2 dropdown">
-                      <a class="nav-link px-xl-3 px-lg-2 dropdown sidbar-main-item" href="index.php">
+                      <a class="nav-link px-xl-3 px-lg-2 dropdown sidbar-main-item" href="{{ route('home') }}">
                         HOME</a>
                     </li>
 
@@ -151,7 +151,7 @@
                       </a>
                       <ul class="dropdown-menu1 sub-menu" id="sub-menu1">
                         <li>
-                          <a class="dropdown-item ps-2" href="about-celergen.php">
+                          <a class="dropdown-item ps-2" href="{{ route('about') }}">
                             ABOUT CELERGEN
                           </a>
                         </li>
@@ -159,7 +159,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="serum-royale.php">
+                          <a class="dropdown-item ps-2" href="{{ route('serumroyale') }}">
                             SERUM ROYALE
                           </a>
                         </li>
@@ -174,7 +174,7 @@
                       </a>
                       <ul class="dropdown-menu1 sub-menu" id="sub-menu2">
                         <li>
-                          <a class="dropdown-item ps-2" href="energy-and-vitality.php">
+                          <a class="dropdown-item ps-2" href="{{ route('energyandvitality') }}">
                             ENERGY AND VITALITY
                           </a>
                         </li>

@@ -2417,6 +2417,223 @@ h3 {
 }
 
 
+@charset "utf-8";
+/* CSS Document */
 
+ /* inner page headings, sub-headings, Paragraph */
+.section-heading{font-size: 36px;}
+.section-subheading{font-size: 30px; }
+ h3{font-size: 25px;}
+ h4{font-size: 22px;}
+ h5{font-size: 20px;}
+ h6{font-size: 18px;} 
+@media (max-width:768px){
+ .section-heading{font-size: 24px;}
+ .section-subheading {font-size: 16px;}
+ h4{font-size: 16px;}
+ }
+ 
+/* inner page headings, sub-headings, Paragraph */
+
+ 
+/* Common CSS  Start */
+
+
+.padding {padding: 60px;}
+.margin-top {margin-top: 123px;}
+.border-left {border-left: 12px solid #B21230; padding: 15px 0px 15px 25px;line-height: 48px;}
+.padding-top {padding-top: 50px;}
+.padding-x {padding: 0px 60px;}
+.padding-y {padding-top: 60px; padding-bottom: 60px}
+.item-shadow {box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.2); padding: 50px 45px;}
+.imag-frame {width: 160px!important; box-shadow: 15px 15px 0px 1px #9F9F9F;}
+.doctors-review-energy {font-size: 20px; border-bottom: 1px solid #00355f;}
+.doctors-name {font-size: 20px;}
+.benefits-review .owl-nav{height: 0; overflow: hidden;}
+.benefits-review .owl-nav .prev-btn {position: absolute; left: 0px;}
+.benefits-review .owl-nav .next-btn {position: absolute; right:0px;}
+.benefits-review .owl-nav .next-btn img, .benefits-review .owl-nav .prev-btn img{width:100%;}
+.border-bottom{border: 10px solid #B21230; width: 130px;position: absolute;left: 45%;margin: 35px 0px;}
+.border-right {border-right: 15px solid #B21230; height: 75px;}
+.benefits-box {font-size: 20px; color: #38b9e1; line-height: 1.5}
+.benefits-box span {font-size: 25px; color: #3ed2f5;}
+.ordernow-btn {font-size: 30px;font-weight: bold;padding: 24px 60px;border-radius: 60px;animation: blinking 1.5s infinite linear;}
+@keyframes blinking {
+    0% {
+    opacity: 1;
+}
+50% {
+    opacity: 0.7;
+}
+100% {
+    opacity: 1;
+}
+}
+@media (max-width:768px){
+.margin-top{margin-top: 65px;}
+.border-left{padding: 10px 0px 10px 25px!important;line-height: 1;}
+.padding-top {margin-top: 20px;}
+.padding-x {padding: 0px}
+.padding {padding: 10px 10px;}
+.padding-y {padding :30px 0px;}
+.imag-frame {width: 150px!important; height: 140px!important; margin: auto; margin-bottom: 20px;}
+.doctors-review-energy {font-size: 16px;}
+.doctors-name {font-size:16px;}
+.border-bottom {left: 39%;}
+.border-right {border-right: 10px solid #B21230; height: 40px;}
+.ordernow-btn {font-size: 16px;padding: 15px 30px; width: 100%}
+}
+
+
+@media (min-width: 993px){
+    .benefits-review .owl-nav .prev-btn, .benefits-review .owl-nav .next-btn{cursor: pointer; background:#00355f; width: 60px; height: 125px; display: block; z-index: 1000; top: calc(50% - 78px)!important; padding: 45px 20px; opacity: 1;}
+    .benefits-item{padding: 15px 60px;}
+}
+@media (max-width:992px){
+    .benefits-review .owl-nav .prev-btn, .benefits-review .owl-nav .next-btn{cursor: pointer; background:#00355f; width: 40px; height: 75px; display: block; z-index: 1000; top: calc(50% - 78px)!important; opacity: 1; padding:20px 10px;}
+    .benefits-item{padding: 15px 40px;}
+    .imag-frame {width: 150px!important; height: 140px!important; margin: auto; margin-bottom: 20px;}
+}
+
+
+
+@media (max-width:768px) {
+    .aboutcelergen-image{ width: 50%!important;}
+    [data-aos] {
+        pointer-events: auto !important;
+    }
+    html:not(.no-js) [data-aos^=fade] {
+        opacity: 1 !important;
+    }
+    html:not(.no-js) [data-aos=fade-right] {
+        transform: none !important;
+        animation: none!important;
+    }  
+    html:not(.no-js) [data-aos=fade-up] {
+        transform: none !important;
+        animation: none!important;
+    }  
+    
+    
+}
+
+/* ABOUT CELERGEN start */   
+
+.aboutcelergen-btn {font-size: 20px; height: 80px; text-align: center;background-color: #00355f; width: 100%;display: table; padding: 20px;transition: all 0.8s;}
+.aboutcelergen-btn:hover {background-color: #ffffff; color: #00355f!important; transition: all 0.8s;}
+.aboutactive-btn {background-color: #ffffff;font-size: 20px; color: #00355f!important;height: 80px; text-align: center;width: 100%; padding: 20px}
+
+@media (max-width:576px){
+.aboutcelergen-btn{font-size: 16px!important; height: 57px;padding:  15px;}
+.aboutactive-btn{font-size: 16px!important;height: 57px;padding:  15px;}   
+}
+@media (min-width:577px) and (max-width:768px){
+   .aboutcelergen-image{ width: 50%!important;}
+    }
+
+ /* ABOUT CELERGEN end  */
+
+ /* SERUM ROYALE start  */
+
+ 
+ input[type="number" i] {
+    text-align: center;
+    padding-left: 15px; padding-right: 2px;
+      }
+      input[type="number"] {
+        margin: 0;
+        left: -4px;
+        top:-1px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .minus{margin-right: 0; color: #002955;font-size: 22px;height: 38px;width: 38px;font-weight: bold;background: #E7EAEC;border: 0px;border-top-left-radius: 10px;border-bottom-left-radius: 10px; box-sizing: border-box;} 
+      .plus {font-size: 22px;font-weight: 700;height: 38px;width: 38px;background: #E7EAEC;border: 0px;color: #002955;border-top-right-radius: 10px;border-bottom-right-radius: 10px; box-sizing: border-box; position: relative; left: -8px;}
+     
+      .qty{margin: 0; width: 50px;height: 38px;font-size: 20px;color: white;background: #858585;border: none!important;text-align: center;line-height: 42px;}
+
+ 
+
+
+      .serum-royale {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        padding: 0px 100px;
+        }
+        .boder-bottom {
+        border-bottom: 1px solid #000000;
+        }
+        .padding-left {
+        padding-left: 135px
+        }
+        .heading2 {
+        font-size: 30px;
+        }
+        .beautymargin-top {
+        margin-top: 300px;
+        }
+        .intercept-bg {
+        background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/serum-royale-inter-bg.png');
+        background-size: cover;
+        background-position: 50% bottom;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: auto;
+        }
+        @media (max-width:768px) {
+        .heading2 {
+        font-size: 15px;
+        }
+        .beautymargin-top {
+        margin-top: 30px;
+        }
+        .padding-left {
+        padding-left: 30px;
+        }
+        .beauty-text {
+        padding: 15px 0px 15px 30px;
+        }
+        .section-heading {
+        font-size: 32px !important;
+        }
+        .serum-royale {
+        padding: 30px;
+        }
+        .section-heading1 {
+        font-size: 32px !important;
+        text-transform: uppercase;
+        font-family: 'Calluna-light';
+        }
+        }
+        @media (min-width:769px) {
+        .section-heading {
+        font-size: 40px !important;
+        }
+        .section-heading1 {
+        font-size: 55px !important;
+        font-variant: small-caps;
+        font-family: 'Calluna-light';
+        }
+        }
+        @media (min-width:993px) {
+        .beauty-bg {
+        background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/serum-royale-beauty-never-sleep.png');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 644px;
+        }
+        .beauty-text {
+        padding: 30px 0px 30px 135px;
+        background: linear-gradient(to right, white 71%, transparent 90%);
+        }
+        }
+        @media (min-width:1023px) and (max-width: 1366px) {
+        .beautymargin-top {
+        margin-top: 125px;
+        }
+        }
 /* by mohana end */
 /* by mohana end */
