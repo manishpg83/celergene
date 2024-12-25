@@ -18,7 +18,7 @@
                   </a>
                 </li>
                 <li class="nav-item pe-4">
-                  <a class="nav-link" aria-current="page" href="https://store.celergenswiss.com/login.php">
+                  <a class="nav-link" aria-current="page" href="{{ route('login') }}">
                     My Account</a>
                 </li>
                 <!-- to be removed 
@@ -182,7 +182,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="join-pain-reduction.php">
+                          <a class="dropdown-item ps-2" href="{{ route('joinpainreduction') }}">
                             JOIN PAIN REDUCTION
                           </a>
                         </li>
@@ -190,7 +190,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="mood-elevation.php">
+                          <a class="dropdown-item ps-2" href="{{ route('moodelevation') }}">
                             MOOD ELEVATION
                           </a>
                         </li>

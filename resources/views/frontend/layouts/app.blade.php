@@ -44,13 +44,17 @@
     <!-- STYLESHEETS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/register.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/aos.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/header-footer.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/common.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/custom.css') }}" />
+
     <!-- Custom Stylesheet -->
     <link class="main-css" rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/style.css') }}" />
-
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/theme-default.min.css"
+    rel="stylesheet" type="text/css" />
     <!-- GOOGLE FONTS-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -93,7 +97,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script> -->
+  <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
   <script>
     function toggleClass1() {
       var screensize = screen.width;
@@ -174,11 +178,24 @@
       });
     }); // JavaScript Document
   </script>
+  <script>
+    $('.benefits-review').owlCarousel({
+        dots: false,
+        autoplay: false,
+        mouseDrag: false,
+        autoheight: false,
+        items: 1,
+        loop: true,
+        margin: 60,
+        nav: true,
+        navText: ['<a class="prev-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"/></a>', '<a class="next-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"/></a>']
+    })
+</script>
   <!-- GLOBAL-JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
-  <script src="{vendor/global/global.min.js"></script>
+  <script src="{{ asset ('/frontend/vendor/global/global.min.js') }}"></script>
   <!-- GLOBAL-JS -->
   <script src="{{ asset ('/frontend/vendor/magnific-popup/magnific-popup.js') }}"></script>
   <!-- MAGNIFIC POPUP JS -->
@@ -200,6 +217,8 @@
 
   <script src="{{ asset ('/frontend/js/test.js') }}"></script>
   <script src="{{ asset ('/frontend/js/aos.js') }}"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
   <!-- CUSTOM JS -->
 
 
