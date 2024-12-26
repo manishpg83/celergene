@@ -12,7 +12,8 @@
           </div>
        </div>
     </div>
-    <form method="post" id="registration" action="login.php">
+    <form method="POST" id="registration" action="{{ route('login') }}">
+       @csrf
        <div class="form-bg">
           <div class="container login-form">
              <div class="con-small frm">
@@ -29,12 +30,18 @@
                       <div class="row">
                          <div class="col-md-12 col-xs-12 form-group">
                             <div class="input">
-                               <input type="email" data-validation="required" name="emailid" id="emailid" value="" placeholder="Email">
+                               <input type="email" data-validation="required" name="email" id="email" value="{{ old('email') }}" placeholder="Email">
+                               @error('email')
+                                   <span class="text-danger">{{ $message }}</span>
+                               @enderror
                             </div>
                          </div>
                          <div class="col-md-12 col-xs-12 form-group">
                             <div class="input">
-                               <input type="password" data-validation="required" name="pass" id="pass" value="" placeholder="Password">
+                               <input type="password" data-validation="required" name="password" id="password" placeholder="Password">
+                               @error('password')
+                                   <span class="text-danger">{{ $message }}</span>
+                               @enderror
                             </div>
                          </div>
                          <div class="col-md-12 col-xs-12 form-group">

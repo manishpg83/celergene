@@ -230,7 +230,7 @@
                     </li>
 
                     <li class="nav-item mx-xl-2 mx-lg-0 py-xl-2 dropdown">
-                      <a class="nav-link px-xl-4 px-lg-2 sidbar-main-item" href="clinical-studies.php">
+                      <a class="nav-link px-xl-4 px-lg-2 sidbar-main-item" href="{{ route('clinicalstudies') }}">
                         CLINICAL STUDIES</a>
                     </li>
 
@@ -243,7 +243,7 @@
                       </a>
                       <ul class="dropdown-menu1 sub-menu" id="sub-menu3">
                         <li>
-                          <a class="dropdown-item ps-2" href="celergen-reviews.php">
+                          <a class="dropdown-item ps-2" href="{{ route('celergenreviews') }}">
                             CELERGEN REVIEWS
                           </a>
                         </li>
@@ -251,7 +251,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="celergen-video.php">
+                          <a class="dropdown-item ps-2" href="{{ route('celergenvideo') }}">
                             CELERGEN VIDEO
                           </a>
                         </li>
@@ -259,7 +259,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="celergen-features.php">
+                          <a class="dropdown-item ps-2" href="{{ route('celergenfeatures') }}">
                             CELERGEN FEATURES
                           </a>
                         </li>

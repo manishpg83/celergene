@@ -17,6 +17,11 @@ class HomeController extends Controller
       return view('frontend.auth.register');
    }
 
+   public function myaccount()
+   {
+      return view('frontend.profile.account');
+   }
+
    public function about()
    {
       return view('frontend.pages.about');
@@ -56,9 +61,29 @@ class HomeController extends Controller
    {
       return view('frontend.pages.increase-libido');
    }
-
+   
    public function lowersglycmicindex()
    {
       return view('frontend.pages.lowers-glycmic-index');
+   }
+
+   public function clinicalstudies()
+   {
+      return view('frontend.pages.clinical-studies');
+   }
+
+   public function celergenreviews()
+   {
+      return view('frontend.pages.celergen-reviews');
+   }
+   
+   public function celergenvideo()
+   {
+      return view('frontend.pages.celergen-video');
+   }
+
+   public function celergenfeatures()
+   {
+      return view('frontend.pages.celergen-features');
    }
 }
