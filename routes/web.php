@@ -21,7 +21,10 @@ Route::get('/serum-royale',[HomeController::class, 'serumroyale'])->name('serumr
 Route::get('/energy-and-vitality',[HomeController::class, 'energyandvitality'])->name('energyandvitality'); 
 Route::get('/join-pain-reduction',[HomeController::class, 'joinpainreduction'])->name('joinpainreduction'); 
 Route::get('/mood-elevation',[HomeController::class, 'moodelevation'])->name('moodelevation'); 
-
+Route::get('/stamina-and-recovery',[HomeController::class, 'staminaandrecovery'])->name('staminaandrecovery'); 
+Route::get('/beauty-enhancement',[HomeController::class, 'beautyenhancement'])->name('beautyenhancement'); 
+Route::get('/increase-libido',[HomeController::class, 'increaselibido'])->name('increaselibido'); 
+Route::get('/lowers-glycmic-index',[HomeController::class, 'lowersglycmicindex'])->name('lowersglycmicindex'); 
 
 
 

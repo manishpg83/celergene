@@ -10644,11 +10644,11 @@ ul {
   padding: 0;
   margin: 0; }
 
-img {
+/* img {
   border-style: none;
   height: auto;
   max-width: 100%;
-  vertical-align: middle; }
+  vertical-align: middle; } */
 
 li {
   list-style: none; }
@@ -10676,9 +10676,6 @@ a {
 
 .bg-secondary {
   background-color: var(--secondary) !important; }
-
-.bg-blue {
-  background-color: #060340 !important; }
 
 b,
 strong,
@@ -13167,9 +13164,6 @@ section {
 
 .bg-green {
   background-color: #53C258; }
-
-.bg-blue {
-  background-color: #131045; }
 
 .scale8 {
   transform: scale(1.85);

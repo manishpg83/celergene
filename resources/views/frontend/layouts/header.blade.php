@@ -198,7 +198,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="stamina-and-recovery.php">
+                          <a class="dropdown-item ps-2" href="{{ route('staminaandrecovery') }}">
                             STAMINA AND RECOVERY
                           </a>
                         </li>
@@ -206,7 +206,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="beauty-enhancement.php">
+                          <a class="dropdown-item ps-2" href="{{ route('beautyenhancement') }}">
                             BEAUTY ENHANCEMENT
                           </a>
                         </li>
@@ -214,7 +214,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="increase-libido.php">
+                          <a class="dropdown-item ps-2" href="{{ route('increaselibido') }}">
                             INCREASE LIBIDO
                           </a>
                         </li>
@@ -222,7 +222,7 @@
                           <hr class="dropdown-divider d-lg-block d-none" />
                         </li>
                         <li>
-                          <a class="dropdown-item ps-2" href="lowers-glycmic-index.php">
+                          <a class="dropdown-item ps-2" href="{{ route('lowersglycmicindex') }}">
                             LOWERS GLYCEMIC INDEX
                           </a>
                         </li>

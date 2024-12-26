@@ -41,4 +41,24 @@ class HomeController extends Controller
    {
       return view('frontend.pages.mood-elevation');
    }
+
+   public function staminaandrecovery()
+   {
+      return view('frontend.pages.stamina-and-recovery');
+   }
+
+   public function beautyenhancement()
+   {
+      return view('frontend.pages.beauty-enhancement');
+   }
+
+   public function increaselibido()
+   {
+      return view('frontend.pages.increase-libido');
+   }
+
+   public function lowersglycmicindex()
+   {
+      return view('frontend.pages.lowers-glycmic-index');
+   }
 }
