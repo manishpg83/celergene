@@ -23,6 +23,11 @@
             margin-bottom: 50px
         }
 
+        .text{
+            padding-right: calc(var(--bs-gutter-x)* .5);
+            padding-left: calc(var(--bs-gutter-x)* .5);
+        }
+
         .top-banner {
             background-size: cover;
             background-position: center center;
@@ -163,7 +168,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “The first thing I noticed was that I was able to recover a lot
@@ -191,7 +196,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “I now suggest that my clients reconsider all the supplements
@@ -217,7 +222,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “The first thing I noticed was that I was able to recover a lot
@@ -245,7 +250,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “I now suggest that my clients reconsider all the supplements
@@ -271,7 +276,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “The first thing I noticed was that I was able to recover a lot
@@ -299,7 +304,7 @@
                                                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
                                                             alt="" class="imag-frame">
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                    <div class="col-lg-9 text">
                                                         <h5
                                                             class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
                                                             “I now suggest that my clients reconsider all the supplements

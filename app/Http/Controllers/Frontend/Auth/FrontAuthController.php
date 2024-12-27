@@ -25,13 +25,14 @@ class FrontAuthController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
             notyf()->success('Login successful');
-            return redirect()->intended('/');
+            return redirect()->intended('/myaccount');
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+    
     public function showRegistrationForm()
     {
         return view('frontend.auth.register');
@@ -40,21 +41,29 @@ class FrontAuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'reg_firstname' => ['required', 'string', 'max:25'],
+            'reg_lastname' => ['required', 'string', 'max:50'],
+            'reg_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'reg_pass' => ['required', 'string', 'min:8', 'confirmed'],
+            'reg_phone' => ['nullable', 'string', 'max:20'],
+            'reg_company' => ['nullable', 'string', 'max:100'],
         ]);
-
-        $admin = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+    
+        $user = User::create([
+            'name' => $request->reg_firstname . ' ' . $request->reg_lastname,
+            'email' => $request->reg_email,
+            'password' => bcrypt($request->reg_pass),
+            'phone' => $request->reg_phone,
+            'address' => $request->reg_company, // Assuming 'company' as address
+            'type' => 'customer', // Default user type
+            'status' => 'active', // Default status
         ]);
-
-        Auth::login($admin);
-
-        return redirect()->route('admin.dashboard');
-    }
+    
+        Auth::login($user);
+    
+        notyf()->success('Registration successful');
+        return redirect()->route('login'); // Update with your dashboard route
+    }    
 
     public function showForgotPasswordForm()
     {
@@ -112,8 +121,13 @@ class FrontAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+    
+        // Invalidate and regenerate session to prevent session fixation.
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('admin.login');
+    
+        // Redirect to the home page with a success message.
+        return redirect()->route('home')->with('success', 'You have successfully logged out.');
     }
+    
 } 

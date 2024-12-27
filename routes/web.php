@@ -17,6 +17,9 @@ Route::get('/', function () {
 })->name('home');
 Route::get('/login',[FrontAuthController::class, 'showLoginForm'])->name('login.form'); 
 Route::post('/login', [FrontAuthController::class, 'login'])->name('login');
+Route::get('/register', [FrontAuthController::class, 'showRegistrationForm'])->name('frontend.register.form');
+Route::post('/register', [FrontAuthController::class, 'register'])->name('frontend.register');
+Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 Route::get('/login',[HomeController::class, 'login'])->name('login'); 
 Route::get('/register',[HomeController::class, 'register'])->name('register'); 
 Route::get('/myaccount',[HomeController::class, 'myaccount'])->name('myaccount'); 

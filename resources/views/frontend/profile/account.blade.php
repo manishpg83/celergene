@@ -184,7 +184,7 @@
                     <div class="banner-grad">
                         <div class="table-cell">
                             <div class="v-align">
-                                brisk brain
+                                {{ $user->name }}
                             </div>
                         </div>
                     </div>
@@ -194,10 +194,10 @@
         <div class="tab-a container">
             <div class="row ro-none">
                 <div class="clearfix">
-                    <a class="item active" href="http://store.celergenswiss.com/account.php">
+                    <a class="item active" href="{{ route('myaccount') }}">
                         ACCOUNT
                     </a>
-                    <a class="item " href="http://store.celergenswiss.com/transaction.php">
+                    <a class="item " href="#transaction">
                         TRANSACTION
                     </a>
                 </div>
@@ -214,8 +214,7 @@
                                         Email
                                     </div>
                                     <div class="ib">
-                                        <!-- michael_luxer@gmail.com -->
-                                        devanshu.briskbrain@gmail.com
+                                        {{ $user->email }}
                                     </div>
                                 </div>
                             </div>
@@ -225,8 +224,7 @@
                                         Company
                                     </div>
                                     <div class="ib">
-                                        <!-- The Capital.Inc -->
-                                        Briskbrain
+                                        {{ $user->company ?? 'Not provided' }}
                                     </div>
                                 </div>
                             </div>
@@ -236,6 +234,7 @@
                                         Phone Number
                                     </div>
                                     <div class="ib">
+                                        {{ $user->phone ?? 'Not provided' }}
                                     </div>
                                 </div>
                             </div>
@@ -245,17 +244,17 @@
                                         Date of Birth
                                     </div>
                                     <div class="ib">
-                                        13-04-2002
+                                        {{ $user->date_of_birth ? $user->date_of_birth->format('d-m-Y') : 'Not provided' }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="desc ">
-                                    <a href="editaccount.php" title="">&gt; EDIT ACCOUNT</a>
-                                    <a href="changepass.php" title="">&gt; CHANGE PASSWORD</a>
-                                    <a href="logout.php" title="">&gt; LOGOUT</a>
+                                    <a href="{{ route('edit.account') }}" title="">&gt; EDIT ACCOUNT</a>
+                                    <a href="{{ route('change.password') }}" title="">&gt; CHANGE PASSWORD</a>
+                                    <a href="{{ route('logout') }}" title="">&gt; LOGOUT</a>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-sm-6 col-xs-12 no-padding rba bo-mob2">
                             <div class="section">
@@ -263,9 +262,10 @@
                                     BILLING INFORMATION
                                 </div>
                                 <div class="content padr">
+                                    <p>{{ $user->billing_address ?? 'No billing address provided' }}</p>
                                 </div>
                                 <div class="content padr">
-                                    <a class="addmore paddingsec" href="address_bill.php">
+                                    <a class="addmore paddingsec" href="#">
                                         + ADD BILLING ADDRESS
                                     </a>
                                 </div>
@@ -275,9 +275,10 @@
                                     SHIPPING INFORMATION
                                 </div>
                                 <div class="content padr">
+                                    <p>{{ $user->shipping_address ?? 'No shipping address provided' }}</p>
                                 </div>
                                 <div class="content padr">
-                                    <a class="addmore paddingsec" href="address_ship.php">
+                                    <a class="addmore paddingsec" href="#">
                                         + ADD SHIPPING ADDRESS
                                     </a>
                                 </div>

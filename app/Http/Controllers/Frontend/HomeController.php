@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,10 +18,11 @@ class HomeController extends Controller
       return view('frontend.auth.register');
    }
 
-   public function myaccount()
+   public function myAccount()
    {
-      return view('frontend.profile.account');
-   }
+       $user = Auth::user(); // Retrieve the currently logged-in user
+       return view('frontend.profile.account', compact('user'));
+   }   
 
    public function about()
    {

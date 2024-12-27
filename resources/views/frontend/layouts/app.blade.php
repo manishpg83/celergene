@@ -9,7 +9,7 @@
     <!-- Meta -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="author" content="IndianCoder" />
+{{--     <meta name="author" content="IndianCoder" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords"
         content="android, ios, template, ui kit, app, glamour, delivery, skincare template, elegance, grace, luxury, beauty eCommerce, fashion, ios, material design, order, 
@@ -33,7 +33,7 @@
       template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your
       website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
     <meta name="twitter:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" /> --}}
 
     <!-- FAVICONS ICON -->
     <link rel="icon" type="image/x-icon" href="images/favicon.png" />
