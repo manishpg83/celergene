@@ -1,218 +1,150 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Delivery Order #{{ $deliveryOrder->delivery_number }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Order</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
-            color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
         .header {
-            overflow: hidden;
-            margin-bottom: 8px;
-            padding: 10px;
-            background-color: #808080;
-            color: white;
+            position: relative;
+            background-color: #000000;
+            color: #ffffff;
+            height: 103px;
         }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo-container img {
-            height: 60px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .company-address {
-            margin-bottom: 15px;
-        }
-
-        .header .company-name {
+        .header .left {
             float: left;
-            font-size: 18px;
+            font-size: 20px;
+            vertical-align: middle;
             font-weight: bold;
+            padding: 40px 15px;
         }
-
-        .header .delivery-text {
-            float: right;
-            font-size: 18px;
+        .header .right {
+            position: absolute;
+            top: 3px;
+            right: -1px;
+            width: 375px;
+            height: 100px;
+            background-color: white;
+            color: #000000;
+            border-top-left-radius: 150px;
+            padding: 0px;
+        }
+        .header .right h2 {
             font-weight: bold;
+            font-size: 18px;
+            margin: 0px;
+            position: relative;
+            top: -50px;
+            padding-left: 80px;
         }
-
-        .header::after {
-            content: "";
-            display: table;
-            clear: both;
+        .content {
+            margin-top: 20px;
         }
-
-        .addresses {
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #000;
+        .box p strong {
+            display: inline-block;
+            margin-bottom: 2px;
         }
-
-        .customer-details,
-        .warehouse-details,
-        .delivery-details {
-            width: 30%;
-            float: left;
-            padding: 10px;
-            box-sizing: border-box;
+        .box p {
+            margin: 0px;
         }
-
-        .warehouse-details {
-            text-align: center;
+        .box {
+            border: 1px solid #000000;
+            padding: 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            min-height: 100px;
         }
-
-        .delivery-details {
-            text-align: right;
+        .flex-container .flex-item:first-child .box {
+            margin-right: 10px;
         }
-
-        .addresses::after {
-            content: "";
-            display: table;
-            clear: both;
+        .flex-container .flex-item:last-child .box {
+            margin-left: 10px;
         }
-
-        table {
+        .flex-container {
             width: 100%;
-            border-collapse: collapse;
+            display: table;
             margin-bottom: 20px;
         }
-
-        th,
-        td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f0f0f0;
-        }
-
-        .summary-section {
-            width: 100%;
-            margin-top: 30px;
-            display: table;
-        }
-
-        .summary-section .left,
-        .summary-section .right {
+        .flex-item {
             display: table-cell;
-            vertical-align: top;
         }
-
-        .left {
-            width: 60%;
-            padding-right: 20px;
-        }
-
-        .right {
-            width: 35%;
-        }
-
-        .totals table {
+        .table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
-
-        .totals td {
-            padding: 5px;
-            border: 1px solid #ddd;
-            text-align: right;
+        .table th, .table td {
+            border: 1px solid black;
+            padding: 8px 12px;
+            text-align: left;
         }
-
-        .totals tr:last-child td {
+        .table th {
             font-weight: bold;
         }
-
-        .contact-details p {
-            margin: 5px 0;
+        .footer {
+            margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
-    <div class="logo-container">
-        <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
-    </div>
-
     <div class="header">
-        <div class="company-name">{{ $entity->company_name ?? 'Your Company Name' }}</div>
-        <div class="delivery-text">DELIVERY ORDER</div>
+        <div class="left">Celergen International Limited</div>
+        <div class="right"><h2>Delivery Order</h2></div>
     </div>
-
-    <div>
-        <div class="company-address">{{ $entity->address ?? 'Company Address' }}</div>
-    </div>
-
-    <div class="addresses">
-        <div class="customer-details">
-            <strong>Customer Details</strong><br>
-            {{ $customer->first_name }} {{ $customer->last_name }}<br>
-            {{ $customer->billing_address }}<br>
-            VAT No: {{ $customer->vat_number }}
+    <div class="content">
+        <div class="flex-container">
+            <div class="flex-item">
+                <div class="box">
+                    <p><strong>Luxroutage S.A</strong></p>
+                    <p>11, rue Paul Rischard</p>
+                    <p>Luxembourg</p>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="box">
+                    <p><strong>Ship To:</strong></p>
+                    <p>Carlota</p>
+                    <p>Av. Diagonal 490, 1º 1ª</p>
+                    <p>Barcelona - 08006</p>
+                    <p>Spain</p>
+                    <p>Phone: +34932530282</p>
+                </div>
+            </div>
         </div>
-        <div class="warehouse-details">
-            <strong>Warehouse Details</strong><br>
-            {{ $deliveryOrder->warehouse->warehouse_name }}<br>
-            {{ $deliveryOrder->warehouse->address }}
+        <div>
+            <span style="display:inline-block;width: 50%;"><strong>ID:</strong> 25756</span>
+            <span><strong>DATE:</strong> 12-12-2024</span>
         </div>
-        <div class="delivery-details">
-            <strong>DELIVERY ORDER NO:</strong> {{ $deliveryOrder->delivery_number }}<br>
-            <strong>DELIVERY DATE:</strong> {{ date('d/m/Y', strtotime($deliveryOrder->delivery_date)) }}<br>
-            <strong>REFERENCE:</strong> {{ $deliveryOrder->reference_number ?? 'N/A' }}
-        </div>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>PRODUCT NAME</th>
-                <th>QUANTITY</th>
-                <th>SAMPLE QTY</th>
-                {{-- <th>UNIT PRICE</th> --}}
-                {{-- <th>TOTAL AMOUNT</th> --}}
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($allDetails as $detail)
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ $detail->product->product_name }}</td>
-                    <td>{{ $detail->quantity }}</td>
-                    <td>{{ $detail->sample_quantity }}</td>
-                    {{-- <td>{{ number_format($detail->unit_price, 2) }}</td> --}}
-                    {{-- <td>{{ number_format($detail->total, 2) }}</td> --}}
+                    <th>Item No.</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Commercial</th>
+                    <th>Sample</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <div class="summary-section">
-        <div class="left contact-details">
-            <p><strong>DIRECT ALL INQUIRIES TO:</strong> info@example.com</p>
-            <p><strong>Note:</strong> This is a delivery order, not a tax invoice</p>
-        </div>
-
-        {{-- <div class="right totals">
-            <table>
+            </thead>
+            <tbody>
                 <tr>
-                    <td>SUBTOTAL</td>
-                    <td>{{ number_format($allDetails->sum('total'), 2) }}</td>
+                    <td>1</td>
+                    <td>Celergen</td>
+                    <td>30</td>
+                    <td>30</td>
+                    <td>0</td>
                 </tr>
-            </table>
+            </tbody>
+        </table>
+        <div class="footer">
+            <strong>Remarks:</strong>
+            <p></p>
         </div>
-    </div> --}}
+    </div>
 </body>
-
 </html>

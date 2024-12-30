@@ -10,7 +10,6 @@
             font-size: 12px;
             color: #333;
             margin: 0;
-            padding: 20px;
         }
 
         .header {
@@ -23,17 +22,17 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .logo-container img {
-            height: 60px;
+            height: 40px;
             width: auto;
             object-fit: contain;
         }
 
         .company-address {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         .header .company-name {
@@ -56,26 +55,30 @@
 
         .addresses {
             overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #000;
-
+            margin-bottom: 0px;
+            border: 2px solid #000;
+            min-height: 100px;
         }
-
+        .billing-address strong,
+        .shipping-address strong {
+            display: inline-block;
+            margin-bottom: 2px;
+        }
         .billing-address,
         .shipping-address,
         .invoice-details {
-            width: 30%;
+            width: 31.5%;
             float: left;
-            padding: 10px;
+            padding: 8px;
             box-sizing: border-box;
         }
 
         .shipping-address {
-            text-align: center;
+            text-align: left;
         }
 
         .invoice-details {
-            text-align: right;
+            text-align: left;
         }
 
         .addresses::after {
@@ -88,22 +91,28 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            border: 2px solid #000;
+            margin-top: -2px;
+            margin-bottom: 0px;
         }
 
-        th,
         td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
+            border-left: 2px solid #000;
+            border-right: 2px solid #000;
+            padding: 3px 10px;
+            text-align: left;
         }
 
         th {
-            background-color: #f0f0f0;
+            background-color: #A6A6A6;
+            padding: 12px 10px;
+            text-align: left;
         }
-
+        table tr th:last-child, table tr td:last-child {
+            text-align: right;
+        }
         .summary-section {
             width: 100%;
-            margin-top: 30px;
             display: table;
         }
 
@@ -112,14 +121,13 @@
             display: table-cell;
             vertical-align: top;
         }
-
         .left {
-            width: 60%;
+            width: 50%;
             padding-right: 20px;
         }
 
         .right {
-            width: 35%;
+            width: 50%;
         }
 
         .totals table {
@@ -128,22 +136,40 @@
         }
 
         .totals td {
-            padding: 5px;
-            border: 1px solid #ddd;
-            text-align: right;
+            padding: 15px 10px;
+            border: 2px solid #000000;
+            text-align: left;
         }
 
         .totals tr:last-child td {
             font-weight: bold;
         }
-
-        .bank-details p strong.bank-name {
-            margin-top: 5px;
+        .totals tr td:first-child {
+            width: 60%;
+        }
+        .totals tr td:last-child {
+            width: 40%;
+        }
+        .bank-details .bank-name {
+            margin-top: 2px;
+        }
+        .bank-name strong, .bank-name span {
             display: inline-block;
         }
-        .bank-details p strong.bank-name-text {
-            margin-top: 10px;
+        .bank-details p {
+            margin: 0px;
+        }
+        .payment-text {
             display: inline-block;
+            padding-bottom: 5px;
+        }
+        .line {
+            background: #000000;
+            width: 100%;
+        }
+        .blankspace td {
+            padding: 10px;
+            height: 150px;
         }
     </style>
 </head>
@@ -154,7 +180,7 @@
     </div>
     <div class="header">
         <div class="company-name">{{ $order->entity->company_name }}</div>
-        <div class="invoice-text">INVOICE <!-- {{ $order->order_number }} --></div>
+        <div class="invoice-text">INVOICE </div>
     </div>
     <div>
         <div class="company-address">{{ $order->entity->address }}</div>
@@ -174,44 +200,50 @@
         <div class="invoice-details">
             <strong>INVOICE NO:</strong> {{ $order->order_number }}<br>
             <strong>INVOICE DATE:</strong> {{ date('d/m/Y', strtotime($order->order_date)) }}<br>
-            <strong>TERMS:</strong> {{ $order->payment_terms }}
+            <hr class="line">
+            <strong>TERMS:</strong> <br>{{ $order->payment_terms }}
         </div>
     </div>
-
-    <table>
+    <table class="item-tabel">
         <thead>
             <tr>
-                <th>DESCRIPTION</th>
-                <th>QUANTITY</th>
-                <th>UNIT PRICE</th>
+                <th style="width: 50%;">DESCRIPTION</th>
+                <th style="width: 15%;">QUANTITY</th>
+                <th style="width: 15%;">UNIT PRICE</th>
                 {{-- <th>DISCOUNT</th> --}}
-                <th>TOTAL AMOUNT</th>
+                <th style="width: 20%;">TOTAL AMOUNT</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($order->orderDetails as $detail)
                 <tr>
-                    <td>{{ $detail->product->product_name }}</td>
-                    <td>{{ $detail->quantity }}</td>
-                    <td>{{ number_format($detail->unit_price, 2) }}</td>
+                    <td style="width: 50%;">{{ $detail->product->product_name }}</td>
+                    <td style="width: 15%;">{{ $detail->quantity }}</td>
+                    <td style="width: 15%;">{{ number_format($detail->unit_price, 2) }}</td>
                     {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
-                    <td>{{ number_format($detail->total, 2) }}</td>
+                    <td style="width: 20%;">{{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
+            <tr class="blankspace">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
-
+    
     <div class="summary-section">
-        <div class="left bank-details">
-            <p><strong>DIRECT ALL INQUIRIES TO: </strong> info@example.com</p>
+        <div class="left bank-details"><br>
+            <p><strong>DIRECT ALL INQUIRIES TO: </strong></p>
+            <a href="mailto:info@example.com">info@example.com</a><br><br>
 
-            <p><strong>Bank Charges must be borne by payer</strong></p>
+            <p><strong>Bank Charges must be borne by payer</strong></p><br>
 
-            <p>For payment by Telegraphic Transfer:<br>
-                <strong class="bank-name-text">Account No:</strong> {{ $order->entity->bank_account_number }}<br>
-                <strong class="bank-name">Bank Name:</strong> {{ $order->entity->bank_account_name }}<br>
-                <strong class="bank-name">SWIFT:</strong> {{ $order->entity->bank_swift_code }}
-            </p>
+            <p><strong class="payment-text">For payment by Telegraphic Transfer:</strong></p>
+            <p class="bank-name"><strong style="width: 30%;">Account No:</strong><span>{{ $order->entity->bank_account_number }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">Bank Name:</strong><span>{{ $order->entity->bank_account_name }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">SWIFT:</strong><span>{{ $order->entity->bank_swift_code }}</span></p>
         </div>
 
         <div class="right totals">
@@ -226,11 +258,11 @@
                 </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
-                    <td><span style="color: green;">+{{ number_format($order->freight, 2) }}</span></td>
+                    <td><span>+{{ number_format($order->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td><span style="color: green;">+{{ number_format($order->tax, 2) }}</span></td>
+                    <td><span>+{{ number_format($order->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>

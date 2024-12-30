@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class FrontAuthController extends Controller
@@ -40,31 +42,46 @@ class FrontAuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'reg_firstname' => ['required', 'string', 'max:25'],
-            'reg_lastname' => ['required', 'string', 'max:50'],
-            'reg_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'reg_pass' => ['required', 'string', 'min:8', 'confirmed'],
-            'reg_phone' => ['nullable', 'string', 'max:20'],
-            'reg_company' => ['nullable', 'string', 'max:100'],
-        ]);
+        try {
+            Log::info('Registration started', $request->all());
     
-        $user = User::create([
-            'name' => $request->reg_firstname . ' ' . $request->reg_lastname,
-            'email' => $request->reg_email,
-            'password' => bcrypt($request->reg_pass),
-            'phone' => $request->reg_phone,
-            'address' => $request->reg_company, // Assuming 'company' as address
-            'type' => 'customer', // Default user type
-            'status' => 'active', // Default status
-        ]);
+            // Validate the incoming request
+            $request->validate([
+                'reg_firstname' => 'required|string|max:25',
+                'reg_lastname' => 'required|string|max:50',
+                'reg_email' => 'required|email|unique:users,email',
+                'reg_pass' => 'required|min:8|confirmed',
+                'dob_day' => 'required|numeric|min:1|max:31',
+                'dob_month' => 'required|numeric|min:1|max:12',
+                'dob_year' => 'required|numeric|min:1900|max:' . date('Y'),
+            ]);
     
-        Auth::login($user);
+            // Create date of birth
+            $dob = $request->dob_year . '-' . 
+                   str_pad($request->dob_month, 2, '0', STR_PAD_LEFT) . '-' . 
+                   str_pad($request->dob_day, 2, '0', STR_PAD_LEFT);
     
-        notyf()->success('Registration successful');
-        return redirect()->route('login'); // Update with your dashboard route
-    }    
-
+            // Create the user
+            \App\Models\User::create([
+                'first_name' => $request->reg_firstname,
+                'last_name' => $request->reg_lastname,
+                'email' => $request->reg_email,
+                'password' => Hash::make($request->reg_pass),
+                'name' => 'N/A',
+                'phone' => $request->reg_phone ?? null,
+                'company' => $request->reg_company ?? null,
+                'date_of_birth' => $dob, // Add the DOB field
+            ]);
+    
+            Log::info('Registration completed successfully');
+            notyf()->success('Registration completed successfully');
+            return redirect()->route('login');
+    
+        } catch (\Exception $e) {
+            Log::error('Registration error: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Registration failed!']);
+        }
+    }
     public function showForgotPasswordForm()
     {
         return view('admin.auth.forgot-password');
