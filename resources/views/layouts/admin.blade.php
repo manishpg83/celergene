@@ -69,11 +69,13 @@
 <body>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            @include('layouts.sidebar')
-
+            @can('view dashboard')
+                @include('layouts.sidebar')
+            @endcan
             <div class="layout-page">
-                @include('layouts.navbar')
-
+                @can('view dashboard')
+                    @include('layouts.navbar')
+                @endcan
                 <div class="content-wrapper">
                     @yield('content')
 

@@ -86,6 +86,10 @@
         }
         .table th {
             font-weight: bold;
+            text-align: center;
+        }
+        .table td {
+            text-align: center;
         }
         .footer {
             margin-top: 20px;
@@ -101,21 +105,22 @@
         <div class="flex-container">
             <div class="flex-item">
                 <div class="box">
-                    <p><strong>Luxroutage S.A</strong></p>
-                    <p>11, rue Paul Rischard</p>
+                    <p><strong>{{ $entity->company_name ?? 'Your Company Name' }}</strong></p>
+                    <p>{{ $entity->address ?? 'Company Address' }}</p>
                     <p>Luxembourg</p>
                 </div>
             </div>
             <div class="flex-item">
                 <div class="box">
                     <p><strong>Ship To:</strong></p>
-                    <p>Carlota</p>
-                    <p>Av. Diagonal 490, 1º 1ª</p>
-                    <p>Barcelona - 08006</p>
-                    <p>Spain</p>
-                    <p>Phone: +34932530282</p>
+                    <p>{{ $customer->first_name ?? 'Customer Name' }} {{ $customer->last_name ?? '' }}</p>
+                    <p>{{ $customer->shipping_address_1 ?? 'Shipping Address' }}</p>
+                    <p>{{ $customer->shipping_postal_code_1 ?? 'Postal Code' }}</p>
+                    <p>{{ $customer->shipping_country_1 ?? 'Country' }}</p>
+                    <p>Phone : {{ $customer->mobile_number ?? 'Phone Number' }}</p>
                 </div>
             </div>
+            
         </div>
         <div>
             <span style="display:inline-block;width: 50%;"><strong>ID:</strong> 25756</span>
@@ -131,12 +136,14 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($allDetails as $detail)
                 <tr>
                     <td>1</td>
-                    <td>Celergen</td>
-                    <td>30</td>
-                    <td>0</td>
+                    <td>{{ $detail->product->product_name }}</td>
+                    <td>{{ $detail->quantity }}</td>
+                    <td>{{ $detail->sample_quantity }}</td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
         <div class="footer">
