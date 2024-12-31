@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             ->name('password.update');
     });
 
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['permission:view dashboard'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])
             ->name('dashboard')
             ->middleware('permission:view dashboard');

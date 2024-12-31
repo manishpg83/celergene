@@ -17,6 +17,7 @@ class InitialRolesAndPermissionsSeeder extends Seeder
         // Create permissions
         $permissions = [
             'view dashboard',
+            'admin dashboard',
             'manage vendors',
             'manage customers',
             'manage entities',
@@ -44,6 +45,7 @@ class InitialRolesAndPermissionsSeeder extends Seeder
         $adminRole = Role::create(['name' => 'admin']);
         $adminRole->givePermissionTo([
             'view dashboard',
+            'admin dashboard',
             'manage vendors',
             'manage customers',
             'manage entities',
