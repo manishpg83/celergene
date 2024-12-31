@@ -21,8 +21,9 @@
                                 @auth
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ Auth::user()->first_name }}
+                                        {{ Auth::user()->name ?? Auth::user()->first_name }}
                                     </a>
+
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="{{ route('myaccount') }}">My Account</a></li>
                                         <li>

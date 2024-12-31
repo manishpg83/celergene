@@ -127,7 +127,6 @@
                     <th>Item No.</th>
                     <th>Description</th>
                     <th>Quantity</th>
-                    <th>Commercial</th>
                     <th>Sample</th>
                 </tr>
             </thead>
@@ -135,7 +134,6 @@
                 <tr>
                     <td>1</td>
                     <td>Celergen</td>
-                    <td>30</td>
                     <td>30</td>
                     <td>0</td>
                 </tr>

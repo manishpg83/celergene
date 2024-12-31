@@ -184,8 +184,8 @@
                     <div class="banner-grad">
                         <div class="table-cell">
                             <div class="v-align">
-                                {{ $user->first_name }} {{ $user->last_name }}
-                            </div>
+                                {{ $user->name ?? $user->first_name . ' ' . $user->last_name }}
+                            </div>                            
                         </div>
                     </div>
                 </div>
