@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,7 +47,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $vendor = Vendor::create([
+        $vendor = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'shop_name' => $request->shop_name,
