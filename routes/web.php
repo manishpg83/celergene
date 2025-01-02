@@ -7,12 +7,6 @@ use App\Http\Controllers\Frontend\Auth\FrontAuthController;
 
 
 Route::get('/', function () {
-   /*  if (Auth::guard('admin')->check()) {
-        return redirect()->route('admin.dashboard');
-    }
-    if (Auth::guard('vendor')->check()) {
-        return redirect()->route('vendor.dashboard');
-    } */
     return view('frontend.home');
 })->name('home');
 Route::get('/login',[FrontAuthController::class, 'showLoginForm'])->name('login.form'); 

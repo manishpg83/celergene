@@ -22,7 +22,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('vendor')->attempt($credentials)) {
+        if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended(route('vendor.dashboard'));
         }
@@ -56,14 +56,14 @@ class AuthController extends Controller
         // Assign default role
         $vendor->assignRole('vendor-readonly');
 
-        Auth::guard('vendor')->login($vendor);
+        Auth::guard('web')->login($vendor);
 
         return redirect()->route('vendor.dashboard');
     }
 
     public function logout(Request $request)
     {
-        Auth::guard('vendor')->logout();
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('vendor.login');
