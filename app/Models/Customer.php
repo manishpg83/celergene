@@ -12,6 +12,7 @@ class Customer extends Model
 
     protected $fillable = [
         'customer_type_id',
+        'user_id',
         'salutation',
         'first_name',
         'last_name',
@@ -52,6 +53,10 @@ class Customer extends Model
     public function orders()
     {
         return $this->hasMany(OrderMaster::class, 'customer_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 

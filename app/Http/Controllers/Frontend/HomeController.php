@@ -20,10 +20,14 @@ class HomeController extends Controller
 
    public function myAccount()
    {
-       $user = Auth::user(); // Retrieve the currently logged-in user
+       $user = Auth::user();
        return view('frontend.profile.account', compact('user'));
    }   
 
+   public function addbillingaddress()
+   {
+      return view('frontend.profile.add-billing-address');
+   }
    public function about()
    {
       return view('frontend.pages.about');

@@ -147,7 +147,7 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg>
-                                                <span class="badge rounded-circle bg-blue cart-count-badge1">0</span>
+                                                <livewire:frontend.cart-count />
                                             </a>
                                         </li>
 
@@ -341,7 +341,7 @@
                                                     </clipPath>
                                                 </defs>
                                             </svg>
-                                            <span class="badge rounded-circle bg-blue cart-count-badge">0</span>
+                                            <livewire:frontend.cart-count />
                                         </a>
                                     </li>
 

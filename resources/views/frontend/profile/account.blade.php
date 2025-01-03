@@ -265,7 +265,7 @@
                                     <p>{{ $user->billing_address ?? 'No billing address provided' }}</p>
                                 </div>
                                 <div class="content padr">
-                                    <a class="addmore paddingsec" href="#">
+                                    <a class="addmore paddingsec" href="{{ route('addbillingaddress') }}">
                                         + ADD BILLING ADDRESS
                                     </a>
                                 </div>
