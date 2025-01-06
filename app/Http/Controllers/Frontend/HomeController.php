@@ -28,6 +28,12 @@ class HomeController extends Controller
    {
       return view('frontend.profile.add-billing-address');
    }
+
+   public function addshippingaddress()
+   {
+      return view('frontend.profile.add-shipping-address');
+   }
+
    public function about()
    {
       return view('frontend.pages.about');
@@ -81,11 +87,68 @@ class HomeController extends Controller
    public function celergenreviews()
    {
       return view('frontend.pages.celergen-reviews');
-   }
-   
-   public function celergenvideo()
+   }   
+
+   public function celergenvideo($videoId = null)
    {
-      return view('frontend.pages.celergen-video');
+       $videos = [
+           [
+               'id' => 1,
+               'youtube_id' => 'pM3r9Q3F_C8',
+               'title' => 'EXPERT REVIEW',
+               'presenter' => 'Dr. Juan Remos',
+               'thumbnail' => 'videothumb1.jpg'
+           ],
+           [
+               'id' => 2,
+               'youtube_id' => 'XVczQRgM9dM',
+               'title' => 'EXPERT REVIEW',
+               'presenter' => 'Dr. Ghislaine Beilin',
+               'thumbnail' => 'videothumb2.jpg'
+           ],
+           [
+               'id' => 3,
+               'youtube_id' => 'MkOys2XLZ5M',
+               'title' => 'EXPERT REVIEW',
+               'presenter' => 'Dr. Michael Klentze',
+               'thumbnail' => 'videothumb3.jpg'
+           ],
+           [
+               'id' => 4,
+               'youtube_id' => '7lMmVZNelKg',
+               'title' => 'MOUNTAIN CLIMBING EXPEDITION',
+               'presenter' => 'Celergen Mexico Team',
+               'thumbnail' => 'videothumb4.jpg'
+           ],
+           [
+               'id' => 5,
+               'youtube_id' => 'UzyuE4ekfuQ',
+               'title' => 'CELERGEN CORPORATE',
+               'presenter' => 'Celergen Swiss',
+               'thumbnail' => 'videothumb5.jpg'
+           ],
+           [
+               'id' => 6,
+               'youtube_id' => 'W-DwU8v9AqY',
+               'title' => 'CUSTOMER TESTIMONIAL',
+               'presenter' => 'Aaron Younger',
+               'thumbnail' => 'videothumb6.jpg'
+           ],
+           [
+               'id' => 7,
+               'youtube_id' => 'EprOfkVgxUk',
+               'title' => 'CUSTOMER TESTIMONIAL',
+               'presenter' => 'Sarah Corbettw',
+               'thumbnail' => 'videothumb7.jpg'
+           ]
+       ];
+
+       $currentVideo = null;
+       if ($videoId) {
+           $currentVideo = collect($videos)->firstWhere('id', (int)$videoId);
+       }
+
+       return view('frontend.pages.celergen-video', compact('videos', 'currentVideo'));
    }
 
    public function celergenfeatures()

@@ -278,7 +278,7 @@
                                     <p>{{ $user->shipping_address ?? 'No shipping address provided' }}</p>
                                 </div>
                                 <div class="content padr">
-                                    <a class="addmore paddingsec" href="#">
+                                    <a class="addmore paddingsec" href="{{ route('addshippingaddress') }}">
                                         + ADD SHIPPING ADDRESS
                                     </a>
                                 </div>

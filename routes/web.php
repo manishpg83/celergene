@@ -19,6 +19,7 @@ Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');
     Route::get('/addbillingaddress', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
+    Route::get('/addshippingaddress', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });
@@ -36,6 +37,7 @@ Route::get('/lowers-glycmic-index', [HomeController::class, 'lowersglycmicindex'
 Route::get('/clinical-studies', [HomeController::class, 'clinicalstudies'])->name('clinicalstudies');
 Route::get('/celergen-reviews', [HomeController::class, 'celergenreviews'])->name('celergenreviews');
 Route::get('/celergen-video', [HomeController::class, 'celergenvideo'])->name('celergenvideo');
+Route::get('/celergen-video/{videoId}', [HomeController::class, 'celergenvideo'])->name('show.video');
 Route::get('/celergen-features', [HomeController::class, 'celergenfeatures'])->name('celergenfeatures');
 
 include __DIR__.'/admin.php';
