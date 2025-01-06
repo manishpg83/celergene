@@ -52,7 +52,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/common.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/custom.css') }}" />
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/shoppingcart.css') }}" /> --}}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
 
     <!-- Custom Stylesheet -->  
     <link class="main-css" rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/style.css') }}" />
@@ -64,7 +64,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    {{-- <link rel="stylesheet" type="text/css" href="css/custom.css"> --}}
 
     <!-- Favicon -->
     @stack('styles')
@@ -245,9 +245,170 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- CUSTOM JS -->
-
+    
 
     @yield('scripts')
+    <script type="text/javascript">
+
+        var ControlArray = [
+            ['bill_firstname', 'You can\'t Leave First Name empty.', '', 'info'],
+            ['bill_address1', 'You can\'t Leave Billing Address1 empty.', '', ''],
+            ['bill_zip', 'You can\'t Leave Postalcode Empty.', '', ''],
+            ['bill_country', 'Please Select Country from List', '', ''],
+            ['bill_city', 'Please Select City from List', '', ''],
+            ['bill_phone', 'Please Enter Phone no.', '', ''],
+            ['bill_email', 'Please Enter a valid email id.', '', ''],
+            ['firstname', 'You can\'t Leave First Name empty.', '', 'info'],
+            ['address1', 'You can\'t Leave Shipping Address1 empty.', '', ''],
+            ['zip', 'You can\'t Leave Postalcode Empty.', '', ''],
+            ['country', 'Please Select Country from List', '', ''],
+            ['phone', 'Please Enter Phone no.', '', ''],
+            ['email', 'Please Enter a valid email id.', '', ''],
+            ['city', 'Please Select City from List', '', '']
+        ];
+    
+        function SwitchAddress(ID)
+        {
+            var CurControl = $('#ship_address');
+            CurControl.css("display" , (ID.checked ? "none" : "block"));
+        }
+        function ValidateFormInputs()
+        {
+            var addSame = document.getElementById('add_same').checked;
+            var CurControl = null;
+            for (var i = 0; i < ControlArray.length; i++)
+            {
+    
+                CurControl = document.getElementById(ControlArray[i][0]);
+                //alert(CurControl[i][0]);
+                if (CurControl != null)
+                {
+    
+                    if (ControlArray[i][0].substring(0, 3) != "bil" && addSame)
+                        continue;
+                    if (ControlArray[i][0] == 'bill_email')
+                    {
+                        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(CurControl.value) == false)
+                        {
+                            alert("Please key in valid email address.");
+                            CurControl.focus();
+                            CurControl.style.backgroundColor = '#F3F781';
+                            return false;
+                        }
+                    }
+                    if (CurControl.value == "" && ControlArray[i][1] != '')
+                    {
+                        alert(ControlArray[i][1]);
+                        CurControl.focus();
+                        CurControl.style.backgroundColor = '#F3F781';  //'#F8E0F7' -- Light Pink;
+                        return false;
+                    } else
+                    {
+                        CurControl.style.backgroundColor = '#FFFFFF';
+                    }
+                }
+            }
+            return true;
+        }
+    
+    
+        function UpdateTotals(mode, itembox)
+        {
+            // var cart_count_mobile = document.getElementById("mobile-cart").getElementsByTagName("span")[0];
+            // var cart_count_desktop = document.getElementById("desktop-cart").getElementsByTagName("span")[0];
+            var uni_a = document.getElementById('unitprice_' + itembox).value.split(" ");
+            var nett_a = document.getElementById('nettotal_text').value.split(" ");
+            var nett_value = parseInt(nett_a[1].replace(',', ''));
+            var uni = parseInt(uni_a[1].replace(',', ''));
+            console.log(nett_value);
+            var qty = document.getElementById('quantity_' + itembox);
+            var net = document.getElementById('netprice_' + itembox);
+            var net2 = document.getElementById('netprice2_' + itembox);
+            var sub_text = document.getElementById('subtotal_text');
+            var nett_text = document.getElementById('nettotal_text');
+            var sub = document.getElementById('subtotal');
+            var nett = document.getElementById('nettotal');
+    
+            if (qty != null && uni != null && net != null && sub != null)
+            {
+                net.value = "US$ " + (parseInt(qty.value) * parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                net2.value = "US$ " + (parseInt(qty.value) * parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                if (mode == "+") {
+                    sub_text.value = nett_text.value = "US$ " + (parseInt(nett_value) + parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    sub.value = nett.value = parseInt(nett_value) + parseInt(uni);
+                    
+                    // cart_count_desktop.innerHTML = parseInt(cart_count_desktop.innerHTML) + 1;
+                    // cart_count_mobile.innerHTML = parseInt(cart_count_mobile.innerHTML) + 1;
+                }
+                if (mode == "-") {
+                    sub_text.value = nett_text.value = "US$ " + (parseInt(nett_value) - parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    sub.value = nett.value = parseInt(nett_value) - parseInt(uni);
+                    // cart_count_desktop.innerHTML = parseInt(cart_count_desktop.innerHTML) - 1;
+                    // cart_count_mobile.innerHTML = parseInt(cart_count_mobile.innerHTML) - 1;
+                }
+            }
+        }
+        function OnQuantityChanged(mode, itembox)
+        {
+            var qty = document.getElementById('quantity_' + itembox);
+            var qty2 = document.getElementById('quantity2_' + itembox);
+            var Item = document.getElementById("item_" + itembox);
+            var sub = document.getElementById("submitbutton");
+            if (qty != null && Item != null)
+            {
+                var qe = qty.value.split(" ");
+                console.log(itembox)
+                var cur = qty.value;
+                if (mode == "+")
+                {
+                    Item.value = qty.value = qty2.value = parseInt(cur) + 1;
+                    UpdateTotals(mode, itembox);
+                    console.log(window.Livewire);
+
+                    console.log('Dispatching cart update event');
+                    Livewire.dispatch('cartUpdated', { 
+                        itemId: itembox, 
+                        quantity: parseInt(qty.value) 
+                    });
+
+
+                    if (sub != null)
+                        sub.disabled = false;
+    
+                } else
+                {
+                    if (parseInt(cur) >= 1)
+                    {
+                        Item.value = qty.value = qty2.value = parseInt(cur) - 1;
+                        UpdateTotals(mode, itembox);
+                    }
+                    if (parseInt(cur) - 1 == 0)
+                    {
+                        //Disable Proceed
+                        if (sub != null)
+                            sub.disabled = true;
+                    }
+                    Livewire.dispatch('cartUpdated', { 
+                        itemId: itembox, 
+                        quantity: parseInt(qty.value) 
+                    });
+                   
+                }
+                
+            }
+        }
+    </script>
+    <script>
+        function showDivs(start)
+        {
+            var div;
+            while ((div = document.getElementById('div' + start)) !== false)
+            {
+                div.style.display = (div.style.display == 'none') ? '' : 'none';
+                start++;
+            }
+        }
+    </script>
 </body>
 
 </html>

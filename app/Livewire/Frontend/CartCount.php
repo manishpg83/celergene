@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Livewire\Frontend;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 class CartCount extends Component
 {
-    protected $listeners = ['cartUpdated' => 'refreshCount'];
+    protected $listeners = ['cartUpdated' => 'handleCartUpdate'];
 
     public $cartCount = 0;
 
@@ -16,14 +16,31 @@ class CartCount extends Component
         $this->cartCount = $this->getCartCount();
     }
 
-    public function refreshCount()
+    public function handleCartUpdate($itemId, $quantity)
     {
-        $this->cartCount = $this->getCartCount();
+        $cart = Session::get('cart', collect());
+        $updatedCart = $cart->filter(function ($item) use ($itemId) {
+            return $item['id'] != $itemId;
+        });
+        if ($quantity > 0) {
+            $updatedCart->push([
+                'id' => $itemId, 
+                'quantity' => $quantity
+            ]);
+        }
+        Session::put('cart', $updatedCart);
+        $this->cartCount = $this->calculateTotalQuantity($updatedCart);
     }
 
     private function getCartCount()
     {
-        return Session::get('cart', collect())->count();
+        $cart = Session::get('cart', collect());
+        return $this->calculateTotalQuantity($cart);
+    }
+
+    private function calculateTotalQuantity($cart)
+    {
+        return $cart->sum('quantity');
     }
 
     public function render()
