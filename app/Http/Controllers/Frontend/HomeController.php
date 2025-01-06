@@ -97,7 +97,8 @@ class HomeController extends Controller
                'youtube_id' => 'pM3r9Q3F_C8',
                'title' => 'EXPERT REVIEW',
                'presenter' => 'Dr. Juan Remos',
-               'thumbnail' => 'videothumb1.jpg'
+               'thumbnail' => 'videothumb1.jpg',
+               'url' => 'celergenvideo'
            ],
            [
                'id' => 2,

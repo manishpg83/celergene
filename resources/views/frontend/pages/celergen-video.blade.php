@@ -69,7 +69,11 @@
                 <div class="row">
                     @foreach($videos as $video)
                         <div class="col-lg-4 col-xl-3 pt-4 video">
-                            <a href="{{ route('show.video', $video['id']) }}">
+                            @if(isset($video['url']))
+                                <a href="{{ route('celergenvideo') }}">
+                            @else
+                                <a href="{{ route('show.video', $video['id']) }}">
+                            @endif
                                 <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/{{ $video['thumbnail'] }}"
                                     alt="{{ $video['title'] }}" class="w-100">
                             </a>
