@@ -92,4 +92,9 @@ class HomeController extends Controller
    {
       return view('frontend.pages.celergen-features');
    }
+
+   public function cart()
+   {
+      return view('frontend.profile.cart');
+   }
 }

@@ -19,7 +19,7 @@ Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');
     Route::get('/addbillingaddress', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    // Add more routes that require authentication here
+    Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 });
 
 // Other public routes
