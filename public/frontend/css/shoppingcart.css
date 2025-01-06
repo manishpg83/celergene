@@ -1,0 +1,202 @@
+@charset "utf-8";
+/* CSS Document */
+
+.noborder-summary:disabled,.noborder:disabled {
+    color: #858585;
+    -webkit-text-fill-color:#858585;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    font-size:13px;
+}
+.shipadd
+{
+    font-size:large;
+}
+.noborder
+{
+    width:100%;
+    border:0 0 0 0;
+    background-color:transparent;
+    font-size:14px;
+    border:none;
+    color: #858585;
+    font-family: 'AdelleSansW01-Regular' !important;
+}
+
+.noborder-summary
+{
+    width:100%;
+    border:0 0 0 0;
+    background-color:transparent;
+    font-size:16px;
+    text-align:right;
+    color: #858585;
+    border:none;
+    margin-top: -20px;
+}
+h1, h2, h3{
+    font-weight:normal;
+    margin:0;}
+h1{font-size:22px;}
+h2{font-size:18px;}
+h3{font-size:13px;}
+*{
+    box-sizing: border-box;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+[class*="col-"] {
+    float: left;
+}
+.hide{display:none;}
+.show{display:block}
+.shipping input{
+    font-size:13px;}
+
+#wrapper{
+    margin-left:auto;
+    margin-right:auto;
+    width:100%;
+}
+.flexcontainer
+{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction:row wrap;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+
+.flexitems
+{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction:column;
+    width:auto;
+    height:auto;
+}
+
+@media only screen and (max-width: 460px) {	
+    [class*="col-"] {width: 100%;}
+    .hide-s{display:none;}
+    .show-s{display:block;}
+    #wrapper{
+        padding-left:7px; padding-right:7px;}
+    .shipping{
+        width:100%;}
+}
+@media only screen and (min-width: 461px) and (max-width: 768px) {
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-6a {width: 48%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+    .col-m-12a {width: 97%;}
+    .hide-m{display:none;}
+    .show-m{display:block;}	
+}
+@media only screen and (min-width: 1024px) and (max-width: 1366px){
+    #wrapper{		
+        width:80%;
+        margin:auto;}
+    .shipping{
+        width:75%;}
+
+}
+@media only screen and (min-width: 1367px) and (max-width: 1980px){
+    #wrapper{		
+        width:70%;
+        margin:auto;}
+    .shipping{
+        width:75%;}
+
+}
+@media only screen and (min-width: 769px) and (max-width: 1366px)  {
+    /* For desktop: */
+    .col-l-1 {width: 8.33%;}
+    .col-l-2 {width: 20.66%;}
+    .col-l-2a {width: 20%;}
+    .col-l-3 {width: 25%;}
+    .col-l-4 {width: 33.33%;}
+    .col-l-4a {width: 32%;}
+    .col-l-5 {width: 41.66%;}
+    .col-l-6 {width: 50%;}
+    .col-l-7 {width: 58.33%;}
+    .col-l-8 {width: 66.66%;}
+    .col-l-9 {width: 75%;}
+    .col-l-10 {width: 79.33%;}
+    .col-l-11 {width: 91.66%;}
+    .col-l-12 {width: 100%;}
+    .hide-l{display:none;}
+    .show-l{display:block}
+}
+
+@media only screen and (min-width: 1367px) and (max-width: 1920px) {	
+    .col-xl-1 {width: 8.33%;}
+    .col-xl-2 {width: 30.66%;}
+    .col-xl-2a {width: 20%;}
+    .col-xl-3 {width: 25%;}
+    .col-xl-4 {width: 33.33%;}
+    .col-xl-5 {width: 41.66%;}
+    .col-xl-6 {width: 50%;}
+    .col-xl-7 {width: 58.33%;}
+    .col-xl-8 {width: 66.66%;}
+    .col-xl-9 {width: 75%;}
+    .col-xl-10 {width: 69.33%;}
+    .col-xl-11 {width: 91.66%;}
+    .col-xl-12 {width: 100%;}
+    .col-xl-13 {width: 39.66%;}
+    .hide-xl{display:none;}
+    .show-xl{display:block}
+
+}
+.heading1{
+    text-align:left;
+    color:#C41230;}
+.heading2{
+    text-align:left;
+    color:#1f4c84;}
+.inputlable{
+    padding:5px; text-align:left;
+    font-size:large;
+}
+.submit_btn2{
+    background-color: #C41230;
+    border: none;
+    color: #ffffff;
+    padding: 8px 15px 8px 15px;
+    text-align: center;
+    font-size:14px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius:4px;
+    transition: 0.3s;
+}
+
+.submit_btn2:hover{
+    background-color: #5995c9;
+    color: #ffffff;
+}

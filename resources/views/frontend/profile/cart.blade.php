@@ -4,5 +4,5 @@
 @section('header', 'Cart | Celergen')
 
 @section('content')
-
+    @livewire('frontend.cart')
 @endsection

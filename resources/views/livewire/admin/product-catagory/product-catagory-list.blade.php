@@ -42,13 +42,22 @@
                     <tbody>
                         @if ($categories->isEmpty())
                             <tr>
-                                <td colspan="3" class="text-center">No categories found.</td>
+                                <td colspan="4" class="text-center">No categories found.</td>
                             </tr>
                         @else
                             @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $category->category_name }}</td>
-                                    <td>{{ $category->status }}</td>
+                                    <td>
+                                        @if ($category->trashed())
+                                            <span class="btn btn-sm btn-warning">Suspended</span>
+                                        @else
+                                            <button wire:click="toggleActive({{ $category->id }})"
+                                                class="btn btn-sm {{ $category->status === 'active' ? 'btn-success' : 'btn-secondary' }}">
+                                                {{ $category->status === 'active' ? 'Active' : 'Inactive' }}
+                                            </button>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
@@ -87,6 +96,7 @@
                             @endforeach
                         @endif
                     </tbody>
+                    
                 </table>
             </div>
 

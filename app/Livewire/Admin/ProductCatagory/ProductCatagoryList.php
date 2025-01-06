@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\ProductCatagory;
 
 use App\Models\ProductCatagory;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,6 +15,9 @@ class ProductCatagoryList extends Component
     public $search = '';
     public $confirmingDeletion = false;
     public $categoryId;
+    public $category_name;
+    public $status;
+    public $isEditing = false;
 
     protected $updatesQueryString = ['search', 'perPage'];
 
@@ -25,11 +29,23 @@ class ProductCatagoryList extends Component
                 $query->where('category_name', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
+
         $perpagerecords = perpagerecords();
+
         return view('livewire.admin.product-catagory.product-catagory-list', [
             'categories' => $categories,
             'perpagerecords' => $perpagerecords,
         ]);
+    }
+
+    public function toggleActive($id)
+    {
+        $category = ProductCatagory::find($id);
+        if ($category && !$category->trashed()) {
+            $category->status = $category->status === 'active' ? 'inactive' : 'active';
+            $category->save();
+            notyf()->success('Category status updated successfully.');
+        }
     }
 
     public function confirmDelete($id)
@@ -70,6 +86,39 @@ class ProductCatagoryList extends Component
 
     public function edit($id)
     {
-        return redirect()->route('admin.productscategory.add', ['id' => $id]);
+        $category = ProductCatagory::findOrFail($id);
+        $this->categoryId = $category->id;
+        $this->category_name = $category->category_name;
+        $this->status = $category->status;
+        $this->isEditing = true;
+    }
+
+    public function updateCategory()
+    {
+        $this->validate([
+            'category_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('product_catagories', 'category_name')->ignore($this->categoryId),
+            ],
+            'status' => ['required', 'in:active,inactive'],
+        ]);
+
+        $category = ProductCatagory::findOrFail($this->categoryId);
+        $category->category_name = $this->category_name;
+        $category->status = $this->status;
+        $category->save();
+
+        $this->resetForm();
+        notyf()->success('Category updated successfully.');
+    }
+
+    public function resetForm()
+    {
+        $this->categoryId = null;
+        $this->category_name = '';
+        $this->status = '';
+        $this->isEditing = false;
     }
 }

@@ -97,4 +97,9 @@ class HomeController extends Controller
    {
       return view('frontend.profile.cart');
    }
+
+   public function checkout()
+   {
+      return view('frontend.profile.checkout');
+   }
 }

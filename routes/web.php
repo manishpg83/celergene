@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');
     Route::get('/addbillingaddress', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
+    Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });
 
 // Other public routes

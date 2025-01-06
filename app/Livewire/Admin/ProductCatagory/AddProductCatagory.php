@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\ProductCatagory;
 
 use Livewire\Component;
 use App\Models\ProductCatagory;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class AddProductCatagory extends Component
@@ -14,10 +15,18 @@ class AddProductCatagory extends Component
     public $isEditMode = false;
     public $modified_by;
 
-    protected $rules = [
-        'category_name' => 'required|string|max:255|unique:product_catagories,category_name',
-        'status' => 'required|in:active,inactive',
-    ];
+    protected function rules()
+    {
+        return [
+            'category_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('product_catagories', 'category_name')->ignore($this->category_id),
+            ],
+            'status' => 'required|in:active,inactive',
+        ];
+    }
 
     public function mount()
     {
@@ -37,24 +46,21 @@ class AddProductCatagory extends Component
     {
         $this->validate();
 
+        $data = [
+            'category_name' => $this->category_name,
+            'status' => $this->status,
+        ];
+
         if ($this->isEditMode) {
-            $this->modified_by = Auth::id();
+            $data['modified_by'] = Auth::id();
             $category = ProductCatagory::find($this->category_id);
             if ($category) {
-                $category->update([
-                    'category_name' => $this->category_name,
-                    'status' => $this->status,
-                    'modified_by' => $this->modified_by,
-                ]);
+                $category->update($data);
                 notyf()->success('Product category updated successfully.');
             }
         } else {
-            $this->modified_by = Auth::id();
-            ProductCatagory::create([
-                'category_name' => $this->category_name,
-                'status' => $this->status,
-                'created_by' => $this->modified_by,
-            ]);
+            $data['created_by'] = Auth::id();
+            ProductCatagory::create($data);
             notyf()->success('Product category added successfully.');
         }
 
