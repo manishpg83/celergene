@@ -215,6 +215,11 @@
             </tr>
         </thead>
         <tbody>
+            @php               
+                $totalRows = 25;
+                $productCount = count($order->orderDetails);
+                $blankRows = max($totalRows - $productCount, 0);
+            @endphp
             @foreach ($order->orderDetails as $detail)
                 <tr>
                     <td style="width: 50%;">{{ $detail->product->product_name }}</td>
@@ -224,12 +229,14 @@
                     <td style="width: 20%;">{{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
-            <tr class="blankspace">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            @for ($i = 0; $i < $blankRows; $i++)
+            <tr class="blank-row">
+                <td style="width: 50%;">&nbsp;</td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 20%;">&nbsp;</td>
             </tr>
+        @endfor
         </tbody>
     </table>
     
