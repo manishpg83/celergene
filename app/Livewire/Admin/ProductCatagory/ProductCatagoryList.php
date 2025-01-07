@@ -91,6 +91,8 @@ class ProductCatagoryList extends Component
         $this->category_name = $category->category_name;
         $this->status = $category->status;
         $this->isEditing = true;
+        
+        return redirect()->route('admin.productscategory.add', ['id' => $id]);
     }
 
     public function updateCategory()

@@ -262,7 +262,25 @@
                                     BILLING INFORMATION
                                 </div>
                                 <div class="content padr">
-                                    <p>{{ $user->billing_address ?? 'No billing address provided' }}</p>
+                                    @if($user->addresses && $user->addresses->count() > 0)
+                                        @foreach($user->addresses as $address)
+                                            <div class="sem paddingsec clearfix">
+                                                <span class="pull-left">{{ $address->first_name }} {{ $address->last_name }}</span>
+                                                <div id="address-action-wrapper">
+                                                    <a href="javascript:void(0)" data-type="bill" data-id="{{ $address->id }}" title="" style="margin-left:15px" class="delete-address pull-right">delete</a>
+                                                    <a href="{{ route('edit.billing.address', ['id' => $address->id]) }}" title="" class="pull-right">edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="act paddingsec">
+                                                {{ $address->address1 }}<br>
+                                                {{ $address->city }}, {{ $address->state }}<br>
+                                                {{ $address->postal_code }}<br>
+                                                {{ $address->phone }}
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>No billing addresses found.</p>
+                                    @endif
                                 </div>
                                 <div class="content padr">
                                     <a class="addmore paddingsec" href="{{ route('addbillingaddress') }}">
@@ -270,6 +288,7 @@
                                     </a>
                                 </div>
                             </div>
+                            
                             <div class="section">
                                 <div class="head-sec padr">
                                     SHIPPING INFORMATION

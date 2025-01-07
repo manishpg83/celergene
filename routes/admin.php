@@ -111,6 +111,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
             Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
         });
+        
         Route::middleware(['permission:manage invoices'])->group(function () {           
             Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
         });
