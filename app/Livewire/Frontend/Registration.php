@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Hash;
 class Registration extends Component
 {
     public $firstname, $lastname, $email, $pass, $pass_confirmation, $dob_day, $dob_month, $dob_year, $phone, $company;
-    public $g_recaptcha_response;
+
     public $currentYear;
-    protected $listeners = [
+/*     protected $listeners = [
         'g-recaptcha-response' => 'updateCaptchaResponse',
-    ];
+    ]; */
     public function mount()
     {
         // Initialize current year dynamically
@@ -36,9 +36,8 @@ class Registration extends Component
             'dob_year' => 'required|numeric|min:1900|max:' . $this->currentYear,
             'phone' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
-            'g_recaptcha_response' => 'required',
         ];
-    }
+    }    
 
     protected $validationAttributes = [
         'firstname' => 'first name',
@@ -51,15 +50,18 @@ class Registration extends Component
         'dob_year' => 'year of birth',
         'phone' => 'phone number',
         'company' => 'company name',
-        'g_recaptcha_response' => 'CAPTCHA',
+        // 'g_recaptcha_response' => 'CAPTCHA',
     ];
     
     public function register()
     {
         $this->validate();
+        Log::info('Register method triggered', $this->all());
+
+        Log::info('Register method invoked');
 
         $dob = $this->dob_year . '-' . str_pad($this->dob_month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($this->dob_day, 2, '0', STR_PAD_LEFT);
-        if (empty($this->g_recaptcha_response)) {
+        /* if (empty($this->g_recaptcha_response)) {
             session()->flash('captcha_error', 'CAPTCHA is required.');
             return;
         }
@@ -73,22 +75,21 @@ class Registration extends Component
         if (!$response->json('success')) {
             session()->flash('captcha_error', 'CAPTCHA verification failed. Please try again.');
             return;
-        }
+        } */
         DB::beginTransaction();
-
         try {
-            $existingCustomer = Customer::where('email', $this->reg_email)->first();
+            $existingCustomer = Customer::where('email', $this->email)->first();
 
             if ($existingCustomer) {
                 if ($existingCustomer->user_id === null) {
                     $user = User::create([
-                        'first_name' => $this->reg_firstname,
-                        'last_name' => $this->reg_lastname,
-                        'email' => $this->reg_email,
-                        'password' => Hash::make($this->reg_pass),
-                        'name' => $this->reg_firstname . ' ' . $this->reg_lastname,
-                        'phone' => $this->reg_phone ?? null,
-                        'company' => $this->reg_company ?? null,
+                        'first_name' => $this->firstname,
+                        'last_name' => $this->lastname,
+                        'email' => $this->email,
+                        'password' => Hash::make($this->pass),
+                        'name' => $this->firstname . ' ' . $this->lastname,
+                        'phone' => $this->phone ?? null,
+                        'company' => $this->company ?? null,
                         'date_of_birth' => $dob,
                         'type' => 'customer',
                         'status' => 'active'
@@ -107,19 +108,19 @@ class Registration extends Component
                 }
             }
 
-            $existingUser = User::where('email', $this->reg_email)->first();
+            $existingUser = User::where('email', $this->email)->first();
             if ($existingUser) {
                 throw new \Exception('Email already registered');
             }
 
             $user = User::create([
-                'first_name' => $this->reg_firstname,
-                'last_name' => $this->reg_lastname,
-                'email' => $this->reg_email,
-                'password' => Hash::make($this->reg_pass),
-                'name' => $this->reg_firstname . ' ' . $this->reg_lastname,
-                'phone' => $this->reg_phone ?? null,
-                'company' => $this->reg_company ?? null,
+                'first_name' => $this->firstname,
+                'last_name' => $this->lastname,
+                'email' => $this->email,
+                'password' => Hash::make($this->pass),
+                'name' => $this->firstname . ' ' . $this->lastname,
+                'phone' => $this->phone ?? null,
+                'company' => $this->company ?? null,
                 'date_of_birth' => $dob,
                 'type' => 'customer',
                 'status' => 'active'
@@ -129,11 +130,11 @@ class Registration extends Component
             $customer = Customer::create([
                 'user_id' => $user->id,
                 'customer_type_id' => $defaultCustomerTypeId,
-                'first_name' => $this->reg_firstname,
-                'last_name' => $this->reg_lastname,
-                'email' => $this->reg_email,
-                'mobile_number' => $this->reg_phone ?? '',
-                'company_name' => $this->reg_company ?? null,
+                'first_name' => $this->firstname,
+                'last_name' => $this->lastname,
+                'email' => $this->email,
+                'mobile_number' => $this->phone ?? '',
+                'company_name' => $this->company ?? null,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
                 'status' => 'active',

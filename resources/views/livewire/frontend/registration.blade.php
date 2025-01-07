@@ -34,7 +34,7 @@
 
                                 <!-- Date -->
                                 <div class="col-auto form-group">
-                                    <select wire:model="dob_day" class="form-select input border-0" style="min-width: 90px;">
+                                    <select wire:model="dob_day" name="dob_day" id="dob_day" class="form-select input border-0" style="min-width: 90px;">
                                         <option value="">Date</option>
                                         @foreach(range(1, 31) as $day)
                                             <option value="{{ $day }}">{{ $day }}</option>
@@ -45,7 +45,7 @@
 
                                 <!-- Month -->
                                 <div class="col-auto ps-1 form-group">
-                                    <select wire:model="dob_month" class="form-select border-0 input" style="min-width: 90px;">
+                                    <select wire:model="dob_month" name="dob_month" id="dob_month" class="form-select border-0 input" style="min-width: 90px;">
                                         <option value="">Month</option>
                                         @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $key => $month)
                                             <option value="{{ $key + 1 }}">{{ $month }}</option>
@@ -56,7 +56,7 @@
 
                                 <!-- Year -->
                                 <div class="col-auto ps-1 form-group">
-                                    <select wire:model="dob_year" class="form-select input border-0" style="min-width: 90px;">
+                                    <select wire:model="dob_year" name="dob_year" id="dob_year" class="form-select input border-0" style="min-width: 90px;">
                                         <option value="">Year</option>
                                         @foreach(range(date('Y'), 1900) as $year)
                                             <option value="{{ $year }}">{{ $year }}</option>
@@ -98,14 +98,14 @@
                                 </div>
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="password" wire:model="reg_pass" placeholder="Password">
-                                        @error('reg_pass') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="password" wire:model="pass" placeholder="Password">
+                                        @error('pass') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="password" wire:model="pass" placeholder="Re-enter Password">
-                                        @error('pass') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="password" wire:model="pass_confirmation" placeholder="Re-enter Password">
+                                        @error('pass_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -113,13 +113,6 @@
                         <div class="row">
                             <hr>
                         </div>
-                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-                        @if(session()->has('captcha_error'))
-                            <span class="text-danger">{{ session('captcha_error') }}</span>
-                        @endif
-                        @error('g_recaptcha_response') 
-                            <span class="text-danger">{{ $message }}</span> 
-                        @enderror
 
                         
                         <div class="text" style="margin-top: 42px;">
@@ -136,16 +129,3 @@
         </div>
     </form>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('form').addEventListener('submit', function (event) {
-            let recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                event.preventDefault(); // Prevent form submission
-                Livewire.emit('g-recaptcha-response', recaptchaResponse);
-                Livewire.emit('validateCaptcha'); // Custom event to trigger CAPTCHA error
-            }
-        });
-    });
-</script>
-
