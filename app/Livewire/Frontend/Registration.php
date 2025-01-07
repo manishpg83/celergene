@@ -15,12 +15,9 @@ class Registration extends Component
     public $firstname, $lastname, $email, $pass, $pass_confirmation, $dob_day, $dob_month, $dob_year, $phone, $company;
 
     public $currentYear;
-/*     protected $listeners = [
-        'g-recaptcha-response' => 'updateCaptchaResponse',
-    ]; */
+
     public function mount()
     {
-        // Initialize current year dynamically
         $this->currentYear = date('Y');
     }
 
@@ -50,7 +47,6 @@ class Registration extends Component
         'dob_year' => 'year of birth',
         'phone' => 'phone number',
         'company' => 'company name',
-        // 'g_recaptcha_response' => 'CAPTCHA',
     ];
     
     public function register()
@@ -61,22 +57,9 @@ class Registration extends Component
         Log::info('Register method invoked');
 
         $dob = $this->dob_year . '-' . str_pad($this->dob_month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($this->dob_day, 2, '0', STR_PAD_LEFT);
-        /* if (empty($this->g_recaptcha_response)) {
-            session()->flash('captcha_error', 'CAPTCHA is required.');
-            return;
-        }
-    
-        $secretKey = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-        $response = Http::post("https://www.google.com/recaptcha/api/siteverify", [
-            'secret' => $secretKey,
-            'response' => $this->g_recaptcha_response,
-        ]);
-    
-        if (!$response->json('success')) {
-            session()->flash('captcha_error', 'CAPTCHA verification failed. Please try again.');
-            return;
-        } */
+
         DB::beginTransaction();
+
         try {
             $existingCustomer = Customer::where('email', $this->email)->first();
 
