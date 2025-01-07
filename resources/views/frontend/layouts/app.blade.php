@@ -67,6 +67,7 @@
     {{-- <link rel="stylesheet" type="text/css" href="css/custom.css"> --}}
 
     <!-- Favicon -->
+    @livewireStyles
     @stack('styles')
     <style>
         .mt-8 {
@@ -107,6 +108,7 @@
         <div class="drag-target"></div>
     </div>
 
+    @livewireScripts
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
     <script>
