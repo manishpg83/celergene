@@ -74,55 +74,55 @@
              <h1 class="section-heading text-center text-blue  px-5 py-4"> EVIDENCE BASED BENEFITS </h1>
           </header>
           <div class="row pt-4 mx-0 mx-lg-auto">
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate row-0" data-aos="fade-up" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init row-0" data-aos="fade-up" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_stimulates_cellular.png" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3  text-blue"> STIMULATES CELLULAR REJUVENATION AND REPAIR </h2>
                 <p class="benefits-content mb-3 text-darkgrey "> Helps delay aging and the onset of metabolic ailments and degenerative diseases </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_reduces-joint.png" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue">REDUCES JOINT &amp; MUSCLE PAIN </h2>
                 <p class="benefits-content mb-3  text-darkgrey"> Proven effective for healing back, hip, and knee pain associated with osteoarthritis </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_enhances-skin.png" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue"> ENHANCES SKIN COMPLEXION AND BEAUTY </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Reduces the appearance of wrinkles and gives a natural glow to the skin </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_boosts-energy.png" alt="">
                 </div>
-                <h2 class="heading AdelleSansRegular mb-3   text-blue"> BOOSTS ENERGY AND VITALITY </h2>
+                <h2 class="heading AdelleSansRegular mb-3 text-blue"> BOOSTS ENERGY AND VITALITY </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Noticeably reduces chronic physical and mental fatigue </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_elevated-mood.png" alt="">
                 </div>
-                <h2 class="heading AdelleSansRegular mb-3   text-blue"> ELEVATES MOOD, ALLEVIATES MILD DEPRESSION </h2>
+                <h2 class="heading AdelleSansRegular mb-3 text-blue"> ELEVATES MOOD, ALLEVIATES MILD DEPRESSION </h2>
                 <p class=" benefits-content mb-3 text-darkgrey"> Reduces anxiety and depression as well as improves sleep quality </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_increases_brain.png" alt="">
                 </div>
-                <h2 class="heading AdelleSansRegular mb-3    text-blue"> INCREASES BRAIN FUNCTION </h2>
+                <h2 class="heading AdelleSansRegular mb-3 text-blue">INCREASES BRAIN FUNCTION </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Enhances memory, sharpens mental concentration and alertness </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src=" https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_improves_physical.png " alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3    text-blue"> IMPROVES PHYSICAL PERFORMANCE </h2>
                 <p class="benefits-content mb-3 text-darkgrey">Enhances stamina during workouts and speeds up recovery process</p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_lowers_blood.png" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue"> LOWERS BLOOD SUGAR LEVELS </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Reduces glycemic index by 37% </p>
              </div>
-             <div class="col-lg-4 col-md-6 benefits aos-init aos-animate" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
+             <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
                 <div class="benefits-icon"> <img src=" https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_enhances_sexual.png " alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3 text-blue"> ENHANCES SEXUAL PERFORMANCE </h2>
@@ -138,15 +138,15 @@
     <div class="container-fluid px-0 py-5 guarded-secret-bg">
        <header>
           <h1 class="section-heading mb-3 px-2 text-white">A WELL GUARDED SECRET</h1>
-          <div class="px-3 mb-lg-5 mb-4 aos-init aos-animate" data-aos="fadeIn" data-duration="1000">
+          <div class="px-3 mb-lg-5 mb-4 aos-init" data-aos="fadeIn" data-duration="1000">
              <h4 class="section-subheading m-0 text-white"> CELERGEN IS EMBRACED BY WORLD RENOWNED CELEBRITIES </h4>
              <h4 class="section-subheading m-0 text-white">AND DISTINGUISHED PERSONALITIES </h4>
           </div>
        </header>
        <div class="container text-center pb-4">
-          <div class="guarded-box1 bg-white box-shadow position-relative aos-init aos-animate" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/guarded-secret.png" class="guarded-img" alt="" width="100%">
+          <div class="guarded-box1 bg-white box-shadow position-relative aos-init" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/guarded-secret.png" class="guarded-img" alt="" width="100%">
           </div>
-          <div class="guarded-box2 bg-white box-shadow position-relative aos-init aos-animate" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">
+          <div class="guarded-box2 bg-white box-shadow position-relative aos-init" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">
              <p class="px-4 text-darkgrey"> DISTINGUISHED PERSONALITIES FROM MORE THAN</p>
              <h4 class="section-subheading text-darkgrey mb-4"> <strong>56 COUNTRIES TAKE CELERGEN EVERY DAY </strong> </h4>
              <a href="#what-is-celergen" class="next-div position-absolute text-center w-100" style="bottom: -50px; left:0;"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/btn-next-div.png" alt="" width="100"> </a>
@@ -175,21 +175,21 @@
              </p>
           </div>
           <div class="row py-5 py-lg-5 px-4">
-             <div class="col-lg-3 col-md-6 p-1 aos-init aos-animate" data-aos="fade-down" data-aos-delay="100" data-aos-easing="linear" data-aos-duration="1000">
+             <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="100" data-aos-easing="linear" data-aos-duration="1000">
                 <a href="about-celergen.php#content1" class="blue-button text-blue border-0 pt-3" width="100%">
                 BIOACTIVE <br>
                 INGREDIENTS </a>
              </div>
-             <div class="col-lg-3 col-md-6 p-1 aos-init aos-animate" data-aos="fade-down" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
+             <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
                 <a href="about-celergen.php#content2" class="blue-button text-blue border-0 pt-3" width="100%">
                 HOW <br>
                 CELERGEN WORKS </a>
              </div>
-             <div class="col-lg-3 p-1 col-md-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="600" data-aos-easing="linear" data-aos-duration="1000">
+             <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="600" data-aos-easing="linear" data-aos-duration="1000">
                 <a href="about-celergen.php#content3" class="blue-button text-blue border-0" width="100%">
                 WHY CELERGEN? </a>
              </div>
-             <div class="col-lg-3 p-1 col-md-6 aos-init aos-animate" data-aos="fade-down" data-aos-delay="900" data-aos-easing="linear" data-aos-duration="1000">
+             <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="900" data-aos-easing="linear" data-aos-duration="1000">
                 <a href="serum-royale.php" class="blue-button text-blue border-0" width="100%">
                 SERUM ROYALE </a>
              </div>
@@ -210,7 +210,7 @@
     <div class="container-fluid px-0 bg-blue py-4 ">
        <div class="container mt-2 doctors-use-celergen">
           <h4 class="m-0 text-center text-white py-3 pb-lg-4"> <span class="me-2 me-lg-5"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/celergen-quote.png" alt="" class="quatation"> </span> <span class="section-heading"> WHY DOCTORS USE CELERGEN ? </span> <span class="ms-2 ms-lg-5"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/celergen-quote.png" alt="" class="quatation" style="transform: rotate(180deg);"> </span></h4>
-          <div class="docter-review owl-carousel owl-theme owl-loaded owl-drag aos-init aos-animate" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
+          <div class="docter-review owl-carousel owl-theme owl-loaded owl-drag aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
              <div class="owl-stage-outer">
                 <div class="owl-stage" style="transition: 0.25s; width: 13392px; transform: translate3d(-2232px, 0px, 0px);">
                    <div class="owl-item cloned" style="width: 1116px;">
@@ -800,21 +800,21 @@
           </div>
           <div class="row py-4">
              <div class="col-12 col-lg-4 mb-2 p-lg-1 px-4">
-                <div class="w-100 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear" data-aos-duration="1000">
+                <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear" data-aos-duration="1000">
                    <a href="clinical-studies.php#tab1" class="clinical-button">
                    <span>BIO-DNA CELLULAR COMPLEX</span><span class="clinical-button-downarrow"></span>
                    </a>
                 </div>
              </div>
              <div class="col-12 col-lg-4  mb-2 p-lg-1 px-4">
-                <div class="w-100 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
+                <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
                    <a href="clinical-studies.php#tab2" class="clinical-button">
                    <span>PEPTIDE E COLLAGEN</span><span class="clinical-button-downarrow"></span>
                    </a>
                 </div>
              </div>
              <div class="col-12 col-lg-4 mb-2 p-lg-1 px-4">
-                <div class="w-100 aos-init aos-animate" data-aos="fade-up" data-aos-delay="450" data-aos-easing="linear" data-aos-duration="1000">
+                <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="450" data-aos-easing="linear" data-aos-duration="1000">
                    <a href="clinical-studies.php#tab3" class="clinical-button">
                    <span>HYDRO MN PEPTIDE</span><span class="clinical-button-downarrow"></span>
                    </a>
@@ -829,7 +829,7 @@
   <!-- Map-Secthion Start -->
   <section>
     <a href="#products" id="products"></a>
-    <div class="container-fluid home-products-bg">
+    <div class="container-fluid home-products-bg px-0">
        <div class="col-lg-9 col-md-12 col-12 px-4 px-lg-0 float-none mx-auto home-product-list">
           <ul class="home-product-list d-lg-flex d-block px-0 px-lg-0">
              <li id="product1" class="home-product mb-4 mb-lg-0 scale1" onmouseover="scale1()">
