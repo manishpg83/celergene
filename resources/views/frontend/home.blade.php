@@ -176,21 +176,21 @@
           </div>
           <div class="row py-5 py-lg-5 px-4">
              <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="100" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="about-celergen.php#content1" class="blue-button text-blue border-0 pt-3" width="100%">
+                <a href="{{ route ('about') }}" class="blue-button text-blue border-0 pt-3" width="100%">
                 BIOACTIVE <br>
                 INGREDIENTS </a>
              </div>
              <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="about-celergen.php#content2" class="blue-button text-blue border-0 pt-3" width="100%">
+                <a href="{{ route ('about') }}" class="blue-button text-blue border-0 pt-3" width="100%">
                 HOW <br>
                 CELERGEN WORKS </a>
              </div>
              <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="600" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="about-celergen.php#content3" class="blue-button text-blue border-0" width="100%">
+                <a href="{{ route ('about') }}" class="blue-button text-blue border-0" width="100%">
                 WHY CELERGEN? </a>
              </div>
              <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="900" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="serum-royale.php" class="blue-button text-blue border-0" width="100%">
+                <a href="{{ route ('about') }}" class="blue-button text-blue border-0" width="100%">
                 SERUM ROYALE </a>
              </div>
           </div>

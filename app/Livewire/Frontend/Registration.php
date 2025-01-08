@@ -116,23 +116,23 @@ class Registration extends Component
                 'first_name' => $this->firstname,
                 'last_name' => $this->lastname,
                 'email' => $this->email,
-                'mobile_number' => $this->phone ?? '',
+                'mobile_number' => $this->phone ?? null,
                 'company_name' => $this->company ?? null,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
                 'status' => 'active',
                 'payment_term_display' => 'Standard',
-                'credit_rating' => 'N/A',
-                'billing_address' => 'N/A',
-                'billing_country' => 'N/A',
-                'billing_postal_code' => 'N/A',
-                'shipping_address_receiver_name_1' => $user->name,
-                'shipping_address_1' => 'N/A',
-                'shipping_country_1' => 'N/A',
-                'shipping_postal_code_1' => 'N/A',
+                'credit_rating' => null,
+                'billing_address' => null, // Set to null
+                'billing_country' => null, // Set to null
+                'billing_postal_code' => null, // Set to null
+                'shipping_address_receiver_name_1' => null, // Set to null
+                'shipping_address_1' => null, // Set to null
+                'shipping_country_1' => null, // Set to null
+                'shipping_postal_code_1' => null, // Set to null
                 'allow_consignment' => 0,
                 'must_receive_payment_before_delivery' => 0,
-            ]);
+            ]);            
 
             DB::commit();
 
