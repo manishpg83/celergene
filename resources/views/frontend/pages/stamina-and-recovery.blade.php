@@ -133,10 +133,10 @@
             <div class="CallunaRegular padding-x bg-blue text-white">
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">STAMINA AND RECOVERY</h1>
             </div>
-            <div class="top-banner aos-init aos-animate"
+            <div class="top-banner aos-init"
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-stamina-recovery.jpg');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-white CallunaRegular aos-init aos-animate" data-aos="fadeIn"
+                <h1 class="top-banner-txt text-white CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Do You Need More Stamina<br>and Enhanced Performance ?
                 </h1>
@@ -324,15 +324,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="owl-nav">
-                                <div class="owl-prev"><a class="prev-btn" aria-hidden="true"><img
-                                            src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"></a>
-                                </div>
-                                <div class="owl-next"><a class="next-btn" aria-hidden="true"><img
-                                            src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"></a>
-                                </div>
-                            </div>
-                            <div class="owl-dots disabled"></div>
                         </div>
                     </div>
                 </div>
@@ -369,7 +360,7 @@
                     CELERGEN ON STAMINA AND RECOVERY
                 </h1>
                 <div class="border-bottom"></div>
-                <div class="aos-init aos-animate" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear"
+                <div class="aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear"
                     data-aos-duration="1500">
                     <div class="padding-x py-5 pb-3" align="center">
                         <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/stamina-recovery-chart-1.png"
@@ -404,7 +395,7 @@
     <section>
         <div class="container-fluid">
             <div class="container pt-5">
-                <h1 class="section-heading text-blue text-center CallunaRegular padding aos-init aos-animate"
+                <h1 class="section-heading text-blue text-center CallunaRegular padding aos-init"
                     data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
                     THERE’S NO REASON TO FACE AN ENERGY SHORTAGE!
                 </h1>

@@ -43,6 +43,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
     <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/owl.carousel.min.css') }}" />
+    <link rel="stylesheet" href="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/css/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/register.css') }}" />
@@ -65,6 +68,9 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="css/custom.css"> --}}
+    <script src="{{ asset('/frontend/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/frontend/js/jquery-3.7.0.min.js') }}"></script>
+    <script src="{{ asset('/frontend/js/owl.carousel.min.js') }}"></script>
 
     <!-- Favicon -->
     @livewireStyles
@@ -109,7 +115,7 @@
     </div>
 
     @livewireScripts
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
     <script>
         function toggleClass1() {
@@ -217,11 +223,8 @@
                 '<a class="next-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"/></a>'
             ]
         })
-    </script>
+    </script>    
     <!-- GLOBAL-JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
     <script src="{{ asset('/frontend/vendor/global/global.min.js') }}"></script>
     <!-- GLOBAL-JS -->
     <script src="{{ asset('/frontend/vendor/magnific-popup/magnific-popup.js') }}"></script>
@@ -411,6 +414,56 @@
             }
         }
     </script>
+     <script>
+        $(document).ready(function () {
+            var aboutslider = $('.about-slider');
+            
+            aboutslider.owlCarousel({
+                items: 1,
+                loop: false,
+                margin: 0,
+                dots: false,
+                autoplay: false,
+                mouseDrag: false,
+                touchDrag: false,
+                pullDrag: false,
+                URLhashListener: true,
+                startPosition: 'URLHash'
+            });
+
+            aboutslider.on("changed.owl.carousel", function (event) {
+                var itemno = event.item.index;
+                if (itemno === 0) {
+                    setActiveButton('#aboutbtn1');
+                } else if (itemno === 1) {
+                    setActiveButton('#aboutbtn2');
+                } else if (itemno === 2) {
+                    setActiveButton('#aboutbtn3');
+                }
+            });
+
+            $('#aboutbtn1').on('click', function (e) {
+                e.preventDefault();
+                aboutslider.trigger('to.owl.carousel', [0]);
+            });
+
+            $('#aboutbtn2').on('click', function (e) {
+                e.preventDefault();
+                aboutslider.trigger('to.owl.carousel', [1]);
+            });
+
+            $('#aboutbtn3').on('click', function (e) {
+                e.preventDefault();
+                aboutslider.trigger('to.owl.carousel', [2]);
+            });
+
+            function setActiveButton(activeButtonId) {
+                $('.aboutcelergen-btn, .aboutactive-btn').removeClass('aboutactive-btn').addClass('aboutcelergen-btn');
+                $(activeButtonId).removeClass('aboutcelergen-btn').addClass('aboutactive-btn');
+            }
+        });
+
+      </script>
 </body>
 
 </html>

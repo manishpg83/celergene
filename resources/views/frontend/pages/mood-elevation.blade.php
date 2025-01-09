@@ -102,10 +102,10 @@
             <div class="CallunaRegular padding-x bg-blue text-white">
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">MOOD ELEVATION</h1>
             </div>
-            <div class="top-banner aos-init aos-animate"
+            <div class="top-banner aos-init"
                 style="background-image: url('{{ asset('frontend/images/celergen-benefit-mood-elevation.jpg') }}');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-blue CallunaRegular aos-init aos-animate" data-aos="fadeIn"
+                <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Are You Suffering <br>
                     From Mild Depression <br>
@@ -302,13 +302,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="owl-nav">
-                            <div class="owl-prev"><a class="prev-btn" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"></a></div>
-                            <div class="owl-next"><a class="next-btn" style="margin-right: 43px;" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"></a></div>
-                        </div>
-                        <div class="owl-dots disabled"></div>
                     </div>
                 </div>
             </div>

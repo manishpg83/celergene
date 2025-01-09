@@ -17,10 +17,10 @@
     <div class="container-fluid px-lg-0 bg-lightgrey">
        <div class="container-xxl">
           <div class="row pt-lg-5">
-             <div class="col-lg-4 text-lg-start text-center aos-init aos-animate" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="1000">
+             <div class="col-lg-4 text-lg-start text-center aos-init" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="1000">
                 <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/about-celergen.png" alt="" class="aboutcelergen-image">
              </div>
-             <div class="col-lg-8 aos-init aos-animate" data-aos="fadeIn" data-aos-duration="1500">
+             <div class="col-lg-8 aos-init" data-aos="fadeIn" data-aos-duration="1500">
                 <h6 class="lh-base  AdelleSan-Light-Opensans text-blue mb-4">
                    Celergen is a potent Non Injectable Swiss Cell Therapy Treatment that stimulates our own natural healing
                    powers to trigger the repair and rejuvenation of cells by providing biologically active micronutrients and
@@ -67,8 +67,8 @@
        <div class="container">
           <div class="about-slider owl-carousel owl-theme padding owl-loaded">
              <div class="owl-stage-outer">
-                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 2988px;">
-                   <div class="owl-item active" style="width: 996px;">
+                <div class="owl-stage">
+                   <div class="owl-item">
                       <div class="item" data-hash="content1">
                          <h6 class="lh-base AdelleSan-Light-Opensans text-grey mb-lg-4 mb-2">
                             One of its key ingredients is a proprietary BIODNA Cellular Marine Complex. This complex is extracted from
@@ -80,7 +80,7 @@
                          </h6>
                       </div>
                    </div>
-                   <div class="owl-item" style="width: 996px;">
+                   <div class="owl-item">
                       <div class="item" data-hash="content2">
                          <h6 class="lh-base AdelleSan-Light-Opensans text-grey mb-lg-4 mb-2">
                             Celergen blocks and slows down biological cellular aging by stimulating our body’s natural rejuvenation process.
@@ -95,7 +95,7 @@
                          </h6>
                       </div>
                    </div>
-                   <div class="owl-item" style="width: 996px;">
+                   <div class="owl-item">
                       <div class="item" data-hash="content3">
                          <h6 class="lh-base AdelleSan-Light-Opensans text-grey mb-lg-4 mb-2">
                             Celergen is also fortified with special double-enteric coated soft gels and strengthened by
@@ -110,11 +110,6 @@
                    </div>
                 </div>
              </div>
-             <div class="owl-nav disabled">
-                <div class="owl-prev"><span aria-label="Previous">‹</span></div>
-                <div class="owl-next"><span aria-label="Next">›</span></div>
-             </div>
-             <div class="owl-dots disabled"></div>
           </div>
        </div>
     </div>

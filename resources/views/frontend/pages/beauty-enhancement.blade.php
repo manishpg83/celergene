@@ -131,10 +131,10 @@
             <div class="CallunaRegular padding-x bg-blue text-white">
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">BEAUTY ENHANCEMENT</h1>
             </div>
-            <div class="top-banner aos-init aos-animate"
+            <div class="top-banner aos-init"
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-beautyenhancement.jpg');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-blue CallunaRegular aos-init aos-animate" data-aos="fadeIn"
+                <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Do You Want to Look <br> Youthful and Ageless?
                 </h1>
@@ -320,15 +320,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="owl-nav">
-                            <div class="owl-prev"><a class="prev-btn" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"></a>
-                            </div>
-                            <div class="owl-next"><a class="next-btn" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"></a>
-                            </div>
-                        </div>
-                        <div class="owl-dots disabled"></div>
                     </div>
                 </div>
             </div>
@@ -381,7 +372,7 @@
 
     <section class="py-lg-5 pt-3">
         <div class="container-fluid px-0">
-            <div class="col-lg-6 col-sm-10 mx-auto float-none text-center aos-init aos-animate" data-aos="fade-up"
+            <div class="col-lg-6 col-sm-10 mx-auto float-none text-center aos-init" data-aos="fade-up"
                 data-aos-delay="150" data-aos-easing="linear" data-aos-duration="1500">
                 <h1 class="section-heading text-blue CallunaReguler-Opensans "> CELERGEN SERUM ROYALE</h1>
                 <hr>

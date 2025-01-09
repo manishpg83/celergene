@@ -119,10 +119,10 @@
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">LOWER GLYCEMIC INDEX FOR BETTER BLOOD
                     SUGAR LEVELS</h1>
             </div>
-            <div class="top-banner aos-init aos-animate"
+            <div class="top-banner aos-init"
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-lowers-glycemic-index.jpg');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-white CallunaRegular aos-init aos-animate" data-aos="fadeIn"
+                <h1 class="top-banner-txt text-white CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Do You Want To Lower <br>Your Blood Sugar Levels ?
                 </h1>

@@ -106,8 +106,8 @@
         <div class="CallunaRegular padding-x bg-blue text-white">
             <h1 class="text-white section-heading CallunaRegular border-left m-0"> ENERGY AND VITALITY </h1>
         </div>
-        <div class="top-banner aos-init aos-animate" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-energy.jpg');" data-aos="fadeIn" data-aos-duration="500">
-            <h1 class="top-banner-txt text-blue CallunaRegular aos-init aos-animate" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
+        <div class="top-banner aos-init" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-energy.jpg');" data-aos="fadeIn" data-aos-duration="500">
+            <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
                 Are You Suffering <br>
                 From Chronic Fatigue?
             </h1>
@@ -142,7 +142,7 @@
                 </div>
              </div>
           </div>
-          <div class="pt-lg-5 pt-3 aos-init aos-animate" data-aos="fadeIn" data-aos-duration="1500">
+          <div class="pt-lg-5 pt-3 aos-init" data-aos="fadeIn" data-aos-duration="1500">
              <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 pt-lg-5 pt-3">
                 CLINICAL STUDIES ON THE EFFECTIVENESS OF CELERGEN ON DECREASING FATIGUE
              </h1>
@@ -187,7 +187,7 @@
  <section>
     <div class="container-fluid">
        <div class="container pt-5">
-          <h1 class="section-heading text-blue text-center CallunaRegular padding aos-init aos-animate" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+          <h1 class="section-heading text-blue text-center CallunaRegular padding aos-init" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
              THERE’S NO REASON TO FACE AN ENERGY SHORTAGE!
           </h1>
           <div class="pt-2 pb-4 text-center">

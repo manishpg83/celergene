@@ -81,8 +81,8 @@
        <div class="CallunaRegular padding-x bg-blue text-white">
           <h1 class="text-white section-heading CallunaRegular border-left m-0">INCREASE LIBIDO</h1>
        </div>
-       <div class="top-banner aos-init aos-animate" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-libido.jpg');" data-aos="fadeIn" data-aos-duration="500">
-          <h1 class="top-banner-txt text-blue CallunaRegular aos-init aos-animate" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
+       <div class="top-banner aos-init" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-libido.jpg');" data-aos="fadeIn" data-aos-duration="500">
+          <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
              Are You Suffering from <br>
              Sexual Dysfunction?
           </h1>
@@ -224,11 +224,6 @@
                       </div>
                    </div>
                 </div>
-                <div class="owl-nav">
-                   <div class="owl-prev"><a class="prev-btn" aria-hidden="true"><img src="images/common/ic_left_arrow_white.png"></a></div>
-                   <div class="owl-next"><a class="next-btn" aria-hidden="true"><img src="images/common/ic_right_arrow_white.png"></a></div>
-                </div>
-                <div class="owl-dots disabled"></div>
              </div>
           </div>
        </div>
@@ -238,13 +233,13 @@
  <section>
     <div class="container-fluid px-sm-2">
        <div class="container padding px-lg-4">
-          <div class="aos-init aos-animate" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
+          <div class="aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
              <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 lh-base">
                 SCIENTIFIC PEER REVIEWED JOURNAL
              </h1>
              <div class="border-bottom"></div>
           </div>
-          <div class="pt-5 aos-init aos-animate" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">
+          <div class="pt-5 aos-init" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">
              <h5 class="text-blue text-center pt-lg-3 pt-3">REPRODUCTIVE SYSTEM &amp; SEXUAL DISORDERS: CURRENT RESEARCH</h5>
           </div>
           <div>

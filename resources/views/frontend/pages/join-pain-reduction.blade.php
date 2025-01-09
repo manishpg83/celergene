@@ -112,10 +112,10 @@
             <div class="CallunaRegular padding-x bg-blue text-white">
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">JOINT PAIN REDUCTION</h1>
             </div>
-            <div class="top-banner aos-init aos-animate"
+            <div class="top-banner aos-init"
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/edt2-GettyImages-542510485_medium.jpg');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-blue CallunaRegular aos-init aos-animate" data-aos="fadeIn"
+                <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Are You Suffering <br>
                     From Chronic Joint Pain?
@@ -132,7 +132,7 @@
                     reduced quality of life across the globe. <br>
                     Joint pain can affect physical mobility and our daily chores and activities.
                 </p>
-                <div class="aos-init aos-animate" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
+                <div class="aos-init" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
                     <h1 class="section-heading text-darkred CallunaReguler-Opensans text-center pt-3 pb-lg-5 pb-3">
                         WHAT CAUSES JOINT PAIN ?
                     </h1>
@@ -458,15 +458,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="owl-nav">
-                            <div class="owl-prev"><a class="prev-btn" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"></a>
-                            </div>
-                            <div class="owl-next"><a class="next-btn" style="margin-right: 43px;" aria-hidden="true"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"></a>
-                            </div>
-                        </div>
-                        <div class="owl-dots disabled"></div>
                     </div>
                 </div>
             </div>
@@ -535,7 +526,7 @@
     <section>
         <div class="container-fluid pt-lg-5">
             <div class="container">
-                <div class="aos-init aos-animate" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+                <div class="aos-init" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
                     <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 pt-5 lh-base">
                         DON’T LET JOINT PAIN DEPRIVED YOU OF AN<br>ACTIVE LIFESTYLE
                     </h1>
