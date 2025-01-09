@@ -18,8 +18,8 @@ Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 // Routes that require authentication
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');
-    Route::get('/addbillingaddress', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    Route::get('/addshippingaddress', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
+    Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
+    Route::get('/addshippingaddress/{addressNumber?}', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });

@@ -26,8 +26,6 @@ class ShippingAddressForm extends Component
         'companyname' => 'max:100',
         'address1' => 'required|max:100',
         'address2' => 'max:100',
-        'state' => 'required|max:100',
-        'city' => 'required|max:100',
         'zip' => 'required|numeric|max:999999',
         'country' => 'required',
         'phone' => 'required|numeric|max:9999999999',
@@ -37,14 +35,13 @@ class ShippingAddressForm extends Component
     {
         $this->addressNumber = $addressNumber;
         $customer = Customer::where('user_id', Auth::id())->first();
-        
+
         if ($customer && $addressNumber) {
-            // Load existing address data for editing
             $this->firstname = $customer->first_name;
             $this->lastname = $customer->last_name;
             $this->companyname = $customer->company_name;
             $this->phone = $customer->mobile_number;
-            
+
             if ($addressNumber == 1) {
                 $this->address1 = $customer->shipping_address_1;
                 $this->country = $customer->shipping_country_1;
@@ -60,17 +57,16 @@ class ShippingAddressForm extends Component
     public function submit()
     {
         $validatedData = $this->validate();
-    
+
         $customer = Customer::where('user_id', Auth::id())->first();
-    
+
         if ($customer) {
             if ($this->addressNumber) {
-                // Update existing address
                 $addressField = 'shipping_address_' . $this->addressNumber;
                 $countryField = 'shipping_country_' . $this->addressNumber;
                 $postalField = 'shipping_postal_code_' . $this->addressNumber;
                 $nameField = 'shipping_address_receiver_name_' . $this->addressNumber;
-    
+
                 $customer->update([
                     $addressField => $this->address1,
                     $countryField => $this->country,
@@ -79,7 +75,6 @@ class ShippingAddressForm extends Component
                     'updated_by' => Auth::id(),
                 ]);
             } else {
-                // Add new address
                 $nextAddressNumber = 1;
                 if ($customer->shipping_address_1) {
                     if ($customer->shipping_address_2) {
@@ -88,12 +83,12 @@ class ShippingAddressForm extends Component
                         $nextAddressNumber = 2;
                     }
                 }
-    
+
                 $addressField = 'shipping_address_' . $nextAddressNumber;
                 $countryField = 'shipping_country_' . $nextAddressNumber;
                 $postalField = 'shipping_postal_code_' . $nextAddressNumber;
                 $nameField = 'shipping_address_receiver_name_' . $nextAddressNumber;
-    
+
                 $customer->update([
                     $addressField => $this->address1,
                     $countryField => $this->country,
@@ -103,7 +98,6 @@ class ShippingAddressForm extends Component
                 ]);
             }
         } else {
-            // Create new customer with first shipping address
             Customer::create([
                 'user_id' => Auth::id(),
                 'customer_type_id' => 1,
@@ -127,7 +121,7 @@ class ShippingAddressForm extends Component
                 'updated_by' => Auth::id(),
             ]);
         }
-    
+
         notyf()->success('Shipping address saved successfully!');
         return redirect()->route('myaccount');
     }
@@ -135,7 +129,7 @@ class ShippingAddressForm extends Component
     public function deleteAddress($addressNumber)
     {
         $customer = Customer::where('user_id', Auth::id())->first();
-        
+
         if ($customer) {
             $customer->update([
                 'shipping_address_' . $addressNumber => null,
@@ -144,10 +138,10 @@ class ShippingAddressForm extends Component
                 'shipping_address_receiver_name_' . $addressNumber => null,
                 'updated_by' => Auth::id(),
             ]);
-            
+
             notyf()->success('Shipping address deleted successfully!');
         }
-        
+
         return redirect()->route('myaccount');
     }
 

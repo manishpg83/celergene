@@ -100,12 +100,11 @@ class FrontAuthController extends Controller
     {
         Auth::logout();
     
-        // Invalidate and regenerate session to prevent session fixation.
         $request->session()->invalidate();
         $request->session()->regenerateToken();
     
-        // Redirect to the home page with a success message.
-        return redirect()->route('home')->with('success', 'You have successfully logged out.');
+        notyf()->success('You Have Successfully Logged Out!');
+        return redirect()->route('home');
     }
     
 } 

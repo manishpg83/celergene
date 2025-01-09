@@ -248,9 +248,17 @@
                             <div class="desc">
                                 <a href="#" title="">&gt; EDIT ACCOUNT</a>
                                 <a href="#" title="">&gt; CHANGE PASSWORD</a>
-                                <a href="#" title="">&gt; LOGOUT</a>
+                                <a href="#" title="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    &gt; LOGOUT
+                                </a>
                             </div>
                         </div>
+                        
+                        <!-- Logout Form -->
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                        
                     </div>
                     <div class="col-sm-6 col-xs-12 no-padding rba bo-mob2">
                         <div class="section">
@@ -261,12 +269,16 @@
                                 @if ($customer)
                                     @if ($customer->billing_address)
                                         <div class="sem paddingsec clearfix">
-                                            <span class="pull-left">{{ $customer->first_name }} {{ $customer->last_name }}</span>
+                                            <span class="pull-left">{{ $customer->first_name }}
+                                                {{ $customer->last_name }}</span>
                                             <div id="address-action-wrapper">
-                                                <a href="javascript:void(0)" data-type="bill" data-id="{{ $customer->id }}"
-                                                    title="" style="margin-left:15px"
+                                                <a href="#" wire:click="deleteBillingAddress({{ $customer->id }})"
+                                                    wire:confirm="Are you sure you want to delete this billing address?"
+                                                    style="margin-left:15px"
                                                     class="delete-address pull-right">delete</a>
-                                                <a href="#" title="" class="pull-right">edit</a>
+                                                
+                                                <a href="{{ route('addbillingaddress', ['id' => $customer->id]) }}"
+                                                    title="" class="pull-right">edit</a>
                                             </div>
                                         </div>
                                         <div class="act paddingsec">
@@ -287,7 +299,6 @@
                                     <p>No customer data available.</p>
                                 @endif
                             </div>
-                            
                         </div>
                         <div class="section">
                             <div class="head-sec padr">
@@ -297,12 +308,17 @@
                                 @if ($customer && $customer->shipping_address_receiver_name_1)
                                     <!-- First Shipping Address -->
                                     <div class="sem paddingsec clearfix">
-                                        <span class="pull-left">{{ $customer->shipping_address_receiver_name_1 }}</span>
+                                        <span
+                                            class="pull-left">{{ $customer->shipping_address_receiver_name_1 }}</span>
                                         <div id="address-action-wrapper">
-                                            <a href="#" wire:click.prevent="$emit('deleteAddress', 1)" data-type="ship" 
-                                               style="margin-left:15px" class="delete-address pull-right">delete</a>
-                                            <a href="#" 
-                                               class="pull-right">edit</a>
+                                            <a href="#"
+                                            wire:click="deleteShippingAddress(1)"
+                                            wire:confirm="Are you sure you want to delete this shipping address?"
+                                            class="delete-address pull-right" style="margin-left:15px;">
+                                            delete
+                                         </a>
+                                            <a href="{{ route('addshippingaddress', ['addressNumber' => 1]) }}"
+                                                class="pull-right">edit</a>
                                         </div>
                                     </div>
                                     <div class="act paddingsec">
@@ -310,16 +326,21 @@
                                         {{ $customer->shipping_country_1 }}<br>
                                         {{ $customer->shipping_postal_code_1 }}<br>
                                     </div>
-                            
+
                                     <!-- Second Shipping Address -->
                                     @if ($customer->shipping_address_receiver_name_2)
                                         <div class="sem paddingsec clearfix mt-4">
-                                            <span class="pull-left">{{ $customer->shipping_address_receiver_name_2 }}</span>
+                                            <span
+                                                class="pull-left">{{ $customer->shipping_address_receiver_name_2 }}</span>
                                             <div id="address-action-wrapper">
-                                                <a href="#" wire:click.prevent="$emit('deleteAddress', 2)" data-type="ship" 
-                                                   style="margin-left:15px" class="delete-address pull-right">delete</a>
-                                                <a href="#" 
-                                                   class="pull-right">edit</a>
+                                                <a href="#"
+                                                wire:click="deleteShippingAddress(2)"
+                                                wire:confirm="Are you sure you want to delete this shipping address?"
+                                                class="delete-address pull-right" style="margin-left:15px;">
+                                                delete
+                                             </a>
+                                                <a href="{{ route('addshippingaddress', ['addressNumber' => 2]) }}"
+                                                    class="pull-right">edit</a>
                                             </div>
                                         </div>
                                         <div class="act paddingsec">
@@ -328,16 +349,21 @@
                                             {{ $customer->shipping_postal_code_2 }}<br>
                                         </div>
                                     @endif
-                            
+
                                     <!-- Third Shipping Address -->
                                     @if ($customer->shipping_address_receiver_name_3)
                                         <div class="sem paddingsec clearfix mt-4">
-                                            <span class="pull-left">{{ $customer->shipping_address_receiver_name_3 }}</span>
+                                            <span
+                                                class="pull-left">{{ $customer->shipping_address_receiver_name_3 }}</span>
                                             <div id="address-action-wrapper">
-                                                <a href="#" wire:click.prevent="$emit('deleteAddress', 3)" data-type="ship" 
-                                                   style="margin-left:15px" class="delete-address pull-right">delete</a>
-                                                <a href="#" 
-                                                   class="pull-right">edit</a>
+                                                <a href="#"
+                                                wire:click="deleteShippingAddress(3)"
+                                                wire:confirm="Are you sure you want to delete this shipping address?"
+                                                class="delete-address pull-right" style="margin-left:15px;">
+                                                delete
+                                             </a>
+                                                <a href="{{ route('addshippingaddress', ['addressNumber' => 3]) }}"
+                                                    class="pull-right">edit</a>
                                             </div>
                                         </div>
                                         <div class="act paddingsec">
@@ -349,7 +375,7 @@
                                 @else
                                     <p>No shipping address found.</p>
                                 @endif
-                            
+
                                 @if (!$customer || !$customer->shipping_address_receiver_name_3)
                                     <div class="content padr">
                                         <a class="addmore paddingsec" href="{{ route('addshippingaddress') }}">
@@ -366,3 +392,20 @@
     </div>
 
 </div>
+<script>
+    function confirmDelete(customerId) {
+        if (confirm('Are you sure you want to delete this billing address?')) {
+            Livewire.dispatch('deleteBillingAddress', {
+                customerId: customerId
+            });
+        }
+    }
+
+    function confirmDeleteShipping(addressNumber) {
+        if (confirm('Are you sure you want to delete this shipping address?')) {
+            Livewire.dispatch('deleteShippingAddress', {
+                addressNumber: addressNumber
+            });
+        }
+    }
+</script>

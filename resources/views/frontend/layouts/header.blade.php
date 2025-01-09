@@ -123,7 +123,7 @@
                                         </li>
 
                                         <li class="nav-item me-3 position-relative">
-                                            <a href="cart.php" class="p-2">
+                                            <a href="{{ route('cart') }}" class="p-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 20 20" fill="none">
                                                     <g clip-path="url(#clip0_67_234)">
@@ -318,7 +318,7 @@
 
                                     <li
                                         class="nav-item ms-xl-2 mx-lg-0 py-2 dropdown d-lg-block d-none position-relative">
-                                        <a class="nav-link d-lg-block d-none pt-1" href="cart.php">
+                                        <a class="nav-link d-lg-block d-none pt-1" href="{{ route('cart') }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 viewBox="0 0 20 20" fill="none">
                                                 <g clip-path="url(#clip0_67_234)">

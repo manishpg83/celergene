@@ -23,14 +23,18 @@ class HomeController extends Controller
        return view('frontend.profile.account');
    }   
 
-   public function addbillingaddress()
+   public function addbillingaddress($id = null)
    {
-      return view('frontend.profile.add-billing-address');
+       return view('frontend.profile.add-billing-address', [
+           'customerId' => $id
+       ]);
    }
 
-   public function addshippingaddress()
+   public function addshippingaddress($addressNumber = null)
    {
-      return view('frontend.profile.add-shipping-address');
+       return view('frontend.profile.add-shipping-address', [
+           'addressNumber' => $addressNumber
+       ]);
    }
 
    public function about()

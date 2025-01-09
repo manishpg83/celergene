@@ -51,14 +51,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-6 form-group">
                                 <div class="input">
                                     <input type="text" wire:model="address2" placeholder="Address 2 (optional)">
                                     @error('address2') <span class="error">{{ $message }}</span> @enderror
                                 </div>
                             </div>
+                            <div class="col-md-6 form-group">
+                                <div class="input">
+                                    <input type="text" wire:model="zip" placeholder="Postcode">
+                                    @error('zip') <span class="error">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-4 form-group">
                                 <div class="input">
                                     <input type="text" wire:model="state" placeholder="State">
@@ -77,7 +83,7 @@
                                     @error('zip') <span class="error">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <div class="input">

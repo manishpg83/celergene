@@ -5,6 +5,7 @@ namespace App\Livewire\Frontend;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Log;
 
 class BillingAddressForm extends Component
 {
@@ -18,6 +19,7 @@ class BillingAddressForm extends Component
     public $zip;
     public $country;
     public $phone;
+    public $customerId;
 
     protected $rules = [
         'firstname' => 'required|max:100',
@@ -25,16 +27,21 @@ class BillingAddressForm extends Component
         'companyname' => 'max:100',
         'address1' => 'required|max:100',
         'address2' => 'max:100',
-        'state' => 'required|max:100',
-        'city' => 'required|max:100',
         'zip' => 'required|numeric|max:999999',
         'country' => 'required',
         'phone' => 'required|numeric|max:9999999999',
     ];
 
-    public function mount()
+    public function mount($customerId = null)  // Accept customerId as parameter
     {
-        $customer = Customer::where('user_id', Auth::id())->first();
+        $this->customerId = $customerId;
+        
+        if ($this->customerId) {
+            $customer = Customer::find($this->customerId);
+        } else {
+            $customer = Customer::where('user_id', Auth::id())->first();
+        }
+
         if ($customer) {
             $this->firstname = $customer->first_name;
             $this->lastname = $customer->last_name;
@@ -52,9 +59,13 @@ class BillingAddressForm extends Component
     public function submit()
     {
         $validatedData = $this->validate();
-    
-        $customer = Customer::where('user_id', Auth::id())->first();
-    
+        
+        if ($this->customerId) {
+            $customer = Customer::find($this->customerId);
+        } else {
+            $customer = Customer::where('user_id', Auth::id())->first();
+        }
+         
         if ($customer) {
             $customer->update([
                 'first_name' => $this->firstname,
@@ -89,11 +100,12 @@ class BillingAddressForm extends Component
     
         notyf()->success('Billing address saved successfully!');
         return redirect()->route('myaccount');
-    }
-    
+    }   
 
     public function render()
     {
+        Log::info('BillingAddressForm rendered');
         return view('livewire.frontend.billing-address-form');
     }
+    
 }

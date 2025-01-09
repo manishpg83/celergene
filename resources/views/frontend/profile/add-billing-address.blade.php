@@ -4,5 +4,5 @@
 @section('header', 'Billing | Celergen')
 
 @section('content')
-    @livewire('frontend.billing-address-form')
+    @livewire('frontend.billing-address-form', ['customerId' => $customerId])
 @endsection
