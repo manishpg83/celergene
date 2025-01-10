@@ -17,12 +17,41 @@
 .nav-item.position-relative a {
     position: relative;
 }
+.footer .bg-grey {
+    background: #D3D3D3;
+}
+.footer .btn {
+    font-family: 'AdelleSansW01-Regular';
+}
+.footer p {
+    font-size: 16px;
+    font-family: 'AdelleSansW01-Regular';
+}
+.footer h5 {
+    font-size: 20px;
+    font-family: 'AdelleSansW01-Regular';
+}
+.footer-bottom p {
+    font-family: 'AdelleSansW01-Light', sans-serif;
+}
+.footer-bottom p,
+.footer-bottom a {
+    color: #212529 !important;
+}
 @media screen and (max-width: 1320px) {
     .sidbar-main-menu .nav-item {
         margin-inline: 4px !important;
     }
 }
 @media screen and (max-width: 991px) {
+    .footer .footer-link {
+        display: block;
+        padding: 10px !important;
+        border-bottom: 1px solid #a0a0a0;
+    }
+    .footer .form-group {
+        margin: 0px;
+    }
     .sidbar-main-menu .nav-item {
         margin-inline: 0px !important;
     }
@@ -410,7 +439,7 @@ header#main-header.sticky #brand {
 #box-header {
     width: 100%;
     height: auto;
-    background: ##00355F;
+    background: #00355F;
 }
 
 #box-auth {
@@ -460,7 +489,7 @@ header#main-header.sticky #brand {
 
 #header-title {
     position: relative;
-    margin-top: 132px;
+    margin-top: 123px;
     width: 100%;
     height: auto;
     margin-bottom: 50px;
@@ -728,16 +757,11 @@ a:hover.myButton-grey {
 {
     padding-left: 0px !important;
 }
-.myBox-left {
-    width: 100%;
-    height: 100%;
-    background: white;
-    margin-top: 31px;
-    margin-bottom: 30px;
-    padding: 20px 40px 20px 40px;
-    border-style: solid;
-    border-width: thin;
-    border-color: #B8B8B8;
+a.btn.red-btn {
+    padding: 6px 24px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
 }
 
 .title-cart-items{

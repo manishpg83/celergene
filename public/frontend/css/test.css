@@ -1482,7 +1482,7 @@ h3 {
 /* headings, sub-headings, Paragraph */
 .section-heading {
   font-family: "Calluna-Regular";
-  letter-spacing: 2px;
+  letter-spacing: 0.5px;
   font-size: 45px;
 }
 .section-subheading {
