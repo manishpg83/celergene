@@ -21,21 +21,51 @@ class HomeController extends Controller
    public function myAccount()
    {
        return view('frontend.profile.account');
-   }   
+   } 
+   
+   public function myOrders()
+   {
+       return view('frontend.profile.account-orders');
+   } 
 
-   public function addbillingaddress($id = null)
+   public function myProfile()
+   {
+       return view('frontend.profile.account-profile');
+   } 
+
+   public function billingaddress()
+   {
+       return view('frontend.profile.account-billing-address');
+   }
+
+   public function addbillingaddress()
+   {
+       return view('frontend.profile.account-add-billing-address');
+   }
+
+   public function shippingaddress()
+   {
+       return view('frontend.profile.account-shipping-address');
+   }
+
+   public function addshippingaddress()
+   {
+       return view('frontend.profile.account-add-shipping-address');
+   }
+
+/*    public function addbillingaddress($id = null)
    {
        return view('frontend.profile.add-billing-address', [
            'customerId' => $id
        ]);
-   }
+   } */
 
-   public function addshippingaddress($addressNumber = null)
+/*    public function addshippingaddress($addressNumber = null)
    {
        return view('frontend.profile.add-shipping-address', [
            'addressNumber' => $addressNumber
        ]);
-   }
+   } */
 
    public function about()
    {
