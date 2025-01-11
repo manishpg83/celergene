@@ -1,4 +1,4 @@
-<div>
+<div class="cart-page-wrapper">
     <div id="header-title">
         <div class="container">
             <div class="header-box"></div>
@@ -8,41 +8,39 @@
     <form method="post" action="checkout.php" style="font-family: 'AdelleSansW01-Regular';">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="container" style="margin-bottom: 50px;">
-                <div class="row hidden-xs">
-                    <div class="">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div style="color: #333333; margin-bottom: 20px;">Buy Celergen from the following web sites
-                                if
-                                you reside in
-                            </div>
+                <div class="row cart-row hidden-xs">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div style="color: #333333; margin-bottom: 20px;">Buy Celergen from the following web sites
+                            if
+                            you reside in
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                            <div class="flag">
-                                <a href="http://www.celergenus.com" target="_blank">
-                                    <img src="https://store.celergenswiss.com/images/asset-1.png" style="height: 60px">
-                                    <div class="myText">UNITED STATES CUSTOMERS</div>
-                                </a>
-                            </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                        <div class="flag">
+                            <a href="http://www.celergenus.com" target="_blank">
+                                <img src="https://store.celergenswiss.com/images/asset-1.png" style="height: 60px">
+                                <div class="myText">UNITED STATES CUSTOMERS</div>
+                            </a>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                            <div class="flag">
-                                <a href="http://www.celergen.co.uk" target="_blank">
-                                    <img src="https://store.celergenswiss.com/images/asset-2.png" style="height: 60px">
-                                    <div class="myText">UNITED KINGDOM CUSTOMERS</div>
-                                </a>
-                            </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
+                        <div class="flag">
+                            <a href="http://www.celergen.co.uk" target="_blank">
+                                <img src="https://store.celergenswiss.com/images/asset-2.png" style="height: 60px">
+                                <div class="myText">UNITED KINGDOM CUSTOMERS</div>
+                            </a>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding" style="visibility:hidden;">
-                            <div class="flag">
-                                <a href="http://www.celergen.fr" target="_blank">
-                                    <img src="images/asset-3.png" style="height: 60px">
-                                    <div class="myText">FRENCH CUSTOMERS</div>
-                                </a>
-                            </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding" style="visibility:hidden;">
+                        <div class="flag">
+                            <a href="http://www.celergen.fr" target="_blank">
+                                <img src="images/asset-3.png" style="height: 60px">
+                                <div class="myText">FRENCH CUSTOMERS</div>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row cart-row">
                     <div class="col-lg-8 col-md-8 col-xs-12">
                         <div class="myBox-left">
                             <input type="text" value="1" style="visibility:hidden;" name="item_CEL"
@@ -61,8 +59,8 @@
                                                 name="netprice_CEL" value="US$ 0.00"></td>
                                     </tr>
                                     <tr class="plm">
-                                        {{-- <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen</td> --}}
+                                        <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
+                                            style="padding-bottom: 10px;">Celergen</td>
                                         <td align="left" valign="top" style="padding-top:10px;"
                                             class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
                                                 disabled="" style="text-align:left;color:#333;" type="text"
@@ -98,8 +96,8 @@
                                                 value="US$ 0.00"></td>
                                     </tr>
                                     <tr class="plm">
-                                        {{-- <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen Serum</td> --}}
+                                        <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
+                                            style="padding-bottom: 10px;">Celergen Serum</td>
                                         <td align="left" valign="top" style="padding-top:10px;"
                                             class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
                                                 disabled="" style="text-align:left;color:#333;" type="text"
@@ -137,8 +135,8 @@
                                                 value="US$ 0.00"></td>
                                     </tr>
                                     <tr class="plm">
-                                        {{-- <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">CELERGEN &amp; SERUM ROYALE</td> --}}
+                                        <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
+                                            style="padding-bottom: 10px;">CELERGEN &amp; SERUM ROYALE</td>
                                         <td align="left" valign="top" style="padding-top:10px;"
                                             class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
                                                 disabled="" style="text-align:left;color:#333;" type="text"
@@ -283,37 +281,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row visible-xs" style="margin-top: 50px">
+                <div class="row visible-xs">
                     <div class="">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div style="color: #333333; margin-bottom: 20px;">Buy Celergen from the following web sites
-                                if
-                                you reside in
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                            <div class="flag">
-                                <a href="http://www.celergenus.com" target="_blank">
-                                    <img src="images/asset-1.png" style="height: 60px">
-                                    <div class="myText">UNITED STATES CUSTOMERS</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                            <div class="flag">
-                                <a href="http://www.celergen.co.uk" target="_blank">
-                                    <img src="images/asset-2.png" style="height: 60px">
-                                    <div class="myText">UNITED KINGDOM CUSTOMERS</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                            <div class="flag">
-                                <a href="http://www.celergen.fr" target="_blank">
-                                    <img src="images/asset-3.png" style="height: 60px">
-                                    <div class="myText">FRENCH CUSTOMERS</div>
-                                </a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
