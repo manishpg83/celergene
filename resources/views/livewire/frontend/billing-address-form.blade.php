@@ -66,26 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="col-md-4 form-group">
-                                <div class="input">
-                                    <input type="text" wire:model="state" placeholder="State">
-                                    @error('state') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <div class="input">
-                                    <input type="text" wire:model="city" placeholder="City">
-                                    @error('city') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <div class="input">
-                                    <input type="text" wire:model="zip" placeholder="Postcode">
-                                    @error('zip') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div> --}}
+
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <div class="input">
