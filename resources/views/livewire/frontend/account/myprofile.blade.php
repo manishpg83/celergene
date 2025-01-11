@@ -9,12 +9,12 @@
                     <div class="change-btn  thumb-edit d-flex align-items-center flex-wrap">
                         <input type="file" class="form-control d-none" id="imageUpload" accept=".png, .jpg, .jpeg">
                         <label for="imageUpload" class="btn btn-light ms-0"><i class="fa-solid fa-camera"></i></label>
-                    </div>	
+                    </div>
                 </div>
             </div>
             <div class="clearfix">
                 <h2 class="title mb-0">John Doe</h2><span class="text text-primary">johndoe@example.com</span>
-                
+
             </div>
         </div>
         <form action="#" class="row">

@@ -38,9 +38,9 @@ class HomeController extends Controller
        return view('frontend.profile.account-billing-address');
    }
 
-   public function addbillingaddress()
+   public function addbillingaddress($id = null)
    {
-       return view('frontend.profile.account-add-billing-address');
+       return view('frontend.profile.account-add-billing-address', ['id' => $id]);
    }
 
    public function shippingaddress()
@@ -48,9 +48,9 @@ class HomeController extends Controller
        return view('frontend.profile.account-shipping-address');
    }
 
-   public function addshippingaddress()
+   public function addshippingaddress($addressNumber = null)
    {
-       return view('frontend.profile.account-add-shipping-address');
+       return view('frontend.profile.account-add-shipping-address', ['addressNumber' => $addressNumber]);
    }
 
 /*    public function addbillingaddress($id = null)

@@ -21,12 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/myorders', [HomeController::class, 'myOrders'])->name('myorders');
     Route::get('/myprofile', [HomeController::class, 'myProfile'])->name('myprofile');
     Route::get('/billingaddress', [HomeController::class, 'billingaddress'])->name('billingaddress');
-    Route::get('/addbillingaddress', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    Route::get('/shippingaddress', [HomeController::class, 'shippingaddress'])->name('shippingaddress');
+    Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
+    Route::get('/shippingaddress/{addressNumber?}', [HomeController::class, 'shippingaddress'])->name('shippingaddress');
     Route::get('/addshippingaddress', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
 
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    Route::get('/addshippingaddress/{addressNumber?}', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
+    // Route::get('/addshippingaddress/{addressNumber?}', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });

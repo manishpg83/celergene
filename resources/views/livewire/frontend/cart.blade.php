@@ -276,7 +276,7 @@
                         </div>
                         <div id="paypalinfo" style="margin-top:10px;">
                             <div class="col-lg-12 col-md-12 col-sm-12" align="right">
-                                <a class="myButton" id="submitbutton" onclick="document.forms[0].submit();">
+                                <a href="{{ route('checkout') }}" class="myButton" id="submitbutton" onclick="document.forms[0].submit();">
                                     CHECKOUT &amp; PAY &gt;
                                 </a>
                             </div>

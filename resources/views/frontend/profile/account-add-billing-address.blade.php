@@ -4,13 +4,8 @@
 @section('header', 'Billing | Celergen')
 
 @section('content')
-    {{--  @livewire('frontend.my-account') --}}
     <div class="page-wraper">
 
-        <!-- Header Start -->
-        <!-- Header End -->
-        <!-- contact-sidebar-start -->
-        <!-- contact-sidebar-end -->
         <div class="page-content bg-light">
 
             <!--Banner Start-->
@@ -25,7 +20,7 @@
                             </ul>
                         </nav>
                     </div>
-                </div>	
+                </div>
             </div>
             <!--Banner End-->
 
@@ -34,12 +29,10 @@
                     <div class="row">
                         @include('frontend.profile.account-sidebar')
 
-                        @livewire('frontend.account.addbillingaddress')
+                        @livewire('frontend.account.addbillingaddress', ['id' => $id ?? null])
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 @endsection
