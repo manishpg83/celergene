@@ -12,24 +12,24 @@
     {{--     <meta name="author" content="IndianCoder" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords"
-        content="android, ios, template, ui kit, app, glamour, delivery, skincare template, elegance, grace, luxury, beauty eCommerce, fashion, ios, material design, order, 
-      shopping, store, web app, Gaya, fashion app, fashion template, flair app, apparel app, fashion UI,fashion design, app template, fashion store, responsive design, fashion showcase, modern 
+        content="android, ios, template, ui kit, app, glamour, delivery, skincare template, elegance, grace, luxury, beauty eCommerce, fashion, ios, material design, order,
+      shopping, store, web app, Gaya, fashion app, fashion template, flair app, apparel app, fashion UI,fashion design, app template, fashion store, responsive design, fashion showcase, modern
       UI, fashion technology, e-shop, beauty eCommerce web, eCommerce Website, minimal shop, online shop, woocommerce, online beauty shopping, glower, user interface, user experience, Design Elements,
       Trendy, Stylish, User-Friendly, Navigation, Product Display, Branding, Development, Visual Design, Mobile UI Elements, UI Kit for Online Store, UX/UI, UI/UX, Website, Web Design" />
     <meta name="description"
-        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich template 
-      offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your website 
+        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich template
+      offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your website
       into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
     <meta property="og:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
     <meta property="og:description"
         content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich
-      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform 
+      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform
       your website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
     <meta property="og:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="twitter:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
     <meta name="twitter:description"
-        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich 
+        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich
       template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your
       website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
     <meta name="twitter:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
@@ -57,7 +57,7 @@
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/shoppingcart.css') }}" /> --}}
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
 
-    <!-- Custom Stylesheet -->  
+    <!-- Custom Stylesheet -->
     <link class="main-css" rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/style.css') }}" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/theme-default.min.css" rel="stylesheet"
         type="text/css" />
@@ -224,7 +224,7 @@
                 '<a class="next-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"/></a>'
             ]
         })
-    </script>    
+    </script>
     <!-- GLOBAL-JS -->
     <script src="{{ asset('/frontend/vendor/global/global.min.js') }}"></script>
     <!-- GLOBAL-JS -->
@@ -253,7 +253,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
     <!-- CUSTOM JS -->
-    
+
 
     @yield('scripts')
     <script type="text/javascript">
@@ -274,7 +274,7 @@
             ['email', 'Please Enter a valid email id.', '', ''],
             ['city', 'Please Select City from List', '', '']
         ];
-    
+
         function SwitchAddress(ID)
         {
             var CurControl = $('#ship_address');
@@ -286,12 +286,12 @@
             var CurControl = null;
             for (var i = 0; i < ControlArray.length; i++)
             {
-    
+
                 CurControl = document.getElementById(ControlArray[i][0]);
                 //alert(CurControl[i][0]);
                 if (CurControl != null)
                 {
-    
+
                     if (ControlArray[i][0].substring(0, 3) != "bil" && addSame)
                         continue;
                     if (ControlArray[i][0] == 'bill_email')
@@ -318,8 +318,8 @@
             }
             return true;
         }
-    
-    
+
+
         function UpdateTotals(mode, itembox)
         {
             // var cart_count_mobile = document.getElementById("mobile-cart").getElementsByTagName("span")[0];
@@ -336,7 +336,7 @@
             var nett_text = document.getElementById('nettotal_text');
             var sub = document.getElementById('subtotal');
             var nett = document.getElementById('nettotal');
-    
+
             if (qty != null && uni != null && net != null && sub != null)
             {
                 net.value = "US$ " + (parseInt(qty.value) * parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -344,7 +344,7 @@
                 if (mode == "+") {
                     sub_text.value = nett_text.value = "US$ " + (parseInt(nett_value) + parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                     sub.value = nett.value = parseInt(nett_value) + parseInt(uni);
-                    
+
                     // cart_count_desktop.innerHTML = parseInt(cart_count_desktop.innerHTML) + 1;
                     // cart_count_mobile.innerHTML = parseInt(cart_count_mobile.innerHTML) + 1;
                 }
@@ -374,15 +374,15 @@
                     console.log(window.Livewire);
 
                     console.log('Dispatching cart update event');
-                    Livewire.dispatch('cartUpdated', { 
-                        itemId: itembox, 
-                        quantity: parseInt(qty.value) 
+                    Livewire.dispatch('cartUpdated', {
+                        itemId: itembox,
+                        quantity: parseInt(qty.value)
                     });
 
 
                     if (sub != null)
                         sub.disabled = false;
-    
+
                 } else
                 {
                     if (parseInt(cur) >= 1)
@@ -396,13 +396,13 @@
                         if (sub != null)
                             sub.disabled = true;
                     }
-                    Livewire.dispatch('cartUpdated', { 
-                        itemId: itembox, 
-                        quantity: parseInt(qty.value) 
+                    Livewire.dispatch('cartUpdated', {
+                        itemId: itembox,
+                        quantity: parseInt(qty.value)
                     });
-                   
+
                 }
-                
+
             }
         }
     </script>
@@ -420,7 +420,7 @@
      <script>
         $(document).ready(function () {
             var aboutslider = $('.about-slider');
-            
+
             aboutslider.owlCarousel({
                 items: 1,
                 loop: false,
@@ -463,6 +463,21 @@
             function setActiveButton(activeButtonId) {
                 $('.aboutcelergen-btn, .aboutactive-btn').removeClass('aboutactive-btn').addClass('aboutcelergen-btn');
                 $(activeButtonId).removeClass('aboutcelergen-btn').addClass('aboutactive-btn');
+            }
+
+            var url = window.location.href;
+            var hash = url.substring(url.indexOf("#") + 1);
+            if(hash == 'aboutbtn1')
+            {
+                setActiveButton('#aboutbtn1');
+            }
+            if(hash == 'aboutbtn2')
+            {
+                setActiveButton('#aboutbtn2');
+            }
+            if(hash == 'aboutbtn3')
+            {
+                setActiveButton('#aboutbtn3');
             }
         });
 

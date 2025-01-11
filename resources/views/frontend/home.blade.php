@@ -17,7 +17,7 @@
                 <div class="slide1-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">The Only Non-Injectable <br>Swiss Marine Cell Therapy
                     <br>Supplement In The World </h2>
-                  <a href="about-celergen.php" class="a-btn blue-btn1">learn more</a>
+                  <a href="{{ route ('about') }}" class="a-btn blue-btn1">learn more</a>
                 </div>
               </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="slide2-text-box">
                   <h2 class="h2 text-white mb-2 mb-lg-4">Significantly Reduce<br>Joint Pain and Increase Mobility
                   </h2>
-                  <a href="join-pain-reduction.php" class="a-btn blue-btn1">learn more</a>
+                  <a href="{{ route ('joinpainreduction') }}" class="a-btn blue-btn1">learn more</a>
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide3.jpg');">
                 <div class="slide3-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">A Celebrity's Secret for<br>Ageless Beauty </h2>
-                  <a href="beauty-enhancement.php" class="a-btn blue-btn1">learn more</a>
+                  <a href="{{ route ('beautyenhancement') }}" class="a-btn blue-btn1">learn more</a>
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@
                 style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide4.jpg');">
                 <div class="slide4-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">Regain Vibrant Youth<br>Energy and Vitality</h2>
-                  <a href="energy-and-vitality.php" class="a-btn blue-btn1">learn more</a>
+                  <a href="{{ route ('energyandvitality') }}" class="a-btn blue-btn1">learn more</a>
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="slide5-text-box text-lg-end text-center">
                   <h2 class="h2 text-blue text-center text-lg-end mb-2 mb-lg-4 fadeIn">The Transformative Power of
                     <br>Swiss Marine Cell Therapy</h2>
-                  <a href="celergen-reviews.php" class="a-btn blue-btn1 fadeIn2">learn more</a>
+                  <a href="{{ route ('celergenreviews') }}" class="a-btn blue-btn1 fadeIn2">learn more</a>
                 </div>
               </div>
             </div>
@@ -167,30 +167,30 @@
                 our own natural healing powers to trigger the repair and rejuvenation of cells
                 by providing biologically active micronutrients and essential nutrition at the cellular level, boosting
                 the production of proteins and enzymes. Celergen combats aging by maintaining energy and vitality and
-                delaying the onset of chronic degenerative diseases. 
+                delaying the onset of chronic degenerative diseases.
              </p>
              <p class="px-lg-5 pb-lg-5"> Manufactured by Swiss Caps in Switzerland using Swiss Proprietary Cold Extraction Technology, Celergen
                 is an enteric coated oral softgel, which ensures maximum absorption for optimal anti-aging benefits and
-                results. 
+                results.
              </p>
           </div>
           <div class="row py-5 py-lg-5 px-4">
              <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="100" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="{{ route ('about') }}" class="blue-button text-blue border-0 pt-3" width="100%">
+                <a href="{{ route ('about') }}#aboutbtn1" class="blue-button text-blue border-0 pt-3" width="100%">
                 BIOACTIVE <br>
                 INGREDIENTS </a>
              </div>
              <div class="col-lg-3 col-md-6 p-1 aos-init" data-aos="fade-down" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="{{ route ('about') }}" class="blue-button text-blue border-0 pt-3" width="100%">
+                <a href="{{ route ('about') }}#aboutbtn2" class="blue-button text-blue border-0 pt-3" width="100%">
                 HOW <br>
                 CELERGEN WORKS </a>
              </div>
              <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="600" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="{{ route ('about') }}" class="blue-button text-blue border-0" width="100%">
+                <a href="{{ route ('about') }}#aboutbtn3" class="blue-button text-blue border-0" width="100%">
                 WHY CELERGEN? </a>
              </div>
              <div class="col-lg-3 p-1 col-md-6 aos-init" data-aos="fade-down" data-aos-delay="900" data-aos-easing="linear" data-aos-duration="1000">
-                <a href="{{ route ('about') }}" class="blue-button text-blue border-0" width="100%">
+                <a href="{{ route ('serumroyale') }}" class="blue-button text-blue border-0" width="100%">
                 SERUM ROYALE </a>
              </div>
           </div>
@@ -221,7 +221,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review"> "What is special about Celergen is that it is not a pharmaceutical and yet truly works on a cellular level to promote
-                                  regeneration and can slow, if not reverse, the aging process." 
+                                  regeneration and can slow, if not reverse, the aging process."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Kenneth Orbeck
                                </p>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is amazing because I look more youthful and my skin is glowing. My energy
-                                  throughout the day is boosted so much that I don't need caffeine to sustain." 
+                                  throughout the day is boosted so much that I don't need caffeine to sustain."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Rene Dell’Acqua </p>
                                <p class="w-100 doctor-designation"> Dental Studio, Palm Desert, CA </p>
@@ -256,7 +256,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> “Celergen is the best natural product that I have come across since I started practicing medicine.
-                                  It is definitely the next big thing for those seeking wellbeing and good health.” 
+                                  It is definitely the next big thing for those seeking wellbeing and good health.”
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Juan Remos </p>
                                <p class="w-100 doctor-designation"> The Wellness Institute
@@ -274,7 +274,7 @@
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review">"Celergen affects different patients in different ways. Some of my male atients reported
                                   improved libido and sexual performance. While some said it helped to reduce joint pain
-                                  and give them a better night's sleep." 
+                                  and give them a better night's sleep."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Bruce Lowell </p>
                                <p class="w-100 doctor-designation">-</p>
@@ -290,7 +290,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "I am very pleased with the outstanding benefits of Celergen my patients experience
-                                  in terms of energy and stamina, mental alertness and enhanced memory." 
+                                  in terms of energy and stamina, mental alertness and enhanced memory."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Ghislaine Beilin </p>
                                <p class="w-100 doctor-designation"> President of European Society for Anti-Aging and Preventive Medicine </p>
@@ -306,7 +306,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is a remarkable tool that can help improve our wellbeing on multiple
-                                  levels. It is the Rolls Royce of supplement for the human body." 
+                                  levels. It is the Rolls Royce of supplement for the human body."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Uzzi Reiss </p>
                                <p class="w-100 doctor-designation"> Berverly Hills Anti-Aging Centre </p>
@@ -322,7 +322,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review"> "What is special about Celergen is that it is not a pharmaceutical and yet truly works on a cellular level to promote
-                                  regeneration and can slow, if not reverse, the aging process." 
+                                  regeneration and can slow, if not reverse, the aging process."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Kenneth Orbeck
                                </p>
@@ -341,7 +341,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is amazing because I look more youthful and my skin is glowing. My energy
-                                  throughout the day is boosted so much that I don't need caffeine to sustain." 
+                                  throughout the day is boosted so much that I don't need caffeine to sustain."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Rene Dell’Acqua </p>
                                <p class="w-100 doctor-designation"> Dental Studio, Palm Desert, CA </p>
@@ -357,7 +357,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> “Celergen is the best natural product that I have come across since I started practicing medicine.
-                                  It is definitely the next big thing for those seeking wellbeing and good health.” 
+                                  It is definitely the next big thing for those seeking wellbeing and good health.”
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Juan Remos </p>
                                <p class="w-100 doctor-designation"> The Wellness Institute
@@ -375,7 +375,7 @@
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review">"Celergen affects different patients in different ways. Some of my male atients reported
                                   improved libido and sexual performance. While some said it helped to reduce joint pain
-                                  and give them a better night's sleep." 
+                                  and give them a better night's sleep."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Bruce Lowell </p>
                                <p class="w-100 doctor-designation">-</p>
@@ -391,7 +391,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "I am very pleased with the outstanding benefits of Celergen my patients experience
-                                  in terms of energy and stamina, mental alertness and enhanced memory." 
+                                  in terms of energy and stamina, mental alertness and enhanced memory."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Ghislaine Beilin </p>
                                <p class="w-100 doctor-designation"> President of European Society for Anti-Aging and Preventive Medicine </p>
@@ -407,7 +407,7 @@
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is a remarkable tool that can help improve our wellbeing on multiple
-                                  levels. It is the Rolls Royce of supplement for the human body." 
+                                  levels. It is the Rolls Royce of supplement for the human body."
                                </p>
                                <p class="w-100 doctor-name m-0"> Dr. Uzzi Reiss </p>
                                <p class="w-100 doctor-designation"> Berverly Hills Anti-Aging Centre </p>
@@ -421,7 +421,7 @@
                 <div class="owl-prev"><span aria-label="Previous">‹</span></div>
                 <div class="owl-next"><span aria-label="Next">›</span></div>
              </div>
-             
+
           </div>
        </div>
     </div>
@@ -446,7 +446,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#elizabeth" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#elizabeth" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -463,7 +463,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#grace-zenno" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#grace-zenno" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -478,7 +478,7 @@
                             <p class="review"> “With Celergen, I can expect a shorter recovery period to allow me to start winter training sooner that expected.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#bisimwa-voglet" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#bisimwa-voglet" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -493,7 +493,7 @@
                             <p class="review"> “I don’t wake up in pain anymore and my knee is getting stronger.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#phil-mccarroll" class="text-darkred Read-btn "><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#phil-mccarroll" class="text-darkred Read-btn "><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -508,7 +508,7 @@
                             <p class="review"> “Without Celergen, it is impossible for an ordinary man like me to accomplish extraordinary feats.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#hector" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#hector" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -525,7 +525,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#nea-wasell" class="text-darkred Read-btn">READ MORE</a>
+                            <a href="{{ route ('celergenreviews') }}#nea-wasell" class="text-darkred Read-btn">READ MORE</a>
                          </div>
                       </div>
                    </div>
@@ -543,7 +543,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#lupita" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#lupita" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -562,7 +562,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#curtis-mitchell" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#curtis-mitchell" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -580,7 +580,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#michael-george" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#michael-george" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -597,7 +597,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#anthony-stephen" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#anthony-stephen" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -614,7 +614,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#elizabeth" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#elizabeth" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -631,7 +631,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#grace-zenno" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#grace-zenno" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -646,7 +646,7 @@
                             <p class="review"> “With Celergen, I can expect a shorter recovery period to allow me to start winter training sooner that expected.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#bisimwa-voglet" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#bisimwa-voglet" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -661,7 +661,7 @@
                             <p class="review"> “I don’t wake up in pain anymore and my knee is getting stronger.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#phil-mccarroll" class="text-darkred Read-btn "><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#phil-mccarroll" class="text-darkred Read-btn "><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -676,7 +676,7 @@
                             <p class="review"> “Without Celergen, it is impossible for an ordinary man like me to accomplish extraordinary feats.” </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#hector" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#hector" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -693,7 +693,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#nea-wasell" class="text-darkred Read-btn">READ MORE</a>
+                            <a href="{{ route ('celergenreviews') }}#nea-wasell" class="text-darkred Read-btn">READ MORE</a>
                          </div>
                       </div>
                    </div>
@@ -711,7 +711,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#lupita" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#lupita" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -730,7 +730,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#curtis-mitchell" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#curtis-mitchell" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -748,7 +748,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#michael-george" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#michael-george" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -765,7 +765,7 @@
                             </p>
                          </div>
                          <div class="p-3">
-                            <a href="celergen-reviews.php#anthony-stephen" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
+                            <a href="{{ route ('celergenreviews') }}#anthony-stephen" class="text-darkred Read-btn"><strong>READ MORE</strong></a>
                          </div>
                       </div>
                    </div>
@@ -791,31 +791,31 @@
           </header>
           <div class="clinical-content">
              <p class="heading opensans text-center mb-5"> Celergen is the World’s only Swiss Marine Oral Cell Therapy.
-                Celergen is clinically proven to enhance your body’s natural ability to heal itself. 
+                Celergen is clinically proven to enhance your body’s natural ability to heal itself.
              </p>
              <p class="heading opensans text-center pb-lg-5"> Unlike most supplements that use intense heat in the production process, Celergen is manufactured
                 using our proprietary Swiss Cold Extraction Technology, which ensures that Celergen’s product integrity
-                is not compromised. 
+                is not compromised.
              </p>
           </div>
           <div class="row py-4">
              <div class="col-12 col-lg-4 mb-2 p-lg-1 px-4">
                 <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear" data-aos-duration="1000">
-                   <a href="clinical-studies.php#tab1" class="clinical-button">
+                   <a href="{{ route ('clinicalstudies') }}#tab1" class="clinical-button">
                    <span>BIO-DNA CELLULAR COMPLEX</span><span class="clinical-button-downarrow"></span>
                    </a>
                 </div>
              </div>
              <div class="col-12 col-lg-4  mb-2 p-lg-1 px-4">
                 <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
-                   <a href="clinical-studies.php#tab2" class="clinical-button">
+                   <a href="{{ route ('clinicalstudies') }}#tab2" class="clinical-button">
                    <span>PEPTIDE E COLLAGEN</span><span class="clinical-button-downarrow"></span>
                    </a>
                 </div>
              </div>
              <div class="col-12 col-lg-4 mb-2 p-lg-1 px-4">
                 <div class="w-100 aos-init" data-aos="fade-up" data-aos-delay="450" data-aos-easing="linear" data-aos-duration="1000">
-                   <a href="clinical-studies.php#tab3" class="clinical-button">
+                   <a href="{{ route ('clinicalstudies') }}#tab3" class="clinical-button">
                    <span>HYDRO MN PEPTIDE</span><span class="clinical-button-downarrow"></span>
                    </a>
                 </div>
