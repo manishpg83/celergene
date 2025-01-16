@@ -1,9 +1,10 @@
 <?php
 namespace App\Livewire\Frontend;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 
 class CartCount extends Component
 {
@@ -18,19 +19,28 @@ class CartCount extends Component
 
     public function handleCartUpdate($itemId, $quantity)
     {
+        Log::info("Updating cart: Item {$itemId}, Quantity {$quantity}");
+    
         $cart = Session::get('cart', collect());
+        Log::info("Current cart: ", $cart->toArray());
+    
         $updatedCart = $cart->filter(function ($item) use ($itemId) {
             return $item['id'] != $itemId;
         });
+    
         if ($quantity > 0) {
             $updatedCart->push([
                 'id' => $itemId, 
                 'quantity' => $quantity
             ]);
         }
+    
         Session::put('cart', $updatedCart);
         $this->cartCount = $this->calculateTotalQuantity($updatedCart);
+    
+        Log::info("Updated cart: ", $updatedCart->toArray());
     }
+    
 
     private function getCartCount()
     {

@@ -44,7 +44,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
     <!-- STYLESHEETS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/owl.carousel.min.css') }}" />
-    <link rel="stylesheet" href="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/css/owl.theme.default.min.css">
+    <link rel="stylesheet"
+        href="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
@@ -257,7 +258,6 @@
 
     @yield('scripts')
     <script type="text/javascript">
-
         var ControlArray = [
             ['bill_firstname', 'You can\'t Leave First Name empty.', '', 'info'],
             ['bill_address1', 'You can\'t Leave Billing Address1 empty.', '', ''],
@@ -275,150 +275,182 @@
             ['city', 'Please Select City from List', '', '']
         ];
 
-        function SwitchAddress(ID)
-        {
+        function SwitchAddress(ID) {
             var CurControl = $('#ship_address');
-            CurControl.css("display" , (ID.checked ? "none" : "block"));
+            CurControl.css("display", (ID.checked ? "none" : "block"));
         }
-        function ValidateFormInputs()
-        {
+
+        function ValidateFormInputs() {
             var addSame = document.getElementById('add_same').checked;
             var CurControl = null;
-            for (var i = 0; i < ControlArray.length; i++)
-            {
+            for (var i = 0; i < ControlArray.length; i++) {
 
                 CurControl = document.getElementById(ControlArray[i][0]);
                 //alert(CurControl[i][0]);
-                if (CurControl != null)
-                {
+                if (CurControl != null) {
 
                     if (ControlArray[i][0].substring(0, 3) != "bil" && addSame)
                         continue;
-                    if (ControlArray[i][0] == 'bill_email')
-                    {
-                        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(CurControl.value) == false)
-                        {
+                    if (ControlArray[i][0] == 'bill_email') {
+                        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(CurControl.value) == false) {
                             alert("Please key in valid email address.");
                             CurControl.focus();
                             CurControl.style.backgroundColor = '#F3F781';
                             return false;
                         }
                     }
-                    if (CurControl.value == "" && ControlArray[i][1] != '')
-                    {
+                    if (CurControl.value == "" && ControlArray[i][1] != '') {
                         alert(ControlArray[i][1]);
                         CurControl.focus();
-                        CurControl.style.backgroundColor = '#F3F781';  //'#F8E0F7' -- Light Pink;
+                        CurControl.style.backgroundColor = '#F3F781'; //'#F8E0F7' -- Light Pink;
                         return false;
-                    } else
-                    {
+                    } else {
                         CurControl.style.backgroundColor = '#FFFFFF';
                     }
                 }
             }
             return true;
         }
-
-
-        function UpdateTotals(mode, itembox)
-        {
-            // var cart_count_mobile = document.getElementById("mobile-cart").getElementsByTagName("span")[0];
-            // var cart_count_desktop = document.getElementById("desktop-cart").getElementsByTagName("span")[0];
-            var uni_a = document.getElementById('unitprice_' + itembox).value.split(" ");
-            var nett_a = document.getElementById('nettotal_text').value.split(" ");
-            var nett_value = parseInt(nett_a[1].replace(',', ''));
-            var uni = parseInt(uni_a[1].replace(',', ''));
-            console.log(nett_value);
+    </script>
+    <script>
+        // Update totals when quantity changes
+        function UpdateTotals(mode, itembox) {
             var qty = document.getElementById('quantity_' + itembox);
-            var net = document.getElementById('netprice_' + itembox);
-            var net2 = document.getElementById('netprice2_' + itembox);
-            var sub_text = document.getElementById('subtotal_text');
-            var nett_text = document.getElementById('nettotal_text');
-            var sub = document.getElementById('subtotal');
-            var nett = document.getElementById('nettotal');
+            var qty2 = document.getElementById('quantity2_' + itembox); // Summary field
+            var netprice = document.getElementById('netprice_' + itembox);
+            var netprice2 = document.getElementById('netprice2_' + itembox); // Summary field
+            var unitprice = document.getElementById('unitprice_' + itembox);
 
-            if (qty != null && uni != null && net != null && sub != null)
-            {
-                net.value = "US$ " + (parseInt(qty.value) * parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                net2.value = "US$ " + (parseInt(qty.value) * parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                if (mode == "+") {
-                    sub_text.value = nett_text.value = "US$ " + (parseInt(nett_value) + parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                    sub.value = nett.value = parseInt(nett_value) + parseInt(uni);
+            if (qty && netprice && unitprice) {
+                var unit = parseFloat(unitprice.value.replace('US$ ', '')) || 0;
+                var quantity = parseInt(qty.value) || 0;
 
-                    // cart_count_desktop.innerHTML = parseInt(cart_count_desktop.innerHTML) + 1;
-                    // cart_count_mobile.innerHTML = parseInt(cart_count_mobile.innerHTML) + 1;
+                // Update net price
+                var calculatedNetPrice = (unit * quantity).toFixed(2);
+                netprice.value = calculatedNetPrice;
+                if (netprice2) {
+                    netprice2.value = calculatedNetPrice; // Update summary field
                 }
-                if (mode == "-") {
-                    sub_text.value = nett_text.value = "US$ " + (parseInt(nett_value) - parseInt(uni)).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                    sub.value = nett.value = parseInt(nett_value) - parseInt(uni);
-                    // cart_count_desktop.innerHTML = parseInt(cart_count_desktop.innerHTML) - 1;
-                    // cart_count_mobile.innerHTML = parseInt(cart_count_mobile.innerHTML) - 1;
+            }
+
+            // Update quantity in order summary
+            if (qty2) {
+                qty2.value = qty.value; // Sync with main quantity
+            }
+
+            // Calculate subtotal
+            var subtotal = 0;
+            var items = ['CEL', 'SER', 'PK1']; // Add other product codes as needed
+            items.forEach(function(item) {
+                var itemNetPrice = document.getElementById('netprice_' + item);
+                if (itemNetPrice) {
+                    subtotal += parseFloat(itemNetPrice.value) || 0;
                 }
+            });
+
+            // Update subtotal and total display
+            document.getElementById('subtotal_text').value = 'US$ ' + subtotal.toFixed(2);
+            document.getElementById('nettotal_text').value = 'US$ ' + subtotal.toFixed(2);
+
+            updateCartStorage();
+        }
+
+        // Handle quantity changes
+        function OnQuantityChanged(mode, itembox) {
+            var qty = document.getElementById('quantity_' + itembox);
+            if (qty) {
+                var currentQty = parseInt(qty.value) || 0;
+                if (mode === '+') {
+                    currentQty++;
+                } else if (mode === '-' && currentQty > 0) {
+                    currentQty--;
+                }
+                qty.value = currentQty;
+
+                // Update totals and order summary
+                UpdateTotals(mode, itembox);
             }
         }
-        function OnQuantityChanged(mode, itembox)
-        {
-            var qty = document.getElementById('quantity_' + itembox);
-            var qty2 = document.getElementById('quantity2_' + itembox);
-            var Item = document.getElementById("item_" + itembox);
-            var sub = document.getElementById("submitbutton");
-            if (qty != null && Item != null)
-            {
-                var qe = qty.value.split(" ");
-                console.log(itembox)
-                var cur = qty.value;
-                if (mode == "+")
-                {
-                    Item.value = qty.value = qty2.value = parseInt(cur) + 1;
-                    UpdateTotals(mode, itembox);
-                    console.log(window.Livewire);
 
-                    console.log('Dispatching cart update event');
-                    Livewire.dispatch('cartUpdated', {
-                        itemId: itembox,
-                        quantity: parseInt(qty.value)
-                    });
+        // Update localStorage with cart data
+        function updateCartStorage() {
+            var items = ['CEL', 'SER', 'PK1']; // Add other product codes as needed
+            var cart = {};
 
+            items.forEach(function(item) {
+                var qty = document.getElementById('quantity_' + item);
+                var unitPrice = document.getElementById('unitprice_' + item);
+                var netPrice = document.getElementById('netprice_' + item);
 
-                    if (sub != null)
-                        sub.disabled = false;
-
-                } else
-                {
-                    if (parseInt(cur) >= 1)
-                    {
-                        Item.value = qty.value = qty2.value = parseInt(cur) - 1;
-                        UpdateTotals(mode, itembox);
-                    }
-                    if (parseInt(cur) - 1 == 0)
-                    {
-                        //Disable Proceed
-                        if (sub != null)
-                            sub.disabled = true;
-                    }
-                    Livewire.dispatch('cartUpdated', {
-                        itemId: itembox,
-                        quantity: parseInt(qty.value)
-                    });
-
+                if (qty && parseInt(qty.value) > 0) {
+                    cart[item] = {
+                        id: item,
+                        quantity: parseInt(qty.value),
+                        price: parseFloat(unitPrice.value.replace('US$ ', '')) || 0,
+                        netPrice: parseFloat(netPrice.value) || 0,
+                        name: getProductName(item)
+                    };
                 }
+            });
 
+            localStorage.setItem('cart', JSON.stringify(cart));
+            if (window.Livewire) {
+                Livewire.dispatch('cartUpdated', {
+                    itemId: 'CEL',
+                    quantity: 3
+                });
             }
+
+        }
+
+        // Restore cart data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                var cart = JSON.parse(savedCart);
+                for (var item in cart) {
+                    var qty = document.getElementById('quantity_' + item);
+                    var qty2 = document.getElementById('quantity2_' + item); // Summary field
+                    if (qty) {
+                        qty.value = cart[item].quantity;
+                        if (qty2) {
+                            qty2.value = cart[item].quantity; // Sync summary field
+                        }
+                        UpdateTotals('+', item);
+                    }
+                }
+            }
+        });
+
+        function getProductName(itembox) {
+            const productNames = {
+                'CEL': 'Celergen',
+                'SER': 'Serum Royale',
+                'PK1': 'CELERGEN & SERUM ROYALE'
+            };
+            return productNames[itembox] || 'Unknown Product';
         }
     </script>
     <script>
-        function showDivs(start)
-        {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get cart data from localStorage
+            const cartData = JSON.parse(localStorage.getItem('cart') || '{}');
+
+            // Pass cart data to Livewire component
+            Livewire.dispatch('cartDataReceived', cartData);
+        });
+    </script>
+    <script>
+        function showDivs(start) {
             var div;
-            while ((div = document.getElementById('div' + start)) !== false)
-            {
+            while ((div = document.getElementById('div' + start)) !== false) {
                 div.style.display = (div.style.display == 'none') ? '' : 'none';
                 start++;
             }
         }
     </script>
-     <script>
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             var aboutslider = $('.about-slider');
 
             aboutslider.owlCarousel({
@@ -434,7 +466,7 @@
                 startPosition: 'URLHash'
             });
 
-            aboutslider.on("changed.owl.carousel", function (event) {
+            aboutslider.on("changed.owl.carousel", function(event) {
                 var itemno = event.item.index;
                 if (itemno === 0) {
                     setActiveButton('#aboutbtn1');
@@ -445,43 +477,40 @@
                 }
             });
 
-            $('#aboutbtn1').on('click', function (e) {
+            $('#aboutbtn1').on('click', function(e) {
                 e.preventDefault();
                 aboutslider.trigger('to.owl.carousel', [0]);
             });
 
-            $('#aboutbtn2').on('click', function (e) {
+            $('#aboutbtn2').on('click', function(e) {
                 e.preventDefault();
                 aboutslider.trigger('to.owl.carousel', [1]);
             });
 
-            $('#aboutbtn3').on('click', function (e) {
+            $('#aboutbtn3').on('click', function(e) {
                 e.preventDefault();
                 aboutslider.trigger('to.owl.carousel', [2]);
             });
 
             function setActiveButton(activeButtonId) {
-                $('.aboutcelergen-btn, .aboutactive-btn').removeClass('aboutactive-btn').addClass('aboutcelergen-btn');
+                $('.aboutcelergen-btn, .aboutactive-btn').removeClass('aboutactive-btn').addClass(
+                    'aboutcelergen-btn');
                 $(activeButtonId).removeClass('aboutcelergen-btn').addClass('aboutactive-btn');
             }
 
             var url = window.location.href;
             var hash = url.substring(url.indexOf("#") + 1);
-            if(hash == 'aboutbtn1')
-            {
+            if (hash == 'aboutbtn1') {
                 setActiveButton('#aboutbtn1');
             }
-            if(hash == 'aboutbtn2')
-            {
+            if (hash == 'aboutbtn2') {
                 setActiveButton('#aboutbtn2');
             }
-            if(hash == 'aboutbtn3')
-            {
+            if (hash == 'aboutbtn3') {
                 setActiveButton('#aboutbtn3');
             }
         });
-
-      </script>
+    </script>
 </body>
 
 </html>

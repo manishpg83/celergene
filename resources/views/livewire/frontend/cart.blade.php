@@ -43,121 +43,144 @@
                 <div class="row cart-row">
                     <div class="col-lg-8 col-md-8 col-xs-12">
                         <div class="myBox-left">
-                            <input type="text" value="1" style="visibility:hidden;" name="item_CEL"
-                                id="item_CEL">
+                            <!-- Product 1 -->
                             <table width="100%">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img
-                                                class="imgPrdctN" src="https://store.celergenswiss.com/images/item_SER.jpg"
-                                                style="max-width:150px; width:100px;"><br><br></td>
+                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                            <img class="imgPrdctN" src="{{ asset('frontend/images/item_CEL.jpg') }}"
+                                                 style="max-width:150px; width:100px;"><br><br>
+                                        </td>
                                         <td align="left" class="bortom hidden-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen</td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[2]->product_name ?? 'Product Name' }}
+                                        </td>
                                         <td align="right" valign="bottom" height="20%" class="bortom hiddenmobile"
-                                            style="padding-bottom: 10px;"><input class="noborder-summary" disabled=""
-                                                style="text-align:right;" type="text" id="netprice_CEL"
-                                                name="netprice_CEL" value="US$ 0.00"></td>
+                                            style="padding-bottom: 10px;">
+                                            <input class="noborder-summary" disabled="" style="text-align:right;" type="text"
+                                                   id="netprice_CEL" name="netprice_CEL" value="US$ 0.00">
+                                        </td>
                                     </tr>
                                     <tr class="plm">
                                         <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen</td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[2]->name ?? 'Product Name' }}
+                                        </td>
                                         <td align="left" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
-                                                disabled="" style="text-align:left;color:#333;" type="text"
-                                                id="unitprice_CEL" name="unitprice_CEL" value="US$ 350.00"></td>
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <input class="noborder" disabled="" style="text-align:left;color:#333;" type="text"
+                                                   id="unitprice_CEL" name="unitprice_CEL"
+                                                   value="US$ {{ number_format($products[2]->unit_price ?? 0, 2) }}">
+                                        </td>
                                         <td align="right" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><span class="blockk">QUANTITY :
-                                            </span><input onclick="javascript:OnQuantityChanged('-','CEL');"
-                                                type="button" class="btn-c btn-1 btn btn-sm" value="-"
-                                                style="text-align:center !important;"><input type="text"
-                                                value="0" class="noborder" id="quantity_CEL" name="quantity_CEL"
-                                                style="width:30px; text-align:center !important;height: 30px; background: #858585;color: #fff;    outline: none;border: none;"><input
-                                                type="button" class="btn btn-sm btn-c btn-2" value="+"
-                                                onclick="javascript:OnQuantityChanged('+','CEL')" ;=""
-                                                style="text-align:center;">
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <span class="blockk">QUANTITY :</span>
+                                            <input onclick="javascript:OnQuantityChanged('-', 'CEL');" type="button"
+                                                   class="btn-c btn-1 btn btn-sm" value="-"
+                                                   style="text-align:center !important;">
+                                            <input type="text" value="0" class="noborder" id="quantity_CEL" name="quantity_CEL"
+                                                   style="width:35px; text-align:center !important;height: 32px; background: #858585;color: #fff; outline: none;border: none;">
+                                            <input type="button" class="btn btn-sm btn-c btn-2" value="+"
+                                                   onclick="javascript:OnQuantityChanged('+', 'CEL');"
+                                                   style="text-align:center;">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="text" value="0" style="visibility:hidden;" name="item_SER"
-                                id="item_SER">
+                        
+                            <!-- Product 2 -->
                             <table width="100%">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img
-                                                class="imgPrdctN" src="https://store.celergenswiss.com/images/item_SER.jpg"
-                                                style="max-width:150px; width:100px;"><br><br></td>
+                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                            <img class="imgPrdctN" src="{{ asset('frontend/images/item_SER.jpg') }}"
+                                                 style="max-width:150px; width:100px;"><br><br>
+                                        </td>
                                         <td align="left" class="bortom hidden-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen Serum</td>
-                                        <td align="right" valign="bottom" height="20%"
-                                            class="bortom hiddenmobile" style="padding-bottom: 10px;"><input
-                                                class="noborder-summary" disabled="" style="text-align:right;"
-                                                type="text" id="netprice_SER" name="netprice_SER"
-                                                value="US$ 0.00"></td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[3]->product_name ?? 'Product Name' }}
+                                        </td>
+                                        <td align="right" valign="bottom" height="20%" class="bortom hiddenmobile"
+                                            style="padding-bottom: 10px;">
+                                            <input class="noborder-summary" disabled="" style="text-align:right;" type="text"
+                                                   id="netprice_SER" name="netprice_SER" value="US$ 0.00">
+                                        </td>
                                     </tr>
                                     <tr class="plm">
                                         <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">Celergen Serum</td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[3]->name ?? 'Product Name' }}
+                                        </td>
                                         <td align="left" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
-                                                disabled="" style="text-align:left;color:#333;" type="text"
-                                                id="unitprice_SER" name="unitprice_SER" value="US$ 270.00"></td>
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <input class="noborder" disabled="" style="text-align:left;color:#333;" type="text"
+                                                   id="unitprice_SER" name="unitprice_SER"
+                                                   value="US$ {{ number_format($products[3]->unit_price ?? 0, 2) }}">
+                                        </td>
                                         <td align="right" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><span class="blockk">QUANTITY
-                                                :
-                                            </span><input onclick="javascript:OnQuantityChanged('-','SER');"
-                                                type="button" class="btn-c btn-1 btn btn-sm" value="-"
-                                                style="text-align:center !important;"><input type="text"
-                                                value="0" class="noborder" id="quantity_SER"
-                                                name="quantity_SER"
-                                                style="width:30px; text-align:center !important;height: 30px; background: #858585;color: #fff;    outline: none;border: none;"><input
-                                                type="button" class="btn btn-sm btn-c btn-2" value="+"
-                                                onclick="javascript:OnQuantityChanged('+','SER')" ;=""
-                                                style="text-align:center;">
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <span class="blockk">QUANTITY :</span>
+                                            <input onclick="javascript:OnQuantityChanged('-', 'SER');" type="button"
+                                                   class="btn-c btn-1 btn btn-sm" value="-"
+                                                   style="text-align:center !important;">
+                                            <input type="text" value="0" class="noborder" id="quantity_SER" name="quantity_SER"
+                                                   style="width:35px; text-align:center !important;height: 33px; background: #858585;color: #fff; outline: none;border: none;">
+                                            <input type="button" class="btn btn-sm btn-c btn-2" value="+"
+                                                   onclick="javascript:OnQuantityChanged('+', 'SER');"
+                                                   style="text-align:center;">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="text" value="0" style="visibility:hidden;" name="item_PK1"
-                                id="item_PK1">
+                        
+                            <!-- Product 3 -->
                             <table width="100%">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12"><img
-                                                class="imgPrdctN" src="https://store.celergenswiss.com/images/item_SER.jpg"
-                                                style="max-width:150px; width:100px;"><br><br></td>
+                                        <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                            <img class="imgPrdctN" src="{{ asset('frontend/images/item_PK1.jpg') }}"
+                                                 style="max-width:150px; width:100px;"><br><br>
+                                        </td>
                                         <td align="left" class="bortom hidden-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">CELERGEN &amp; SERUM ROYALE</td>
-                                        <td align="right" valign="bottom" height="20%"
-                                            class="bortom hiddenmobile" style="padding-bottom: 10px;"><input
-                                                class="noborder-summary" disabled="" style="text-align:right;"
-                                                type="text" id="netprice_PK1" name="netprice_PK1"
-                                                value="US$ 0.00"></td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[4]->product_name ?? 'Product Name' }}
+                                        </td>
+                                        <td align="right" valign="bottom" height="20%" class="bortom hiddenmobile"
+                                            style="padding-bottom: 10px;">
+                                            <input class="noborder-summary" disabled="" style="text-align:right;" type="text"
+                                                   id="netprice_NEW" name="netprice_NEW" value="US$ 0.00">
+                                        </td>
                                     </tr>
                                     <tr class="plm">
                                         <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
-                                            style="padding-bottom: 10px;">CELERGEN &amp; SERUM ROYALE</td>
+                                            style="padding-bottom: 10px;">
+                                            {{ $products[4]->name ?? 'Product Name' }}
+                                        </td>
                                         <td align="left" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><input class="noborder"
-                                                disabled="" style="text-align:left;color:#333;" type="text"
-                                                id="unitprice_PK1" name="unitprice_PK1" value="US$ 620.00"></td>
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <input class="noborder" disabled="" style="text-align:left;color:#333;" type="text"
+                                                   id="unitprice_NEW" name="unitprice_NEW"
+                                                   value="US$ {{ number_format($products[4]->unit_price ?? 0, 2) }}">
+                                        </td>
                                         <td align="right" valign="top" style="padding-top:10px;"
-                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><span class="blockk">QUANTITY
-                                                :
-                                            </span><input onclick="javascript:OnQuantityChanged('-','PK1');"
-                                                type="button" class="btn-c btn-1 btn btn-sm" value="-"
-                                                style="text-align:center !important;"><input type="text"
-                                                value="0" class="noborder" id="quantity_PK1"
-                                                name="quantity_PK1"
-                                                style="width:30px; text-align:center !important;height: 30px; background: #858585;color: #fff;    outline: none;border: none;"><input
-                                                type="button" class="btn btn-sm btn-c btn-2" value="+"
-                                                onclick="javascript:OnQuantityChanged('+','PK1')" ;=""
-                                                style="text-align:center;">
+                                            class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <span class="blockk">QUANTITY :</span>
+                                            <input onclick="javascript:OnQuantityChanged('-', 'NEW');" type="button"
+                                                   class="btn-c btn-1 btn btn-sm" value="-"
+                                                   style="text-align:center !important;">
+                                            <input type="text" value="0" class="noborder" id="quantity_NEW" name="quantity_NEW"
+                                                   style="width:35px; text-align:center !important;height: 33px; background: #858585;color: #fff; outline: none;border: none;">
+                                            <input type="button" class="btn btn-sm btn-c btn-2" value="+"
+                                                   onclick="javascript:OnQuantityChanged('+', 'NEW');"
+                                                   style="text-align:center;">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                        
                         </div>
+                        
+                        
                         <a href="https://celergenswiss.com/order-here">
                             <div class="myText-left"><strong>CONTINUE SHOPPING</strong></div>
                         </a>
