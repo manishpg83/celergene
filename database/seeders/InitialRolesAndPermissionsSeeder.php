@@ -65,8 +65,8 @@ class InitialRolesAndPermissionsSeeder extends Seeder
         });
 
 
-        $superAdminEmail = 'superadmin@celergen.com';
-
+        $superAdminEmail = 'superadmin@celergenswiss.com';
+        
         $superAdminUser = User::firstOrCreate(
             ['email' => $superAdminEmail],
             [
