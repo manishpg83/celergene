@@ -6,10 +6,14 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\ProductCatagory;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
+
 
 class AddProduct extends Component
 {
+    use WithFileUploads;
     public $product_id;
+    public $product_img;
     public $product_code;
     public $brand;
     public $product_name;
@@ -37,8 +41,8 @@ class AddProduct extends Component
                     ? 'unique:products,product_code,' . $this->product_id
                     : 'unique:products,product_code',
             ],
-            'brand' => 'required|string|max:255',
-            'product_name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',           
+            'product_img' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240', 
             'product_category' => 'required|integer',
             'origin' => 'required|string|max:255',
             'batch_number' => 'required|string|max:255',
@@ -96,7 +100,16 @@ class AddProduct extends Component
                 'modified_by' => $this->modified_by,
             ]
         );
-
+        if ($this->product_img) {
+            $imagePath = $this->product_img->store('product_images', 'custom_product_images'); 
+            $product_data['product_img'] = 'product_images/' . basename($imagePath);
+        }
+        
+    
+        Product::updateOrCreate(
+            ['id' => $this->product_id],
+            $product_data
+        );
         notyf()->success($this->isEditMode ? 'Product updated successfully.' : 'Product added successfully.');
         return redirect()->route('admin.products.index');
     }

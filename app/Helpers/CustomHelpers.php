@@ -13,7 +13,7 @@ use App\Models\Rating; */
 
 function perpagerecords()
 {
-    $pageArr = [5=>5,10=>10,20=>20,50=>50,100=>100];
+    $pageArr = [10=>10,20=>20,50=>50,100=>100];
     return $pageArr;
 }
 /*

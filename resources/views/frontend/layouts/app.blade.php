@@ -431,6 +431,12 @@
         }
     </script>
     <script>
+        Livewire.on('show-thank-you-modal', () => {
+            console.log("Thank you modal event triggered!");
+            $('#thankYouModal').modal('show');
+        });
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get cart data from localStorage
             const cartData = JSON.parse(localStorage.getItem('cart') || '{}');

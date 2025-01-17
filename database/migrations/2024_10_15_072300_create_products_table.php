@@ -13,6 +13,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('product_code')->unique();
             $table->string('brand');
+            $table->string('product_img')->nullable();
             $table->string('product_name');
             $table->string('product_category');
             $table->string('origin');

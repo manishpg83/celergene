@@ -6,3 +6,4 @@
 @section('content')
     @livewire('frontend.checkout')
 @endsection
+

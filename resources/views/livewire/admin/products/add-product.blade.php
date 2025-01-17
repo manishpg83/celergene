@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
-                            <form wire:submit.prevent="submit" class="row g-3 mt-2">
+                            <form wire:submit.prevent="submit" class="row g-3 mt-2" enctype="multipart/form-data" >
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_code">Product Code</label>
                                     <input type="text" class="form-control" id="product_code" wire:model="product_code" placeholder="Enter product code" required>
@@ -114,6 +114,14 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <div class="col-md-12">
+                                    <label class="form-label" for="product_img">Product Image</label>
+                                    <input type="file" class="form-control" id="product_img" wire:model="product_img">
+                                    @error('product_img')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">

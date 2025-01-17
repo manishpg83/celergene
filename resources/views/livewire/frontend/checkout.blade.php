@@ -106,7 +106,93 @@
                             <hr>
                         </div>
                         <!-- Shipping Address -->
+
                         <br><br>
+                        <div class="col-xs-12" style="margin-bottom: 20px;">
+                            <div class="icons-number pull-left">2</div>
+                            <div style="padding-left:10px;float: left;">Shipping Address
+                            </div>
+                            <div class="pull-right remember-rev" style="margin-right: 0px;">
+                                <input 
+                                    type="checkbox" 
+                                    name="add_same" 
+                                    id="add_same" 
+                                    value="on" 
+                                    wire:model="useBillingAddress" 
+                                    onclick="SwitchAddress(this);">
+                                <label for="add_same" class="pull-right">Ship to same address?</label>
+                            </div>                            
+                            
+                        </div>
+                        <div id="ship_address" style="display: block;">
+                            <br><br>
+                            <div class="col-xs-12 select-address-wrapper">
+                                <select id="ship-address" name="ship_address">
+                                    <option value="">Select Shipping Address</option>
+                                    @foreach($shippingAddresses as $address)
+                                        @if($address['address'])
+                                            <option 
+                                                value="{{ $address['address'] }}" 
+                                                data-receiver-name="{{ $address['receiver_name'] }}" 
+                                                data-country="{{ $address['country'] }}" 
+                                                data-postal-code="{{ $address['postal_code'] }}">
+                                                {{ $address['receiver_name'] }} - {{ $address['address'] }}, {{ $address['country'] }}, {{ $address['postal_code'] }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
+                            </div>
+                            
+                            <div class="col-xs-12 col-md-6">
+                                <input maxlength="100" type="text" name="firstname" id="firstname"
+                                    class="form-control" placeholder="First Name" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                <input maxlength="100" type="text" name="lastname" id="lastname"
+                                    class="form-control" placeholder="Last Name" value="">
+                            </div>
+                            <div class="col-xs-12" style="padding-bottom: 20px;">
+                                <input maxlength="100" type="text" name="companyname" id="company"
+                                    class="form-control" placeholder="Company Name" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <input type="text" maxlength="100" name="address1" id="address1"
+                                    class="form-control" placeholder="Address 1" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                <input type="text" maxlength="100" name="address2" id="address2"
+                                    class="form-control" placeholder="Address 2" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <input type="text" maxlength="100" name="city" id="city"
+                                    class="form-control" placeholder="City" valuevalue="">
+                            </div>
+                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                <input maxlength="20" type="text" name="zip" id="zip"
+                                    class="form-control" placeholder="Postcode" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <select class="form-control" id="country" name="country">
+                                    <option value="" disabled="" selected="">Select country</option>
+                                    <option data-code="AF" value="AF-Afghanistan"> Afghanistan</option>
+                                    <option data-code="AX" value="AX-Aland Islands"> Aland Islands</option>
+                                    <option data-code="AL" value="AL-Albania"> Albania</option>
+                                </select>
+                                <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
+                            </div>
+                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                <input type="text" maxlength="100" name="state" id="state"
+                                    class="form-control" placeholder="State" value="">
+                            </div>
+                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                <input type="text" maxlength="20" name="phone" id="phone"
+                                    class="form-control" placeholder="Phone" value="">
+                            </div>
+                            <div class="col-xs-12" style="padding-bottom: 20px;">
+                                <textarea class="form-control" type="text" name="shipnotes" id="shipnotes" rows="8" placeholder="Notes">                                                                            </textarea>
+                            </div>
+                        </div>
                         <div class=" col-xs-12 col-md-10">
                             Note:
                             <br><br>
@@ -122,7 +208,7 @@
                 <div class="col-sm-4">
                     <livewire:order-summary-component :show-checkout-button="false" />
 
-                   {{--  @if ($billingAddress && count($cartItems) > 0)
+                    {{--  @if ($billingAddress && count($cartItems) > 0)
                         <div class="text-center mt-4">
                             <button wire:click="processOrder" class="btn btn-primary btn-lg"
                                 wire:loading.attr="disabled">
@@ -144,7 +230,8 @@
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
                             @if ($billingAddress && count($cartItems) > 0)
-                                <a href="javascript:void(0);" class="myButton" name="submit" id="submitbutton" wire:click="processOrder" wire:loading.attr="disabled">
+                                <a href="javascript:void(0);" class="myButton" name="submit" id="submitbutton"
+                                    wire:click="processOrder" wire:loading.attr="disabled">
                                     <span wire:loading wire:target="processOrder">
                                         Processing...
                                     </span>
@@ -154,9 +241,31 @@
                                 </a>
                             @endif
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
     </form>
+    <!-- Modal -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thankYouModalLabel">Thank You for Your Order!</h5>
+                    {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> --}}
+                </div>
+                <div class="modal-body">
+                    <p>Your order has been successfully placed</p>
+                    <p>Thank you for shopping with us!</p>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                    <a href="{{ route('home') }}" class="btn btn-primary">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
