@@ -30,6 +30,7 @@
                                     <label class="form-label" for="country">Country</label>
                                     <select wire:model="country" id="country" class="form-select" data-allow-clear="true">
                                         <option value="">Select</option>
+                                        <option value="HK">Hong Kong</option>
                                         <option value="SIN">Singapore</option>
                                         <option value="CHI">China</option>
                                         <option value="SWI">Switzerland</option>

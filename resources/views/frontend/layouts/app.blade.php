@@ -340,7 +340,7 @@
 
             // Calculate subtotal
             var subtotal = 0;
-            var items = ['CEL', 'SER', 'PK1']; // Add other product codes as needed
+            var items = ['CEL', 'SER', 'PK1']; // Product codes
             items.forEach(function(item) {
                 var itemNetPrice = document.getElementById('netprice_' + item);
                 if (itemNetPrice) {
@@ -374,7 +374,7 @@
 
         // Update localStorage with cart data
         function updateCartStorage() {
-            var items = ['CEL', 'SER', 'PK1']; // Add other product codes as needed
+            var items = ['CEL', 'SER', 'PK1']; // Product codes
             var cart = {};
 
             items.forEach(function(item) {
@@ -400,7 +400,6 @@
                     quantity: 3
                 });
             }
-
         }
 
         // Restore cart data on page load
