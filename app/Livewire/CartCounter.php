@@ -1,12 +1,10 @@
 <?php
-namespace App\Livewire\Frontend;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+namespace App\Livewire;
+
 use Livewire\Component;
 
-class CartCount extends Component
+class CartCounter extends Component
 {
     public $cartCount = 0;
 

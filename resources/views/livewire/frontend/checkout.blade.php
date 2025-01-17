@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    <form method="post" id="checkout-form" action="confirmation.php">
+    <form method="post" id="checkout-form">
         <div class="container">
             <div class="clearfix checkbox-row">
                 @unless (Auth::check())
@@ -120,105 +120,41 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="myBox-right">
-                        <div class="section-title">ORDER SUMMARY</div>
-                        <table width="100%" id="itemslist" border="0" cellspacing="0" cellpadding="0">
-                            <tbody>
-                                @if (!empty($cartItems))
-                                    @foreach ($cartItems as $code => $item)
-                                        <tr style="color:#0a1f3a;text-transform:uppercase;">
-                                            <td colspan="2">{{ $item['name'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-left:20px;">
-                                                (<input type="text" value="{{ $item['quantity'] }}" disabled
-                                                    class="noborder" id="quantity2_{{ $code }}"
-                                                    style="width:10%; text-align:center;color:#333;">ITEMS)
-                                            </td>
-                                            <td class="price">
-                                                <input class="noborder" disabled type="text"
-                                                    id="netprice2_{{ $code }}"
-                                                    value="{{ number_format($item['netPrice'], 2) }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"><span class="sparator-order-summary">&nbsp;</span></td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
+                    <livewire:order-summary-component :show-checkout-button="false" />
 
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 8px; text-align: left; border-bottom: 1px solid #000;">
-                                        Sub Total :
-                                    </td>
-                                    <td align="right"
-                                        style="padding: 8px; text-align: right; border-bottom: 1px solid #000; font-size:13px;">
-                                        <input class="noborder" type="text" style="text-align:right;"
-                                            id="subtotal_text" name="subtotal_text"
-                                            value="US$ {{ number_format($subtotal, 2) }}">
-                                        <input class="noborder" type="hidden" style="text-align:right;"
-                                            id="subtotal" name="subtotal" value="{{ $subtotal }}">
-                                        <input class="noborder" type="hidden" style="text-align:right;"
-                                            id="promocode" name="promocode" value="{{ $promocode ?? '' }}">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; text-align: left; border-bottom: 1px solid #000;">
-                                        Shipping :
-                                    </td>
-                                    <td align="right"
-                                        style="padding: 8px; text-align: right; border-bottom: 1px solid #000; font-size:13px;">
-                                        FREE
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; text-align: left; border-bottom: 1px solid #000;">
-                                        Order Total :
-                                    </td>
-                                    <td align="right"
-                                        style="padding: 8px; text-align: right; border-bottom: 1px solid #000; font-size:13px;">
-                                        <input class="noborder" style="text-align:right; font-weight:bold;"
-                                            type="text" id="nettotal_text" name="nettotal_text"
-                                            value="US$ {{ number_format($subtotal, 2) }}">
-                                        <input class="noborder" style="text-align:right; font-weight:bold;"
-                                            type="hidden" id="nettotal" name="nettotal"
-                                            value="{{ $subtotal }}">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="font-size:12px;">
-                                        <br>
-                                        <u>Refund policy:</u><br>
-                                        All sales are final and non-refundable. Please see our
-                                        <a target="_blank" href="terms_conditions.html">terms and conditions.</a>
-                                        <br><br>
-                                        <div style="text-align:center;">
-                                            <span id="siteseal">
-                                                <script async="" type="text/javascript"
-                                                    src="https://seal.godaddy.com/getSeal?sealID=iiH7qkmyXm0XUMJhpAwJFvbC62rEaacx0BcYhK6lXmWA9XJUBqL9d5htvUWk"></script>
-                                                <img style="cursor:pointer;cursor:hand"
-                                                    src="https://seal.godaddy.com/images/3/en/siteseal_gd_3_h_d_m.gif"
-                                                    onclick="verifySeal();" alt="SSL site seal - click to verify">
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                   {{--  @if ($billingAddress && count($cartItems) > 0)
+                        <div class="text-center mt-4">
+                            <button wire:click="processOrder" class="btn btn-primary btn-lg"
+                                wire:loading.attr="disabled">
+                                <span wire:loading wire:target="processOrder">
+                                    Processing...
+                                </span>
+                                <span wire:loading.remove wire:target="processOrder">
+                                    Place Order
+                                </span>
+                            </button>
+                        </div>
+                    @endif --}}
 
-                        </table>
-                    </div>
+                    @if (session()->has('error'))
+                        <div class="alert alert-danger mt-3">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
-                            <a class="myButton" name="submit" id="submitbutton"
-                                onclick="javascript:if (ValidateFormInputs() &amp;&amp; $('#g-recaptcha-response').val()!='') {
-                                    document.forms[0].submit();}else{if($('#g-recaptcha-response').val()==''){alert('Please confirm you are not a robot')}}">PLACE
-                                ORDER &gt;</a>
+                            @if ($billingAddress && count($cartItems) > 0)
+                                <a href="javascript:void(0);" class="myButton" name="submit" id="submitbutton" wire:click="processOrder" wire:loading.attr="disabled">
+                                    <span wire:loading wire:target="processOrder">
+                                        Processing...
+                                    </span>
+                                    <span wire:loading.remove wire:target="processOrder">
+                                        PLACE ORDER &gt;
+                                    </span>
+                                </a>
+                            @endif
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>
