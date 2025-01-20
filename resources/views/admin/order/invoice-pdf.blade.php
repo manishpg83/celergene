@@ -22,7 +22,7 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .logo-container img {
@@ -59,11 +59,13 @@
             border: 2px solid #000;
             min-height: 100px;
         }
+
         .billing-address strong,
         .shipping-address strong {
             display: inline-block;
             margin-bottom: 2px;
         }
+
         .billing-address,
         .shipping-address,
         .invoice-details {
@@ -108,9 +110,12 @@
             padding: 12px 10px;
             text-align: left;
         }
-        table tr th:last-child, table tr td:last-child {
+
+        table tr th:last-child,
+        table tr td:last-child {
             text-align: right;
         }
+
         .summary-section {
             width: 100%;
             display: table;
@@ -121,6 +126,7 @@
             display: table-cell;
             vertical-align: top;
         }
+
         .left {
             width: 50%;
             padding-right: 20px;
@@ -144,40 +150,60 @@
         .totals tr:last-child td {
             font-weight: bold;
         }
+
         .totals tr td:first-child {
             width: 60%;
         }
+
         .totals tr td:last-child {
             width: 40%;
         }
+
         .bank-details .bank-name {
             margin-top: 2px;
         }
-        .bank-name strong, .bank-name span {
+
+        .bank-name strong,
+        .bank-name span {
             display: inline-block;
         }
+
         .bank-details p {
             margin: 0px;
         }
+
         .payment-text {
             display: inline-block;
             padding-bottom: 5px;
         }
+
         .line {
             background: #000000;
             width: 100%;
         }
+
         .blankspace td {
             padding: 10px;
             height: 150px;
+        }
+
+        .footer {
+            position: fixed;
+            top: 99%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px 0 0 0;
         }
     </style>
 </head>
 
 <body>
     <div class="logo-container">
-        <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
+        <img src="{{ public_path('admin/assets/img/branding/Celergen-Logo.png') }}" alt="Company Logo">
     </div>
+
     <div class="header">
         <div class="company-name">{{ $order->entity->company_name }}</div>
         <div class="invoice-text">INVOICE </div>
@@ -191,7 +217,9 @@
             <strong>Billing Address</strong><br>
             {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
-            VAT No: {{ $order->customer->vat_number }}
+            VAT No: {{ $order->customer->vat_number }}<br><br>
+            {{ $order->customer->billing_country }}<br>
+            PHONE : {{ $order->customer->mobile_number }}<br>
         </div>
         <div class="shipping-address">
             <strong>Shipping Address</strong><br>
@@ -215,8 +243,8 @@
             </tr>
         </thead>
         <tbody>
-            @php               
-                $totalRows = 25;
+            @php
+                $totalRows = 23;
                 $productCount = count($order->orderDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp
@@ -230,27 +258,34 @@
                 </tr>
             @endforeach
             @for ($i = 0; $i < $blankRows; $i++)
-            <tr class="blank-row">
-                <td style="width: 50%;">&nbsp;</td>
-                <td style="width: 15%;">&nbsp;</td>
-                <td style="width: 15%;">&nbsp;</td>
-                <td style="width: 20%;">&nbsp;</td>
-            </tr>
-        @endfor
+                <tr class="blank-row">
+                    <td style="width: 50%;">&nbsp;</td>
+                    <td style="width: 15%;">&nbsp;</td>
+                    <td style="width: 15%;">&nbsp;</td>
+                    <td style="width: 20%;">&nbsp;</td>
+                </tr>
+            @endfor
         </tbody>
     </table>
-    
+
     <div class="summary-section">
         <div class="left bank-details"><br>
             <p><strong>DIRECT ALL INQUIRIES TO: </strong></p>
-            <a href="mailto:info@example.com">info@example.com</a><br><br>
+            <a href="mailto:marketing@celergenswiss.com">marketing@celergenswiss.com</a><br><br>
 
             <p><strong>Bank Charges must be borne by payer</strong></p><br>
 
             <p><strong class="payment-text">For payment by Telegraphic Transfer:</strong></p>
-            <p class="bank-name"><strong style="width: 30%;">Account No:</strong><span>{{ $order->entity->bank_account_number }}</span></p>
-            <p class="bank-name"><strong style="width: 30%;">Bank Name:</strong><span>{{ $order->entity->bank_account_name }}</span></p>
-            <p class="bank-name"><strong style="width: 30%;">SWIFT:</strong><span>{{ $order->entity->bank_swift_code }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">Account
+                    No:</strong><span>{{ $order->entity->bank_account_number }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">Account
+                    Name:</strong><span>{{ $order->entity->bank_account_name }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">Bank
+                    Name:</strong><span>{{ $order->entity->bank_name }}</span></p>
+            <p class="bank-name"><strong style="width: 30%;">Bank
+                    Address:</strong><span>{{ $order->entity->bank_address }}</span></p>
+            <p class="bank-name"><strong
+                    style="width: 30%;">SWIFT:</strong><span>{{ $order->entity->bank_swift_code }}</span></p>
         </div>
 
         <div class="right totals">
@@ -273,10 +308,13 @@
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
-                    <td><strong>{{ number_format($order->total, 2) }}</strong></td>
+                    <td><strong>USD {{ number_format($order->total, 2) }}</strong></td>
                 </tr>
             </table>
         </div>
+    </div>
+    <div class="footer">
+        <p>Electronic Invoice. No Signature required</p>
     </div>
 </body>
 
