@@ -82,10 +82,10 @@ class AddProduct extends Component
 
         $this->modified_by = Auth::id();
 
-        if ($this->product_img) {
+        /* if ($this->product_img) {
             $imagePath = $this->product_img->store('product_images', 'custom_product_images'); 
             $product_data['product_img'] = 'product_images/' . basename($imagePath);
-        }
+        } */
         
         Product::updateOrCreate(
             ['id' => $this->product_id],
@@ -104,7 +104,7 @@ class AddProduct extends Component
                 'created_by' => $this->created_by,
                 'modified_by' => $this->modified_by,
             ],
-            $product_data
+            // $product_data
         );
         
     
