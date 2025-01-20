@@ -76,8 +76,9 @@
                     <div class="card-header border-0 bg-white d-flex justify-content-between align-items-center py-3">
                         <h5 class="mb-0 font-weight-bold text-primary">Products</h5>
                         <a href="{{ route('admin.products.index') }}"
-                            class="btn btn-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
-                            style="transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'"
+                            class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+                            style="transition: transform 0.2s ease; width: 40px; height: 40px;" 
+                            onmouseover="this.style.transform='scale(1.1)'"
                             onmouseout="this.style.transform='scale(1)'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                                 class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -86,6 +87,7 @@
                             </svg>
                         </a>
                     </div>
+                    
 
                     <div class="table-responsive px-3 mt-2">
                         <table class="table table-hover align-middle mb-0">

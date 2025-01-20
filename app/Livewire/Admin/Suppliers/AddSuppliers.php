@@ -13,8 +13,6 @@ class AddSuppliers extends Component
     public $country;
     public $remarks;
     public $created_by;
-    public $created_date;
-    public $modified_date;
     public $isEditMode = false;
     public $modified_by;
 
@@ -23,8 +21,6 @@ class AddSuppliers extends Component
         'country' => 'required|string|max:255',
         'remarks' => 'nullable|string',
         'created_by' => 'required|string|max:255',
-        'created_date' => 'required|date',
-        'modified_date' => 'required|date',
     ];
 
     public function mount()
@@ -38,8 +34,6 @@ class AddSuppliers extends Component
                 $this->country = $supplier->country;
                 $this->remarks = $supplier->remarks;
                 $this->created_by = $supplier->created_by;
-                $this->created_date = $supplier->created_date;
-                $this->modified_date = $supplier->modified_date;
                 $this->isEditMode = true;
             }
         }
@@ -58,8 +52,6 @@ class AddSuppliers extends Component
                     'country' => $this->country,
                     'remarks' => $this->remarks,
                     'created_by' => $this->created_by,
-                    'created_date' => $this->created_date,
-                    'modified_date' => $this->modified_date,
                     'modified_by' => $this->modified_by,
                 ]);
                 notyf()->success('Supplier updated successfully.');
@@ -71,8 +63,6 @@ class AddSuppliers extends Component
                 'country' => $this->country,
                 'remarks' => $this->remarks,
                 'created_by' => $this->created_by,
-                'created_date' => $this->created_date,
-                'modified_date' => $this->modified_date,
                 'modified_by' => $this->modified_by,
             ]);
             notyf()->success('Supplier added successfully.');

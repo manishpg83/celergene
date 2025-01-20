@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('supplier_name'); // Textfield, Mandatory
-            $table->string('country'); // Drop Down, Mandatory
-            $table->text('remarks')->nullable(); // Textfield, Not Mandatory
-            $table->string('created_by'); // Textfield, Mandatory
-            $table->dateTime('created_date'); // Datetime, Mandatory
-            $table->dateTime('modified_date'); // Datetime, Mandatory
-            $table->softDeletes(); // For soft delete functionality
+            $table->string('supplier_name'); 
+            $table->string('country');
+            $table->text('remarks')->nullable(); 
+            $table->string('created_by'); 
+            $table->dateTime('created_date')->default(now());
+            $table->dateTime('modified_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
