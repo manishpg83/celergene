@@ -10,7 +10,9 @@
     style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
     <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
         <div class="logo" style="text-align: center; margin-bottom: 30px;">
-            <img src="{{ config('app.url') }}/admin/assets/img/branding/Celergen-Logo.png" alt="Celergen Logo" style="max-height: 60px; width: auto;">        </div>
+            <img src="{{ config('app.url') }}/admin/assets/img/branding/Celergen-Logo.png" alt="Celergen Logo"
+                style="max-height: 60px; width: auto;">
+        </div>
 
         <div class="greeting" style="margin-bottom: 30px; line-height: 1.6;">
             <p>Dear {{ $customer->salutation }} {{ $customer->first_name }},</p>
@@ -125,7 +127,10 @@
             style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
             <p>Thank you for your business!</p>
             <p>If you have any questions about this order, please contact us.</p>
+            <p style="margin-top: 20px;">Contact: <a href="mailto:marketing@celergenswiss.com"
+                    style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
         </div>
+
     </div>
 </body>
 
