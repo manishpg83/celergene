@@ -136,7 +136,7 @@ class Registration extends Component
 
             DB::commit();
 
-            session()->flash('message', 'Registration completed successfully');
+            notyf()->success(' Registration completed successfully!');
             return redirect()->route('login');
         } catch (\Exception $e) {
             DB::rollBack();

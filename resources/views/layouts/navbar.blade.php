@@ -27,7 +27,7 @@
                             <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
                                 class="d-block rounded" height="100" width="100" />
                         @else
-                            <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                            <img src="{{ asset('/admin/assets/img/avatars/profile_icon.jpeg') }}" alt class="rounded-circle" />
                         @endif
                     </div>
                 </a>
@@ -41,7 +41,7 @@
                                             <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
                                                 class="d-block rounded" height="100" width="100" />
                                         @else
-                                            <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt
+                                            <img src="{{ asset('/admin/assets/img/avatars/profile_icon.jpeg') }}" alt
                                                 class="rounded-circle" />
                                         @endif
                                     </div>

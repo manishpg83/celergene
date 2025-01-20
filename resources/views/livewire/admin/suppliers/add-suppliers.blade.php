@@ -38,15 +38,15 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
+                               {{--  <div class="col-md-6">
                                     <label class="form-label" for="created_by">Created By</label>
                                     <input type="text" class="form-control" id="created_by" wire:model="created_by" placeholder="Enter creator's name" required>
                                     @error('created_by')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <label class="form-label" for="created_date">Created Date</label>
                                     <input type="datetime-local"  min="{{ date('Y-m-d\TH:i') }}" class="form-control" id="created_date" wire:model="created_date" required>
                                     @error('created_date')
@@ -60,7 +60,7 @@
                                     @error('modified_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">

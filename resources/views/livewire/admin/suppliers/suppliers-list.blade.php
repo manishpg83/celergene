@@ -52,7 +52,7 @@
                                     <td>{{ $supplier->supplier_name }}</td>
                                     <td>{{ $supplier->country }}</td>
                                     <td>{{ $supplier->remarks }}</td>
-                                    <td>{{ $supplier->created_by }}</td>
+                                    <td>{{ $supplier->creator->name ?? 'Unknown' }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"

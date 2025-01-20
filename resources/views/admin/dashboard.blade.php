@@ -14,7 +14,7 @@
                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
                     <div class="card-body p-3">
                         <div class="text-center mb-2">
-                            <i class="fas fa-box fa-2x text-danger"></i>
+                            <i class="fas fa-box fa-2x text-primary"></i>
                         </div>
                         <h6 class="text-secondary">Orders</h6>
                         <p class="h4 font-weight-bold mb-0">{{ $totalOrders }}</p>
@@ -28,7 +28,7 @@
                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
                     <div class="card-body p-3">
                         <div class="text-center mb-2">
-                            <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-primary"></i>
                         </div>
                         <h6 class="text-secondary">Total Order</h6>
                         <p class="h4 font-weight-bold mb-0">${{ number_format($averageOrder, 2) }}</p>
@@ -56,7 +56,7 @@
                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
                     <div class="card-body p-3">
                         <div class="text-center mb-2">
-                            <i class="fas fa-users fa-2x text-info"></i>
+                            <i class="fas fa-users fa-2x text-primary"></i>
                         </div>
                         <h6 class="text-secondary">Customers</h6>
                         <p class="h4 font-weight-bold mb-0">{{ $totalCustomers }}</p>
@@ -76,16 +76,14 @@
                     <div class="card-header border-0 bg-white d-flex justify-content-between align-items-center py-3">
                         <h5 class="mb-0 font-weight-bold text-primary">Products</h5>
                         <a href="{{ route('admin.products.index') }}"
-                            class="btn btn-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
-                            style="transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'"
-                            onmouseout="this.style.transform='scale(1)'">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M5.854 4.646a.5.5 0 0 0-.708.708L9.293 9H1.5a.5.5 0 0 0 0 1h7.793l-4.147 4.146a.5.5 0 0 0 .708.708l5-5a.5.5 0 0 0 0-.708l-5-5z" />
-                            </svg>
+                            class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+                            style="transition: transform 0.2s ease; width: 40px; height: 40px;"
+                            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
+                    
+
 
                     <div class="table-responsive px-3 mt-2">
                         <table class="table table-hover align-middle mb-0">
@@ -138,11 +136,7 @@
                             class="btn btn-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
                             style="transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'"
                             onmouseout="this.style.transform='scale(1)'">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M5.854 4.646a.5.5 0 0 0-.708.708L9.293 9H1.5a.5.5 0 0 0 0 1h7.793l-4.147 4.146a.5.5 0 0 0 .708.708l5-5a.5.5 0 0 0 0-.708l-5-5z" />
-                            </svg>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
 
@@ -205,11 +199,7 @@
                         class="btn btn-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
                         style="transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'"
                         onmouseout="this.style.transform='scale(1)'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                            class="bi bi-arrow-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M5.854 4.646a.5.5 0 0 0-.708.708L9.293 9H1.5a.5.5 0 0 0 0 1h7.793l-4.147 4.146a.5.5 0 0 0 .708.708l5-5a.5.5 0 0 0 0-.708l-5-5z" />
-                        </svg>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
                 <div class="table-responsive px-3 mb-2">
