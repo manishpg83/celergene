@@ -10,7 +10,8 @@
                     <img src="{{ $image->temporaryUrl() }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded"
                         id="uploadedAvatar" />
                 @else
-                    <img src="{{ asset('/admin/assets/img/avatars/1.png') }}" alt="user-avatar" class="rounded-circle" />
+                    <img src="{{ asset($admin->profile_image ?? '/admin/assets/img/avatars/profile_icon.jpeg') }}"
+                        alt="user-avatar" class="rounded-circle w-px-100 h-px-100" />
                 @endif
 
                 <div class="button-wrapper">

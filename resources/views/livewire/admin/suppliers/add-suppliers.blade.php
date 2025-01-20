@@ -38,13 +38,13 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
+                               {{--  <div class="col-md-6">
                                     <label class="form-label" for="created_by">Created By</label>
                                     <input type="text" class="form-control" id="created_by" wire:model="created_by" placeholder="Enter creator's name" required>
                                     @error('created_by')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 {{-- <div class="col-md-6">
                                     <label class="form-label" for="created_date">Created Date</label>
