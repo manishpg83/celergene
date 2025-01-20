@@ -24,7 +24,7 @@
                 <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         @if ($admin->profile_photo_path)
-                            <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
+                            <img src="{{ asset($admin->profile_photo_path) }}" alt="user-avatar"
                                 class="d-block rounded" height="100" width="100" />
                         @else
                             <img src="{{ asset('/admin/assets/img/avatars/profile_icon.jpeg') }}" alt class="rounded-circle" />
@@ -38,7 +38,7 @@
                                 <div class="flex-shrink-0 me-2">
                                     <div class="avatar avatar-online">
                                         @if ($admin->profile_photo_path)
-                                            <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
+                                            <img src="{{ asset($admin->profile_photo_path) }}" alt="user-avatar"
                                                 class="d-block rounded" height="100" width="100" />
                                         @else
                                             <img src="{{ asset('/admin/assets/img/avatars/profile_icon.jpeg') }}" alt

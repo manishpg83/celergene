@@ -3,35 +3,53 @@
         <!-- Account -->
         <div class="card-body">
             <div class="d-flex align-items-start align-items-sm-center gap-6">
-                @if ($admin->profile_photo_path)
-                    <img src="{{ asset('storage/' . $admin->profile_photo_path) }}" alt="user-avatar"
-                        class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
-                @elseif ($image)
-                    <img src="{{ $image->temporaryUrl() }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded"
-                        id="uploadedAvatar" />
-                @else
-                    <img src="{{ asset($admin->profile_image ?? '/admin/assets/img/avatars/profile_icon.jpeg') }}"
-                        alt="user-avatar" class="rounded-circle w-px-100 h-px-100" />
-                @endif
-
+                <div class="position-relative">
+                    @if ($admin->profile_photo_path || $temp_profile_photo)
+                        <button type="button" 
+                                class="position-absolute top-0 start-101 translate-end btn profile-btn rounded-circle"
+                                wire:click="resetImage">
+                            <i class="ti ti-x"></i>
+                        </button>
+                    @endif
+                    
+                    @if ($temp_profile_photo)
+                        <img src="{{ $temp_profile_photo->temporaryUrl() }}" 
+                             alt="user-avatar"
+                             class="d-block w-px-100 h-px-100 rounded" 
+                             id="uploadedAvatar" />
+                    @elseif ($admin->profile_photo_path)
+                        <img src="{{ asset($admin->profile_photo_path) }}" 
+                             alt="user-avatar"
+                             class="d-block w-px-100 h-px-100 rounded" 
+                             id="uploadedAvatar" />
+                    @else
+                        <img src="{{ asset('/admin/assets/img/avatars/profile_icon.jpeg') }}" 
+                             alt="user-avatar" 
+                             class="rounded-circle w-px-100 h-px-100" />
+                    @endif
+                </div>
+            
                 <div class="button-wrapper">
                     <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
                         <span class="d-none d-sm-block">Upload new photo</span>
                         <i class="ti ti-upload d-block d-sm-none"></i>
-                        <input type="file" id="upload" class="account-file-input" hidden
-                            accept="image/png, image/jpeg" wire:model="image" />
+                        <input type="file" 
+                               id="upload" 
+                               class="account-file-input" 
+                               hidden
+                               accept="image/png, image/jpeg" 
+                               wire:model="profile_photo_path" />
                     </label>
-
-                    {{-- Uncomment the reset button if you want a reset functionality --}}
-                    {{-- <button type="button" class="btn btn-label-secondary account-image-reset mb-4" wire:click="resetImage">
-                        <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Reset</span>
-                    </button> --}}
-
-                    <div>Allowed JPG or PNG. Max size of 1MB</div>
+            
+                    <div>
+                        <p class="text-muted mb-0">Allowed JPG or PNG. Max size of 1MB</p>
+                        @error('profile_photo_path') 
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
-        </div>
+            
 
         <div class="card-body pt-4">
             <form wire:submit.prevent="updateProfile">

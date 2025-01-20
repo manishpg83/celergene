@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +18,8 @@ class Profile extends Component
     public $email;
     public $new_password;
     public $new_password_confirmation;
-    public $image;
+    public $profile_photo_path;
+    public $temp_profile_photo;
 
     public $deleteConfirmation = false;
     public $password_for_deletion;
@@ -29,7 +29,7 @@ class Profile extends Component
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::guard('web')->id(),
-            'image' => 'nullable|image|max:1024',
+            'profile_photo_path' => 'nullable|image|max:1024',
             'new_password' => 'nullable|string|min:8|confirmed',
         ];
     }
@@ -39,6 +39,11 @@ class Profile extends Component
         $this->admin = Auth::guard('web')->user();
         $this->name = $this->admin->name;
         $this->email = $this->admin->email;
+    }
+
+    public function updatedProfilePhotoPath()
+    {
+        $this->temp_profile_photo = $this->profile_photo_path;
     }
 
     public function updateProfile()
@@ -51,13 +56,20 @@ class Profile extends Component
             'email' => $this->email,
         ];
 
-        if ($this->image) {
-            $imagePath = $this->image->store('profile_images', 'public');
+        if ($this->profile_photo_path) {
+            $imagePath = $this->profile_photo_path->store('', 'custom_profile_images');
             if ($imagePath) {
+                // Delete old image if it exists
                 if ($admin->profile_photo_path) {
                     Storage::disk('public')->delete($admin->profile_photo_path);
                 }
-                $updateData['profile_photo_path'] = $imagePath;
+                $newImagePath = 'admin/assets/img/profile_img/' . basename($imagePath);
+                $updateData['profile_photo_path'] = $newImagePath;
+                
+                // Update the admin model and property immediately
+                $admin->profile_photo_path = $newImagePath;
+                $this->admin->profile_photo_path = $newImagePath;
+                
                 notyf()->success('Image uploaded successfully.');
             } else {
                 notyf()->error('Failed to upload image.');
@@ -71,7 +83,14 @@ class Profile extends Component
 
         try {
             User::where('id', $admin->id)->update($updateData);
-            $this->reset(['new_password', 'new_password_confirmation', 'image']);
+            
+            // Reset only password-related fields, keep the image data
+            $this->reset(['new_password', 'new_password_confirmation']);
+            
+            // Reset upload-related properties after successful update
+            $this->profile_photo_path = null;
+            $this->temp_profile_photo = null;
+            
             notyf()->success('Profile updated successfully.');
         } catch (\Exception $e) {
             $this->notify('An error occurred while updating your profile', 'error');
@@ -84,9 +103,13 @@ class Profile extends Component
             Storage::disk('public')->delete($this->admin->profile_photo_path);
             $this->admin->profile_photo_path = null;
             $this->admin->save();
+            
+            // Reset all image-related properties
+            $this->profile_photo_path = null;
+            $this->temp_profile_photo = null;
+            
             $this->notify('Profile image removed successfully');
         }
-        $this->image = null;
     }
 
     public function confirmDelete()
