@@ -25,8 +25,8 @@
                 <div class="address-title"
                     style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Billing Address:</div>
                 <p>{{ $customer->first_name }} {{ $customer->last_name }}</p>
-                @if ($order->billing_address)
-                    <p>{{ $order->billing_address }}</p>
+                @if ($customer->billing_address)
+                    <p>{{ $customer->billing_address }}</p>
                 @endif
                 @if ($customer->mobile_number)
                     <p>Phone: {{ $customer->mobile_number }}</p>
@@ -66,9 +66,6 @@
                         Unit Price</th>
                     <th
                         style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
-                        DISCOUNT</th>
-                    <th
-                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
                         Amount</th>
                 </tr>
             </thead>
@@ -81,8 +78,6 @@
                             {{ $detail->quantity }}</td>
                         <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
                             ${{ number_format($detail->unit_price, 2) }}</td>
-                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            -${{ number_format($detail->discount, 2) }}</td>
                         <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
                             ${{ number_format($detail->total, 2) }}</td>
                     </tr>
@@ -114,6 +109,15 @@
                 </tr>
             @endif
 
+            @if ($order->freight > 0)
+                <tr>
+                    <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Freight:
+                    </td>
+                    <td class="value" style="padding: 8px; text-align: right; color: #008000;">
+                        +${{ number_format($order->freight, 2) }}</td>
+                </tr>
+            @endif
+
             <tr class="total-line">
                 <td class="label"
                     style="padding: 8px; text-align: left; font-weight: bold; color: #333; border-top: 2px solid #eee;">
@@ -126,8 +130,8 @@
         <div class="footer"
             style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
             <p>Thank you for your business!</p>
-            <p>If you have any questions about this order, please contact us.</p>
-            <p style="margin-top: 20px;">Contact: <a href="mailto:marketing@celergenswiss.com"
+            <p>If you have any queries, please feel free to contact us </p>
+            <p style="margin-top: 20px;">At: <a href="mailto:marketing@celergenswiss.com"
                     style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
         </div>
 
