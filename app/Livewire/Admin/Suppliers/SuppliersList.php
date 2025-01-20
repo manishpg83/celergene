@@ -12,6 +12,8 @@ class SuppliersList extends Component
 
     public $perPage = 5;
     public $search = '';
+    public $sortField = 'supplier_name'; // Default sort field
+    public $sortDirection = 'asc';      // Default sort direction
     public $confirmingDeletion = false;
     public $supplierId;
 
@@ -23,15 +25,33 @@ class SuppliersList extends Component
             ->withTrashed()
             ->where(function ($query) {
                 $query->where('supplier_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('country', 'like', '%' . $this->search . '%');
+                    ->orWhere('country', 'like', '%' . $this->search . '%')
+                    ->orWhere('remarks', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('creator', function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%');
+                    });
             })
+            ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
+
         $perpagerecords = perpagerecords();
+
         return view('livewire.admin.suppliers.suppliers-list', [
             'suppliers' => $suppliers,
             'perpagerecords' => $perpagerecords,
         ]);
     }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
+    }
+
 
     public function confirmDelete($id)
     {

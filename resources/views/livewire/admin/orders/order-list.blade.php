@@ -228,7 +228,7 @@
 
                                                 <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
                                                     class="btn btn-sm btn-warning mr-1" data-bs-toggle="tooltip"
-                                                    title="Manage Delivery">
+                                                    title="Manage DO">
                                                     <i class="bi bi-truck" style="font-size: 14px;"></i>
                                                 </a>
                                             </div>

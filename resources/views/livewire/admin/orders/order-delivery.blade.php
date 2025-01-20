@@ -4,7 +4,7 @@
             <div class="card mt-4">
                 <div
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-between align-items-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">Order Delivery</h5>
+                    <h5 class="card-title mb-sm-0 me-2">Delivery Order</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle">Back</span>
@@ -39,6 +39,7 @@
                                     <p class="mb-1">Name: {{ $order->customer->first_name }}
                                         {{ $order->customer->last_name }}</p>
                                     <p class="mb-1">Email: {{ $order->customer->email }}</p>
+                                    <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
                                     <p class="mb-1">Shipping Address: {{ $order->shipping_address }}</p>
                                 </div>
                             </div>
@@ -122,7 +123,7 @@
                                         </td>
                                         <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         {{-- <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td> --}}
-                                       {{--  <td class="text-danger text-center">
+                                        {{--  <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
                                                 -${{ number_format($detail->discount, 2) }}
                                             @else
@@ -209,8 +210,7 @@
                                     <hr class="my-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="h6 mb-0">Total:</span>
-                                        <span
-                                            class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
+                                        <span class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -221,11 +221,11 @@
                         <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="updateDelivery">
                                 @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                    Update Partial Delivery
+                                    Update Delivery Order
                                 @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
-                                    {{ $isInitialConsignment ? 'Process Initial Consignment' : 'Update Consignment Delivery' }}
+                                    {{ $isInitialConsignment ? 'Update Delivery Order' : 'Update Delivery Order' }}
                                 @else
-                                    Update Delivery
+                                    Update Delivery Order
                                 @endif
                             </span>
                             <span wire:loading wire:target="updateDelivery">Updating...</span>

@@ -34,13 +34,34 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('supplier_name')" style="cursor: pointer;">Distributor Name</th>
-                            <th wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
-                            <th>Remarks</th>
-                            <th wire:click="sortBy('created_by')" style="cursor: pointer;">Created By</th>
+                            <th wire:click="sortBy('supplier_name')" style="cursor: pointer;">
+                                Distributor Name
+                                @if ($sortField === 'supplier_name')
+                                    <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </th>
+                            <th wire:click="sortBy('country')" style="cursor: pointer;">
+                                Country
+                                @if ($sortField === 'country')
+                                    <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </th>
+                            <th wire:click="sortBy('remarks')" style="cursor: pointer;">
+                                Remarks
+                                @if ($sortField === 'remarks')
+                                    <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </th>
+                            <th wire:click="sortBy('created_by')" style="cursor: pointer;">
+                                Created By
+                                @if ($sortField === 'created_by')
+                                    <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         @if ($suppliers->isEmpty())
                             <tr>
