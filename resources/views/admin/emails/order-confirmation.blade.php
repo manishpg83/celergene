@@ -37,14 +37,34 @@
             </div>
 
             <div class="shipping-address" style="float: right; width: 48%;">
-                <div class="address-title"
-                    style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Shipping Address:
+                <div class="address-title" style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">
+                    Shipping Address:
                 </div>
-                <p>{{ $customer->first_name }} {{ $customer->last_name }}</p>
-                @if ($customer->shipping_address_1)
-                    <p>{{ $customer->shipping_address_1 }}</p>
+                @if ($order->shipping_address)
+                    @php
+                        $shippingDetails = explode(',', $order->shipping_address);
+                        $name = trim($shippingDetails[0] ?? '');
+                        $address = trim($shippingDetails[1] ?? '');
+                        $country = trim($shippingDetails[2] ?? '');
+                        $postalCode = trim($shippingDetails[3] ?? '');
+                    @endphp
+                    @if ($name)
+                        <p>{{ $name }}</p>
+                    @endif
+                    @if ($address)
+                        <p>{{ $address }}</p>
+                    @endif
+                    @if ($country)
+                        <p>{{ $country }}</p>
+                    @endif
+                    @if ($postalCode)
+                        <p>{{ $postalCode }}</p>
+                    @endif
+                @else
+                    <p>No shipping address provided.</p>
                 @endif
             </div>
+            
         </div>
 
         <div>
