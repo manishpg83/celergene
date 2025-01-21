@@ -148,10 +148,20 @@
                                 </div>
 
                                 <div class="col-12 mt-4">
-                                    <button wire:click.prevent="save" class="btn btn-primary">
-                                        {{ $entityId ? 'Update Entity' : 'Add Entity' }}
+                                    <button 
+                                        wire:click.prevent="save" 
+                                        class="btn btn-primary" 
+                                        wire:loading.attr="disabled"
+                                    >
+                                        <span wire:loading.remove>
+                                            {{ $entityId ? 'Update Entity' : 'Add Entity' }}
+                                        </span>
+                                        <span wire:loading>
+                                            <i class="fas fa-spinner fa-spin"></i> Saving...
+                                        </span>
                                     </button>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
