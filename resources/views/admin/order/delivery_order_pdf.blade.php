@@ -107,7 +107,6 @@
                 <div class="box">
                     <p><strong>{{ $entity->company_name ?? 'Your Company Name' }}</strong></p>
                     <p>{{ $entity->address ?? 'Company Address' }}</p>
-                    <p>Luxembourg</p>
                 </div>
             </div>
             <div class="flex-item">
