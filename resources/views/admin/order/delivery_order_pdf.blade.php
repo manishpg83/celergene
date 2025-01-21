@@ -123,9 +123,10 @@
             
         </div>
         <div>
-            <span style="display:inline-block;width: 50%;"><strong>ID:</strong> 25756</span>
-            <span><strong>DATE:</strong> 12-12-2024</span>
+            <span style="display:inline-block;width: 50%;"><strong>ID:</strong> {{ $deliveryOrder->delivery_number }}</span>
+            <span><strong>DATE:</strong> {{ \Carbon\Carbon::parse($deliveryOrder->delivery_date)->format('d-m-Y') }}</span>
         </div>
+        
         <table class="table">
             <thead>
                 <tr>
