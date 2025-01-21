@@ -108,89 +108,88 @@
                         <!-- Shipping Address -->
 
                         <br><br>
+                        <!-- Updated HTML -->
                         <div class="col-xs-12" style="margin-bottom: 20px;">
                             <div class="icons-number pull-left">2</div>
                             <div style="padding-left:10px;float: left;">Shipping Address
                             </div>
                             <div class="pull-right remember-rev" style="margin-right: 0px;">
-                                <input 
-                                    type="checkbox" 
-                                    name="add_same" 
-                                    id="add_same" 
-                                    value="on" 
-                                    wire:model="useBillingAddress" 
-                                    onclick="SwitchAddress(this);">
+                                <input type="checkbox" name="add_same" id="add_same" value="on"
+                                    wire:model="useBillingAddress" onclick="SwitchAddress(this);">
                                 <label for="add_same" class="pull-right">Ship to same address?</label>
-                            </div>                            
-                            
+                            </div>
                         </div>
-                        <div id="ship_address" style="display: block;">
-                            <br><br>
-                            <div class="col-xs-12 select-address-wrapper">
-                                <select id="ship-address" name="ship_address">
-                                    <option value="">Select Shipping Address</option>
-                                    @foreach($shippingAddresses as $address)
-                                        @if($address['address'])
-                                            <option 
-                                                value="{{ $address['address'] }}" 
-                                                data-receiver-name="{{ $address['receiver_name'] }}" 
-                                                data-country="{{ $address['country'] }}" 
-                                                data-postal-code="{{ $address['postal_code'] }}">
-                                                {{ $address['receiver_name'] }} - {{ $address['address'] }}, {{ $address['country'] }}, {{ $address['postal_code'] }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
-                            </div>
-                            
-                            <div class="col-xs-12 col-md-6">
-                                <input maxlength="100" type="text" name="firstname" id="firstname"
-                                    class="form-control" placeholder="First Name" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                <input maxlength="100" type="text" name="lastname" id="lastname"
-                                    class="form-control" placeholder="Last Name" value="">
-                            </div>
-                            <div class="col-xs-12" style="padding-bottom: 20px;">
-                                <input maxlength="100" type="text" name="companyname" id="company"
-                                    class="form-control" placeholder="Company Name" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <input type="text" maxlength="100" name="address1" id="address1"
-                                    class="form-control" placeholder="Address 1" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                <input type="text" maxlength="100" name="address2" id="address2"
-                                    class="form-control" placeholder="Address 2" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <input type="text" maxlength="100" name="city" id="city"
-                                    class="form-control" placeholder="City" valuevalue="">
-                            </div>
-                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                <input maxlength="20" type="text" name="zip" id="zip"
-                                    class="form-control" placeholder="Postcode" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <select class="form-control" id="country" name="country">
-                                    <option value="" disabled="" selected="">Select country</option>
-                                    <option data-code="AF" value="AF-Afghanistan"> Afghanistan</option>
-                                    <option data-code="AX" value="AX-Aland Islands"> Aland Islands</option>
-                                    <option data-code="AL" value="AL-Albania"> Albania</option>
-                                </select>
-                                <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
-                            </div>
-                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                <input type="text" maxlength="100" name="state" id="state"
-                                    class="form-control" placeholder="State" value="">
-                            </div>
-                            <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                <input type="text" maxlength="20" name="phone" id="phone"
-                                    class="form-control" placeholder="Phone" value="">
-                            </div>
-                            <div class="col-xs-12" style="padding-bottom: 20px;">
-                                <textarea class="form-control" type="text" name="shipnotes" id="shipnotes" rows="8" placeholder="Notes">                                                                            </textarea>
+                        <div id="ship_address">
+                            <div class="row form-item-ck">
+                                <div class="col-xs-12 select-address-wrapper">
+                                    <select id="ship-address" name="ship_address" class="form-control">
+                                        <option value="">Select Shipping Address</option>
+                                        @foreach ($shippingAddresses as $address)
+                                            @if ($address['address'])
+                                                <option value="{{ $address['address'] }}" 
+                                                    data-receiver-name="{{ $address['receiver_name'] }}"
+                                                    data-country="{{ $address['country'] }}" 
+                                                    data-postal-code="{{ $address['postal_code'] }}">
+                                                    {{ $address['receiver_name'] }} - {{ $address['address'] }}, {{ $address['country'] }}, {{ $address['postal_code'] }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
+                                </div>
+                        
+                                <div class="col-xs-12 col-md-6">
+                                    <input type="text" maxlength="100" name="firstname" id="firstname" class="form-control"
+                                        placeholder="First Name" data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="100" name="lastname" id="lastname" class="form-control"
+                                        placeholder="Last Name" data-validation="required">
+                                </div>
+                                <div class="col-xs-12" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="100" name="companyname" id="company" class="form-control"
+                                        placeholder="Company Name" data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <input type="text" maxlength="100" name="address1" id="address1" class="form-control"
+                                        placeholder="Address 1" data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="100" name="address2" id="address2" class="form-control"
+                                        placeholder="Address 2">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <input type="text" maxlength="100" name="city" id="city" class="form-control" placeholder="City"
+                                        data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="20" name="zip" id="zip" class="form-control" placeholder="Postcode"
+                                        data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="" disabled selected>Select country</option>
+                                        <option data-code="AF" value="AF-Afghanistan">Afghanistan</option>
+                                        <option data-code="AX" value="AX-Aland Islands">Aland Islands</option>
+                                        <option data-code="AL" value="AL-Albania">Albania</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="100" name="state" id="state" class="form-control" placeholder="State"
+                                        data-validation="required">
+                                </div>
+                                <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
+                                    <input type="text" maxlength="20" name="phone" id="phone" class="form-control" placeholder="Phone"
+                                        data-validation="number">
+                                </div>
+                                <div class="col-xs-12 col-md-12" style="padding-bottom: 20px;">
+                                    <textarea class="form-control" name="shipnotes" id="shipnotes" rows="4"
+                                        placeholder="Notes"></textarea>
+                                </div>
+                                <div class="col-xs-12 col-md-12" style="padding-bottom: 5px;">
+                                    Please ensure that the courier service (DHL/UPS) can reach you at your contact number to avoid delivery failure.
+                                    <hr>
+                                </div>
                             </div>
                         </div>
                         <div class=" col-xs-12 col-md-10">
@@ -202,7 +201,6 @@
                             2. Taxes, duties and custom charges may apply and are determined by your local
                             government and vary by country.
                         </div>
-
                     </div>
                 </div>
                 <div class="col-sm-4">

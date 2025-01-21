@@ -224,7 +224,7 @@
                                             @enderror
                                         </div> --}}
 
-                                        @if ($workflow_type === 'multi_delivery')
+                                        {{-- @if ($workflow_type === 'multi_delivery')
                                             <div class="col-md-2">
                                                 <div class="col-6 mb-1">Delivery Date</div>
                                                 <input type="date"
@@ -248,7 +248,7 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        @endif
+                                        @endif --}}
 
                                         <div class="col-md-1 mb-1">
                                             <button wire:click.prevent="removeOrderDetail({{ $index }})"

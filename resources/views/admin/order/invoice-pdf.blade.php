@@ -252,9 +252,9 @@
                 <tr>
                     <td style="width: 50%;">{{ $detail->product->product_name }}</td>
                     <td style="width: 15%;">{{ $detail->quantity }}</td>
-                    <td style="width: 15%;">{{ number_format($detail->unit_price, 2) }}</td>
+                    <td style="width: 15%;">${{ number_format($detail->unit_price, 2) }}</td>
                     {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
-                    <td style="width: 20%;">{{ number_format($detail->total, 2) }}</td>
+                    <td style="width: 20%;">${{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
             @for ($i = 0; $i < $blankRows; $i++)
@@ -292,7 +292,7 @@
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ number_format($order->subtotal, 2) }}</td>
+                    <td>${{ number_format($order->subtotal, 2) }}</td>
                 </tr>
                 {{-- <tr>
                     <td>TOTAL DISCOUNT</td>
@@ -300,15 +300,15 @@
                 </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
-                    <td><span>+{{ number_format($order->freight, 2) }}</span></td>
+                    <td style="color: green"><span>${{ number_format($order->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td><span>+{{ number_format($order->tax, 2) }}</span></td>
+                    <td style="color: green"><span>${{ number_format($order->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
-                    <td><strong>USD {{ number_format($order->total, 2) }}</strong></td>
+                    <td><strong>${{ number_format($order->total, 2) }}</strong></td>
                 </tr>
             </table>
         </div>

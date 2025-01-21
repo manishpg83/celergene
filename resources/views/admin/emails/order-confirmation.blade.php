@@ -10,7 +10,7 @@
     style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
     <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
         <div class="logo" style="text-align: center; margin-bottom: 30px;">
-            <img src="{{ config('app.url') }}/admin/assets/img/branding/Celergen-Logo.png" alt="Celergen Logo"
+            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png" alt="Celergen Logo"
                 style="max-height: 60px; width: auto;">
         </div>
 

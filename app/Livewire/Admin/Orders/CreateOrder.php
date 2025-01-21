@@ -88,15 +88,7 @@ class CreateOrder extends Component
                 'min:0',
             ],
             'workflow_type' => 'required|string|in:' . implode(',', array_keys(OrderWorkflowType::options())),
-        ];
-
-        if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
-            $rules['orderDetails.*.delivery_date'] = 'required|date|after_or_equal:order_date';
-        }
-
-        if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
-            $rules['orderDetails.*.consignment_terms'] = 'required|string|max:255';
-        }
+        ];  
 
         return $rules;
     }
@@ -196,13 +188,6 @@ class CreateOrder extends Component
             'manual_product_name' => '',
             'sample_quantity' => ''
         ];
-
-        if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY->value) {
-            $newDetail['delivery_date'] = '';
-        }
-        if ($this->workflow_type === OrderWorkflowType::CONSIGNMENT->value) {
-            $newDetail['consignment_terms'] = '';
-        }
 
         $this->orderDetails[] = $newDetail;
         $this->calculateTotals();
