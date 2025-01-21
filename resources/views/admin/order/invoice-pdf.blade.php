@@ -300,11 +300,11 @@
                 </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
-                    <td style="color: green"><span>${{ number_format($order->freight, 2) }}</span></td>
+                    <td><span style="color: green">${{ number_format($order->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td style="color: green"><span>${{ number_format($order->tax, 2) }}</span></td>
+                    <td><span style="color: green">${{ number_format($order->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
