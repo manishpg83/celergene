@@ -193,8 +193,8 @@
                 <tr>
                     <td style="width: 50%;">{{ $invoiceDetail->product->product_name }}</td>
                     <td style="width: 15%;">{{ $invoiceDetail->quantity }}</td>
-                    <td style="width: 15%;">{{ number_format($invoiceDetail->unit_price, 2) }}</td>
-                    <td style="width: 20%;">{{ number_format($invoiceDetail->total, 2) }}</td>
+                    <td style="width: 15%;">${{ number_format($invoiceDetail->unit_price, 2) }}</td>
+                    <td style="width: 20%;">${{ number_format($invoiceDetail->total, 2) }}</td>
                 </tr>
             @endforeach
             <tr class="blankspace">
@@ -219,19 +219,19 @@
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ number_format($invoice->subtotal, 2) }}</td>
+                    <td>${{ number_format($invoice->subtotal, 2) }}</td>
                 </tr>
                 <tr>
                     <td>FREIGHT</td>
-                    <td><span>+{{ number_format($invoice->freight, 2) }}</span></td>
+                    <td style="color: green"><span>${{ number_format($invoice->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td><span>+{{ number_format($invoice->tax, 2) }}</span></td>
+                    <td style="color: green"><span>${{ number_format($invoice->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
-                    <td><strong>{{ number_format($invoice->total, 2) }}</strong></td>
+                    <td><strong>${{ number_format($invoice->total, 2) }}</strong></td>
                 </tr>
             </table>
         </div>
