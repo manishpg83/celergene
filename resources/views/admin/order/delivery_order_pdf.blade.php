@@ -98,7 +98,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="left">Celergen International Limited</div>
+        <div class="left">{{ $entity->company_name ?? 'Your Company Name' }}</div>
         <div class="right"><h2>Delivery Order</h2></div>
     </div>
     <div class="content">
@@ -148,7 +148,7 @@
             </tbody>
         </table>
         <div class="footer">
-            <strong>Remarks:</strong>
+            <strong>Remarks: {{ $deliveryOrder->first()->remarks ?? 'No remarks available' }}</strong>
             <p></p>
         </div>
     </div>

@@ -232,7 +232,8 @@ class OrderDetails extends Component
                 ->get();
 
             $customer = $deliveryOrder->orderMaster->customer;
-            $entity = Entity::first();
+            $entityId = $deliveryOrder->orderMaster->entity_id;
+            $entity = Entity::find($entityId);
 
             if (!$customer) {
                 notyf()->error("Customer not found.");
