@@ -201,6 +201,7 @@
                             2. Taxes, duties and custom charges may apply and are determined by your local
                             government and vary by country.
                         </div>
+
                     </div>
                 </div>
                 <div class="col-sm-4">

@@ -17,7 +17,7 @@ class Checkout extends Component
     public $billingAddress;
     public $shippingAddresses = [];
     public $selectedShippingAddress;
-    public $useBillingAddress = true; // Default to checked
+    public $useBillingAddress = true;
 
     public $user;
     public $cartItems = [];
@@ -34,7 +34,7 @@ class Checkout extends Component
     {
         $this->user = Auth::user();
         $this->loadBillingAddress();
-        $this->loadShippingAddresses(); // Fetch shipping addresses
+        $this->loadShippingAddresses();
         $this->updateCart();
     }
 
@@ -118,15 +118,15 @@ class Checkout extends Component
     {
         $this->subtotal = 0;
 
-        foreach ($this->cartItems as $productCode => &$item) { // Use reference to modify the cart item
+        foreach ($this->cartItems as $productCode => &$item) { 
             $product = Product::where('product_code', $productCode)->first();
             if ($product && isset($item['quantity'])) {
-                $item['total'] = $product->unit_price * $item['quantity']; // Add 'total' to the cart item
-                $this->subtotal += $item['total']; // Add the item total to the subtotal
+                $item['total'] = $product->unit_price * $item['quantity']; 
+                $this->subtotal += $item['total']; 
             }
         }
 
-        $this->total = $this->subtotal; // Add tax/shipping calculations here if needed
+        $this->total = $this->subtotal; 
     }
 
 
@@ -139,15 +139,16 @@ class Checkout extends Component
 
         $shippingAddress = $this->useBillingAddress
             ? $this->billingAddress->billing_address
-            : request()->input('shipping_address'); // Assuming the form sends a shipping address via request
-
+            : request()->input('shipping_address'); 
         try {
             DB::beginTransaction();
-
+            $customer = DB::table('customers')
+            ->where('user_id', $this->user->id)
+            ->first();
             $orderNumber = 'ORD-' . Str::random(10);
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
-                'customer_id' => $this->user->id,
+                'customer_id' => $customer->id,
                 'entity_id' => 1,
                 'order_date' => now(),
                 'subtotal' => $this->subtotal,
