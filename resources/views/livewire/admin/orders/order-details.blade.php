@@ -103,8 +103,11 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
-                                        </td>
+                                            ${{ number_format(
+                                                (intval($detail->quantity) - intval($detail->sample_quantity)) * floatval($detail->unit_price) - floatval($detail->discount),
+                                                2
+                                            ) }}
+                                        </td>                                        
                                     </tr>
                                 @endforeach
                             </tbody>

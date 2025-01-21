@@ -152,7 +152,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="{{ public_path('storage/logo.png') }}" alt="Company Logo">
+        <img src="{{ public_path('admin/assets/img/branding/Celergen-Logo.png') }}" alt="Company Logo">
     </div>
     <div class="header">
         <div class="company-name">{{ $invoice->company_name }}</div>
