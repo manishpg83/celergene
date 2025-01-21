@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use App\Models\Payment;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class Checkout extends Component
 {
@@ -178,7 +180,7 @@ class Checkout extends Component
             }
 
             Mail::to($this->user->email)->send(new UserOrderConfirmation($orderNumber, $this->user));
-
+            $this->redirectToPaypal($orderId, $orderNumber);
             session()->forget('cart');
 
             $this->dispatch('cartCountUpdated');
@@ -198,7 +200,71 @@ class Checkout extends Component
         }
     }
 
+    private function redirectToPaypal($orderId, $orderNumber)
+    {
+        try {
+            $provider = new PayPalClient;
+            
+            // Create a new instance with API credentials
+            $provider->getAccessToken();
 
+            // Prepare the order data
+            $order = [
+                'intent' => 'CAPTURE',
+                'application_context' => [
+                    'return_url' => route('paypal.success'),
+                    'cancel_url' => route('paypal.cancel'),
+                ],
+                'purchase_units' => [
+                    [
+                        'reference_id' => $orderNumber,
+                        'amount' => [
+                            'currency_code' => config('paypal.currency', 'USD'),
+                            'value' => number_format($this->total, 2, '.', ''),
+                        ],
+                        'description' => "Order #{$orderNumber}",
+                    ]
+                ]
+            ];
+
+            // Create PayPal Order
+            $response = $provider->createOrder($order);
+
+            Log::info('PayPal Order Creation Response:', ['response' => $response]);
+
+            if (isset($response['id']) && $response['id']) {
+                // Save payment record
+                Payment::create([
+                    'order_id' => $orderId,
+                    'payment_method' => 'PayPal',
+                    'transaction_id' => $response['id'],
+                    'amount' => $this->total,
+                    'currency' => config('paypal.currency', 'USD'),
+                    'status' => 'pending',
+                ]);
+
+                // Find the approve link
+                $approveLink = collect($response['links'])
+                    ->firstWhere('rel', 'approve')['href'] ?? null;
+
+                if ($approveLink) {
+                    return redirect($approveLink);
+                }
+            }
+
+            throw new \Exception('Failed to create PayPal order: ' . json_encode($response));
+
+        } catch (\Exception $e) {
+            Log::error('PayPal Integration Error: ' . $e->getMessage(), [
+                'order_id' => $orderId,
+                'order_number' => $orderNumber,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            session()->flash('error', 'Payment processing failed. Please try again later.');
+            return redirect()->route('checkout.error');
+        }
+    }
 
     public function render()
     {
