@@ -26,6 +26,7 @@ class Checkout extends Component
     public $billing_state;
     public $billing_phone;
     public $billing_email;
+    public $billing_company_name;
     public $billing_country;
     public $billing_postal_code;
     public $billing_fname;
@@ -179,6 +180,7 @@ class Checkout extends Component
                     'billing_state',
                     'billing_phone',
                     'billing_email',
+                    'billing_company_name',
                     'billing_country',
                     'billing_postal_code',
                     'billing_fname',
@@ -192,6 +194,7 @@ class Checkout extends Component
                 $this->billing_state = $this->billingAddress->billing_state ?? '';
                 $this->billing_phone = $this->billingAddress->billing_phone ?? '';
                 $this->billing_email = $this->billingAddress->billing_email ?? '';
+                $this->billing_company_name = $this->billingAddress->billing_company_name ?? '';
                 $this->billing_country = $this->billingAddress->billing_country ?? '';
                 $this->billing_postal_code = $this->billingAddress->billing_postal_code ?? '';
                 $this->billing_fname = $this->billingAddress->billing_fname ?? '';
@@ -253,6 +256,7 @@ class Checkout extends Component
                     'billing_state' => $this->billing_state,
                     'billing_phone' => $this->billing_phone,
                     'billing_email' => $this->billing_email,
+                    'billing_company_name' => $this->billing_company_name,
                     'billing_country' => $this->billing_country,
                     'billing_postal_code' => $this->billing_postal_code,
                 ]);

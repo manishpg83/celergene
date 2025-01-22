@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('billing_state', 255)->nullable()->after('billing_city');
             $table->string('billing_phone', 20)->nullable()->after('billing_state');
             $table->string('billing_email', 255)->nullable()->after('billing_phone');
+            $table->string('billing_company_name', 255)->nullable()->after('billing_email');
         });
     }
 
@@ -40,6 +41,7 @@ return new class extends Migration
                 'billing_state',
                 'billing_phone',
                 'billing_email',
+                'billing_company_name',
             ]);
         });
     }

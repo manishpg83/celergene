@@ -55,9 +55,9 @@
                                 value="{{ $billingAddress->last_name ?? '' }}" wire:model="billing_lname">
                         </div>
                         <div class="col-xs-12" style="padding-bottom: 20px;">
-                            <input type="text" maxlength="100" name="company_name" id="company_name"
+                            <input type="text" maxlength="100" name="billing_company_name" id="billing_company_name"
                                 class="form-control" placeholder="Company Name" data-validation="required"
-                                value="{{ $billingAddress->company_name ?? '' }}" wire:model="company_name">
+                                value="{{ $billingAddress->billing_company_name ?? '' }}" wire:model="billing_company_name">
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <input type="text" maxlength="100" name="billing_address" id="billing_address"
