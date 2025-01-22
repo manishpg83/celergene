@@ -47,6 +47,7 @@ return [
         'custom_profile_images' => [
             'driver' => 'local',
             'root' => public_path('admin/assets/img/profile_img'),  // Updated path
+            'url' => env('APP_URL').'/admin/assets/img/profile_img',
             'visibility' => 'public',
         ],
         'custom_product_images' => [

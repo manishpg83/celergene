@@ -46,6 +46,14 @@ class Customer extends Model
         'updated_by',
     ];
 
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('admin/assets/img/profile_img/' . $this->image);
+        }
+        return asset('images/default-avatar.png');
+    }
+
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class, 'customer_type_id');

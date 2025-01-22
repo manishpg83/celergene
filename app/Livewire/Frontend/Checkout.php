@@ -205,10 +205,8 @@ class Checkout extends Component
         try {
             $provider = new PayPalClient;
             
-            // Create a new instance with API credentials
             $provider->getAccessToken();
 
-            // Prepare the order data
             $order = [
                 'intent' => 'CAPTURE',
                 'application_context' => [
@@ -227,13 +225,11 @@ class Checkout extends Component
                 ]
             ];
 
-            // Create PayPal Order
             $response = $provider->createOrder($order);
 
             Log::info('PayPal Order Creation Response:', ['response' => $response]);
 
             if (isset($response['id']) && $response['id']) {
-                // Save payment record
                 Payment::create([
                     'order_id' => $orderId,
                     'payment_method' => 'PayPal',
@@ -243,7 +239,6 @@ class Checkout extends Component
                     'status' => 'pending',
                 ]);
 
-                // Find the approve link
                 $approveLink = collect($response['links'])
                     ->firstWhere('rel', 'approve')['href'] ?? null;
 

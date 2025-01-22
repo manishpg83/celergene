@@ -7,10 +7,14 @@
         <div class="account-sidebar" id="accountSidebar">
             <div class="profile-head">
                 <div class="user-thumb">
-                    <img class="rounded-circle" src="images/profile4.jpg" alt="Susan Gardner">
+                    @if($customer && $customer->image)
+                        <img src="{{ asset($customer->image) }}" alt="{{ $customer->first_name }}">
+                    @else
+                        <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile">
+                    @endif
                 </div>
-                <h5 class="title mb-0">Ronald M. Spino</h5>
-                <span class="text text-primary">info@example.com</span>
+                <h5 class="title mb-0">{{ $customer->first_name . ' ' . $customer->last_name }}</h5>
+                <span class="text text-primary">{{ $customer->email }}</span>
             </div>
             <div class="account-nav">
                 <div class="nav-title bg-light">DASHBOARD</div>

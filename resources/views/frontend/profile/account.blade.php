@@ -37,9 +37,18 @@
                         <section class="col-xl-9 account-wrapper">
                             <div class="account-card">
                                 <div class="m-b30">
-                                    <p>Hello <strong class="text-black">John Doe</strong> (not <strong
-                                            class="text-black">John Doe</strong>? <a href="shop-login.html"
-                                            class="text-underline">Log out</a>)</p>
+                                    <p>Hello <strong
+                                            class="text-black">{{ $customer->first_name . ' ' . $customer->last_name }}</strong>
+                                        (not <strong
+                                            class="text-black">{{ $customer->first_name . ' ' . $customer->last_name }}</strong>?
+                                        <a href=""
+                                            class="text-underline"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Logout</a>)
+                                    </p>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                     <p>From your account dashboard you can view your <a href="account-orders.html"
                                             class="text-underline">recent orders</a>, manage your <a
                                             href="account-address.html" class="text-underline">shipping and billing
@@ -118,7 +127,8 @@
                                             <ul>
                                                 <li>
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic1.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic1.png') }}"
+                                                            alt="">
                                                         <span>United States</span>
                                                     </div>
                                                     <div class="thumb-content">
@@ -127,7 +137,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic2.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic2.png') }}"
+                                                            alt="">
                                                         <span>India</span>
                                                     </div>
                                                     <div class="thumb-content">
@@ -136,7 +147,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic3.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic3.png') }}"
+                                                            alt="">
                                                         <span>Africa</span>
                                                     </div>
                                                     <div class="thumb-content">
@@ -145,7 +157,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic4.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic4.png') }}"
+                                                            alt="">
                                                         <span>Canada</span>
                                                     </div>
                                                     <div class="thumb-content">
@@ -154,7 +167,8 @@
                                                 </li>
                                                 <li>
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic5.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic5.png') }}"
+                                                            alt="">
                                                         <span>Brazil</span>
                                                     </div>
                                                     <div class="thumb-content">
@@ -163,7 +177,8 @@
                                                 </li>
                                                 <li class="border-bottom-0">
                                                     <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic6.png') }}" alt="">
+                                                        <img src="{{ asset('frontend/images/country/pic6.png') }}"
+                                                            alt="">
                                                         <span>Jordan</span>
                                                     </div>
                                                     <div class="thumb-content">
