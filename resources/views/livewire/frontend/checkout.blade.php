@@ -37,48 +37,48 @@
                             <div style=" padding-left:10px;float: left;">Billing Address</div>
                         </div>
                         <br><br>
-                        <div class="col-xs-12 select-address-wrapper">
+                        {{-- <div class="col-xs-12 select-address-wrapper">
                             <select id="bill-address">
                                 <option>Select Billing Address</option>
                                 <option> {{ $billingAddress->billing_address ?? '' }}</option>
                             </select>
                             <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
-                        </div>
+                        </div> --}}
                         <div class="col-xs-12 col-md-6">
-                            <input type="text" maxlength="100" name="bill_firstname" id="bill_firstname"
+                            <input type="text" maxlength="100" name="billing_fname" id="billing_fname"
                                 class="form-control" placeholder="First Name" data-validation="required"
-                                value="{{ $billingAddress->first_name ?? '' }}">
+                                value="{{ $billingAddress->first_name ?? '' }}" wire:model="billing_fname">
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                            <input type="text" maxlength="100" name="bill_lastname" id="bill_lastname"
+                            <input type="text" maxlength="100" name="billing_lname" id="billing_lname"
                                 class="form-control" placeholder="Last Name " data-validation="required"
-                                value="{{ $billingAddress->last_name ?? '' }}">
+                                value="{{ $billingAddress->last_name ?? '' }}" wire:model="billing_lname">
                         </div>
                         <div class="col-xs-12" style="padding-bottom: 20px;">
-                            <input type="text" maxlength="100" name="bill_company" id="bill_company"
+                            <input type="text" maxlength="100" name="company_name" id="company_name"
                                 class="form-control" placeholder="Company Name" data-validation="required"
-                                value="{{ $billingAddress->company_name ?? '' }}">
+                                value="{{ $billingAddress->company_name ?? '' }}" wire:model="company_name">
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <input type="text" maxlength="100" name="bill_address1" id="bill_address1"
+                            <input type="text" maxlength="100" name="billing_address" id="billing_address"
                                 class="form-control" placeholder="Address 1" data-validation="required"
-                                value="{{ $billingAddress->billing_address ?? '' }}">
+                                value="{{ $billingAddress->billing_address ?? '' }}" wire:model="billing_address">
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                            <input type="text" maxlength="100" name="bill_address2" id="bill_address2"
-                                class="form-control" placeholder="Address 2" data-validation="required" value="">
+                            <input type="text" maxlength="100" name="billing_address_2" id="billing_address_2"
+                                class="form-control" placeholder="Address 2" data-validation="required" value="{{ $billingAddress->billing_address_2 ?? '' }}" wire:model="billing_address_2" >
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <input type="text" maxlength="100" name="bill_city" id="bill_city" class="form-control"
-                                placeholder="City" data-validation="required" value="">
+                            <input type="text" maxlength="100" name="billing_city" id="billing_city" class="form-control"
+                                placeholder="City" data-validation="required" value="{{ $billingAddress->billing_city ?? '' }}" wire:model="billing_city">
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                            <input maxlength="20" type="text" name="bill_zip" id="bill_zip" class="form-control"
+                            <input maxlength="20" type="text" name="billing_postal_code" id="billing_postal_code" class="form-control"
                                 placeholder="Postcode" data-validation="number"
-                                value="{{ $billingAddress->billing_postal_code ?? '' }}">
+                                value="{{ $billingAddress->billing_postal_code ?? '' }}" wire:model="billing_postal_code" >
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <select class="form-control" id="bill_country" name="bill_country">
+                            <select class="form-control" id="billing_country" name="billing_country" wire:model="billing_country">
                                 <option value="{{ $billingAddress->billing_country ?? '' }}" disabled=""
                                     selected="">Select country</option>
                                 <option data-code="AF" value="AF-Afghanistan"> Afghanistan</option>
@@ -87,18 +87,19 @@
                             </select>
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                            <input maxlength="100" type="text" name="bill_state" id="bill_state"
-                                class="form-control" placeholder="States" data-validation="required" value="">
+                            <input maxlength="100" type="text" name="billing_state" id="billing_state"
+                                class="form-control" placeholder="States" data-validation="required"
+                                wire:model="billing_state" value="{{ $billingAddress->billing_state ?? '' }}">
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <input type="text" maxlength="20" name="bill_phone" id="bill_phone"
+                            <input type="text" maxlength="20" name="billing_phone" id="billing_phone"
                                 class="form-control" placeholder="Phone" data-validation="number"
-                                value="{{ $billingAddress->mobile_number ?? '' }}">
+                                wire:model="billing_phone" value="{{ $billingAddress->billing_phone ?? '' }}">
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                            <input type="email" maxlength="100" name="bill_email" id="bill_email"
+                            <input type="email" maxlength="100" name="billing_email" id="billing_email"
                                 class="form-control" placeholder="Email" data-validation="required"
-                                value="{{ $billingAddress->email ?? '' }}">
+                                wire:model="billing_email" value="{{ $billingAddress->billing_email ?? '' }}">
                         </div>
                         <div class="col-xs-12 col-md-12" style="padding-bottom: 5px;">
                             Please ensure that the courier service (DHL/UPS) can reach you at your contact
@@ -122,52 +123,44 @@
                         <div id="ship_address">
                             <div class="row form-item-ck">
                                 <div class="col-xs-12 select-address-wrapper">
-                                    <select id="ship-address" name="ship_address" class="form-control">
-                                        <option value="">Select Shipping Address</option>
-                                        @foreach ($shippingAddresses as $address)
-                                            @if ($address['address'])
-                                                <option value="{{ $address['address'] }}" 
-                                                    data-receiver-name="{{ $address['receiver_name'] }}"
-                                                    data-country="{{ $address['country'] }}" 
-                                                    data-postal-code="{{ $address['postal_code'] }}">
-                                                    {{ $address['receiver_name'] }} - {{ $address['address'] }}, {{ $address['country'] }}, {{ $address['postal_code'] }}
-                                                </option>
-                                            @endif
+                                    <select wire:model="selectedShippingAddress" wire:change="handleAddressChange">
+                                        @foreach($shippingAddresses as $address)
+                                            <option value="{{ $address['address'] }}">{{ $address['address'] }}</option>
                                         @endforeach
-                                    </select>
-                                    <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
-                                </div>
-                        
+                                    </select> 
+                                </div>                               
+
+                                <!-- Form fields bound to Livewire properties -->
                                 <div class="col-xs-12 col-md-6">
                                     <input type="text" maxlength="100" name="firstname" id="firstname" class="form-control"
-                                        placeholder="First Name" data-validation="required">
+                                        placeholder="First Name" data-validation="required" wire:model="shipping_firstname">
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="100" name="lastname" id="lastname" class="form-control"
-                                        placeholder="Last Name" data-validation="required">
+                                        placeholder="Last Name" data-validation="required" wire:model="shipping_lastname">
                                 </div>
                                 <div class="col-xs-12" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="100" name="companyname" id="company" class="form-control"
-                                        placeholder="Company Name" data-validation="required">
+                                        placeholder="Company Name" data-validation="required" wire:model="shipping_companyname">
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <input type="text" maxlength="100" name="address1" id="address1" class="form-control"
-                                        placeholder="Address 1" data-validation="required">
+                                        placeholder="Address 1" data-validation="required" wire:model="shipping_address1">
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="100" name="address2" id="address2" class="form-control"
-                                        placeholder="Address 2">
+                                        placeholder="Address 2" wire:model="shipping_address2">
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <input type="text" maxlength="100" name="city" id="city" class="form-control" placeholder="City"
-                                        data-validation="required">
+                                        data-validation="required" wire:model="shipping_city">
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="20" name="zip" id="zip" class="form-control" placeholder="Postcode"
-                                        data-validation="required">
+                                        data-validation="required" wire:model="shipping_zip">
                                 </div>
                                 <div class="col-xs-12 col-md-6">
-                                    <select class="form-control" id="country" name="country">
+                                    <select class="form-control" id="country" name="country" wire:model="shipping_country">
                                         <option value="" disabled selected>Select country</option>
                                         <option data-code="AF" value="AF-Afghanistan">Afghanistan</option>
                                         <option data-code="AX" value="AX-Aland Islands">Aland Islands</option>
@@ -176,22 +169,19 @@
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="100" name="state" id="state" class="form-control" placeholder="State"
-                                        data-validation="required">
+                                        data-validation="required" wire:model="shipping_state">
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="text" maxlength="20" name="phone" id="phone" class="form-control" placeholder="Phone"
-                                        data-validation="number">
+                                        data-validation="number" wire:model="shipping_phone">
                                 </div>
                                 <div class="col-xs-12 col-md-12" style="padding-bottom: 20px;">
                                     <textarea class="form-control" name="shipnotes" id="shipnotes" rows="4"
-                                        placeholder="Notes"></textarea>
-                                </div>
-                                <div class="col-xs-12 col-md-12" style="padding-bottom: 5px;">
-                                    Please ensure that the courier service (DHL/UPS) can reach you at your contact number to avoid delivery failure.
-                                    <hr>
+                                        placeholder="Notes" wire:model="shipping_notes"></textarea>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class=" col-xs-12 col-md-10">
                             Note:
                             <br><br>

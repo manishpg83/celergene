@@ -20,6 +20,27 @@ class Checkout extends Component
     public $shippingAddresses = [];
     public $selectedShippingAddress;
     public $useBillingAddress = true;
+    public $billing_address;
+    public $billing_address_2;
+    public $billing_city;
+    public $billing_state;
+    public $billing_phone;
+    public $billing_email;
+    public $billing_country;
+    public $billing_postal_code;
+    public $billing_fname;
+    public $billing_lname;
+    public $shipping_firstname;
+    public $shipping_lastname;
+    public $shipping_companyname;
+    public $shipping_address1;
+    public $shipping_address2;
+    public $shipping_city;
+    public $shipping_zip;
+    public $shipping_country;
+    public $shipping_state;
+    public $shipping_phone;
+    public $shipping_notes;
 
     public $user;
     public $cartItems = [];
@@ -47,15 +68,33 @@ class Checkout extends Component
                 ->where('user_id', $this->user->id)
                 ->select(
                     'shipping_address_receiver_name_1',
+                    'shipping_address_receiver_lname_1',
                     'shipping_address_1',
+                    'shipping_address_1_1',
+                    'shipping_city_1',
+                    'shipping_state_1',
+                    'shipping_phone_1',
+                    'shipping_email_1',
                     'shipping_country_1',
                     'shipping_postal_code_1',
                     'shipping_address_receiver_name_2',
+                    'shipping_address_receiver_lname_2',
                     'shipping_address_2',
+                    'shipping_address_2_1',
+                    'shipping_city_2',
+                    'shipping_state_2',
+                    'shipping_phone_2',
+                    'shipping_email_2',
                     'shipping_country_2',
                     'shipping_postal_code_2',
                     'shipping_address_receiver_name_3',
+                    'shipping_address_receiver_lname_3',
                     'shipping_address_3',
+                    'shipping_address_3_1',
+                    'shipping_city_3',
+                    'shipping_state_3',
+                    'shipping_phone_3',
+                    'shipping_email_3',
                     'shipping_country_3',
                     'shipping_postal_code_3'
                 )
@@ -64,25 +103,69 @@ class Checkout extends Component
             $this->shippingAddresses = [
                 [
                     'receiver_name' => $customer->shipping_address_receiver_name_1,
+                    'receiver_name2' => $customer->shipping_address_receiver_lname_1,
                     'address' => $customer->shipping_address_1,
+                    'address_2' => $customer->shipping_address_1_1,
+                    'city' => $customer->shipping_city_1,
+                    'state' => $customer->shipping_state_1,
+                    'phone' => $customer->shipping_phone_1,
+                    'email' => $customer->shipping_email_1,
                     'country' => $customer->shipping_country_1,
                     'postal_code' => $customer->shipping_postal_code_1,
                 ],
                 [
                     'receiver_name' => $customer->shipping_address_receiver_name_2,
+                    'receiver_name2' => $customer->shipping_address_receiver_lname_2,
                     'address' => $customer->shipping_address_2,
+                    'address_2' => $customer->shipping_address_2_1,
+                    'city' => $customer->shipping_city_2,
+                    'state' => $customer->shipping_state_2,
+                    'phone' => $customer->shipping_phone_2,
+                    'email' => $customer->shipping_email_2,
                     'country' => $customer->shipping_country_2,
                     'postal_code' => $customer->shipping_postal_code_2,
                 ],
                 [
                     'receiver_name' => $customer->shipping_address_receiver_name_3,
+                    'receiver_name2' => $customer->shipping_address_receiver_lname_3,
                     'address' => $customer->shipping_address_3,
+                    'address_2' => $customer->shipping_address_3_1,
+                    'city' => $customer->shipping_city_3,
+                    'state' => $customer->shipping_state_3,
+                    'phone' => $customer->shipping_phone_3,
+                    'email' => $customer->shipping_email_3,
                     'country' => $customer->shipping_country_3,
                     'postal_code' => $customer->shipping_postal_code_3,
                 ]
             ];
         }
+        Log::debug("Shipping Addresses Loaded: ", $this->shippingAddresses);
     }
+
+
+    public function handleAddressChange()
+    {
+        Log::debug("Selected Shipping Address Value: " . $this->selectedShippingAddress);
+
+        $selectedAddress = collect($this->shippingAddresses)->firstWhere('address', $this->selectedShippingAddress);
+
+        if ($selectedAddress) {
+            Log::debug("Selected Address: ", $selectedAddress);
+
+            $this->shipping_firstname = $selectedAddress['receiver_name'];
+            $this->shipping_lastname = $selectedAddress['receiver_name2'];
+            $this->shipping_companyname = '';
+            $this->shipping_address1 = $selectedAddress['address'];
+            $this->shipping_address2 = $selectedAddress['address_2'] ?? '';
+            $this->shipping_city = $selectedAddress['city'];
+            $this->shipping_zip = $selectedAddress['postal_code'];
+            $this->shipping_country = $selectedAddress['country'];
+            $this->shipping_state = $selectedAddress['state'] ?? '';
+            $this->shipping_phone = $selectedAddress['phone'] ?? '';
+            $this->shipping_notes = '';
+        }
+    }
+
 
     private function loadBillingAddress()
     {
@@ -91,15 +174,29 @@ class Checkout extends Component
                 ->where('user_id', $this->user->id)
                 ->select(
                     'billing_address',
+                    'billing_address_2',
+                    'billing_city',
+                    'billing_state',
+                    'billing_phone',
+                    'billing_email',
                     'billing_country',
                     'billing_postal_code',
-                    'first_name',
-                    'last_name',
-                    'mobile_number',
-                    'email',
-                    'company_name'
+                    'billing_fname',
+                    'billing_lname'
                 )
                 ->first();
+            if ($this->billingAddress) {
+                $this->billing_address = $this->billingAddress->billing_address ?? '';
+                $this->billing_address_2 = $this->billingAddress->billing_address_2 ?? '';
+                $this->billing_city = $this->billingAddress->billing_city ?? '';
+                $this->billing_state = $this->billingAddress->billing_state ?? '';
+                $this->billing_phone = $this->billingAddress->billing_phone ?? '';
+                $this->billing_email = $this->billingAddress->billing_email ?? '';
+                $this->billing_country = $this->billingAddress->billing_country ?? '';
+                $this->billing_postal_code = $this->billingAddress->billing_postal_code ?? '';
+                $this->billing_fname = $this->billingAddress->billing_fname ?? '';
+                $this->billing_lname = $this->billingAddress->billing_lname ?? '';
+            }
         }
     }
 
@@ -120,15 +217,15 @@ class Checkout extends Component
     {
         $this->subtotal = 0;
 
-        foreach ($this->cartItems as $productCode => &$item) { 
+        foreach ($this->cartItems as $productCode => &$item) {
             $product = Product::where('product_code', $productCode)->first();
             if ($product && isset($item['quantity'])) {
-                $item['total'] = $product->unit_price * $item['quantity']; 
-                $this->subtotal += $item['total']; 
+                $item['total'] = $product->unit_price * $item['quantity'];
+                $this->subtotal += $item['total'];
             }
         }
 
-        $this->total = $this->subtotal; 
+        $this->total = $this->subtotal;
     }
 
 
@@ -141,12 +238,41 @@ class Checkout extends Component
 
         $shippingAddress = $this->useBillingAddress
             ? $this->billingAddress->billing_address
-            : request()->input('shipping_address'); 
+            : request()->input('shipping_address');
         try {
             DB::beginTransaction();
+
+            DB::table('customers')
+                ->where('user_id', $this->user->id)
+                ->update([
+                    'billing_fname' => $this->billing_fname,
+                    'billing_lname' => $this->billing_lname,
+                    'billing_address' => $this->billing_address,
+                    'billing_address_2' => $this->billing_address_2,
+                    'billing_city' => $this->billing_city,
+                    'billing_state' => $this->billing_state,
+                    'billing_phone' => $this->billing_phone,
+                    'billing_email' => $this->billing_email,
+                    'billing_country' => $this->billing_country,
+                    'billing_postal_code' => $this->billing_postal_code,
+                ]);
+
+            DB::table('customers')
+                ->where('user_id', $this->user->id)
+                ->update([
+                    'shipping_address_receiver_name_3' => $this->shipping_firstname,
+                    'shipping_address_receiver_lname_3' => $this->shipping_lastname,
+                    'shipping_address_3' => $this->shipping_address1,
+                    'shipping_address_3_1' => $this->shipping_address2,
+                    'shipping_city_3' => $this->shipping_city,
+                    'shipping_state_3' => $this->shipping_state,
+                    'shipping_phone_3' => $this->shipping_phone,
+                    'shipping_country_3' => $this->shipping_country,
+                    'shipping_postal_code_3' => $this->shipping_zip,
+                ]);
             $customer = DB::table('customers')
-            ->where('user_id', $this->user->id)
-            ->first();
+                ->where('user_id', $this->user->id)
+                ->first();
             $orderNumber = 'ORD-' . Str::random(10);
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
@@ -204,7 +330,7 @@ class Checkout extends Component
     {
         try {
             $provider = new PayPalClient;
-            
+
             $provider->getAccessToken();
 
             $order = [
@@ -248,14 +374,13 @@ class Checkout extends Component
             }
 
             throw new \Exception('Failed to create PayPal order: ' . json_encode($response));
-
         } catch (\Exception $e) {
             Log::error('PayPal Integration Error: ' . $e->getMessage(), [
                 'order_id' => $orderId,
                 'order_number' => $orderNumber,
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             session()->flash('error', 'Payment processing failed. Please try again later.');
             return redirect()->route('checkout.error');
         }
