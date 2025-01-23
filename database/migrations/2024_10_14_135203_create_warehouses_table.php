@@ -12,6 +12,7 @@ class CreateWarehousesTable extends Migration
             $table->string('warehouse_name');
             $table->string('country');
             $table->string('type');
+            $table->string('address');
             $table->text('remarks')->nullable();
             $table->unsignedBigInteger('supplier_id');
             $table->softDeletes();
