@@ -15,6 +15,7 @@ class Warehouse extends Model
     protected $fillable = [
         'warehouse_name',
         'country',
+        'address',
         'email',
         'type',
         'supplier_id',
@@ -40,6 +41,10 @@ class Warehouse extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
+    public function emails()
+    {
+        return $this->hasMany(WarehouseEmail::class);
     }
 
 }

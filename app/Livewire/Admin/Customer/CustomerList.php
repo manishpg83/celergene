@@ -16,6 +16,7 @@ class CustomerList extends Component
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
     public $confirmingDeletion = false;
+    public $status = 'all';
 
     protected $rules = [
         'first_name' => 'required|string|max:255',
@@ -37,6 +38,13 @@ class CustomerList extends Component
                              ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
                              ->orWhere('email', 'LIKE', '%' . $this->search . '%');
                 });
+            })
+            ->when($this->status !== 'all', function ($query) {
+                if ($this->status === 'active') {
+                    $query->whereNull('deleted_at');
+                } elseif ($this->status === 'inactive') {
+                    $query->whereNotNull('deleted_at');
+                }
             })
             ->withTrashed()
             ->orderBy($this->sortField, $this->sortDirection);
@@ -143,6 +151,10 @@ class CustomerList extends Component
             $this->sortDirection = 'asc';
         }
 
+        $this->resetPage();
+    }
+    public function updatedStatus()
+    {
         $this->resetPage();
     }
 }
