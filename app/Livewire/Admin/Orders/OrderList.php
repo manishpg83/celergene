@@ -288,7 +288,10 @@ class OrderList extends Component
     }
 
     public function render()
-    {
+    {   
+        $currentYearStart = now()->startOfYear()->format('Y-m-d');
+        $currentYearEnd = now()->endOfYear()->format('Y-m-d');
+      
         $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
@@ -309,8 +312,12 @@ class OrderList extends Component
                 $query->where('entity_id', $this->selectedEntityId);
             })
             ->when($this->dateStart && $this->dateEnd, function ($query) {
-                $query->whereDate('order_date', '>=', date('Y-m-d', strtotime($this->dateStart)))
-                    ->whereDate('order_date', '<=', date('Y-m-d', strtotime($this->dateEnd)));
+                $query->whereDate('order_date', '>=', $this->dateStart)
+                    ->whereDate('order_date', '<=', $this->dateEnd);
+            })
+            ->when(!$this->dateStart && !$this->dateEnd, function ($query) use ($currentYearStart, $currentYearEnd) {
+                $query->whereDate('order_date', '>=', $currentYearStart)
+                    ->whereDate('order_date', '<=', $currentYearEnd);
             })
             ->when($this->statusFilter !== '', function ($query) {
                 $query->where('order_status', $this->statusFilter);
