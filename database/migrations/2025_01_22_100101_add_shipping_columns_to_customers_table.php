@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('shipping_state_1')->nullable()->after('shipping_city_1');
             $table->string('shipping_phone_1', 50)->nullable()->after('shipping_state_1');
             $table->string('shipping_email_1')->nullable()->after('shipping_phone_1');
+            $table->string('shipping_company_name_1')->nullable()->after('shipping_email_1');
 
             $table->string('shipping_address_receiver_lname_2')->nullable()->after('shipping_address_receiver_name_2');
             $table->string('shipping_address_2_1')->nullable()->after('shipping_address_2');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('shipping_state_2')->nullable()->after('shipping_city_2');
             $table->string('shipping_phone_2', 50)->nullable()->after('shipping_state_2');
             $table->string('shipping_email_2')->nullable()->after('shipping_phone_2');
+            $table->string('shipping_company_name_2')->nullable()->after('shipping_email_2');
 
             $table->string('shipping_address_receiver_lname_3')->nullable()->after('shipping_address_receiver_name_3');
             $table->string('shipping_address_3_1')->nullable()->after('shipping_address_3');
@@ -34,6 +36,7 @@ return new class extends Migration
             $table->string('shipping_state_3')->nullable()->after('shipping_city_3');
             $table->string('shipping_phone_3', 50)->nullable()->after('shipping_state_3');
             $table->string('shipping_email_3')->nullable()->after('shipping_phone_3');
+            $table->string('shipping_company_name_3')->nullable()->after('shipping_email_3');
         });
     }
 

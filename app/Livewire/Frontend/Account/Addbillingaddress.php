@@ -22,8 +22,8 @@ class Addbillingaddress extends Component
     {
         if ($id) {
             $customer = Customer::where('id', $id)
-                              ->where('user_id', Auth::id())
-                              ->first();
+                ->where('user_id', Auth::id())
+                ->first();
 
             if ($customer) {
                 $this->customerId = $customer->id;
@@ -57,7 +57,7 @@ class Addbillingaddress extends Component
             'mobile_number' => 'required|string|max:15',
             'email' => 'required|email|max:255',
         ]);
-    
+
         $data = [
             'user_id' => Auth::id(),
             'first_name' => $this->first_name,
@@ -69,7 +69,7 @@ class Addbillingaddress extends Component
             'email' => $this->email,
             'updated_by' => Auth::id()
         ];
-    
+
         if ($this->customerId) {
             $customer = Customer::find($this->customerId);
             if ($customer && $customer->user_id == Auth::id()) {
@@ -80,7 +80,7 @@ class Addbillingaddress extends Component
             }
         } else {
             $existingCustomer = Customer::where('user_id', Auth::id())->first();
-    
+
             if ($existingCustomer) {
                 $existingCustomer->update($data);
                 notyf()->success('Address updated successfully.');
@@ -88,15 +88,15 @@ class Addbillingaddress extends Component
                 $data['created_by'] = Auth::id();
                 $data['customer_type_id'] = 1;
                 $data['payment_term_display'] = 'default';
-    
+
                 Customer::create($data);
                 notyf()->success('Address added successfully.');
             }
         }
-    
+
         return redirect()->route('billingaddress');
     }
-    
+
     public function render()
     {
         return view('livewire.frontend.account.addbillingaddress');

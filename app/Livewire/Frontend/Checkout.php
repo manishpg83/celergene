@@ -33,13 +33,14 @@ class Checkout extends Component
     public $billing_lname;
     public $shipping_firstname;
     public $shipping_lastname;
-    public $shipping_companyname;
+    public $shipping_company_name;
     public $shipping_address1;
     public $shipping_address2;
     public $shipping_city;
     public $shipping_zip;
     public $shipping_country;
     public $shipping_state;
+    public $shipping_email;
     public $shipping_phone;
     public $shipping_notes;
 
@@ -76,6 +77,7 @@ class Checkout extends Component
                     'shipping_state_1',
                     'shipping_phone_1',
                     'shipping_email_1',
+                    'shipping_company_name_1',
                     'shipping_country_1',
                     'shipping_postal_code_1',
                     'shipping_address_receiver_name_2',
@@ -86,6 +88,7 @@ class Checkout extends Component
                     'shipping_state_2',
                     'shipping_phone_2',
                     'shipping_email_2',
+                    'shipping_company_name_2',
                     'shipping_country_2',
                     'shipping_postal_code_2',
                     'shipping_address_receiver_name_3',
@@ -96,6 +99,7 @@ class Checkout extends Component
                     'shipping_state_3',
                     'shipping_phone_3',
                     'shipping_email_3',
+                    'shipping_company_name_3',
                     'shipping_country_3',
                     'shipping_postal_code_3'
                 )
@@ -110,7 +114,8 @@ class Checkout extends Component
                     'city' => $customer->shipping_city_1,
                     'state' => $customer->shipping_state_1,
                     'phone' => $customer->shipping_phone_1,
-                    'email' => $customer->shipping_email_1,
+                    'shipping_email' => $customer->shipping_email_1,
+                    'shipping_company_name' => $customer->shipping_company_name_1,
                     'country' => $customer->shipping_country_1,
                     'postal_code' => $customer->shipping_postal_code_1,
                 ],
@@ -122,7 +127,8 @@ class Checkout extends Component
                     'city' => $customer->shipping_city_2,
                     'state' => $customer->shipping_state_2,
                     'phone' => $customer->shipping_phone_2,
-                    'email' => $customer->shipping_email_2,
+                    'shipping_email' => $customer->shipping_email_2,
+                    'shipping_company_name' => $customer->shipping_company_name_2,
                     'country' => $customer->shipping_country_2,
                     'postal_code' => $customer->shipping_postal_code_2,
                 ],
@@ -134,7 +140,8 @@ class Checkout extends Component
                     'city' => $customer->shipping_city_3,
                     'state' => $customer->shipping_state_3,
                     'phone' => $customer->shipping_phone_3,
-                    'email' => $customer->shipping_email_3,
+                    'shipping_email' => $customer->shipping_email_3,
+                    'shipping_company_name' => $customer->shipping_company_name_3,
                     'country' => $customer->shipping_country_3,
                     'postal_code' => $customer->shipping_postal_code_3,
                 ]
@@ -155,7 +162,8 @@ class Checkout extends Component
 
             $this->shipping_firstname = $selectedAddress['receiver_name'];
             $this->shipping_lastname = $selectedAddress['receiver_name2'];
-            $this->shipping_companyname = '';
+            $this->shipping_company_name = $selectedAddress['shipping_company_name'];
+            $this->shipping_email = $selectedAddress['shipping_email'];
             $this->shipping_address1 = $selectedAddress['address'];
             $this->shipping_address2 = $selectedAddress['address_2'] ?? '';
             $this->shipping_city = $selectedAddress['city'];
@@ -166,7 +174,6 @@ class Checkout extends Component
             $this->shipping_notes = '';
         }
     }
-
 
     private function loadBillingAddress()
     {
@@ -231,7 +238,6 @@ class Checkout extends Component
         $this->total = $this->subtotal;
     }
 
-
     public function processOrder()
     {
         if (!Auth::check()) {
@@ -240,10 +246,45 @@ class Checkout extends Component
         }
 
         $shippingAddress = $this->useBillingAddress
-            ? $this->billingAddress->billing_address
-            : request()->input('shipping_address');
+            ? ($this->billing_address ?? 'N/A')
+            : ($this->shipping_address1 ?? 'N/A');
+
         try {
             DB::beginTransaction();
+
+            if ($this->useBillingAddress) {
+                DB::table('customers')
+                    ->where('user_id', $this->user->id)
+                    ->update([
+                        'shipping_address_receiver_name_3' => $this->billing_fname,
+                        'shipping_address_receiver_lname_3' => $this->billing_lname,
+                        'shipping_address_3' => $this->billing_address,
+                        'shipping_email_3' => $this->billing_email,
+                        'shipping_company_name_3' => $this->billing_company_name,
+                        'shipping_address_3_1' => $this->billing_address_2,
+                        'shipping_city_3' => $this->billing_city,
+                        'shipping_state_3' => $this->billing_state,
+                        'shipping_phone_3' => $this->billing_phone,
+                        'shipping_country_3' => $this->billing_country,
+                        'shipping_postal_code_3' => $this->billing_postal_code,
+                    ]);
+            } else {
+                DB::table('customers')
+                    ->where('user_id', $this->user->id)
+                    ->update([
+                        'shipping_address_receiver_name_3' => $this->shipping_firstname,
+                        'shipping_address_receiver_lname_3' => $this->shipping_lastname,
+                        'shipping_address_3' => $this->shipping_address1,
+                        'shipping_email_3' => $this->shipping_email,
+                        'shipping_company_name_3' => $this->shipping_companyname,
+                        'shipping_address_3_1' => $this->shipping_address2,
+                        'shipping_city_3' => $this->shipping_city,
+                        'shipping_state_3' => $this->shipping_state,
+                        'shipping_phone_3' => $this->shipping_phone,
+                        'shipping_country_3' => $this->shipping_country,
+                        'shipping_postal_code_3' => $this->shipping_zip,
+                    ]);
+            }
 
             DB::table('customers')
                 ->where('user_id', $this->user->id)
@@ -261,22 +302,10 @@ class Checkout extends Component
                     'billing_postal_code' => $this->billing_postal_code,
                 ]);
 
-            DB::table('customers')
-                ->where('user_id', $this->user->id)
-                ->update([
-                    'shipping_address_receiver_name_3' => $this->shipping_firstname,
-                    'shipping_address_receiver_lname_3' => $this->shipping_lastname,
-                    'shipping_address_3' => $this->shipping_address1,
-                    'shipping_address_3_1' => $this->shipping_address2,
-                    'shipping_city_3' => $this->shipping_city,
-                    'shipping_state_3' => $this->shipping_state,
-                    'shipping_phone_3' => $this->shipping_phone,
-                    'shipping_country_3' => $this->shipping_country,
-                    'shipping_postal_code_3' => $this->shipping_zip,
-                ]);
             $customer = DB::table('customers')
                 ->where('user_id', $this->user->id)
                 ->first();
+
             $orderNumber = 'ORD-' . Str::random(10);
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
@@ -320,11 +349,9 @@ class Checkout extends Component
 
             session()->flash('order_number', $orderNumber);
             $this->dispatch('show-thank-you-modal');
-
-            return redirect()->route('order.confirmation', ['orderNumber' => $orderNumber]);
         } catch (\Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'There was an error processing your order. Please try again.');
+            session()->flash('error', 'Order processing error: ' . $e->getMessage());
             Log::error('Order Processing Error: ' . $e->getMessage());
             return null;
         }

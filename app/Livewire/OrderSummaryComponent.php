@@ -12,10 +12,9 @@ class OrderSummaryComponent extends Component
     public $total = 0;
     public $showCheckoutButton = true;
     
-    // Update listeners to include both events
     protected $listeners = [
         'cartUpdated' => 'updateSummary',
-        'cart-updated' => 'updateSummary'  // Add this new listener
+        'cart-updated' => 'updateSummary'
     ];
 
     public function mount($showCheckoutButton = true)
@@ -29,7 +28,6 @@ class OrderSummaryComponent extends Component
         $cart = session()->get('cart', []);
         $this->cartItems = is_array($cart) ? $cart : [];
         $this->calculateTotals();
-        // Force a re-render
         $this->dispatch('$refresh');
     }
 

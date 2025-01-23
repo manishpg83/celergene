@@ -11,7 +11,7 @@ class CartComponent extends Component
     public $subtotal = 0;
     public $total = 0;
     public $products;
-    
+
     protected $listeners = ['cartUpdated' => 'updateCart'];
 
     public function mount()
@@ -24,9 +24,9 @@ class CartComponent extends Component
     {
         $cart = session()->get('cart', []);
         $cart = is_array($cart) ? $cart : [];
-        
+
         $product = Product::where('product_code', $productCode)->first();
-        
+
         if ($product) {
             if (!isset($cart[$productCode])) {
                 $cart[$productCode] = [
@@ -37,11 +37,10 @@ class CartComponent extends Component
                 $cart[$productCode]['quantity'] = ($cart[$productCode]['quantity'] ?? 0) + 1;
                 $cart[$productCode]['total'] = $cart[$productCode]['quantity'] * $product->unit_price;
             }
-            
+
             session()->put('cart', $cart);
-            // Dispatch both events
             $this->dispatch('cartCountUpdated');
-            $this->dispatch('cart-updated'); // New event for OrderSummaryComponent
+            $this->dispatch('cart-updated');
             $this->updateCart();
         }
     }
@@ -50,22 +49,21 @@ class CartComponent extends Component
     {
         $cart = session()->get('cart', []);
         $cart = is_array($cart) ? $cart : [];
-        
+
         $product = Product::where('product_code', $productCode)->first();
-        
+
         if ($product && isset($cart[$productCode])) {
             $cart[$productCode]['quantity'] = ($cart[$productCode]['quantity'] ?? 0) - 1;
-            
+
             if ($cart[$productCode]['quantity'] <= 0) {
                 unset($cart[$productCode]);
             } else {
                 $cart[$productCode]['total'] = $cart[$productCode]['quantity'] * $product->unit_price;
             }
-            
+
             session()->put('cart', $cart);
-            // Dispatch both events
             $this->dispatch('cartCountUpdated');
-            $this->dispatch('cart-updated'); // New event for OrderSummaryComponent
+            $this->dispatch('cart-updated');
             $this->updateCart();
         }
     }
@@ -80,14 +78,14 @@ class CartComponent extends Component
     private function calculateTotals()
     {
         $this->subtotal = 0;
-        
+
         foreach ($this->cartItems as $productCode => $item) {
             $product = Product::where('product_code', $productCode)->first();
             if ($product && isset($item['quantity'])) {
                 $this->subtotal += $product->unit_price * $item['quantity'];
             }
         }
-        
+
         $this->total = $this->subtotal;
     }
 

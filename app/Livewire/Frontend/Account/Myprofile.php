@@ -12,7 +12,6 @@ use Livewire\WithFileUploads;
 
 class Myprofile extends Component
 {
-
     use WithFileUploads;
 
     public $first_name;
@@ -54,7 +53,6 @@ class Myprofile extends Component
             'image' => 'nullable|image|max:1024'
         ]);
 
-        // Update user
         $user->first_name = $this->first_name;
         $user->last_name = $this->last_name;
         $user->email = $this->email;
@@ -63,10 +61,9 @@ class Myprofile extends Component
         if ($this->password) {
             $user->password = Hash::make($this->password);
         }
-        
+
         $user->save();
 
-        // Update customer
         $updateData = [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -77,7 +74,6 @@ class Myprofile extends Component
         if ($this->image) {
             $imagePath = $this->image->store('', 'custom_profile_images');
             if ($imagePath) {
-                // Delete old image if exists
                 if ($this->customer->image && Storage::disk('custom_profile_images')->exists($this->customer->image)) {
                     Storage::disk('custom_profile_images')->delete($this->customer->image);
                 }

@@ -32,7 +32,7 @@ class BillingAddressForm extends Component
         'phone' => 'required|numeric|max:9999999999',
     ];
 
-    public function mount($customerId = null)  // Accept customerId as parameter
+    public function mount($customerId = null)
     {
         $this->customerId = $customerId;
         

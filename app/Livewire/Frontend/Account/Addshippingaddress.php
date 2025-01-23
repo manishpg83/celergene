@@ -34,10 +34,10 @@ class Addshippingaddress extends Component
     ];
 
     public function mount($addressNumber = null)
-    {   
+    {
         $addressNumber = request()->query('addressNumber');
         $this->addressNumber = $addressNumber;
-        
+
         $customer = Customer::firstOrCreate(
             ['user_id' => Auth::id()],
             [
@@ -51,7 +51,7 @@ class Addshippingaddress extends Component
             $this->loadExistingAddress($customer);
         } else {
             $this->loadCustomerData($customer);
-            
+
             if ($customer->billing_address) {
                 $this->loadBillingAddress($customer);
             }
@@ -70,7 +70,7 @@ class Addshippingaddress extends Component
     protected function loadExistingAddress($customer)
     {
         $addressNumber = $this->addressNumber;
-        
+
         if ($addressNumber) {
             $this->streetAddress = $customer->{"shipping_address_$addressNumber"} ?? '';
             $this->country = $customer->{"shipping_country_$addressNumber"} ?? '';
@@ -119,7 +119,7 @@ class Addshippingaddress extends Component
         $this->validate();
 
         $customer = Customer::where('user_id', Auth::id())->first();
-        
+
         $customer->update([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
@@ -168,7 +168,6 @@ class Addshippingaddress extends Component
                 'UK' => 'United Kingdom',
                 'Iraq' => 'Iraq',
                 'US' => 'United States',
-                // Add more countries as needed
             ]
         ]);
     }

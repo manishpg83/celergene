@@ -49,10 +49,10 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                    <p>From your account dashboard you can view your <a href="account-orders.html"
+                                    <p>From your account dashboard you can view your <a href="{{ route('myorders') }}"
                                             class="text-underline">recent orders</a>, manage your <a
                                             href="account-address.html" class="text-underline">shipping and billing
-                                            addresses</a>, and <a href="account-profile.html" class="text-underline">edit
+                                            addresses</a>, and <a href="{{ route('myprofile') }}" class="text-underline">edit
                                             your password and account details</a>.</p>
                                 </div>
                                 <div class="row g-4">

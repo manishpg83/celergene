@@ -34,7 +34,7 @@ class Registration extends Component
             'phone' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
         ];
-    }    
+    }
 
     protected $validationAttributes = [
         'firstname' => 'first name',
@@ -48,7 +48,7 @@ class Registration extends Component
         'phone' => 'phone number',
         'company' => 'company name',
     ];
-    
+
     public function register()
     {
         $this->validate();
@@ -123,16 +123,16 @@ class Registration extends Component
                 'status' => 'active',
                 'payment_term_display' => 'Standard',
                 'credit_rating' => null,
-                'billing_address' => null, // Set to null
-                'billing_country' => null, // Set to null
-                'billing_postal_code' => null, // Set to null
-                'shipping_address_receiver_name_1' => null, // Set to null
-                'shipping_address_1' => null, // Set to null
-                'shipping_country_1' => null, // Set to null
-                'shipping_postal_code_1' => null, // Set to null
+                'billing_address' => null,
+                'billing_country' => null,
+                'billing_postal_code' => null,
+                'shipping_address_receiver_name_1' => null,
+                'shipping_address_1' => null,
+                'shipping_country_1' => null,
+                'shipping_postal_code_1' => null,
                 'allow_consignment' => 0,
                 'must_receive_payment_before_delivery' => 0,
-            ]);            
+            ]);
 
             DB::commit();
 
@@ -150,4 +150,3 @@ class Registration extends Component
         return view('livewire.frontend.registration');
     }
 }
-
