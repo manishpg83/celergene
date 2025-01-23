@@ -146,7 +146,16 @@ function getAppointmentStatus($value)
 	}
 }
 
-
+function getWarehouseTypes()
+{
+	return [
+		'Supplier' => 'Supplier',
+		'Third-party' => 'Third-party',
+		'Client' => 'Client',
+		'Own' => 'Own',
+		'Affiliate' => 'Affiliate',
+	];
+}
 function getUserProfileStatus($value)
 {
 	switch ($value) {
