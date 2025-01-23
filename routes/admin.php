@@ -86,8 +86,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         });
 
         Route::middleware(['permission:manage suppliers'])->group(function () {
-            Route::get('suppliers/', [SuppliersController::class, 'index'])->name('suppliers.index');
-            Route::get('suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
+            // Route::get('suppliers/', [SuppliersController::class, 'index'])->name('suppliers.index');
+            // Route::get('suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
         });
 
         Route::middleware(['permission:manage inventory'])->group(function () {

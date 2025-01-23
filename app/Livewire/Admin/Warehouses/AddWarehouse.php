@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AddWarehouse extends Component
 {
-    public $warehouse_id, $warehouse_name, $country, $type, $types, $remarks, $address;
+    public $warehouse_id, $warehouse_name, $country, $type, $types, $phone, $remarks, $address;
     public $emails = [];
     public $isEditMode = false;
  
@@ -30,6 +30,7 @@ class AddWarehouse extends Component
                 $this->country = $warehouse->country;
                 $this->type = $warehouse->type;
                 $this->remarks = $warehouse->remarks;
+                $this->phone = $warehouse->phone;
                 $this->address = $warehouse->address;
                 $this->emails = $warehouse->emails->pluck('email')->toArray();
                 $this->isEditMode = true;
@@ -48,6 +49,7 @@ class AddWarehouse extends Component
         $this->country = '';
         $this->type = '';
         $this->remarks = '';
+        $this->phone = '';
         $this->address = '';
         $this->emails = [];
         $this->isEditMode = false;
@@ -71,6 +73,7 @@ class AddWarehouse extends Component
             'country' => 'required|string|max:255',
             'type' => 'required|string|in:' . implode(',', array_keys($this->types)),
             'remarks' => 'nullable|string',
+            'phone' => 'nullable|string',
             'emails.*' => [
                 'required',
                 'email',
@@ -91,6 +94,7 @@ class AddWarehouse extends Component
                 'country' => $this->country,
                 'type' => $this->type,
                 'remarks' => $this->remarks,
+                'phone' => $this->phone,
                 'address' => $this->address,
                 'created_by' => Auth::id(),
                 'modified_by' => Auth::id(),

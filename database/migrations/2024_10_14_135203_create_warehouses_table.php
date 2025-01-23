@@ -13,6 +13,7 @@ class CreateWarehousesTable extends Migration
             $table->string('country');
             $table->string('type');
             $table->string('address');
+            $table->string('phone');
             $table->text('remarks')->nullable();
             $table->softDeletes();
             $table->unsignedBigInteger('created_by');

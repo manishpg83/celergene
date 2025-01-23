@@ -47,8 +47,14 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-
-
+                                <div class="col-md-6">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input wire:model="phone" type="text" id="phone" class="form-control"
+                                        placeholder="Enter phone" required>
+                                    @error('phone')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="remarks">Remarks</label>
                                     <textarea wire:model="remarks" id="remarks" class="form-control" placeholder="Enter remarks"></textarea>

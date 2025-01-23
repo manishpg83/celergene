@@ -17,6 +17,7 @@ class Warehouse extends Model
         'country',
         'address',
         'email',
+        'phone',
         'type',
         'supplier_id',
         'remarks',

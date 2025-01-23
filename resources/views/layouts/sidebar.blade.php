@@ -52,7 +52,7 @@
             <!-- Entity End -->
 
             <!-- Suppliers -->
-            <ul class="menu-sub">
+           {{--  <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.suppliers.*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="Distributor">Distributor</div>
@@ -70,7 +70,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul> --}}
             <!-- Suppliers End -->
 
             <!-- Warehouses -->
