@@ -191,7 +191,7 @@
         <tbody>
             @foreach ($invoice->invoiceDetails as $invoiceDetail)
                 <tr>
-                    <td style="width: 50%;">{{ $invoiceDetail->product->product_name }}</td>
+                    <td style="width: 50%;">{{ $invoiceDetail->product->invoice_description }}</td>
                     <td style="width: 15%;">{{ $invoiceDetail->quantity }}</td>
                     <td style="width: 15%;">${{ number_format($invoiceDetail->unit_price, 2) }}</td>
                     <td style="width: 20%;">${{ number_format($invoiceDetail->total, 2) }}</td>

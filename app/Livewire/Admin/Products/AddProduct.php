@@ -24,6 +24,7 @@ class AddProduct extends Component
     public $currency;
     public $unit_price;
     public $remarks_notes;
+    public $invoice_description;
     public $description;
     public $created_by;
     public $modified_by;
@@ -42,6 +43,7 @@ class AddProduct extends Component
                     : 'unique:products,product_code',
             ],
             'brand' => 'required|string|max:255',           
+            'invoice_description' => 'required|string|max:255',           
             'product_img' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240', 
             'product_category' => 'required|integer',
             'origin' => 'required|string|max:255',
@@ -81,18 +83,14 @@ class AddProduct extends Component
         }
 
         $this->modified_by = Auth::id();
-
-        /* if ($this->product_img) {
-            $imagePath = $this->product_img->store('product_images', 'custom_product_images'); 
-            $product_data['product_img'] = 'product_images/' . basename($imagePath);
-        } */
-        
+       
         Product::updateOrCreate(
             ['id' => $this->product_id],
             [
                 'product_code' => $this->product_code,
                 'brand' => $this->brand,
                 'product_name' => $this->product_name,
+                'invoice_description' => $this->invoice_description,
                 'product_category' => $this->product_category,
                 'origin' => $this->origin,
                 'batch_number' => $this->batch_number,
@@ -103,15 +101,10 @@ class AddProduct extends Component
                 'description' => $this->description,
                 'created_by' => $this->created_by,
                 'modified_by' => $this->modified_by,
-            ],
-            // $product_data
+            ]
         );
         
     
-       /*  Product::updateOrCreate(
-            ['id' => $this->product_id],
-            $product_data
-        ); */
         notyf()->success($this->isEditMode ? 'Product updated successfully.' : 'Product added successfully.');
         return redirect()->route('admin.products.index');
     }

@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
             $table->string('brand');
             $table->string('product_img')->nullable();
             $table->string('product_name');
+            $table->string('invoice_description');
             $table->string('product_category');
             $table->string('origin');
             $table->string('batch_number');
@@ -34,8 +35,9 @@ class CreateProductsTable extends Migration
             'id' => 1,
             'product_code' => 'DEFAULT001',
             'brand' => 'Default Brand',
-            'product_name' => 'Other Product',
             'product_category' => 'General',
+            'invoice_description' => 'test',
+            'product_name' => 'Other Product',
             'origin' => 'Unknown',
             'batch_number' => 'B0001',
             'expire_date' => now()->addYears(1),

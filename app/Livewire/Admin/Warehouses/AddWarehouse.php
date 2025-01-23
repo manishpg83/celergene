@@ -57,8 +57,14 @@ class AddWarehouse extends Component
 
     public function addEmailField()
     {
-        $this->emails[] = '';
+        if (count($this->emails) < 5) {
+            $this->emails[] = '';
+        } else { 
+            notyf()->error('You can only add up to 5 emails.');    
+
+        }
     }
+    
 
     public function removeEmailField($index)
     {
@@ -74,6 +80,7 @@ class AddWarehouse extends Component
             'type' => 'required|string|in:' . implode(',', array_keys($this->types)),
             'remarks' => 'nullable|string',
             'phone' => 'nullable|string',
+            'emails' => 'array|max:5',
             'emails.*' => [
                 'required',
                 'email',

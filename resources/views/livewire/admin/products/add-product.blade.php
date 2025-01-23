@@ -46,6 +46,14 @@
                                     @enderror
                                 </div>
 
+                                <div class="col-md-12">
+                                    <label class="form-label" for="description">Invoice Description</label>
+                                    <textarea class="form-control" id="invoice_description" wire:model="invoice_description" placeholder="Enter product Invoice Description" required></textarea>
+                                    @error('invoice_description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_category">Product Category</label>
                                     <select class="form-select" id="product_category" wire:model="product_category" required>

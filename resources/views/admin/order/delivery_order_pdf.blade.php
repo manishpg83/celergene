@@ -139,7 +139,7 @@
                 @foreach ($allDetails as $detail)
                 <tr>
                     <td>1</td>
-                    <td>{{ $detail->product->product_name }}</td>
+                    <td>{{ $detail->product->invoice_description }}</td>
                     <td>{{ $detail->quantity }}</td>
                     <td>{{ $detail->sample_quantity }}</td>
                 </tr>

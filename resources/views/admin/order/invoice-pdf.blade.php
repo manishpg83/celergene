@@ -250,7 +250,7 @@
             @endphp
             @foreach ($order->orderDetails as $detail)
                 <tr>
-                    <td style="width: 50%;">{{ $detail->product->product_name }}</td>
+                    <td style="width: 50%;">{{ $detail->product->invoice_description }}</td>
                     <td style="width: 15%;">{{ $detail->quantity }}</td>
                     <td style="width: 15%;">${{ number_format($detail->unit_price, 2) }}</td>
                     {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}

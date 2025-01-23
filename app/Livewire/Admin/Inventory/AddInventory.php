@@ -39,9 +39,14 @@ class AddInventory extends Component
             if ($inventory) {
                 $this->fill($inventory->toArray());
                 $this->isEditMode = true;
+                $this->stockHistory = Stock::where('inventory_id', $this->inventory_id)
+                    ->where('product_id', $this->product_code)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
             }
         }
     }
+
 
 
     public function saveInventory()
@@ -92,6 +97,11 @@ class AddInventory extends Component
         $products = Product::all();
         $warehouses = Warehouse::all();
 
-        return view('livewire.admin.inventory.add-inventory', compact('products', 'warehouses'));
+        return view('livewire.admin.inventory.add-inventory', [
+            'products' => $products,
+            'warehouses' => $warehouses,
+            'stockHistory' => $this->stockHistory ?? []  
+        ]);
     }
+
 }

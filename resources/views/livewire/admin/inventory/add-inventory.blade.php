@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
+                <div
+                    class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
                     <h5 class="card-title mb-sm-0 me-2">{{ $isEditMode ? 'Edit Inventory' : 'Add New Inventory' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
@@ -24,40 +25,54 @@
                                     <label class="form-label" for="product_code">Product</label>
                                     <select wire:model="product_code" id="product_code" class="form-select" required>
                                         <option value="">-- Select Product --</option>
-                                        @foreach($products as $product)
+                                        @foreach ($products as $product)
                                             <option value="{{ $product->id }}">{{ $product->product_code }}</option>
                                         @endforeach
                                     </select>
-                                    @error('product_code') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('product_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="warehouse_id">Warehouse</label>
                                     <select wire:model="warehouse_id" id="warehouse_id" class="form-select" required>
                                         <option value="">-- Select Warehouse --</option>
-                                        @foreach($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}">{{ $warehouse->warehouse_name }}</option>
+                                        @foreach ($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}">{{ $warehouse->warehouse_name }}
+                                            </option>
                                         @endforeach
                                     </select>
-                                    @error('warehouse_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('warehouse_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="batch_number">Batch Number</label>
-                                    <input type="text" wire:model="batch_number" id="batch_number" class="form-control" placeholder="Enter batch number" required>
-                                    @error('batch_number') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <input type="text" wire:model="batch_number" id="batch_number"
+                                        class="form-control" placeholder="Enter batch number" required>
+                                    @error('batch_number')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expiry">Expiry Date</label>
-                                    <input type="date" wire:model="expiry" id="expiry"  min="{{ date('Y-m-d') }}" class="form-control" required>
-                                    @error('expiry') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <input type="date" wire:model="expiry" id="expiry" min="{{ date('Y-m-d') }}"
+                                        class="form-control" required>
+                                    @error('expiry')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="quantity">Quantity</label>
-                                    <input type="number" wire:model="quantity" id="quantity" class="form-control" placeholder="Enter quantity" required>
-                                    @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <input type="number" wire:model="quantity" id="quantity" class="form-control"
+                                        placeholder="Enter quantity" required>
+                                    @error('quantity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-12 mt-4">
@@ -66,6 +81,35 @@
                                     </button>
                                 </div>
                             </form>
+                            {{-- @if ($isEditMode && isset($stockHistory) && $stockHistory->count() > 0)
+                                <div class="mt-5">
+                                    <h6>Inventory History</h6>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Previous Quantity</th>
+                                                <th>Quantity Change</th>
+                                                <th>New Quantity</th>
+                                                <th>Reason</th>
+                                                <th>Created By</th>
+                                                <th>Updated At</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($stockHistory as $history)
+                                                <tr>
+                                                    <td>{{ $history->previous_quantity }}</td>
+                                                    <td>{{ $history->quantity_change }}</td>
+                                                    <td>{{ $history->new_quantity }}</td>
+                                                    <td>{{ $history->reason }}</td>
+                                                    <td>{{ $history->creator->name }}</td>
+                                                    <td>{{ $history->created_at->format('Y-m-d H:i:s') }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif --}}
                         </div>
                     </div>
                 </div>
