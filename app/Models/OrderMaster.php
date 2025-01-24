@@ -179,6 +179,46 @@ class OrderMaster extends Model
         return $generatedOrderNumber;
     }
 
+    public static function generateCustomerOrderNumber($workflowType = null, $parentOrderId = null)
+    {
+        $currentDate = now();
+        $financialYear = $currentDate->month >= 4 
+            ? $currentDate->year 
+            : $currentDate->year - 1;
+
+        Log::info("Financial Year: {$financialYear}");
+
+        $query = self::where('order_number', 'like', $financialYear . '%');
+
+        if ($workflowType === OrderWorkflowType::CONSIGNMENT && $parentOrderId) {
+            $parentOrder = self::find($parentOrderId);
+            Log::info("Parent Order Found: " . ($parentOrder ? $parentOrder->order_number : 'None'));
+
+            if ($parentOrder) {
+                $subOrderCount = self::where('parent_order_id', $parentOrderId)->count() + 1;
+                $generatedOrderNumber = $parentOrder->order_number . '-' . str_pad($subOrderCount, 2, '0', STR_PAD_LEFT);
+                Log::info("Generated Sub-Order Number: {$generatedOrderNumber}");
+                return $generatedOrderNumber;
+            }
+        }
+
+        $lastOrder = $query->orderBy('order_number', 'desc')->first();
+        Log::info("Last Order Found: " . ($lastOrder ? $lastOrder->order_number : 'None'));
+
+        if (!$lastOrder) {          
+            $generatedOrderNumber = $financialYear . '0001';
+            Log::info("No Previous Orders. Generated Order Number: {$generatedOrderNumber}");
+            return $generatedOrderNumber;
+        }
+
+        $lastNumber = intval(substr($lastOrder->order_number, -4));
+        $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+
+        $generatedOrderNumber = 'ORD-' . $newNumber;
+        Log::info("Generated Order Number: {$generatedOrderNumber}");
+        return $generatedOrderNumber;
+    }
+
     public function updateRemainingQuantity()
     {
         if ($this->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
@@ -193,20 +233,24 @@ class OrderMaster extends Model
         }
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderDetails::class, 'order_id', 'order_id');
+    }
+
     public function canCreateMoreDeliveries(): bool
     {
         return $this->workflow_type === OrderWorkflowType::MULTI_DELIVERY 
             && $this->remaining_quantity > 0;
     }
 
-    // OrderMaster.php
     public function getStatusColorAttribute()
     {
         return match ($this->order_status) {
-            'Pending' => 'warning', // Bootstrap 'warning' class for orange
-            'Paid' => 'success',   // Bootstrap 'success' class for green
-            'Cancelled' => 'danger', // Bootstrap 'danger' class for red
-            default => 'secondary', // Default class (gray)
+            'Pending' => 'warning',
+            'Paid' => 'success',
+            'Cancelled' => 'danger',
+            default => 'secondary',
         };
     }
 

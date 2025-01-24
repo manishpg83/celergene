@@ -7,10 +7,6 @@
     {{--  @livewire('frontend.my-account') --}}
     <div class="page-wraper">
 
-        <!-- Header Start -->
-        <!-- Header End -->
-        <!-- contact-sidebar-start -->
-        <!-- contact-sidebar-end -->
         <div class="page-content bg-light">
 
             <!--Banner Start-->
@@ -33,7 +29,7 @@
                 <div class="container">
                     <div class="row">
                         @include('frontend.profile.account-sidebar')
-                        @livewire('frontend.account.order-view')
+                        @livewire('frontend.account.order-view', ['order_id' => $order_id])
                     </div>
                 </div>
             </div>

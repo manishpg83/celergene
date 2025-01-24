@@ -22,6 +22,11 @@ class OrderDetails extends Model
         'total'
     ];
 
+    public function order()
+    {
+        return $this->belongsTo(OrderMaster::class, 'order_id', 'id');
+    }
+
     public function orderMaster()
     {
         return $this->belongsTo(OrderMaster::class, 'order_id');

@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use App\Models\Payment;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use App\Models\OrderMaster;
 
 class Checkout extends Component
 {
@@ -306,7 +307,7 @@ class Checkout extends Component
                 ->where('user_id', $this->user->id)
                 ->first();
 
-            $orderNumber = 'ORD-' . Str::random(10);
+            $orderNumber = OrderMaster::generateOrderNumber();
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
                 'customer_id' => $customer->id,

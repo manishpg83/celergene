@@ -14,13 +14,15 @@
                 <tbody>
                     @forelse($orders as $order)
                         <tr>
-                            <td><a href="#" class="fw-medium">#{{ $order->order_number }}</a></td>
+                            <td><a href="#" class="fw-medium">#{{ $order->formatted_order_number }}</a></td>
                             <td>{{ $order->created_at->format('F d, Y') }}</td>
                             <td>${{ number_format($order->total, 2) }}</td>
                             <td>
-                                <span class="badge-{{ strtolower($order->order_status) }}">{{ ucfirst($order->order_status) }}</span>
+                                <span
+                                    class="badge-{{ strtolower($order->order_status) }}">{{ ucfirst($order->order_status) }}</span>
                             </td>
-                            <td><a href="{{ route('orderview') }}" class="btn-link text-underline p-0">View</a></td>
+                            <td><a href="{{ route('orderview', ['order_id' => $order->order_id]) }}"
+                                    class="btn-link text-underline p-0">View</a></td>
                         </tr>
                     @empty
                         <tr>
@@ -28,15 +30,13 @@
                         </tr>
                     @endforelse
                 </tbody>
-                
             </table>
         </div>
-        
-        {{-- <!-- Pagination -->
-        @if($orders->hasPages())
+
+        @if ($orders->hasPages())
             <div class="d-flex justify-content-center">
-                {{ $orders->links() }}
+                {{ $orders->links('vendor.pagination.style-1') }}
             </div>
-        @endif --}}
+        @endif
     </div>
 </section>

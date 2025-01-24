@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\OrderMaster;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -18,29 +19,52 @@ class HomeController extends Controller
     {
         return view('frontend.auth.register');
     }
+    
+    public function getTotalOrders()
+    {
+        return OrderMaster::count();
+    }
+
+    public function getTotalPendingOrders()
+    {
+        return OrderMaster::where('status', 'pending')->count();
+    }
 
     public function myAccount()
     {   
         $auth = Auth::user();
         $customer = Customer::where('user_id', $auth->id)->first();
-        return view('frontend.profile.account',compact('customer'));
+    
+        if ($customer) {
+            $customerId = $customer->id;
+    
+            $totalOrders = OrderMaster::where('customer_id', $customerId)->count();
+            $totalPendingOrders = OrderMaster::where('customer_id', $customerId)
+                ->where('order_status', 'pending')
+                ->count();
+        } else {
+            $totalOrders = 0;
+            $totalPendingOrders = 0;
+        }
+    
+        return view('frontend.profile.account', compact('customer', 'totalOrders', 'totalPendingOrders'));
     }
+     
 
     public function myOrders()
     {
         return view('frontend.profile.account-orders');
     }
 
-    public function Orderview()
+    public function Orderview($order_id = null)
     {
-        return view('frontend.profile.order-view');
+        return view('frontend.profile.order-view', ['order_id' => $order_id]);
     }
 
     public function myProfile()
     {
         return view('frontend.profile.account-profile');
     }
-
 
     public function billingaddress()
     {

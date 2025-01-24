@@ -7,10 +7,6 @@
     {{--  @livewire('frontend.my-account') --}}
     <div class="page-wraper">
 
-        <!-- Header Start -->
-        <!-- Header End -->
-        <!-- contact-sidebar-start -->
-        <!-- contact-sidebar-end -->
         <div class="page-content bg-light">
 
             <!--Banner Start-->

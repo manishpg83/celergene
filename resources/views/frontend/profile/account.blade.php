@@ -7,10 +7,6 @@
     {{--  @livewire('frontend.my-account') --}}
     <div class="page-wraper">
 
-        <!-- Header Start -->
-        <!-- Header End -->
-        <!-- contact-sidebar-start -->
-        <!-- contact-sidebar-end -->
         <div class="page-content bg-light">
 
             <!--Banner Start-->
@@ -73,8 +69,8 @@
                                                 </svg>
                                             </div>
                                             <div class="total-detail">
-                                                <span class="text">Total Order</span>
-                                                <h2 class="title">3658</h2>
+                                                <span class="text">Total Orders</span>
+                                                <h2 class="title">{{ $totalOrders }}</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -89,8 +85,8 @@
                                                 </svg>
                                             </div>
                                             <div class="total-detail">
-                                                <span class="text">Total Pending Order</span>
-                                                <h2 class="title">215</h2>
+                                                <span class="text">Total Pending Orders</span>
+                                                <h2 class="title">{{ $totalPendingOrders }}</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -114,78 +110,6 @@
                                                 <span class="text">Total Wishlist</span>
                                                 <h2 class="title">31576</h2>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-8">
-                                        <div class="sales-chart-wraper">
-                                            <div id="handleSalesChart"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4">
-                                        <div class="card countries-card px-3 pt-3 pb-2 mb-2">
-                                            <h6>Your Top Countries</h6>
-                                            <ul>
-                                                <li>
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic1.png') }}"
-                                                            alt="">
-                                                        <span>United States</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$130.00</h6>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic2.png') }}"
-                                                            alt="">
-                                                        <span>India</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$110.00</h6>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic3.png') }}"
-                                                            alt="">
-                                                        <span>Africa</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$90.00</h6>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic4.png') }}"
-                                                            alt="">
-                                                        <span>Canada</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$75.00</h6>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic5.png') }}"
-                                                            alt="">
-                                                        <span>Brazil</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$60.00</h6>
-                                                    </div>
-                                                </li>
-                                                <li class="border-bottom-0">
-                                                    <div class="thumb-detail">
-                                                        <img src="{{ asset('frontend/images/country/pic6.png') }}"
-                                                            alt="">
-                                                        <span>Jordan</span>
-                                                    </div>
-                                                    <div class="thumb-content">
-                                                        <h6 class="amount">$50.00</h6>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>

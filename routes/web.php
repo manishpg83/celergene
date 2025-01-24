@@ -19,7 +19,7 @@ Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');
     Route::get('/myorders', [HomeController::class, 'myOrders'])->name('myorders');
-    Route::get('/orderview', [HomeController::class, 'orderview'])->name('orderview');
+    Route::get('/orderview/{order_id?}', [HomeController::class, 'orderview'])->name('orderview');
     Route::get('/myprofile', [HomeController::class, 'myProfile'])->name('myprofile');
     Route::get('/billingaddress', [HomeController::class, 'billingaddress'])->name('billingaddress');
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
