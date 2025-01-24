@@ -21,7 +21,7 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-row">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('myaccount') }}"> Home</a></li>
-                                <li class="breadcrumb-item">Account Orders</li>
+                                <li class="breadcrumb-item">Account Orders Deatils</li>
                             </ul>
                         </nav>
                     </div>
@@ -33,10 +33,12 @@
                 <div class="container">
                     <div class="row">
                         @include('frontend.profile.account-sidebar')
-                        @livewire('frontend.account.myorders')
+                        @livewire('frontend.account.order-view')
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 @endsection

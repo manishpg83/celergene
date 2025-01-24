@@ -198,4 +198,16 @@ class OrderMaster extends Model
         return $this->workflow_type === OrderWorkflowType::MULTI_DELIVERY 
             && $this->remaining_quantity > 0;
     }
+
+    // OrderMaster.php
+    public function getStatusColorAttribute()
+    {
+        return match ($this->order_status) {
+            'Pending' => 'warning', // Bootstrap 'warning' class for orange
+            'Paid' => 'success',   // Bootstrap 'success' class for green
+            'Cancelled' => 'danger', // Bootstrap 'danger' class for red
+            default => 'secondary', // Default class (gray)
+        };
+    }
+
 }

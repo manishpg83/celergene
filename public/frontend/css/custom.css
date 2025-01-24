@@ -593,6 +593,47 @@ div#dob-text {
     }
 }
 
+/* app.css or a custom stylesheet */
+.badge-pending {
+    background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    padding: 3px 4px;
+    font-weight: var(--headings-font-weight);
+    border-radius: 0;
+    font-family: var(--font-family-base);
+    font-size: 11px;
+    min-width: 17px;
+    min-height: 13px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.badge-paid {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    padding: 3px 4px;
+    font-weight: var(--headings-font-weight);
+    border-radius: 0;
+    font-family: var(--font-family-base);
+    font-size: 11px;
+    min-width: 17px;
+    min-height: 13px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.badge-cancelled {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    padding: 3px 4px;
+    font-weight: var(--headings-font-weight);
+    border-radius: 0;
+    font-family: var(--font-family-base);
+    font-size: 11px;
+    min-width: 17px;
+    min-height: 13px;
+    text-transform: uppercase;
+    text-align: center;
+}
 
 
 /* Button */

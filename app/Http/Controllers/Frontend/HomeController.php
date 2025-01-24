@@ -31,6 +31,11 @@ class HomeController extends Controller
         return view('frontend.profile.account-orders');
     }
 
+    public function Orderview()
+    {
+        return view('frontend.profile.order-view');
+    }
+
     public function myProfile()
     {
         return view('frontend.profile.account-profile');
