@@ -28,20 +28,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/paypal/success', [PayPalWebhookController::class, 'success'])->name('paypal.success');
     Route::get('/paypal/cancel', [PayPalWebhookController::class, 'cancel'])->name('paypal.cancel');
     // Add these with your other routes
-Route::get('/checkout/error', function () {
-    return view('frontend.checkout.error');
-})->name('checkout.error');
+    Route::get('/checkout/error', function () {
+        return view('frontend.checkout.error');
+    })->name('checkout.error');
 
-Route::get('/checkout', function () {
-    return view('frontend.checkout');
-})->name('checkout');
+    Route::get('/checkout', function () {
+        return view('frontend.checkout');
+    })->name('checkout');
 
-Route::get('/order/success', function () {
-    return view('frontend.order.success');
-})->name('order.success');
+    Route::get('/order/success', function () {
+        return view('frontend.order.success');
+    })->name('order.success');
 
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    // Route::get('/addshippingaddress/{addressNumber?}', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
     Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });

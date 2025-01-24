@@ -13,14 +13,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalOrders = OrderMaster::count();
-        $averageOrder = OrderMaster::sum('total');
-        $totalCustomers = Customer::count();
-        $totalRevenue = OrderMaster::sum('total');
+        $currentYear = now()->year;
+        $totalOrders = OrderMaster::whereYear('order_date',$currentYear)->count();
+        $averageOrder = OrderMaster::whereYear('order_date',$currentYear)->sum('total');
+        $totalCustomers = Customer::whereYear('created_at', $currentYear)->count();
+        $totalRevenue = OrderMaster::whereYear('order_date',$currentYear)->sum('total');
         $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
 
         $products = Product::latest()->take(5)->get();
-        $orders = OrderMaster::with('customer')->latest()->take(5)->get();
+        $orders = OrderMaster::with('customer')
+                ->whereYear('order_date', $currentYear)
+                ->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
         $orderStats = OrderMaster::selectRaw('YEAR(order_date) as year, COUNT(*) as order_count')
