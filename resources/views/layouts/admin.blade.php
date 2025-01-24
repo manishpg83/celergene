@@ -60,13 +60,16 @@
     @livewireStyles
     @stack('styles')
     <style>
+        .main-body{
+            font-family: Arial, Helvetica, sans-serif !important;
+        }
         .mt-8 {
             margin-top: 8rem !important;
         }
     </style>
 </head>
 
-<body>
+<body class="main-body">
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             @can('view dashboard')
