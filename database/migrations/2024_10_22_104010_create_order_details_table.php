@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->decimal('unit_price', 10, 2);
             $table->integer('quantity');
             $table->integer('invoice_rem')->default(0);
+            $table->integer('sample_quantity_remaining')->default(0);
             $table->integer('remaining_quantity')->nullable();
             $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('total', 10, 2);

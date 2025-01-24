@@ -226,11 +226,11 @@
                                                         style="font-size: 20px; color: rgb(94, 59, 190);"></i>
                                                 </a>
 
-                                                <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
+                                                {{-- <a href="{{ route('admin.orders.delivery', $order->order_id) }}"
                                                     class="btn btn-sm btn-warning mr-1" data-bs-toggle="tooltip"
                                                     title="Manage DO">
                                                     <i class="bi bi-truck" style="font-size: 14px;"></i>
-                                                </a>
+                                                </a> --}}
                                             </div>
                                         </td>
                                     </tr>

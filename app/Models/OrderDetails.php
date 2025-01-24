@@ -16,6 +16,7 @@ class OrderDetails extends Model
         'remaining_quantity',
         'invoice_rem',
         'sample_quantity',
+        'sample_quantity_remaining',
         'quantity',
         'discount',
         'total'

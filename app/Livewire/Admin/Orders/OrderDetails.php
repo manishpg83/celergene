@@ -25,23 +25,21 @@ class OrderDetails extends Component
     public $invoices;
     public $quantitySplits = [];
     public $actual_freight;
+    public $sampleQuantities = [];
+
 
     public function mount($order_id)
     {
         $this->order_id = $order_id;
-        Log::info('Mounting OrderDetails component with order_id: ' . $order_id);
-
         try {
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
             Log::info('Order found:', ['order' => $this->order->toArray()]);
 
-            // Retrieve all delivery orders with necessary relations
             $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
                 ->where('order_id', $order_id)
                 ->get();
             Log::info('Raw delivery orders:', ['delivery_orders' => $rawDeliveryOrders->toArray()]);
 
-            // Process each delivery order separately without grouping by warehouse
             $this->deliveryOrders = $rawDeliveryOrders->map(function ($deliveryOrder) {
                 return [
                     'warehouse_id' => $deliveryOrder->warehouse_id,
@@ -64,7 +62,6 @@ class OrderDetails extends Component
             })->values();
             Log::info('Final processed delivery orders:', ['delivery_orders' => $this->deliveryOrders->toArray()]);
 
-            // Load invoices and other necessary data
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
         } catch (\Exception $e) {
@@ -75,8 +72,6 @@ class OrderDetails extends Component
             notyf()->error("Unable to load order details.");
         }
     }
-
-
 
     public function updateActualFreight()
     {
@@ -92,29 +87,44 @@ class OrderDetails extends Component
     }
 
     public function generateInvoices()
-    {
-        $this->quantitySplits = array_map('intval', $this->quantitySplits);
+{
+    // Convert inputs to integers
+    $this->quantitySplits = array_map('intval', $this->quantitySplits);
+    $this->sampleQuantities = array_map('intval', $this->sampleQuantities);
 
-        $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
+    // Fetch order details
+    $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
 
-        foreach ($orderDetails as $index => $detail) {
-            $requestedQty = $this->quantitySplits[$index] ?? 0;
+    // Validate requested and sample quantities
+    foreach ($orderDetails as $index => $detail) {
+        $requestedQty = $this->quantitySplits[$index] ?? 0;
+        $sampleQty = $this->sampleQuantities[$index] ?? 0;
 
-            if ($requestedQty > $detail->invoice_rem) {
-                notyf()->error("Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
-                return;
-            }
+        // Check for quantity split exceeding available remaining quantity
+        if ($requestedQty > $detail->invoice_rem) {
+            notyf()->error("Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
+            return;
         }
 
-        $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0;
-
-        if ($hasQuantitiesToInvoice) {
-            $this->createCombinedInvoice($orderDetails);
+        // Check for sample quantity exceeding remaining sample quantity
+        if ($sampleQty > $detail->sample_quantity_remaining) {
+            notyf()->error("Requested sample quantity for {$detail->product->product_name} exceeds remaining sample quantity!");
+            return;
         }
-
-        $this->mount($this->order_id);
-        notyf()->success('Invoices generated successfully!');
     }
+
+    // Check if there are quantities to invoice
+    $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0 || collect($this->sampleQuantities)->sum() > 0;
+
+    if ($hasQuantitiesToInvoice) {
+        $this->createCombinedInvoice($orderDetails);
+    }
+
+    // Refresh data
+    $this->mount($this->order_id);
+    notyf()->success('Invoices generated successfully!');
+}
+
 
     private function createCombinedInvoice($orderDetails)
     {
@@ -126,9 +136,12 @@ class OrderDetails extends Component
 
         foreach ($orderDetails as $index => $detail) {
             $splitQty = $this->quantitySplits[$index] ?? 0;
+            $sampleQty = $this->sampleQuantities[$index] ?? 0;
+            
 
-            if ($splitQty > 0) {
+            if ($splitQty > 0 || $sampleQty > 0) {
                 $detail->invoice_rem -= $splitQty;
+                $detail->sample_quantity_remaining -= $sampleQty;
                 $detail->save();
 
                 $productSubtotal = $splitQty * $detail->unit_price;
@@ -144,6 +157,7 @@ class OrderDetails extends Component
                     'discount' => $detail->discount,
                     'total' => $splitQty * $detail->unit_price - $detail->discount,
                     'manual_product_name' => $detail->manual_product_name,
+                    'sample_quantity' => $detail->sample_quantity, 
                 ];
             }
         }
@@ -180,6 +194,7 @@ class OrderDetails extends Component
                 'discount' => $detailData['discount'],
                 'total' => $detailData['total'],
                 'manual_product_name' => $detailData['manual_product_name'],
+                'sample_quantity' => $detailData['sample_quantity'],
             ]);
         }
 
@@ -283,4 +298,5 @@ class OrderDetails extends Component
             return view('livewire.admin.orders.order-details', ['showSplitInvoices' => false]);
         }
     }
+
 }

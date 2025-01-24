@@ -104,10 +104,11 @@
                                         </td>
                                         <td class="text-center">
                                             ${{ number_format(
-                                                (intval($detail->quantity) - intval($detail->sample_quantity)) * floatval($detail->unit_price) - floatval($detail->discount),
-                                                2
+                                                (intval($detail->quantity) - intval($detail->sample_quantity)) * floatval($detail->unit_price) -
+                                                    floatval($detail->discount),
+                                                2,
                                             ) }}
-                                        </td>                                        
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -163,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-
+                    @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
                     <div class="card mt-4">
                         <div class="card-header">
                             <h5 class="card-title">Invoice Details</h5>
@@ -182,7 +183,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($invoices as $invoice)
+                                        @foreach ($invoices->skip(1) as $invoice)
                                             <tr>
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
                                                 <td class="text-center">
@@ -268,26 +269,37 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card mt-4" @if (!$showSplitInvoices) style="display: none;" @endif>
                         <div class="card-header">
                             <h5 class="card-title">Generate Split Invoices</h5>
                         </div>
                         <div class="card-body">
                             <form wire:submit.prevent="generateInvoices">
-                                @foreach ($order->orderDetails as $index => $detail)
-                                    <div class="mb-3">
-                                        <label for="quantitySplit_{{ $index }}" class="form-label">
-                                            {{ $detail->product->product_name }} (Remaining Qty:
-                                            {{ $detail->invoice_rem }})
-                                        </label>
-                                        <input type="number" id="quantitySplit_{{ $index }}"
-                                            wire:model="quantitySplits.{{ $index }}" class="form-control"
-                                            min="0" max="{{ $detail->invoice_rem }}" step="1" />
-                                    </div>
-                                @endforeach
+                                <div class="row">
+                                    @foreach ($order->orderDetails as $index => $detail)
+                                        <div class="col-md-6 mb-3">
+                                            <label for="quantitySplit_{{ $index }}" class="form-label">
+                                                {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->invoice_rem }})
+                                            </label>
+                                            <input type="number" id="quantitySplit_{{ $index }}"
+                                                wire:model="quantitySplits.{{ $index }}" class="form-control"
+                                                min="0" max="{{ $detail->invoice_rem }}" step="1"
+                                                placeholder="Invoice Quantity" />
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="sampleQuantity_{{ $index }}" class="form-label">
+                                                {{ $detail->product->product_name }} - Sample Quantity 
+                                                (Remaining Sample: {{ $detail->sample_quantity_remaining }})
+                                            </label>
+                                            <input type="number" id="sampleQuantity_{{ $index }}"
+                                                wire:model="sampleQuantities.{{ $index }}" class="form-control"
+                                                min="0" max="{{ $detail->sample_quantity_remaining }}" step="1"
+                                                placeholder="Sample Quantity" />
+                                        </div>
+                                    @endforeach
+                                </div>
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
-                            </form>
+                            </form>                            
                         </div>
                     </div>
                 </div>

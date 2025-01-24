@@ -15,6 +15,7 @@ class OrderInvoiceDetail extends Model
         'quantity',
         'delivered_quantity',
         'invoiced_quantity',
+        'sample_quantity',
         'discount',
         'total',
         'manual_product_name'
