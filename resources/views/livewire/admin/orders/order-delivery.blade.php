@@ -118,21 +118,24 @@
             </table>
         </div>
 
-        @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
-                    <select wire:model="deliveryStatus" id="deliveryStatus" class="form-select">
-                        <option value="Pending">Pending</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
-                    </select>
-                </div>
-            </div>
-        @endif
-
         <div class="row mb-4">
+            <div class="col-md-6 ms-auto">
+                @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
+                    <div class="col-md-6">
+                        <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
+                        <select wire:model="deliveryStatus" id="deliveryStatus" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                @endif
+                <div class="col-md-12">
+                    <label for="remarks">Remarks</label>
+                    <textarea id="remarks" wire:model.defer="remarks" class="form-control"></textarea>
+                </div>
+            </div>      
             <div class="col-md-6 ms-auto">
                 <div class="card rounded-3 shadow-sm border">
                     <div class="card-body p-4">

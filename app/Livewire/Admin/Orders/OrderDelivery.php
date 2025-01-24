@@ -20,6 +20,7 @@ class OrderDelivery extends Component
     public $order_id;
     public $order;
     public $deliveryStatus;
+    public $remarks;
     public $selectedInventories = [];
     public $inventoryQuantities = [];
     public $totalOrderQuantity = 0;
@@ -28,7 +29,8 @@ class OrderDelivery extends Component
 
     protected $rules = [
         'deliveryStatus' => 'required|in:Pending,Shipped,Delivered,Cancelled',
-        'inventoryQuantities.*' => 'nullable|integer|min:0'
+        'inventoryQuantities.*' => 'nullable|integer|min:0',
+        'remarks' => 'nullable|string|max:255'
     ];
 
     public function mount($order_id)
@@ -188,7 +190,7 @@ class OrderDelivery extends Component
                                 'warehouse_id' => $warehouseId,
                                 'delivery_date' => now(),
                                 'status' => 'Delivered',
-                                'remarks' => 'Generated for delivery',
+                                'remarks' => $this->remarks,
                                 'created_by' => Auth::id(),
                                 'modified_by' => Auth::id(),
                                 'order_invoice_id' => $orderInvoice->id,
@@ -198,9 +200,7 @@ class OrderDelivery extends Component
                         }
 
                         $deliveryOrder = $warehouseDeliveryOrders[$warehouseId];
-                        // Find order details matching the inventory's product_id
                         foreach ($this->order->orderDetails as $detail) {
-                            // dd($inventory);
                             if ($detail->product_id === $inventory->product_code) {
                                 DeliveryOrderDetail::create([
                                     'delivery_order_id' => $deliveryOrder->id,
@@ -213,17 +213,15 @@ class OrderDelivery extends Component
                                     'order_detail_id' => $detail->id,
                                 ]);
 
-                                break; // Avoid creating multiple entries for the same product in the same loop
+                                break;
                             }
                         }
                         $warehouse = $inventory->warehouse;
-                        // dd($warehouse);
                         if ($warehouse && $warehouse->email && $inventory->remaining > 0) {
                             $warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
                         }
                     }
                 }
-
 
                 $this->order->delivery_status = $this->deliveryStatus;
                 $this->order->modified_by = Auth::id();
