@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('delivered_quantity')->default(0);
             $table->integer('invoiced_quantity')->default(0);
-            $table->integer('sample_quantity ')->default(0);
+            $table->integer('sample_quantity')->default(0);
             $table->decimal('discount', 10, 2)->default(0.00);
             $table->decimal('total', 10, 2);
             $table->string('manual_product_name', 100)->nullable();
