@@ -50,15 +50,18 @@ class WarehouseOrderUpdate extends Notification
      */
     public function toMail($notifiable)
     {
+        $orderDetails = $this->order->orderDetails;
+        $customer = $this->order->customer;
+
         return (new MailMessage)
             ->subject('Order Update Notification')
-            ->line('Order with Invoice ID: ' . $this->order->order_id . ' has been updated.')
-            ->line('Order Status: ' . $this->order->delivery_status)
-            ->line('Warehouse: ' . $this->warehouseName)
-            ->line('Shipping Address: ' . $this->shippingAddress)
-            ->line('Product: ' . $this->inventory->product->name)
-            ->line('Quantity Used: ' . $this->inventory->consumed)
-            ->line('Remaining Quantity: ' . $this->inventory->remaining)
-            ->line('Thank you for using our application!');
+            ->markdown('admin.emails.warehouse-do', [
+                'order' => $this->order,
+                'orderDetails' => $orderDetails,
+                'inventory' => $this->inventory,
+                'warehouseName' => $this->warehouseName,
+                'shippingAddress' => $this->shippingAddress,
+                'customerMobile' => $customer->mobile_number ?? 'N/A',
+            ]);
     }
 }

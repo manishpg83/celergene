@@ -219,21 +219,20 @@ class OrderDelivery extends Component
                         $warehouse = $inventory->warehouse;
                         if ($warehouse) {
                             $emails = DB::table('warehouse_emails')
-                                        ->where('warehouse_id', $warehouse->id)
-                                        ->pluck('email');
+                                ->where('warehouse_id', $warehouse->id)
+                                ->pluck('email');
 
-                            $warehouseName = $warehouse->name;
+                            $warehouseName = $warehouse->warehouse_name;
                             $shippingAddress = $this->order->shipping_address;
 
                             foreach ($emails as $email) {
                                 Notification::route('mail', $email)
-                                     ->notify(new WarehouseOrderUpdate($this->order, $inventory, $warehouseName, $shippingAddress));
+                                    ->notify(new WarehouseOrderUpdate($this->order->load(['orderDetails', 'customer']), $inventory, $warehouseName, $shippingAddress));
                             }
                         }
-                        
                     }
                 }
-
+                
                 $this->order->delivery_status = $this->deliveryStatus;
                 $this->order->modified_by = Auth::id();
                 $this->order->save();
