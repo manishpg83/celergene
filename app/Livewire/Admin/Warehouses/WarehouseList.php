@@ -29,27 +29,6 @@ class WarehouseList extends Component
         $this->resetFields();
     }
 
-    public function render()
-    {
-        $query = Warehouse::query()
-            ->when($this->search, function ($query) {
-                $query->where(function ($subQuery) {
-                    $subQuery->where('warehouse_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('country', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('type', 'LIKE', '%' . $this->search . '%');
-                });
-            })
-            ->withTrashed()
-            ->orderBy($this->sortField, $this->sortDirection);
-
-        $warehouses = $query->paginate($this->perPage);
-        $perpagerecords = perpagerecords();
-        return view('livewire.admin.warehouses.warehouse-list', [
-            'warehouses' => $warehouses,
-            'perpagerecords' => $perpagerecords,
-        ]);
-    }
-
     public function updatedPerPage($value)
     {
         $this->perPage = $value;
@@ -140,5 +119,26 @@ class WarehouseList extends Component
         }
 
         $this->resetPage();
+    }
+
+    public function render()
+    {
+        $query = Warehouse::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('warehouse_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('country', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('type', 'LIKE', '%' . $this->search . '%');
+                });
+            })
+            ->withTrashed()
+            ->orderBy($this->sortField, $this->sortDirection);
+
+        $warehouses = $query->paginate($this->perPage);
+        $perpagerecords = perpagerecords();
+        return view('livewire.admin.warehouses.warehouse-list', [
+            'warehouses' => $warehouses,
+            'perpagerecords' => $perpagerecords,
+        ]);
     }
 }

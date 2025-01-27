@@ -87,43 +87,34 @@ class OrderDetails extends Component
     }
 
     public function generateInvoices()
-{
-    // Convert inputs to integers
-    $this->quantitySplits = array_map('intval', $this->quantitySplits);
-    $this->sampleQuantities = array_map('intval', $this->sampleQuantities);
+    {
+        $this->quantitySplits = array_map('intval', $this->quantitySplits);
+        $this->sampleQuantities = array_map('intval', $this->sampleQuantities);
 
-    // Fetch order details
-    $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
+        $orderDetails = NewOrderDetails::where('order_id', $this->order_id)->get();
 
-    // Validate requested and sample quantities
-    foreach ($orderDetails as $index => $detail) {
-        $requestedQty = $this->quantitySplits[$index] ?? 0;
-        $sampleQty = $this->sampleQuantities[$index] ?? 0;
+        foreach ($orderDetails as $index => $detail) {
+            $requestedQty = $this->quantitySplits[$index] ?? 0;
+            $sampleQty = $this->sampleQuantities[$index] ?? 0;
+            if ($requestedQty > $detail->invoice_rem) {
+                notyf()->error("Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
+                return;
+            }
 
-        // Check for quantity split exceeding available remaining quantity
-        if ($requestedQty > $detail->invoice_rem) {
-            notyf()->error("Requested quantity for {$detail->product->product_name} exceeds remaining quantity!");
-            return;
+            if ($sampleQty > $detail->sample_quantity_remaining) {
+                notyf()->error("Requested sample quantity for {$detail->product->product_name} exceeds remaining sample quantity!");
+                return;
+            }
+        }
+        $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0 || collect($this->sampleQuantities)->sum() > 0;
+
+        if ($hasQuantitiesToInvoice) {
+            $this->createCombinedInvoice($orderDetails);
         }
 
-        // Check for sample quantity exceeding remaining sample quantity
-        if ($sampleQty > $detail->sample_quantity_remaining) {
-            notyf()->error("Requested sample quantity for {$detail->product->product_name} exceeds remaining sample quantity!");
-            return;
-        }
+        $this->mount($this->order_id);
+        notyf()->success('Invoices generated successfully!');
     }
-
-    // Check if there are quantities to invoice
-    $hasQuantitiesToInvoice = collect($this->quantitySplits)->sum() > 0 || collect($this->sampleQuantities)->sum() > 0;
-
-    if ($hasQuantitiesToInvoice) {
-        $this->createCombinedInvoice($orderDetails);
-    }
-
-    // Refresh data
-    $this->mount($this->order_id);
-    notyf()->success('Invoices generated successfully!');
-}
 
 
     private function createCombinedInvoice($orderDetails)
@@ -137,7 +128,7 @@ class OrderDetails extends Component
         foreach ($orderDetails as $index => $detail) {
             $splitQty = $this->quantitySplits[$index] ?? 0;
             $sampleQty = $this->sampleQuantities[$index] ?? 0;
-            
+
 
             if ($splitQty > 0 || $sampleQty > 0) {
                 $detail->invoice_rem -= $splitQty;
@@ -157,7 +148,7 @@ class OrderDetails extends Component
                     'discount' => $detail->discount,
                     'total' => $splitQty * $detail->unit_price - $detail->discount,
                     'manual_product_name' => $detail->manual_product_name,
-                    'sample_quantity' => $detail->sample_quantity, 
+                    'sample_quantity' => $detail->sample_quantity,
                 ];
             }
         }

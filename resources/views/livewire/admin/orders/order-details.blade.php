@@ -183,7 +183,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($invoices->skip(1) as $invoice)
+                                        @php
+                                            $invoicesToDisplay = $showSplitInvoices ? $invoices->skip(1) : $invoices;
+                                        @endphp
+                                        @foreach ($invoicesToDisplay  as $invoice)
                                             <tr>
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
                                                 <td class="text-center">

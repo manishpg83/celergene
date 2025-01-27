@@ -349,6 +349,7 @@ class CreateOrder extends Component
                         'remaining_quantity' => $detail['quantity'],
                         'invoice_rem' => $detail['quantity'],
                         'sample_quantity' => $detail['sample_quantity'] ?? 0,
+                        'sample_quantity_remaining' => $detail['sample_quantity'] ?? 0,
                         'total' => $detail['total'],
                     ];
 

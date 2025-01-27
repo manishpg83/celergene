@@ -44,7 +44,8 @@
                             <th wire:click="sortBy('warehouse_name')" style="cursor: pointer;">Warehouse Name</th>
                             <th class="text-center" wire:click="sortBy('country')" style="cursor: pointer;">Country</th>
                             <th class="text-center" wire:click="sortBy('type')" style="cursor: pointer;">Type</th>
-                            <th class="text-center">Distributor</th>
+                            <th class="text-center">Phone</th>
+                            {{-- <th class="text-center">Email</th> --}}
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -59,7 +60,15 @@
                                     <td>{{ $warehouse->warehouse_name }}</td>
                                     <td class="text-center">{{ $warehouse->country }}</td>
                                     <td class="text-center">{{ $warehouse->type }}</td>
-                                    <td class="text-center">{{ $warehouse->supplier->supplier_name ?? 'N/A' }}</td>
+                                    <td class="text-center">{{ $warehouse->phone ?? 'N/A' }}</td>
+                                   {{--  <td class="text-center">
+                                        <!-- Fetch and display emails -->
+                                        <span class="text-muted">
+                                            @foreach ($warehouse->emails as $email)
+                                                <div>{{ $email->email }}</div>
+                                            @endforeach
+                                        </span>
+                                    </td> --}}
                                     <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-link text-black" type="button"
@@ -98,8 +107,8 @@
                             @endforeach
                         @endif
                     </tbody>
+
                 </table>
-                
             </div>
 
             <div class="mt-3">

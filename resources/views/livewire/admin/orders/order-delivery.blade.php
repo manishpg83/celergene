@@ -121,7 +121,7 @@
         <div class="row mb-4">
             <div class="col-md-6 ms-auto">
                 @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                         <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
                         <select wire:model="deliveryStatus" id="deliveryStatus" class="form-select">
                             <option value="Pending">Pending</option>
