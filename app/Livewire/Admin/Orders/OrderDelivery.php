@@ -221,9 +221,13 @@ class OrderDelivery extends Component
                             $emails = DB::table('warehouse_emails')
                                         ->where('warehouse_id', $warehouse->id)
                                         ->pluck('email');
+
+                            $warehouseName = $warehouse->name;
+                            $shippingAddress = $this->order->shipping_address;
+
                             foreach ($emails as $email) {
                                 Notification::route('mail', $email)
-                                    ->notify(new WarehouseOrderUpdate($this->order, $inventory));
+                                     ->notify(new WarehouseOrderUpdate($this->order, $inventory, $warehouseName, $shippingAddress));
                             }
                         }
                         
