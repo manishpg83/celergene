@@ -14,6 +14,8 @@ use App\Models\DeliveryOrderDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\WarehouseOrderUpdate;
+use Illuminate\Support\Facades\Notification;
+
 
 class OrderDelivery extends Component
 {
@@ -159,7 +161,7 @@ class OrderDelivery extends Component
                     }
                 }
 
-                $warehouseDeliveryOrders = []; // To track existing delivery orders per warehouse
+                $warehouseDeliveryOrders = [];
 
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity > 0) {
@@ -176,13 +178,11 @@ class OrderDelivery extends Component
                             throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
                         }
 
-                        // Update inventory
                         $inventory->decrement('remaining', $quantity);
                         $inventory->increment('consumed', $quantity);
                         $inventory->modified_by = Auth::id();
                         $inventory->save();
 
-                        // Check if a delivery order already exists for this warehouse
                         if (!isset($warehouseDeliveryOrders[$warehouseId])) {
                             $deliveryOrder = DeliveryOrder::create([
                                 'order_id' => $this->order->order_id,
@@ -217,9 +217,16 @@ class OrderDelivery extends Component
                             }
                         }
                         $warehouse = $inventory->warehouse;
-                        if ($warehouse && $warehouse->email && $inventory->remaining > 0) {
-                            $warehouse->notify(new WarehouseOrderUpdate($this->order, $inventory));
+                        if ($warehouse) {
+                            $emails = DB::table('warehouse_emails')
+                                        ->where('warehouse_id', $warehouse->id)
+                                        ->pluck('email');
+                            foreach ($emails as $email) {
+                                Notification::route('mail', $email)
+                                    ->notify(new WarehouseOrderUpdate($this->order, $inventory));
+                            }
                         }
+                        
                     }
                 }
 
