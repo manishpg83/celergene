@@ -11,7 +11,7 @@ class WarehouseOrderUpdate extends Notification
     use Queueable;
 
     protected $order;
-    protected $inventory;
+    protected $productDetails; // Change from inventory to productDetails
     protected $warehouseName;
     protected $shippingAddress;
 
@@ -19,14 +19,14 @@ class WarehouseOrderUpdate extends Notification
      * Create a new notification instance.
      *
      * @param  mixed  $order
-     * @param  mixed  $inventory
+     * @param  array  $productDetails
      * @param  string $warehouseName
      * @param  string $shippingAddress
      */
-    public function __construct($order, $inventory, $warehouseName, $shippingAddress)
+    public function __construct($order, $productDetails, $warehouseName, $shippingAddress)
     {
         $this->order = $order;
-        $this->inventory = $inventory;
+        $this->productDetails = $productDetails;
         $this->warehouseName = $warehouseName;
         $this->shippingAddress = $shippingAddress;
     }
@@ -50,15 +50,13 @@ class WarehouseOrderUpdate extends Notification
      */
     public function toMail($notifiable)
     {
-        $orderDetails = $this->order->orderDetails;
         $customer = $this->order->customer;
 
         return (new MailMessage)
             ->subject('Order Update Notification')
             ->markdown('admin.emails.warehouse-do', [
                 'order' => $this->order,
-                'orderDetails' => $orderDetails,
-                'inventory' => $this->inventory,
+                'productDetails' => $this->productDetails,
                 'warehouseName' => $this->warehouseName,
                 'shippingAddress' => $this->shippingAddress,
                 'customerMobile' => $customer->mobile_number ?? 'N/A',

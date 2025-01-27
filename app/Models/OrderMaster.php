@@ -53,7 +53,10 @@ class OrderMaster extends Model
         'remaining_quantity' => 'decimal:2',
         'order_type' => 'string', 
     ];
-
+    public function deliveryOrders()
+    {
+        return $this->hasMany(DeliveryOrder::class, 'order_id');
+    }
     public function entity()
     {
         return $this->belongsTo(Entity::class);

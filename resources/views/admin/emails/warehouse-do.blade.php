@@ -43,7 +43,7 @@
         
         <p><strong>Shipping Address:</strong></p>
         <p>
-            {!! nl2br(e($order->shipping_address)) !!}<br>
+            {!! nl2br(e($shippingAddress)) !!}<br>
             Phone: {{ $customerMobile ?? 'N/A' }}
         </p>
         
@@ -55,22 +55,17 @@
         <thead>
             <tr>
                 <th>Item Name</th>
-                <th>Total Quantity</th>
-                <th>Commercial Qty</th>
-                <th>Sample Qty</th>
+                <th>Quantity Delivered</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($orderDetails as $detail)
+            @foreach ($productDetails as $detail)
             <tr>
-                <td>{{ $detail->manual_product_name ?? $detail->product->product_name }}</td>
-                <td>{{ $detail->quantity }}</td>
-                <td>{{ $detail->commercial_quantity ?? $detail->quantity }}</td>
-                <td>{{ $detail->sample_quantity ?? '0' }}</td>
+                <td>{{ $detail['product_name'] }}</td>
+                <td>{{ $detail['quantity'] }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
-
 </body>
 </html>

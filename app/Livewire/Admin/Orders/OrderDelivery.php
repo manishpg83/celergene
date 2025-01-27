@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Inventory;
 use App\Models\OrderMaster;
 use App\Models\OrderInvoice;
+use App\Models\Warehouse;
 use App\Models\DeliveryOrder;
 use App\Enums\OrderWorkflowType;
 use Illuminate\Support\Facades\DB;
@@ -98,27 +99,29 @@ class OrderDelivery extends Component
     public function updateDelivery()
     {
         $this->validate();
-
+    
         try {
             DB::transaction(function () {
                 $originalOrder = $this->order;
-
+    
+                Log::info('Starting delivery update', [
+                    'order_id' => $originalOrder->order_id,
+                    'workflow_type' => $originalOrder->workflow_type,
+                    'inventory_quantities' => $this->inventoryQuantities,
+                ]);
+    
                 $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
-
+                Log::info('Total selected quantity', ['total_selected_quantity' => $totalSelectedQuantity]);
+    
                 $existingDeliveries = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                     $query->where('order_id', $originalOrder->order_id);
                 })->sum('quantity');
-
+    
+                Log::info('Existing deliveries', ['existing_deliveries' => $existingDeliveries]);
+    
                 $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
-
-                Log::info('Delivery Update Debug', [
-                    'workflow_type' => $originalOrder->workflow_type,
-                    'is_initial_consignment' => $this->isInitialConsignment,
-                    'total_selected_quantity' => $totalSelectedQuantity,
-                    'order_total_quantity' => $orderTotalQuantity,
-                    'existing_deliveries' => $existingDeliveries
-                ]);
-
+                Log::info('Order total quantity', ['order_total_quantity' => $orderTotalQuantity]);
+    
                 if (
                     $existingDeliveries > 0 &&
                     in_array($originalOrder->workflow_type, [
@@ -127,62 +130,133 @@ class OrderDelivery extends Component
                     ])
                 ) {
                     notyf()->error("This order type can only be delivered once.");
+                    Log::warning('Delivery update failed: Order type can only be delivered once', [
+                        'order_id' => $originalOrder->order_id,
+                        'workflow_type' => $originalOrder->workflow_type,
+                    ]);
                     return false;
                 }
-
+    
                 if ($originalOrder->workflow_type === OrderWorkflowType::STANDARD) {
                     if ($totalSelectedQuantity !== $orderTotalQuantity) {
                         notyf()->error("For Standard orders, you must deliver the exact order quantity of {$orderTotalQuantity}.");
+                        Log::warning('Delivery update failed: Standard order quantity mismatch', [
+                            'order_id' => $originalOrder->order_id,
+                            'expected_quantity' => $orderTotalQuantity,
+                            'actual_quantity' => $totalSelectedQuantity,
+                        ]);
                         return false;
                     }
                 } elseif ($originalOrder->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
                         if ($totalSelectedQuantity !== $orderTotalQuantity) {
                             notyf()->error("Initial Consignment delivery must be the exact order quantity of {$orderTotalQuantity}.");
+                            Log::warning('Delivery update failed: Initial consignment quantity mismatch', [
+                                'order_id' => $originalOrder->order_id,
+                                'expected_quantity' => $orderTotalQuantity,
+                                'actual_quantity' => $totalSelectedQuantity,
+                            ]);
                             return false;
                         }
                     } else {
                         $remainingQuantity = $originalOrder->orderDetails()->sum('remaining_quantity');
-
+    
                         Log::info('Remaining Quantity Debug', [
                             'remaining_quantity' => $remainingQuantity,
                             'total_selected_quantity' => $totalSelectedQuantity
                         ]);
-
+    
                         if ($totalSelectedQuantity > $remainingQuantity) {
                             notyf()->error("Cannot deliver more than remaining quantity: {$remainingQuantity}.");
+                            Log::warning('Delivery update failed: Exceeded remaining quantity', [
+                                'order_id' => $originalOrder->order_id,
+                                'remaining_quantity' => $remainingQuantity,
+                                'requested_quantity' => $totalSelectedQuantity,
+                            ]);
                             return false;
                         }
-
+    
                         if (abs($totalSelectedQuantity - $remainingQuantity) > 0.001) {
                             notyf()->error("You must deliver the exact remaining quantity of {$remainingQuantity}.");
+                            Log::warning('Delivery update failed: Remaining quantity mismatch', [
+                                'order_id' => $originalOrder->order_id,
+                                'remaining_quantity' => $remainingQuantity,
+                                'actual_quantity' => $totalSelectedQuantity,
+                            ]);
                             return false;
                         }
                     }
-                }
-
+                } elseif ($originalOrder->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
+                    $totalQuantitiesToDeliver = [];
+                
+                    foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
+                        if ($quantity > 0) {
+                            $inventory = Inventory::findOrFail($inventoryId);
+                            $productDetail = $originalOrder->orderDetails->where('product_id', $inventory->product_code)->first();
+                            if (!$productDetail) {
+                                notyf()->error("Product Code {$inventory->product_code} not found in the order details.");
+                                Log::warning('Delivery update failed: Product detail not found', [
+                                    'product_code' => $inventory->product_code,
+                                    'order_id' => $originalOrder->order_id,
+                                ]);
+                                return false; 
+                            }
+                
+                            if (!isset($totalQuantitiesToDeliver[$inventory->product_code])) {
+                                $totalQuantitiesToDeliver[$inventory->product_code] = 0;
+                            }
+                            $totalQuantitiesToDeliver[$inventory->product_code] += $quantity;
+                
+                            $deliveredQuantity = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
+                                $query->where('order_id', $originalOrder->order_id);
+                            })
+                            ->where('product_id', $inventory->product_code)
+                            ->sum('quantity');
+                
+                            $totalQuantityToDeliver = $deliveredQuantity + $totalQuantitiesToDeliver[$inventory->product_code];
+                
+                            if ($totalQuantityToDeliver > $productDetail->quantity) {
+                                notyf()->error("Cannot deliver more than the ordered quantity for product Code {$inventory->product_code}. Ordered: {$productDetail->quantity}, Already Delivered: {$deliveredQuantity}, Requested: {$totalQuantitiesToDeliver[$inventory->product_code]}");                               
+                                return false;
+                            }
+                        }
+                    }                
+                    $totalDeliveredQuantity = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
+                        $query->where('order_id', $originalOrder->order_id);
+                    })->sum('quantity');
+                
+                    if ($totalDeliveredQuantity > $orderTotalQuantity) {
+                        notyf()->error("Cannot deliver more than the total order quantity of {$orderTotalQuantity}. Total already delivered: {$totalDeliveredQuantity}");
+                        Log::warning('Delivery update failed: Exceeded total order quantity', [
+                            'order_id' => $originalOrder->order_id,
+                            'total_order_quantity' => $orderTotalQuantity,
+                            'total_delivered_quantity' => $totalDeliveredQuantity,
+                        ]);
+                        return false;
+                    }
+                }    
                 $warehouseDeliveryOrders = [];
-
+                $warehouseProductDetails = [];
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity > 0) {
                         $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-
+    
                         $inventory = Inventory::findOrFail($inventoryId);
                         $warehouseId = $inventory->warehouse_id;
-
+    
                         if ($quantity > $inventory->remaining) {
                             throw new \Exception("Insufficient inventory for inventory ID {$inventoryId}. Available: {$inventory->remaining}, Requested: {$quantity}");
                         }
-
+    
                         if (!$warehouseId) {
                             throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
                         }
-
+    
                         $inventory->decrement('remaining', $quantity);
                         $inventory->increment('consumed', $quantity);
                         $inventory->modified_by = Auth::id();
                         $inventory->save();
-
+    
                         if (!isset($warehouseDeliveryOrders[$warehouseId])) {
                             $deliveryOrder = DeliveryOrder::create([
                                 'order_id' => $this->order->order_id,
@@ -195,10 +269,10 @@ class OrderDelivery extends Component
                                 'modified_by' => Auth::id(),
                                 'order_invoice_id' => $orderInvoice->id,
                             ]);
-
+    
                             $warehouseDeliveryOrders[$warehouseId] = $deliveryOrder;
                         }
-
+    
                         $deliveryOrder = $warehouseDeliveryOrders[$warehouseId];
                         foreach ($this->order->orderDetails as $detail) {
                             if ($detail->product_id === $inventory->product_code) {
@@ -212,31 +286,38 @@ class OrderDelivery extends Component
                                     'total' => $quantity * $detail->unit_price * (1 - $detail->discount / 100),
                                     'order_detail_id' => $detail->id,
                                 ]);
-
+                                if (!isset($warehouseProductDetails[$warehouseId])) {
+                                    $warehouseProductDetails[$warehouseId] = [];
+                                }
+                                $warehouseProductDetails[$warehouseId][] = [
+                                    'product_name' => $detail->product->product_name,
+                                    'quantity' => $quantity,
+                                ];
                                 break;
-                            }
-                        }
-                        $warehouse = $inventory->warehouse;
-                        if ($warehouse) {
-                            $emails = DB::table('warehouse_emails')
-                                ->where('warehouse_id', $warehouse->id)
-                                ->pluck('email');
-
-                            $warehouseName = $warehouse->warehouse_name;
-                            $shippingAddress = $this->order->shipping_address;
-
-                            foreach ($emails as $email) {
-                                Notification::route('mail', $email)
-                                    ->notify(new WarehouseOrderUpdate($this->order->load(['orderDetails', 'customer']), $inventory, $warehouseName, $shippingAddress));
                             }
                         }
                     }
                 }
+    
+                foreach ($warehouseDeliveryOrders as $warehouseId => $deliveryOrder) {
+                    $warehouse = Warehouse::find($warehouseId);
+                    $warehouseName = $warehouse->warehouse_name;
+                    $emails = DB::table('warehouse_emails')->where('warehouse_id', $warehouseId)->pluck('email');
+                    $shippingAddress = $this->order->shipping_address;
+                    foreach ($emails as $email) {
+                        Notification::route('mail', $email)->notify(new WarehouseOrderUpdate(
+                            $this->order->load(['customer']),
+                            $warehouseProductDetails[$warehouseId],
+                            $warehouseName,
+                            $shippingAddress
+                        ));
+                    }                
+                } 
                 
                 $this->order->delivery_status = $this->deliveryStatus;
                 $this->order->modified_by = Auth::id();
                 $this->order->save();
-
+    
                 if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
                     if ($this->isInitialConsignment) {
                         $this->order->remaining_quantity = $this->order->orderDetails->sum('quantity');
@@ -244,22 +325,27 @@ class OrderDelivery extends Component
                         $parentOrder = $originalOrder->parent_order_id ?
                             OrderMaster::find($originalOrder->parent_order_id) :
                             $originalOrder;
-
+    
                         if ($parentOrder) {
                             $newRemainingQuantity = $remainingQuantity - $totalSelectedQuantity;
-
+    
                             if ($newRemainingQuantity < 0) {
                                 notyf()->error("Invalid remaining quantity calculation.");
+                                Log::warning('Delivery update failed: Invalid remaining quantity calculation', [
+                                    'order_id' => $originalOrder->order_id,
+                                    'new_remaining_quantity' => $newRemainingQuantity,
+                                ]);
                                 return false;
                             }
-
+    
                             $parentOrder->remaining_quantity = $newRemainingQuantity;
                             $parentOrder->save();
                         }
                     }
                 }
-
+    
                 notyf()->success('Delivery updated successfully.');
+                Log::info('Delivery updated successfully', ['order_id' => $originalOrder->order_id]);
                 return redirect()->route('admin.orders.delivery', $this->order_id);
             });
         } catch (\Exception $e) {
