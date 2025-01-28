@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Inventory;
 use App\Models\Stock;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Inventory;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AddInventory extends Component
 {
+    use WithPagination;
+
     public $inventory_id;
     public $product_code;
     public $warehouse_id;
@@ -39,15 +42,22 @@ class AddInventory extends Component
             if ($inventory) {
                 $this->fill($inventory->toArray());
                 $this->isEditMode = true;
-                $this->stockHistory = Stock::where('inventory_id', $this->inventory_id)
-                    ->where('product_id', $this->product_code)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
             }
         }
     }
 
+    public function getStockHistoryProperty()
+    {
+        if (!$this->inventory_id || !$this->isEditMode) {
+            return collect([]);
+        }
 
+        return Stock::with('creator')
+            ->where('inventory_id', $this->inventory_id)
+            ->where('product_id', $this->product_code)
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+    }
 
     public function saveInventory()
     {
@@ -94,14 +104,10 @@ class AddInventory extends Component
 
     public function render()
     {
-        $products = Product::all();
-        $warehouses = Warehouse::all();
-
         return view('livewire.admin.inventory.add-inventory', [
-            'products' => $products,
-            'warehouses' => $warehouses,
-            'stockHistory' => $this->stockHistory ?? []  
+            'products' => Product::all(),
+            'warehouses' => Warehouse::all(),
+            'stockHistory' => $this->stockHistory
         ]);
     }
-
 }

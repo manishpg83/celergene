@@ -47,7 +47,7 @@
                                     </form>
                                     <p>From your account dashboard you can view your <a href="{{ route('myorders') }}"
                                             class="text-underline">recent orders</a>, manage your <a
-                                            href="account-address.html" class="text-underline">shipping and billing
+                                            href="{{ route('shippingaddress') }}" class="text-underline">shipping
                                             addresses</a>, and <a href="{{ route('myprofile') }}" class="text-underline">edit
                                             your password and account details</a>.</p>
                                 </div>

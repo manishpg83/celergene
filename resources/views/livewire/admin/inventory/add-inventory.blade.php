@@ -21,6 +21,7 @@
                             @endif
 
                             <form wire:submit.prevent="saveInventory" class="row g-3 mt-2">
+                                <!-- Your existing form fields - kept unchanged -->
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_code">Product</label>
                                     <select wire:model="product_code" id="product_code" class="form-select" required>
@@ -81,35 +82,59 @@
                                     </button>
                                 </div>
                             </form>
-                            {{-- @if ($isEditMode && isset($stockHistory) && $stockHistory->count() > 0)
+
+                            @if ($isEditMode)
                                 <div class="mt-5">
                                     <h6>Inventory History</h6>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Previous Quantity</th>
-                                                <th>Quantity Change</th>
-                                                <th>New Quantity</th>
-                                                <th>Reason</th>
-                                                <th>Created By</th>
-                                                <th>Updated At</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($stockHistory as $history)
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $history->previous_quantity }}</td>
-                                                    <td>{{ $history->quantity_change }}</td>
-                                                    <td>{{ $history->new_quantity }}</td>
-                                                    <td>{{ $history->reason }}</td>
-                                                    <td>{{ $history->creator->name }}</td>
-                                                    <td>{{ $history->created_at->format('Y-m-d H:i:s') }}</td>
+                                                    <th wire:click="sortBy('previous_quantity')"
+                                                        style="cursor: pointer;">Previous Quantity</th>
+                                                    <th class="text-center" wire:click="sortBy('quantity_change')"
+                                                        style="cursor: pointer;">Quantity Change</th>
+                                                    <th class="text-center" wire:click="sortBy('new_quantity')"
+                                                        style="cursor: pointer;">New Quantity</th>
+                                                    <th class="text-center" wire:click="sortBy('reason')"
+                                                        style="cursor: pointer;">Reason</th>
+                                                    <th class="text-center" wire:click="sortBy('created_by')"
+                                                        style="cursor: pointer;">Created By</th>
+                                                    <th class="text-center" wire:click="sortBy('updated_at')"
+                                                        style="cursor: pointer;">Updated At</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @if ($stockHistory->isEmpty())
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No history records found.
+                                                        </td>
+                                                    </tr>
+                                                @else
+                                                    @foreach ($stockHistory as $history)
+                                                        <tr>
+                                                            <td>{{ $history->previous_quantity }}</td>
+                                                            <td class="text-center">{{ $history->quantity_change }}
+                                                            </td>
+                                                            <td class="text-center">{{ $history->new_quantity }}</td>
+                                                            <td class="text-center">{{ $history->reason }}</td>
+                                                            <td class="text-center">{{ $history->creator->name }}</td>
+                                                            <td class="text-center">
+                                                                {{ $history->created_at->format('Y-m-d H:i:s') }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    @if ($stockHistory->hasPages())
+                                        <div class="mt-3">
+                                            {{ $stockHistory->links() }}
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif --}}
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -27,9 +27,6 @@
                     <li><a href="{{ route('myprofile') }}">Profile</a></li>
                     <li><a href="{{ route('billingaddress') }}">Billing Address</a></li>
                     <li><a href="{{ route('shippingaddress') }}">Shipping Address</a></li>
-                    <li><a href="#">Shipping methods</a></li>
-                    <li><a href="#">Payment Methods</a></li>
-                    <li><a href="#">Review</a></li>
                 </ul>
             </div>
         </div>
