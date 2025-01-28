@@ -7,7 +7,7 @@
                         @if($image && is_object($image))
                             <div id="imagePreview" style="background-image: url('{{ $image->temporaryUrl() }}');"></div>
                         @else
-                            <div id="imagePreview" style="background-image: url('{{ asset($customer->image ?? 'admin/assets/img/profile_img/default-avatar.png') }}');"></div>
+                            <div id="imagePreview" style="background-image: url('{{ asset($customer->image ?? 'frontend/images/default.jpeg') }}');"></div>
                         @endif
                     </div>
                     <div class="change-btn thumb-edit d-flex align-items-center flex-wrap">

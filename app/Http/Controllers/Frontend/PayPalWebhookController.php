@@ -27,38 +27,36 @@ class PayPalWebhookController extends Controller
             $eventType = $webhookData['event_type'] ?? null;
 
             $payment = Payment::where('transaction_id', $transactionId)->first();
-            
+
             if (!$payment) {
                 throw new \Exception("Payment not found for transaction: {$transactionId}");
             }
 
-            // Update payment status based on PayPal event type
             switch ($eventType) {
                 case 'PAYMENT.CAPTURE.COMPLETED':
                     $payment->status = 'completed';
-                    $this->updateOrder($payment->order_id, 'Paid'); // Match enum value
+                    $this->updateOrder($payment->order_id, 'Paid');
                     break;
-                    
+
                 case 'PAYMENT.CAPTURE.DENIED':
                     $payment->status = 'failed';
-                    $this->updateOrder($payment->order_id, 'Cancelled'); // Match enum value
+                    $this->updateOrder($payment->order_id, 'Cancelled');
                     break;
-                    
+
                 case 'PAYMENT.CAPTURE.PENDING':
                     $payment->status = 'pending';
-                    $this->updateOrder($payment->order_id, 'Pending'); // Match enum value
+                    $this->updateOrder($payment->order_id, 'Pending');
                     break;
-                    
+
                 case 'PAYMENT.CAPTURE.REFUNDED':
                     $payment->status = 'refunded';
-                    $this->updateOrder($payment->order_id, 'Cancelled'); // Match enum value
+                    $this->updateOrder($payment->order_id, 'Cancelled');
                     break;
             }
 
             $payment->save();
 
             return response()->json(['status' => 'success']);
-
         } catch (\Exception $e) {
             Log::error('PayPal Webhook Error: ' . $e->getMessage(), [
                 'webhook_data' => $webhookData ?? null,
@@ -76,7 +74,7 @@ class PayPalWebhookController extends Controller
     {
         try {
             DB::table('order_master')
-                ->where('order_id', $orderId) // Using order_id instead of id
+                ->where('order_id', $orderId)
                 ->update([
                     'order_status' => $status,
                     'updated_at' => now()
@@ -106,21 +104,20 @@ class PayPalWebhookController extends Controller
                 throw new \Exception('PayPal token not found in request');
             }
 
-            // Verify the payment
             $response = $provider->capturePaymentOrder($token);
             Log::info('PayPal Payment Capture Response:', ['response' => $response]);
 
             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-                // Find and update payment record
+
                 $payment = Payment::where('transaction_id', $token)->first();
-                
+
                 if ($payment) {
                     $payment->update([
                         'status' => 'completed',
                         'payment_response' => json_encode($response)
                     ]);
 
-                    // Update order status to match enum value
+
                     DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->update([
@@ -128,17 +125,16 @@ class PayPalWebhookController extends Controller
                             'updated_at' => now()
                         ]);
 
-                    // Clear the cart
+
                     session()->forget('cart');
 
-                    // Redirect to success page with message
+
                     return redirect()->route('order.success')
                         ->with('success', 'Your payment has been processed successfully!');
                 }
             }
 
             throw new \Exception('Payment verification failed');
-
         } catch (\Exception $e) {
             Log::error('PayPal Success Callback Error: ' . $e->getMessage(), [
                 'token' => $token ?? null,
@@ -156,11 +152,11 @@ class PayPalWebhookController extends Controller
 
         $token = $request->query('token');
         if ($token) {
-            // Update payment status to cancelled
+
             Payment::where('transaction_id', $token)
                 ->update(['status' => 'cancelled']);
 
-            // Update order status to match enum value
+
             $payment = Payment::where('transaction_id', $token)->first();
             if ($payment) {
                 DB::table('order_master')

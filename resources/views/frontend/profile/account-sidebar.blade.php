@@ -10,7 +10,7 @@
                     @if($customer && $customer->image)
                         <img src="{{ asset($customer->image) }}" alt="{{ $customer->first_name }}">
                     @else
-                        <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile">
+                        <img src="{{ asset('frontend/images/default.jpeg') }}" alt="Default Profile">
                     @endif
                 </div>
                 <h5 class="title mb-0">{{ $customer->first_name . ' ' . $customer->last_name }}</h5>
