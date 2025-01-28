@@ -92,7 +92,6 @@ class OrderDelivery extends Component
 
             return $orderDetail->quantity - $deliveredQuantity;
         }
-
         return $orderDetail->quantity;
     }
 

@@ -103,8 +103,6 @@ class AddProduct extends Component
                 'modified_by' => $this->modified_by,
             ]
         );
-        
-    
         notyf()->success($this->isEditMode ? 'Product updated successfully.' : 'Product added successfully.');
         return redirect()->route('admin.products.index');
     }
