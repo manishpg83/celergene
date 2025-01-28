@@ -77,7 +77,7 @@
                         <h5 class="mb-0 font-weight-bold text-primary">Products</h5>
                         <a href="{{ route('admin.products.index') }}"
                             class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
-                            style="transition: transform 0.2s ease; width: 40px; height: 40px;"
+                            style="transition: transform 0.2s ease;"
                             onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                             <i class="fas fa-arrow-right"></i>
                         </a>
@@ -85,7 +85,7 @@
                     
 
 
-                    <div class="table-responsive px-3 mt-2">
+                    <div class="table-responsive px-3">
                         <table class="table table-hover align-middle mb-0">
                             <thead>
                                 <tr style="background-color: #f8f9fa;">
