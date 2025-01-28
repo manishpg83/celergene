@@ -147,7 +147,7 @@
             </tbody>
         </table>
         <div class="footer">
-            <strong>Remarks: {{ $deliveryOrder->first()->remarks ?? 'No remarks available' }}</strong>
+            <strong>Remarks: {{ $deliveryOrder->remarks ?? 'No remarks available' }}</strong>
             <p></p>
         </div>
     </div>
