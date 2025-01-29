@@ -40,7 +40,6 @@
                             <th class="text-center" wire:click="sortBy('batch_number')" style="cursor: pointer;">Batch Number</th>
                             <th class="text-center" wire:click="sortBy('quantity')" style="cursor: pointer;">Quantity</th>
                             <th class="text-center" wire:click="sortBy('quantity')" style="cursor: pointer;">Available Quantity</th>
-                            <th class="text-center" wire:click="sortBy('expiry')" style="cursor: pointer;">Expiry</th>
                             <th class="text-center" wire:click="sortBy('modified_by')" style="cursor: pointer;">Modify By</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -59,7 +58,6 @@
                                     <td class="text-center">{{ $inventory->batch_number }}</td>
                                     <td class="text-center">{{ $inventory->quantity }}</td>
                                     <td class="text-center">{{ $inventory->remaining }}</td>
-                                    <td class="text-center">{{ $inventory->expiry }}</td>
                                     <td class="text-center">{{ $inventory->modifiedBy ? $inventory->modifiedBy->name : 'N/A' }}</td>
                                     <td class="text-center">
                                         <div class="dropdown">

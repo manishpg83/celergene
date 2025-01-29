@@ -239,7 +239,7 @@
         <li
             class="menu-item {{ request()->routeIs('admin.products*') || request()->routeIs('admin.productscategory*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
+                <i class="menu-icon tf-icons ti ti-cube"></i>
                 <div data-i18n="Product Management">Product Management</div>
             </a>
             <ul class="menu-sub">

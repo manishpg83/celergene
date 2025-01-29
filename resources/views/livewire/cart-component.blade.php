@@ -44,7 +44,7 @@
                     <div class="myBox-left">
                         @foreach ($products as $product)
                             @if ($product->product_code != 'DEFAULT001')
-                                <table width="100%">
+                                <table width="100%" class="mt-2 mb-4">
                                     <tbody>
                                         <tr>
                                             @php

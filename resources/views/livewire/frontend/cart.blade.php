@@ -44,7 +44,7 @@
                     <div class="col-lg-8 col-md-8 col-xs-12">
                         <div class="myBox-left">
                             <!-- Product 1 -->
-                            <table width="100%">
+                            <table width="100%" class="mt-2 mb-4">
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -90,7 +90,7 @@
                             </table>
 
                             <!-- Product 2 -->
-                            <table width="100%">
+                            <table width="100%" class="mt-2 mb-4">
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -139,7 +139,7 @@
 
                             <!-- Product 3 -->
                             <!-- Product 3 -->
-                            <table width="100%">
+                            <table width="100%" class="mt-2 mb-4">
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
