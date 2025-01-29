@@ -241,7 +241,7 @@ class OrderList extends Component
 
             $workflowType = strtolower($order->workflow_type->value);
 
-            if ($workflowType === 'consignment') {
+            /* if ($workflowType === 'consignment') {
                 $order->subtotal = 0;
                 $order->discount = 0;
                 $order->freight = 0;
@@ -255,7 +255,7 @@ class OrderList extends Component
                     $detail->discount = 0;
                     $detail->total = 0;
                 }
-            }
+            } */
 
             $customer = $order->customer;
 
