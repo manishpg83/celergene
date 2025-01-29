@@ -185,7 +185,7 @@ class CreateOrder extends Component
             'total' => 0,
             'custom_product' => false,
             'manual_product_name' => '',
-            'sample_quantity' => ''
+            'sample_quantity' => '0'
         ];
 
         $this->orderDetails[] = $newDetail;
