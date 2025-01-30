@@ -277,7 +277,7 @@ class Checkout extends Component
                         'shipping_address_receiver_lname_3' => $this->shipping_lastname,
                         'shipping_address_3' => $this->shipping_address1,
                         'shipping_email_3' => $this->shipping_email,
-                        'shipping_company_name_3' => $this->shipping_companyname,
+                        'shipping_company_name_3' => $this->shipping_company_name,
                         'shipping_address_3_1' => $this->shipping_address2,
                         'shipping_city_3' => $this->shipping_city,
                         'shipping_state_3' => $this->shipping_state,

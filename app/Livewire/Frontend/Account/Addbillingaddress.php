@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Log;
 class Addbillingaddress extends Component
 {
     public $customerId;
-    public $first_name;
-    public $last_name;
-    public $company_name;
+    public $billing_fname;
+    public $billing_lname;
+    public $billing_company_name;
     public $billing_address;
+    public $billing_address_2;
+    public $billing_city;
+    public $billing_state;
+    public $billing_country;
     public $billing_postal_code;
-    public $mobile_number;
-    public $email;
+    public $billing_phone;
+    public $billing_email;
 
     public function mount($id = null)
     {
@@ -27,46 +31,51 @@ class Addbillingaddress extends Component
 
             if ($customer) {
                 $this->customerId = $customer->id;
-                $this->first_name = $customer->first_name;
-                $this->last_name = $customer->last_name;
-                $this->company_name = $customer->company_name;
+                $this->billing_fname = $customer->billing_fname;
+                $this->billing_lname = $customer->billing_lname;
+                $this->billing_company_name = $customer->billing_company_name;
                 $this->billing_address = $customer->billing_address;
+                $this->billing_address_2 = $customer->billing_address_2;
+                $this->billing_city = $customer->billing_city;
+                $this->billing_state = $customer->billing_state;
+                $this->billing_country = $customer->billing_country;
                 $this->billing_postal_code = $customer->billing_postal_code;
-                $this->mobile_number = $customer->mobile_number;
-                $this->email = $customer->email;
+                $this->billing_phone = $customer->billing_phone;
+                $this->billing_email = $customer->billing_email;
             } else {
                 return redirect()->route('billingaddress')->with('error', 'Address not found.');
             }
-        } else {
-            $user = Auth::user();
-            $this->first_name = $user->first_name;
-            $this->last_name = $user->last_name;
-            $this->company_name = $user->company;
-            $this->mobile_number = $user->phone;
-            $this->email = $user->email;
         }
     }
 
     public function saveAddress()
     {
         $this->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'billing_fname' => 'required|string|max:255',
+            'billing_lname' => 'required|string|max:255',
             'billing_address' => 'required|string|max:255',
+            'billing_address_2' => 'nullable|string|max:255',
+            'billing_city' => 'required|string|max:255',
+            'billing_state' => 'required|string|max:255',
+            'billing_country' => 'required|string|max:255',
             'billing_postal_code' => 'required|string|max:10',
-            'mobile_number' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
+            'billing_phone' => 'required|string|max:20',
+            'billing_email' => 'required|email|max:255',
         ]);
 
         $data = [
             'user_id' => Auth::id(),
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'company_name' => $this->company_name,
+            'billing_fname' => $this->billing_fname,
+            'billing_lname' => $this->billing_lname,
+            'billing_company_name' => $this->billing_company_name,
             'billing_address' => $this->billing_address,
+            'billing_address_2' => $this->billing_address_2,
+            'billing_city' => $this->billing_city,
+            'billing_state' => $this->billing_state,
+            'billing_country' => $this->billing_country,
             'billing_postal_code' => $this->billing_postal_code,
-            'mobile_number' => $this->mobile_number,
-            'email' => $this->email,
+            'billing_phone' => $this->billing_phone,
+            'billing_email' => $this->billing_email,
             'updated_by' => Auth::id()
         ];
 
