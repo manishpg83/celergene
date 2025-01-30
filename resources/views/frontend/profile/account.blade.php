@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="total-detail">
                                                 <span class="text">Total Orders</span>
-                                                <h2 class="title">{{ $totalOrders }}</h2>
+                                                <h2 class="title"><a href="{{ route('myorders') }}">{{ $totalOrders }}</a></h2>
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="total-detail">
                                                 <span class="text">Total Pending Orders</span>
-                                                <h2 class="title">{{ $totalPendingOrders }}</h2>
+                                                <h2 class="title"><a href="{{ route('myorders') }}">{{ $totalPendingOrders }}</a></h2>
                                             </div>
                                         </div>
                                     </div>
