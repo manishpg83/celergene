@@ -192,29 +192,31 @@ class OrderDetails extends Component
         return $invoice;
     }
 
-    public function downloadInvoice($invoiceDetailId)
+    public function downloadInvoice($invoiceDetailId, $order_id)
     {
         try {
-
+           
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-
+            $order = OrderMaster::with(['orderDetails.product'])
+                ->where('order_id', $order_id)
+                ->firstOrFail();
+    
+            $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
                 'customer' => $customer,
+                'order' => $order,
+                'orderInvoiceDetails' => $orderInvoiceDetails,
             ]);
-
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
+    
         } catch (\Exception $e) {
-            Log::error("Failed to download invoice detail PDF: " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
-                'invoiceDetailId' => $invoiceDetailId,
-            ]);
             notyf()->error("Could not download invoice detail PDF.");
             return redirect()->back();
         }

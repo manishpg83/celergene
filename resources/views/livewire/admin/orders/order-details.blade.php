@@ -203,11 +203,12 @@
                                                 <td class="text-center">
                                                     @if ($invoice->invoiceDetails->count() > 0)
                                                         <button class="btn btn-success"
-                                                            wire:click="downloadInvoice({{ $invoice->invoiceDetails->first()->id }})">
+                                                            wire:click="downloadInvoice('{{ $invoice->invoiceDetails->first()->id }}', '{{ $invoice->order_id }}')">
                                                             <i class="fas fa-download"></i>
                                                         </button>
                                                     @endif
                                                 </td>
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>

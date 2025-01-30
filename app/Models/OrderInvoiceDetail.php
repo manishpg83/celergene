@@ -30,10 +30,10 @@ class OrderInvoiceDetail extends Model
         'total' => 'decimal:2',
     ];
 
-    public function invoice()
-    {
-        return $this->belongsTo(OrderInvoice::class, 'order_invoice_id');
-    }
+    public function orderInvoice()
+{
+    return $this->belongsTo(OrderInvoice::class);
+}
 
     public function product()
     {
