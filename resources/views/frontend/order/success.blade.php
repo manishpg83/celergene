@@ -7,8 +7,6 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
         <div class="text-center">
-
-
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Thank you for placing your order!!</h2>
 
             @if(session('success'))

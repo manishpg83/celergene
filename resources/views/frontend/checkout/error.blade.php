@@ -7,8 +7,6 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
         <div class="text-center">
-
-
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Payment Error!</h2>
             <p class="text-gray-600 mb-6">
                 Oops! Something went wrong with your payment.
@@ -23,20 +21,19 @@
             </p>
 
             <div class="space-y-4">
-                <a href="{{ route('checkout') }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded">
-                    Try Again
-                </a>
-
-                <div class="text-sm text-gray-500">
-                    <p>If you continue to experience issues, please check below options:</p>
-                    <ul class="mt-2">
-                        <li>Check your payment details</li>
-                        <li>Ensure you have sufficient funds</li>
-                        <li>Contact our support team</li>
-                    </ul>
-                </div>
-                <p>&nbsp;</p>
+                <p>
+                    <a href="{{ route('checkout') }}" class="inline-block bg-blue-500 hover:bg-blue-600 font-semibold px-6 py-2 rounded">Try Again</a>
+                </p>
             </div>
+            <div class="text-sm text-gray-500">
+                <p>If you continue to experience issues, please check below options:</p>
+                <ul class="mt-2">
+                    <li>Check your payment details</li>
+                    <li>Ensure you have sufficient funds</li>
+                    <li>Contact our support team</li>
+                </ul>
+            </div>
+            <p>&nbsp;</p>
         </div>
     </div>
 </div>
