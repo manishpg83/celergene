@@ -21,16 +21,21 @@
                 <div class="d-flex align-items-center">
                     <i class="bx bx-info-circle me-2"></i>
                     <div>
-                        <strong>Order Type: {{ $order->workflow_type->label() }}</strong>
-                        @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                            <br>Total Order Quantity: {{ $totalOrderQuantity }}
-                        @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
-                            <br>{{ $isInitialConsignment ? 'Initial Consignment Delivery' : 'Consignment Sale Delivery' }}
+                        @if ($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                            <strong>Order Type: Multiple Invoice Order</strong>
+                            <br>
+                            {{ $isInitialConsignment ? 'Initial Consignment Delivery' : 'Consignment Sale Delivery' }}
                             @if (!$isInitialConsignment)
                                 <br>Remaining Quantity: {{ $remainingQuantity }}
                             @endif
+                        @else
+                            <strong>Order Type: {{ $order->workflow_type->label() }}</strong>
+                            @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                <br>Total Order Quantity: {{ $totalOrderQuantity }}
+                            @endif
                         @endif
                     </div>
+                    
                 </div>
             </div>
         </div>

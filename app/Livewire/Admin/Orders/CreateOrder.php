@@ -393,6 +393,7 @@ class CreateOrder extends Component
             }
         }
     }
+    
     public function generateInvoice($order_id)
     {
         $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
