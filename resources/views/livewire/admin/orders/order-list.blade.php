@@ -205,7 +205,7 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex align-items-center justify-content-center">
-                                                @if ($order->is_generated)
+                                                {{-- @if ($order->is_generated)
                                                     <button wire:click="downloadInvoice('{{ $order->order_id }}')"
                                                         class="btn btn-sm btn-primary ml-2" data-bs-toggle="tooltip"
                                                         title="Download Invoice">
@@ -217,7 +217,7 @@
                                                         title="Generate Invoice">
                                                         <i class="bi bi-file-earmark-plus mx-1"></i> Generate
                                                     </button>
-                                                @endif
+                                                @endif --}}
 
                                                 <a href="{{ route('admin.orders.details', $order->order_id) }}"
                                                     class="text-black ml-1 mr-1 mt-1" data-bs-toggle="tooltip"

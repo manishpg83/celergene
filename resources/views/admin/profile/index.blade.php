@@ -5,6 +5,6 @@
 
 @section('content')
 
-    @livewire('admin.profile') <!-- This should work now -->
+    @livewire('admin.profile')
 
 @endsection

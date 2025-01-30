@@ -2,7 +2,6 @@
 
 <html lang="en" class="light-style layout-wide customizer-hide" dir="ltr" data-theme="theme-default"
     data-assets-path="{{ asset('/admin/assets/') }}" data-template="vertical-menu-template" data-style="light">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -11,7 +10,6 @@
     <title>{{ isset($pageTitle) ? $pageTitle . ' —' : '' }} {{ isset($siteTitle) ? $siteTitle : 'Celergen' }}
     </title>
     <meta name="description" content="Celergen" />
-
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('/admin/assets/img/favicon/favicon.ico') }}" />
 
@@ -88,9 +86,7 @@
                 </div>
             </div>
         </div>
-
         <div class="layout-overlay layout-menu-toggle"></div>
-
         <div class="drag-target"></div>
     </div>
     @yield('scripts')

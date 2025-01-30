@@ -1,4 +1,3 @@
-<!-- resources/views/admin/roles/index.blade.php -->
 @extends('layouts.admin')
 
 @section('content')

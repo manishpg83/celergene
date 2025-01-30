@@ -19,7 +19,6 @@ class Warehouse extends Model
         'email',
         'phone',
         'type',
-        'supplier_id',
         'remarks',
         'created_by',
         'modified_by',
@@ -39,10 +38,7 @@ class Warehouse extends Model
     {
         return $this->hasMany(Inventory::class, 'warehouse_id');
     }
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
-    }
+    
     public function emails()
     {
         return $this->hasMany(WarehouseEmail::class);

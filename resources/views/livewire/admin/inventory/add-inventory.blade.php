@@ -21,7 +21,7 @@
                             @endif
 
                             <form wire:submit.prevent="saveInventory" class="row g-3 mt-2">
-                                <!-- Your existing form fields - kept unchanged -->
+
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_code">Product</label>
                                     <select wire:model="product_code" id="product_code" class="form-select" required>
@@ -66,16 +66,25 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="quantity">Quantity</label>
-                                    <input type="number" wire:model="quantity" id="quantity" class="form-control"
-                                        placeholder="Enter quantity" required>
-                                    @error('quantity')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
+                                @if ($isEditMode)
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="remaining">Quantity</label>
+                                        <input type="number" wire:model="remaining" id="remaining" class="form-control"
+                                            placeholder="Enter quantity" required>
+                                        @error('remaining')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                @else
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="quantity">Quantity</label>
+                                        <input type="number" wire:model="quantity" id="quantity" class="form-control"
+                                            placeholder="Enter quantity" required>
+                                        @error('quantity')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                @endif
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $isEditMode ? 'Update Inventory' : 'Add Inventory' }}
@@ -85,8 +94,7 @@
 
                             @if ($isEditMode)
                                 <div class="mt-5">
-                                    <h6>Inventory History</h6>
-                                    <div class="table-responsive">
+                                    <h5 class="fw-bold text-primary mb-2">📦 Inventory History</h5>                                    <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -107,20 +115,32 @@
                                             <tbody>
                                                 @if ($stockHistory->isEmpty())
                                                     <tr>
-                                                        <td colspan="6" class="text-center">No history records found.
+                                                        <td colspan="6" class="text-center text-muted py-3">
+                                                            🚫 No history records found.
                                                         </td>
                                                     </tr>
                                                 @else
                                                     @foreach ($stockHistory as $history)
                                                         <tr>
-                                                            <td>{{ $history->previous_quantity }}</td>
-                                                            <td class="text-center">{{ $history->quantity_change }}
-                                                            </td>
-                                                            <td class="text-center">{{ $history->new_quantity }}</td>
-                                                            <td class="text-center">{{ $history->reason }}</td>
-                                                            <td class="text-center">{{ $history->creator->name }}</td>
+                                                            <td class="fw-semibold">
+                                                                {{ number_format($history->previous_quantity) }}</td>
                                                             <td class="text-center">
-                                                                {{ $history->created_at->format('Y-m-d H:i:s') }}</td>
+                                                                <span
+                                                                    class="badge bg-{{ $history->quantity_change > 0 ? 'success' : 'danger' }}">
+                                                                    {{ $history->quantity_change > 0 ? '+' : '-' }}{{ number_format(abs($history->quantity_change)) }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-center fw-bold">
+                                                                {{ number_format($history->new_quantity) }}</td>
+                                                            <td class="text-center">
+                                                                <span
+                                                                    class="badge bg-info">{{ $history->reason }}</span>
+                                                            </td>
+                                                            <td class="text-center text-primary fw-semibold">
+                                                                {{ $history->creator->name }}</td>
+                                                            <td class="text-center text-muted">
+                                                                <small>{{ $history->created_at->format('Y-m-d H:i:s') }}</small>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 @endif

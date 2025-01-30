@@ -44,36 +44,28 @@
                     <div class="myBox-left">
                         @foreach ($products as $product)
                             @if ($product->product_code != 'DEFAULT001')
-                                <!-- Skip default product -->
-                                <!-- Updated Product List -->
-                                <table width="100%">
+                                <table width="100%" class="mt-2 mb-4">
                                     <tbody>
                                         <tr>
                                             @php
-                                                // Example images for products
-                                                $productImages = [
-                                                    1 => 'item_CEL.jpg',
-                                                    2 => 'item_ABC.jpg',
-                                                    3 => 'item_DEF.jpg',
-                                                    4 => 'item_XYZ.jpg',
-                                                ];
-                                                // Select the image for the current product
-                                                $image = $productImages[$product->id] ?? 'item_CEL.jpg'; // Default to 'item_CEL.jpg' if not found
+                                                // Use the actual product image or fall back to a default image if not set
+                                                $image = $product->product_img
+                                                    ? asset('/' . $product->product_img)
+                                                    : asset('images/default_image.jpg');
                                             @endphp
 
-                                            <!-- Product Image -->
                                             <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                <img class="imgPrdctN" src="https://store.celergenswiss.com/images/item_CEL.jpg"
+                                                <!-- Dynamic product image -->
+                                                <img class="imgPrdctN" src="{{ $image }}"
+                                                    alt="{{ $product->product_name }}"
                                                     style="max-width:150px; width:100px;">
                                             </td>
 
-                                            <!-- Product Name -->
                                             <td align="left" class="bortom hidden-xs" valign="bottom" height="20%"
                                                 style="padding-bottom: 10px;">
                                                 {{ $product->product_name }}
                                             </td>
 
-                                            <!-- Product Price -->
                                             <td align="right" valign="bottom" height="20%"
                                                 class="bortom hiddenmobile" style="padding-bottom: 10px;">
                                                 <input class="noborder-summary" disabled type="text"
@@ -84,13 +76,11 @@
                                         </tr>
 
                                         <tr class="plm">
-                                            <!-- Product Name for Mobile -->
                                             <td align="left" class="bortom visible-xs" valign="bottom" height="20%"
                                                 style="padding-bottom: 10px;">
                                                 {{ $product->product_name }}
                                             </td>
 
-                                            <!-- Product Unit Price -->
                                             <td align="left" valign="top" style="padding-top:10px;"
                                                 class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                 <input class="noborder" disabled style="text-align:left;color:#333;"
@@ -99,7 +89,6 @@
                                                     value="{{ $product->currency }} {{ number_format($product->unit_price, 2) }}">
                                             </td>
 
-                                            <!-- Product Quantity Control -->
                                             <td align="right" valign="top" style="padding-top:10px;"
                                                 class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                 <span class="blockk">QUANTITY :</span>
@@ -118,6 +107,7 @@
                                 </table>
                             @endif
                         @endforeach
+
                     </div>
 
                 </div>

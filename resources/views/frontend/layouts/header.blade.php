@@ -310,8 +310,7 @@
                                     </li>
 
                                     <li class="nav-item mx-xl-2 mx-lg-0 py-xl-2 dropdown dropdown">
-                                        <a class="nav-link px-xl-4 px-lg-2 dropdown"
-                                            href="{{ route('cart') }}">
+                                        <a class="nav-link px-xl-4 px-lg-2 dropdown" href="{{ route('cart') }}">
                                             ORDER HERE
                                         </a>
                                     </li>

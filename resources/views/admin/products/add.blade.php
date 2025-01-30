@@ -1,4 +1,3 @@
-{{-- celergene/resources/views/admin/entities/add.blade.php --}}
 @extends('layouts.admin')
 
 @section('title', 'Add Entity')

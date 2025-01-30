@@ -14,29 +14,33 @@ class DashboardController extends Controller
     public function index()
     {
         $currentYear = now()->year;
-        $totalOrders = OrderMaster::whereYear('order_date',$currentYear)->count();
-        $averageOrder = OrderMaster::whereYear('order_date',$currentYear)->sum('total');
+        $totalOrders = OrderMaster::whereYear('order_date', $currentYear)->count();
+        $averageOrder = OrderMaster::whereYear('order_date', $currentYear)->sum('total');
         $totalCustomers = Customer::whereYear('created_at', $currentYear)->count();
-        $totalRevenue = OrderMaster::whereYear('order_date',$currentYear)->sum('total');
+        $totalRevenue = OrderMaster::whereYear('order_date', $currentYear)->sum('total');
         $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
 
         $products = Product::latest()->take(5)->get();
         $orders = OrderMaster::with('customer')
-                ->whereYear('order_date', $currentYear)
-                ->latest()->take(5)->get();
+            ->whereYear('order_date', $currentYear)
+            ->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
-        $orderStats = OrderMaster::selectRaw('YEAR(order_date) as year, COUNT(*) as order_count')
-            ->groupBy(DB::raw('YEAR(order_date)'))
-            ->orderBy('year')
+        $orderStats = OrderMaster::selectRaw('MONTH(order_date) as month, COUNT(*) as order_count')
+            ->whereYear('order_date', $currentYear)
+            ->groupBy(DB::raw('MONTH(order_date)'))
+            ->orderBy('month')
             ->get();
 
-        $years = [];
-        $orderCounts = [];
+        $months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+
+        $monthlyOrderCounts = array_fill(0, 12, 0);
 
         foreach ($orderStats as $stat) {
-            $years[] = $stat->year;
-            $orderCounts[] = $stat->order_count;
+            $monthlyOrderCounts[$stat->month - 1] = $stat->order_count;
         }
 
         return view('admin.dashboard', compact(
@@ -47,8 +51,8 @@ class DashboardController extends Controller
             'products',
             'orders',
             'recentCustomers',
-            'years',
-            'orderCounts'
+            'months',
+            'monthlyOrderCounts'
         ));
     }
 }

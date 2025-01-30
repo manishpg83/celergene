@@ -5,40 +5,12 @@
 <head>
     <!-- Title -->
     <title>{{ isset($pageTitle) ? $pageTitle . ' —' : '' }} {{ isset($siteTitle) ? $siteTitle : 'Celergen' }}</title>
-
     <!-- Meta -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    {{--     <meta name="author" content="IndianCoder" />
-    <meta name="robots" content="index, follow" />
-    <meta name="keywords"
-        content="android, ios, template, ui kit, app, glamour, delivery, skincare template, elegance, grace, luxury, beauty eCommerce, fashion, ios, material design, order,
-      shopping, store, web app, Gaya, fashion app, fashion template, flair app, apparel app, fashion UI,fashion design, app template, fashion store, responsive design, fashion showcase, modern
-      UI, fashion technology, e-shop, beauty eCommerce web, eCommerce Website, minimal shop, online shop, woocommerce, online beauty shopping, glower, user interface, user experience, Design Elements,
-      Trendy, Stylish, User-Friendly, Navigation, Product Display, Branding, Development, Visual Design, Mobile UI Elements, UI Kit for Online Store, UX/UI, UI/UX, Website, Web Design" />
-    <meta name="description"
-        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich template
-      offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your website
-      into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
-    <meta property="og:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
-    <meta property="og:description"
-        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich
-      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform
-      your website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
-    <meta property="og:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="twitter:title" content="Glower: Shop & eCommerce HTML Template | IndianCoder" />
-    <meta name="twitter:description"
-        content="Elevate your online retail presence with Glower Beauty & Shopping eCommerce HTML Template. Crafted with precision, this responsive and feature-rich
-      template offers a seamless and visually stunning shopping experience. Explore a world of possibilities with modern design elements, intuitive navigation, and customizable features. Transform your
-      website into a dynamic online storefront where style meets functionality, providing a captivating and user-friendly eCommerce journey for beauty enthusiasts and shoppers alike." />
-    <meta name="twitter:image" content="https://glower.indiankoder.com/xhtml/social-image.png" />
-    <meta name="twitter:card" content="summary_large_image" /> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <!-- FAVICONS ICON -->
     <link rel="icon" type="image/x-icon" href="images/favicon.png" />
-
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
@@ -55,9 +27,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/common.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/custom.css') }}" />
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/shoppingcart.css') }}" /> --}}
-    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
-
     <!-- Custom Stylesheet -->
     <link class="main-css" rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/style.css') }}" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/theme-default.min.css" rel="stylesheet"
@@ -68,7 +37,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet" />
-    {{-- <link rel="stylesheet" type="text/css" href="css/custom.css"> --}}
     <script src="{{ asset('/frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/owl.carousel.min.js') }}"></script>
@@ -117,7 +85,6 @@
     </div>
 
     @livewireScripts
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
     <script>
         function toggleClass1() {
@@ -197,7 +164,7 @@
                     $("#menu-wrap").addClass("menu-container");
                 }
             });
-        }); // JavaScript Document
+        });
 
         document.querySelector("form").addEventListener("submit", function(event) {
             const day = document.getElementById("dob_day").value;
@@ -242,8 +209,6 @@
     <script src="{{ asset('/frontend/vendor/nouislider/nouislider.min.js') }}"></script>
     <!-- NOUSLIDER MIN JS-->
     <script src="{{ asset('/frontend/js/dz.carousel.js') }}"></script>
-
-
     <!-- DZ CAROUSEL JS -->
     <script src="{{ asset('/frontend/js/dz.ajax.js') }}"></script>
     <!-- AJAX -->
@@ -252,9 +217,7 @@
     <script src="{{ asset('/frontend/js/test.js') }}"></script>
     <script src="{{ asset('/frontend/js/aos.js') }}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-    {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
     <!-- CUSTOM JS -->
-
 
     @yield('scripts')
     <script type="text/javascript">
@@ -277,8 +240,17 @@
 
         function SwitchAddress(ID) {
             var CurControl = $('#ship_address');
-            CurControl.css("display", (ID.checked ? "none" : "block"));
+            if (ID.checked) {
+                CurControl.hide();
+            } else {
+                CurControl.show();
+            }
         }
+
+        $(document).ready(function() {
+            var checkbox = $('#add_same')[0];
+            SwitchAddress(checkbox);
+        });
 
         function ValidateFormInputs() {
             var addSame = document.getElementById('add_same').checked;
@@ -286,7 +258,6 @@
             for (var i = 0; i < ControlArray.length; i++) {
 
                 CurControl = document.getElementById(ControlArray[i][0]);
-                //alert(CurControl[i][0]);
                 if (CurControl != null) {
 
                     if (ControlArray[i][0].substring(0, 3) != "bil" && addSame)
@@ -302,7 +273,7 @@
                     if (CurControl.value == "" && ControlArray[i][1] != '') {
                         alert(ControlArray[i][1]);
                         CurControl.focus();
-                        CurControl.style.backgroundColor = '#F3F781'; //'#F8E0F7' -- Light Pink;
+                        CurControl.style.backgroundColor = '#F3F781';
                         return false;
                     } else {
                         CurControl.style.backgroundColor = '#FFFFFF';
@@ -313,34 +284,30 @@
         }
     </script>
     <script>
-        // Update totals when quantity changes
         function UpdateTotals(mode, itembox) {
             var qty = document.getElementById('quantity_' + itembox);
-            var qty2 = document.getElementById('quantity2_' + itembox); // Summary field
+            var qty2 = document.getElementById('quantity2_' + itembox);
             var netprice = document.getElementById('netprice_' + itembox);
-            var netprice2 = document.getElementById('netprice2_' + itembox); // Summary field
+            var netprice2 = document.getElementById('netprice2_' + itembox);
             var unitprice = document.getElementById('unitprice_' + itembox);
 
             if (qty && netprice && unitprice) {
                 var unit = parseFloat(unitprice.value.replace('US$ ', '')) || 0;
                 var quantity = parseInt(qty.value) || 0;
 
-                // Update net price
                 var calculatedNetPrice = (unit * quantity).toFixed(2);
                 netprice.value = calculatedNetPrice;
                 if (netprice2) {
-                    netprice2.value = calculatedNetPrice; // Update summary field
+                    netprice2.value = calculatedNetPrice;
                 }
             }
 
-            // Update quantity in order summary
             if (qty2) {
-                qty2.value = qty.value; // Sync with main quantity
+                qty2.value = qty.value;
             }
 
-            // Calculate subtotal
             var subtotal = 0;
-            var items = ['CEL', 'SER', 'PK1']; // Product codes
+            var items = ['CEL', 'SER', 'PK1'];
             items.forEach(function(item) {
                 var itemNetPrice = document.getElementById('netprice_' + item);
                 if (itemNetPrice) {
@@ -348,14 +315,12 @@
                 }
             });
 
-            // Update subtotal and total display
             document.getElementById('subtotal_text').value = 'US$ ' + subtotal.toFixed(2);
             document.getElementById('nettotal_text').value = 'US$ ' + subtotal.toFixed(2);
 
             updateCartStorage();
         }
 
-        // Handle quantity changes
         function OnQuantityChanged(mode, itembox) {
             var qty = document.getElementById('quantity_' + itembox);
             if (qty) {
@@ -367,14 +332,12 @@
                 }
                 qty.value = currentQty;
 
-                // Update totals and order summary
                 UpdateTotals(mode, itembox);
             }
         }
 
-        // Update localStorage with cart data
         function updateCartStorage() {
-            var items = ['CEL', 'SER', 'PK1']; // Product codes
+            var items = ['CEL', 'SER', 'PK1'];
             var cart = {};
 
             items.forEach(function(item) {
@@ -402,18 +365,17 @@
             }
         }
 
-        // Restore cart data on page load
         document.addEventListener('DOMContentLoaded', function() {
             var savedCart = localStorage.getItem('cart');
             if (savedCart) {
                 var cart = JSON.parse(savedCart);
                 for (var item in cart) {
                     var qty = document.getElementById('quantity_' + item);
-                    var qty2 = document.getElementById('quantity2_' + item); // Summary field
+                    var qty2 = document.getElementById('quantity2_' + item);
                     if (qty) {
                         qty.value = cart[item].quantity;
                         if (qty2) {
-                            qty2.value = cart[item].quantity; // Sync summary field
+                            qty2.value = cart[item].quantity;
                         }
                         UpdateTotals('+', item);
                     }
@@ -438,10 +400,8 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get cart data from localStorage
             const cartData = JSON.parse(localStorage.getItem('cart') || '{}');
 
-            // Pass cart data to Livewire component
             Livewire.dispatch('cartDataReceived', cartData);
         });
     </script>

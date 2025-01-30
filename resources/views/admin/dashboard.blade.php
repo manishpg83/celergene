@@ -77,15 +77,15 @@
                         <h5 class="mb-0 font-weight-bold text-primary">Products</h5>
                         <a href="{{ route('admin.products.index') }}"
                             class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
-                            style="transition: transform 0.2s ease; width: 40px; height: 40px;"
-                            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            style="transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'"
+                            onmouseout="this.style.transform='scale(1)'">
                             <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    
 
 
-                    <div class="table-responsive px-3 mt-2">
+
+                    <div class="table-responsive px-3">
                         <table class="table table-hover align-middle mb-0">
                             <thead>
                                 <tr style="background-color: #f8f9fa;">
@@ -100,8 +100,7 @@
                                     <tr class="border-bottom" style="transition: all 0.3s ease;">
                                         <td class="py-2">
                                             <div class="d-flex align-items-center">
-                                                <div class="rounded-circle p-2 me-3"
-                                                    style="background-color: rgba(13, 110, 253, 0.1);">
+                                                <div class="rounded-circle p-2 me-3">
                                                     <i class="fas fa-box text-primary"></i>
                                                 </div>
                                                 <span class="fw-semibold">{{ $product->product_name }}</span>
@@ -155,8 +154,7 @@
                                     <tr class="border-bottom" style="transition: all 0.3s ease;">
                                         <td class="py-3">
                                             <div class="d-flex align-items-center">
-                                                <div class="rounded-circle p-2 me-3"
-                                                    style="background-color: rgba(13, 110, 253, 0.1);">
+                                                <div class="rounded-circle p-2 me-3">
                                                     <i class="fas fa-calendar text-primary"></i>
                                                 </div>
                                                 <span>{{ $order->order_date->format('M d, Y') }}</span>
@@ -262,18 +260,18 @@
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: @json($years),
+                    labels: @json($months),
                     datasets: [{
-                        label: 'Number of Orders',
-                        data: @json($orderCounts),
-                        borderColor: '#40E0D0',
-                        backgroundColor: 'transparent',
-                        pointBackgroundColor: '#40E0D0',
-                        pointBorderColor: '#40E0D0',
+                        label: 'Monthly Orders',
+                        data: @json($monthlyOrderCounts),
+                        borderColor: '#7367f0',
+                        backgroundColor: 'rgba(64, 224, 208, 0.2)',
+                        pointBackgroundColor: '#7367f0',
+                        pointBorderColor: '#a19be5',
                         pointRadius: 5,
                         pointHoverRadius: 7,
                         borderWidth: 2,
-                        tension: 0.1
+                        tension: 0.4
                     }]
                 },
                 options: {
@@ -303,11 +301,6 @@
                     plugins: {
                         legend: {
                             display: false
-                        }
-                    },
-                    elements: {
-                        line: {
-                            tension: 0.4
                         }
                     }
                 }

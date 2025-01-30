@@ -65,7 +65,6 @@ class AddWarehouse extends Component
         }
     }
     
-
     public function removeEmailField($index)
     {
         unset($this->emails[$index]);

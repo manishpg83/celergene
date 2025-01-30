@@ -116,7 +116,7 @@ class CreateOrder extends Component
         $this->freight = 0;
         $this->tax = 0;
         $this->addOrderDetail();
-        $this->order_date = now()->format('Y-m-d'); // Set current date
+        $this->order_date = now()->format('Y-m-d');
         $this->oldInvoiceStatus = $this->invoice_status;
         $this->oldDeliveryStatus = $this->delivery_status;
     }
@@ -133,7 +133,6 @@ class CreateOrder extends Component
             $this->payment_terms = '';
         }
     }
-
 
     public function updatedSelectedShippingAddress($value)
     {
@@ -186,7 +185,7 @@ class CreateOrder extends Component
             'total' => 0,
             'custom_product' => false,
             'manual_product_name' => '',
-            'sample_quantity' => ''
+            'sample_quantity' => '0'
         ];
 
         $this->orderDetails[] = $newDetail;
@@ -252,7 +251,6 @@ class CreateOrder extends Component
         $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
     }
     
-
     public function updatedFreight()
     {
         if (empty($this->freight) || !is_numeric($this->freight)) {
@@ -263,7 +261,6 @@ class CreateOrder extends Component
     
         $this->calculateFinalTotal();
     }
-    
 
     public function removeOrderDetail($index)
     {
@@ -360,7 +357,7 @@ class CreateOrder extends Component
                 if ($customer = Customer::find($this->customer_id)) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
                 }
-                $this->generateInvoice($order->order_id);
+                // $this->generateInvoice($order->order_id);
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');
@@ -468,6 +465,7 @@ class CreateOrder extends Component
             return null;
         }
     }
+    
     protected function generateUniqueInvoiceNumber()
     {
         do {
@@ -478,6 +476,7 @@ class CreateOrder extends Component
 
         return $invoiceNumber;
     }
+
     protected function determineInvoiceType($order)
     {
         if ($order->workflow_type === 'consignment') {

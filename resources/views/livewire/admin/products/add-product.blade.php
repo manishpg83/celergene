@@ -124,13 +124,22 @@
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label" for="product_img">Product Image</label>
+                                    
+                                    <div class="mb-2">
+                                        @if ($product_img && $product_img instanceof \Livewire\TemporaryUploadedFile)
+                                            <img src="{{ $product_img->temporaryUrl() }}" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
+                                        @elseif ($isEditMode && $product_img_url)
+                                            <img src="{{ asset($product_img_url) }}" alt="Existing Image" class="img-thumbnail" style="max-height: 150px;">
+                                        @endif
+                                    </div>
+                                
                                     <input type="file" class="form-control" id="product_img" wire:model="product_img">
+                                    
                                     @error('product_img')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 
-
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $isEditMode ? 'Update Product' : 'Add Product' }}

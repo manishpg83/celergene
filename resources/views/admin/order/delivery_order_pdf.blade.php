@@ -105,8 +105,8 @@
         <div class="flex-container">
             <div class="flex-item">
                 <div class="box">
-                    <p><strong>{{ $entity->company_name ?? 'Your Company Name' }}</strong></p>
-                    <p>{{ $entity->address ?? 'Company Address' }}</p>
+                    <p><strong>{{ $deliveryOrder->warehouse->warehouse_name }}</strong></p>
+                    <p>{{ $deliveryOrder->warehouse->address }},{{ $deliveryOrder->warehouse->country }}.</p>
                 </div>
             </div>
             <div class="flex-item">
