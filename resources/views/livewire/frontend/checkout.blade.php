@@ -249,26 +249,4 @@
             </div>
         </div>
     </form>
-    <!-- Modal -->
-    <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="thankYouModalLabel">Thank You for Your Order!</h5>
-                    {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button> --}}
-                </div>
-                <div class="modal-body">
-                    <p>Your order has been successfully placed</p>
-                    <p>Thank you for shopping with us!</p>
-                </div>
-                <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                    <a href="{{ route('home') }}" class="btn btn-primary">Return to Home</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

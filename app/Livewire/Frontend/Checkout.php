@@ -349,7 +349,7 @@ class Checkout extends Component
             DB::commit();
 
             session()->flash('order_number', $orderNumber);
-            $this->dispatch('show-thank-you-modal');
+            // $this->dispatch('show-thank-you-modal');
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', 'Order processing error: ' . $e->getMessage());
