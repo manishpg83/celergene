@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('delivery_order_id')->constrained('delivery_orders')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('sample_quantity')->default(0);
             $table->integer('quantity');
             $table->timestamps();
         });

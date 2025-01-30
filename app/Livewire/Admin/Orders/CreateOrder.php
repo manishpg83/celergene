@@ -358,7 +358,10 @@ class CreateOrder extends Component
                 if ($customer = Customer::find($this->customer_id)) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
                 }
-                // $this->generateInvoice($order->order_id);
+
+                if ($order->workflow_type === OrderWorkflowType::STANDARD || $order->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
+                    $this->generateInvoice($order->order_id);
+                }
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');

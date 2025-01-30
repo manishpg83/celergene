@@ -246,11 +246,11 @@ class OrderDetails extends Component
                 return redirect()->back();
             }
 
-            foreach ($allDetails as $detail) {
+            /* foreach ($allDetails as $detail) {
                 $detail->sample_quantity = $isFirstDelivery ?
                     optional($detail->orderDetail)->sample_quantity ?? 0 :
                     0;
-            }
+            } */
 
             $fileName = "Delivery-Order-{$deliveryOrder->id}.pdf";
 
