@@ -9,14 +9,15 @@
         <div class="text-center">
 
 
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Payment Error</h2>
-
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Payment Error!</h2>
+            <p class="text-gray-600 mb-6">
+                Oops! Something went wrong with your payment.
+            </p>
             @if(session('error'))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                     {{ session('error') }}
                 </div>
             @endif
-
             <p class="text-gray-600 mb-6">
                 We encountered an issue processing your payment. Don't worry - no charges have been made to your account.
             </p>
