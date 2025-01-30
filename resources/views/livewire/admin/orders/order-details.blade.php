@@ -292,11 +292,11 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="sampleQuantity_{{ $index }}" class="form-label">
                                                 {{ $detail->product->product_name }} - Sample Quantity 
-                                                (Remaining Sample: {{ $detail->sample_quantity_remaining }})
+                                                (Remaining Sample: {{ $detail->invoice_rem_sample }})
                                             </label>
                                             <input type="number" id="sampleQuantity_{{ $index }}"
                                                 wire:model="sampleQuantities.{{ $index }}" class="form-control"
-                                                min="0" max="{{ $detail->sample_quantity_remaining }}" step="1"
+                                                min="0" max="{{ $detail->invoice_rem_sample }}" step="1"
                                                 placeholder="Sample Quantity" />
                                         </div>
                                     @endforeach

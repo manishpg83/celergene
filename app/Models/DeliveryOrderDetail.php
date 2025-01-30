@@ -17,6 +17,7 @@ class DeliveryOrderDetail extends Model
         'product_id',
         'quantity',
         'unit_price',
+        'sample_quantity',
         'discount',
         'total',
         'order_detail_id',

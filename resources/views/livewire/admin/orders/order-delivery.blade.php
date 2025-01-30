@@ -47,10 +47,7 @@
                                 Quantity
                             @endif
                         </th>
-                        <th class="text-center">Samlple Qty</th>
-                        {{-- <th class="text-center">Price</th> --}}
-                        {{-- <th class="text-center">Discount</th> --}}
-                        {{-- <th class="text-center">Total Price</th> --}}
+                        <th class="text-center">Remaining Sample Qty / Total Sample Qty</th>
                         <th class="text-center">Warehouse Selection</th>
                     </tr>
                 </thead>
@@ -66,18 +63,10 @@
                                     {{ $detail->quantity }}
                                 @endif
                             </td>
-                            <td class="text-center">{{ $detail->sample_quantity }}</td>
-                            {{-- <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td> --}}
-                            {{--  <td class="text-danger text-center">
-                                @if ($detail->discount > 0)
-                                    -${{ number_format($detail->discount, 2) }}
-                                @else
-                                    $0.00
-                                @endif
-                            </td> --}}
-                            {{-- <td class="text-center">
-                                ${{ number_format(($detail->quantity - $detail->sample_quantity) * $detail->unit_price - $detail->discount, 2) }}
-                            </td> --}}
+                            <td class="text-center">
+                                {{ $this->calculateRemainingSampleQuantity($detail) }} /
+                                {{ $detail->sample_quantity }}
+                            </td>
                             <td class="text-center">
                                 @foreach ($detail->product->inventories as $inventory)
                                     <div class="mb-3 p-2 border rounded">
@@ -86,30 +75,55 @@
                                             Available: {{ (float) $inventory->remaining }} |
                                             Warehouse: {{ $inventory->warehouse->warehouse_name }}
                                         </div>
-                                        <input type="number"
-                                            wire:model.live="inventoryQuantities.{{ $inventory->id }}"
-                                            class="form-control" min="0"
-                                            max="{{ (float) $inventory->remaining }}"
-                                            placeholder="Enter quantity">
-                                        @error("inventoryQuantities.{$inventory->id}")
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Regular Quantity</label>
+                                                <input type="number"
+                                                    wire:model.live="inventoryQuantities.{{ $inventory->id }}"
+                                                    class="form-control" min="0"
+                                                    max="{{ (float) $inventory->remaining }}"
+                                                    placeholder="Enter quantity">
+                                                @error("inventoryQuantities.{$inventory->id}")
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <label class="form-label">Sample Quantity</label>
+                                                <input type="number"
+                                                    wire:model.live="inventorySampleQuantities.{{ $inventory->id }}"
+                                                    class="form-control" min="0"
+                                                    max="{{ $this->calculateRemainingSampleQuantity($detail) }}"
+                                                    placeholder="Enter sample quantity">
+                                                @error("inventorySampleQuantities.{$inventory->id}")
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 @endforeach
-
+        
                                 <div class="mt-2">
-                                    <strong>Total Selected: </strong>
-                                    {{ collect($inventoryQuantities)->filter(function ($qty, $invId) use ($detail) {
+                                    <div><strong>Total Regular Selected: </strong>
+                                        {{ collect($inventoryQuantities)->filter(function ($qty, $invId) use ($detail) {
                                             return $detail->product->inventories->contains('id', $invId);
                                         })->map(fn($value) => (float) $value)->sum() }}
-                                    /
-                                    @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                        {{ $this->calculateRemainingQuantity($detail) }}
-                                    @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
-                                        {{ $this->calculateRemainingQuantity($detail) }}
-                                    @else
-                                        {{ (float) $detail->quantity }}
-                                    @endif
+                                        
+                                        /
+                                        @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                            {{ $this->calculateRemainingQuantity($detail) }}
+                                        @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                                            {{ $this->calculateRemainingQuantity($detail) }}
+                                        @else
+                                            {{ (float) $detail->quantity }}
+                                        @endif
+                                    </div>
+                                    
+                                    <div><strong>Total Samples Selected: </strong>
+                                        {{ $this->getTotalSelectedSampleQuantity($detail) }} /
+                                        {{ $this->calculateRemainingSampleQuantity($detail) }}
+                                    </div>
                                 </div>
                             </td>
                         </tr>

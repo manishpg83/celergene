@@ -185,7 +185,7 @@ class CreateOrder extends Component
             'total' => 0,
             'custom_product' => false,
             'manual_product_name' => '',
-            'sample_quantity' => '0'
+            'sample_quantity' => 0
         ];
 
         $this->orderDetails[] = $newDetail;
@@ -347,6 +347,7 @@ class CreateOrder extends Component
                         'invoice_rem' => $detail['quantity'],
                         'sample_quantity' => $detail['sample_quantity'] ?? 0,
                         'sample_quantity_remaining' => $detail['sample_quantity'] ?? 0,
+                        'invoice_rem_sample' => $detail['sample_quantity'] ?? 0,
                         'total' => $detail['total'],
                     ];
 

@@ -101,7 +101,7 @@ class OrderDetails extends Component
                 return;
             }
 
-            if ($sampleQty > $detail->sample_quantity_remaining) {
+            if ($sampleQty > $detail->invoice_rem_sample) {
                 notyf()->error("Requested sample quantity for {$detail->product->product_name} exceeds remaining sample quantity!");
                 return;
             }
@@ -132,7 +132,7 @@ class OrderDetails extends Component
 
             if ($splitQty > 0 || $sampleQty > 0) {
                 $detail->invoice_rem -= $splitQty;
-                $detail->sample_quantity_remaining -= $sampleQty;
+                $detail->invoice_rem_sample -= $sampleQty;
                 $detail->save();
 
                 $productSubtotal = $splitQty * $detail->unit_price;
