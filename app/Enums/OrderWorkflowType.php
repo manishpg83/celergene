@@ -12,7 +12,7 @@ enum OrderWorkflowType: string
         return match($this) {
             self::STANDARD => 'Standard Order',
             self::MULTI_DELIVERY => 'Multiple Delivery Order',
-            self::CONSIGNMENT => 'Consignment Order'
+            self::CONSIGNMENT => 'Multiple Invoice Order'
         };
     }
 

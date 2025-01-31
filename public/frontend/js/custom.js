@@ -800,7 +800,7 @@ var Glower = function () {
 		});
 	}
 
-	var handleOpenModal = function () {
+	/* var handleOpenModal = function () {
 		var modalBox = `<div class="offcanvas offcanvas-bottom inquiry-modal style-1" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 			<div class="offcanvas-content" role="document">
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -860,7 +860,7 @@ var Glower = function () {
 				setCookie('inquiryModal', true);
 			}
 		}, 5000);
-	}
+	} */
 
 	var dzLoader = function () {
 		$(document).ready(function () {
