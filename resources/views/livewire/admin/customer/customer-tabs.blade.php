@@ -35,8 +35,8 @@
                                 <td>{{ \Carbon\Carbon::parse($order->order_date)->format('Y-m-d') }}</td>
                                 <td>${{ number_format($order->total, 2) }}</td>
                                 <td>
-                                    <span class="badge bg-label-{{ $order->invoice_status === 'Paid' ? 'success' : ($order->invoice_status === 'Pending' ? 'warning' : 'danger') }}">
-                                        {{ ucfirst($order->invoice_status) }}
+                                    <span class="badge bg-label-{{ $order->order_status === 'Paid' ? 'success' : ($order->order_status === 'Pending' ? 'warning' : 'danger') }}">
+                                        {{ ucfirst($order->order_status) }}
                                     </span>
                                 </td>
                             </tr>

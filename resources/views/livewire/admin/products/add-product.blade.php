@@ -99,13 +99,15 @@
                                     <label class="form-label" for="currency">Currency</label>
                                     <select class="form-select" id="currency" wire:model="currency" required>
                                         <option value="">Select currency</option>
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
+                                        @foreach($currencies as $code => $name)
+                                            <option value="{{ $code }}">{{ $name }}</option>
+                                        @endforeach
                                     </select>
                                     @error('currency')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="unit_price">Unit Price</label>

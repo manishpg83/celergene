@@ -195,7 +195,6 @@ class OrderDetails extends Component
     public function downloadInvoice($invoiceDetailId, $order_id)
     {
         try {
-           
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
@@ -204,7 +203,9 @@ class OrderDetails extends Component
                 ->firstOrFail();
     
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
-            $fileName = "Invoice-Detail-{$invoiceDetail->id}.pdf";
+            $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
+            $fileName = "{$customerName}-{$invoiceDetail->id}.pdf";
+    
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
@@ -212,6 +213,7 @@ class OrderDetails extends Component
                 'order' => $order,
                 'orderInvoiceDetails' => $orderInvoiceDetails,
             ]);
+    
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
@@ -221,6 +223,7 @@ class OrderDetails extends Component
             return redirect()->back();
         }
     }
+    
 
     public function downloadDeliveryOrder($deliveryOrderId)
     {
@@ -291,5 +294,4 @@ class OrderDetails extends Component
             return view('livewire.admin.orders.order-details', ['showSplitInvoices' => false]);
         }
     }
-
 }

@@ -7,6 +7,7 @@ use App\Models\ProductCatagory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 
@@ -34,6 +35,21 @@ class AddProduct extends Component
     public $isEditMode = false;
     public $categories = [];
 
+    public $currencies = [
+        'USD' => 'USD - US Dollar',
+        'EUR' => 'EUR - Euro',
+        'GBP' => 'GBP - British Pound',
+        'INR' => 'INR - Indian Rupee',
+        'AUD' => 'AUD - Australian Dollar',
+        'SGD' => 'SGD - Singapore Dollar',
+        'NZD' => 'NZD - New Zealand Dollar',
+        'CHF' => 'CHF - Swiss Franc',
+        'ZAR' => 'ZAR - South African Rand',
+        'AED' => 'AED - UAE Dirham',
+        'SAR' => 'SAR - Saudi Riyal',
+        'PHP' => 'PHP - Philippine Peso',
+    ];
+
     public function rules()
     {
         return [
@@ -47,7 +63,7 @@ class AddProduct extends Component
             ],
             'brand' => 'required|string|max:255',
             'invoice_description' => 'required|string|max:255',
-            'product_img' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240',
+            'product_img' => $this->isEditMode ? 'nullable' : 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240',
             'product_category' => 'required|integer',
             'origin' => 'required|string|max:255',
             'batch_number' => 'required|string|max:255',
@@ -62,16 +78,15 @@ class AddProduct extends Component
     public function mount()
     {
         $this->categories = ProductCatagory::where('status', 'active')->get();
-    
+
         $this->product_id = request()->query('id');
-    
+
         if ($this->product_id) {
             $product = Product::find($this->product_id);
             if ($product) {
                 $this->fill($product->toArray());
                 $this->isEditMode = true;
-    
-                // Set the existing image URL if it exists
+
                 $this->product_img_url = $product->product_img ? $product->product_img : null;
             }
         }
@@ -88,9 +103,23 @@ class AddProduct extends Component
             $this->created_by = Auth::id();
         }
 
+        if ($this->product_img instanceof TemporaryUploadedFile) {
+            $imagePath = $this->product_img->store('', 'custom_product_images');
+
+            if ($imagePath) {
+                if ($this->isEditMode && $product->product_img && Storage::disk('custom_product_images')->exists($product->product_img)) {
+                    Storage::disk('custom_product_images')->delete($product->product_img);
+                }
+
+                $newImagePath = 'product_img/' . basename($imagePath);
+            }
+        } else {
+            $newImagePath = $this->isEditMode ? $this->product_img_url : null;
+        }
+
         $this->modified_by = Auth::id();
 
-        if ($this->product_img) {
+        /*         if ($this->product_img) {
             $imagePath = $this->product_img->store('', 'custom_product_images');
             if ($imagePath) {
                 if ($this->isEditMode) {
@@ -102,9 +131,7 @@ class AddProduct extends Component
 
                 $newImagePath = 'product_img/' . basename($imagePath);
             }
-        }
-
-
+        } */
 
         Product::updateOrCreate(
             ['id' => $this->product_id],
