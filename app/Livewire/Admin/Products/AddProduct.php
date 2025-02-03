@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Admin\Products;
 
+use Livewire\Component;
 use App\Models\Product;
 use App\Models\ProductCatagory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
@@ -94,7 +94,7 @@ class AddProduct extends Component
 
     public function submit()
     {
-        $this->validate($this->rules());
+        $this->validate();
 
         if ($this->isEditMode) {
             $product = Product::find($this->product_id);

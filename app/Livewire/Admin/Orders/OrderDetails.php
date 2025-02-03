@@ -24,8 +24,9 @@ class OrderDetails extends Component
     public $deliveryOrders;
     public $invoices;
     public $quantitySplits = [];
-    public $actual_freight;
+    public $actual_freight;    
     public $sampleQuantities = [];
+    public $customUnitPrices = []; 
 
 
     public function mount($order_id)
@@ -135,18 +136,22 @@ class OrderDetails extends Component
                 $detail->invoice_rem_sample -= $sampleQty;
                 $detail->save();
 
-                $productSubtotal = $splitQty * $detail->unit_price;
+                $unitPrice = isset($this->customUnitPrices[$index]) && $this->customUnitPrices[$index] > 0
+                ? $this->customUnitPrices[$index]
+                : $detail->unit_price;
+
+                $productSubtotal = $splitQty * $unitPrice;
                 $totalSubtotal += $productSubtotal;
                 $totalQuantity += $splitQty;
 
                 $invoiceDetails[] = [
                     'product_id' => $detail->product_id,
-                    'unit_price' => $detail->unit_price,
+                    'unit_price' => $unitPrice,
                     'quantity' => $splitQty,
                     'delivered_quantity' => 0,
                     'invoiced_quantity' => $splitQty,
                     'discount' => $detail->discount,
-                    'total' => $splitQty * $detail->unit_price - $detail->discount,
+                    'total' => $splitQty * $unitPrice - $detail->discount,
                     'manual_product_name' => $detail->manual_product_name,
                     'sample_quantity' => $detail->sample_quantity,
                 ];

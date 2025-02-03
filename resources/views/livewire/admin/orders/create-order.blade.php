@@ -283,7 +283,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
                                                     <input type="number" wire:model.live="freight"
-                                                        class="form-control" min="0" step="0.01">
+                                                        class="form-control" min="0" step="0.01" value="0">
                                                 </div>
                                             </div>
                                         </div>

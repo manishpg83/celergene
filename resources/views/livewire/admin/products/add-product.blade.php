@@ -12,11 +12,21 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        @if (session()->has('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+                        @if (session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="col-lg-10 mx-auto">
                             <form wire:submit.prevent="submit" class="row g-3 mt-2" enctype="multipart/form-data" >
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_code">Product Code</label>
-                                    <input type="text" class="form-control" id="product_code" wire:model="product_code" placeholder="Enter product code" required>
+                                    <input type="text" class="form-control" id="product_code" wire:model="product_code" placeholder="Enter product code" >
                                     @error('product_code')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -89,7 +99,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expire_date">Expire Date</label>
-                                    <input type="date"  min="{{ date('Y-m-d') }}" class="form-control" id="expire_date" wire:model="expire_date" required>
+                                    <input type="date"  min="{{ date('Y-m-d') }}" class="form-control" id="expire_date" wire:model="expire_date" >
                                     @error('expire_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -106,11 +116,10 @@
                                     @error('currency')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
-                                
+                                </div>                               
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="unit_price">Unit Price</label>
+                                    <label class="form-label" for="unit_price">Retail price</label>
                                     <input type="number" class="form-control" id="unit_price" wire:model="unit_price" placeholder="Enter unit price" required>
                                     @error('unit_price')
                                         <span class="text-danger">{{ $message }}</span>
@@ -124,19 +133,17 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+
                                 <div class="col-md-12">
-                                    <label class="form-label" for="product_img">Product Image</label>
-                                    
+                                    <label class="form-label" for="product_img">Product Image</label>                                    
                                     <div class="mb-2">
                                         @if ($product_img && $product_img instanceof \Livewire\TemporaryUploadedFile)
                                             <img src="{{ $product_img->temporaryUrl() }}" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
                                         @elseif ($isEditMode && $product_img_url)
                                             <img src="{{ asset($product_img_url) }}" alt="Existing Image" class="img-thumbnail" style="max-height: 150px;">
                                         @endif
-                                    </div>
-                                
-                                    <input type="file" class="form-control" id="product_img" wire:model="product_img">
-                                    
+                                    </div>                                
+                                    <input type="file" class="form-control" id="product_img" wire:model="product_img">                                    
                                     @error('product_img')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

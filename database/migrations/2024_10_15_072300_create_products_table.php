@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('product_category');
             $table->string('origin');
             $table->string('batch_number');
-            $table->date('expire_date');
+            $table->date('expire_date')->nullable();
             $table->string('currency');
             $table->decimal('unit_price', 10, 2);
             $table->text('remarks_notes')->nullable();

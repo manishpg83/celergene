@@ -281,7 +281,7 @@
                             <form wire:submit.prevent="generateInvoices">
                                 <div class="row">
                                     @foreach ($order->orderDetails as $index => $detail)
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="quantitySplit_{{ $index }}" class="form-label">
                                                 {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->invoice_rem }})
                                             </label>
@@ -290,15 +290,24 @@
                                                 min="0" max="{{ $detail->invoice_rem }}" step="1"
                                                 placeholder="Invoice Quantity" />
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="sampleQuantity_{{ $index }}" class="form-label">
-                                                {{ $detail->product->product_name }} - Sample Quantity 
+                                                Sample Quantity 
                                                 (Remaining Sample: {{ $detail->invoice_rem_sample }})
                                             </label>
                                             <input type="number" id="sampleQuantity_{{ $index }}"
                                                 wire:model="sampleQuantities.{{ $index }}" class="form-control"
                                                 min="0" max="{{ $detail->invoice_rem_sample }}" step="1"
                                                 placeholder="Sample Quantity" />
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="customPrice_{{ $index }}" class="form-label">
+                                                Custom Unit Price  
+                                            </label>
+                                            <input type="number" id="customPrice_{{ $index }}"
+                                                   wire:model="customUnitPrices.{{ $index }}" class="form-control"
+                                                   min="0" step="0.01"
+                                                   placeholder="Enter Custom Unit Price (optional)" />
                                         </div>
                                     @endforeach
                                 </div>

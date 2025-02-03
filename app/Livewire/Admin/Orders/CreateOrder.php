@@ -362,7 +362,7 @@ class CreateOrder extends Component
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');
-            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'total', 'order_date', 'remarks']);
+            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax','freight', 'total', 'order_date', 'remarks']);
             $this->addOrderDetail();
             $this->isSubmitting = false;
 
@@ -458,7 +458,7 @@ class CreateOrder extends Component
 
             DB::commit();
 
-            notyf()->success('Invoice generated successfully with number: ' . $invoiceNumber);
+            //notyf()->success('Invoice generated successfully with number: ' . $invoiceNumber);
             return $invoice;
         } catch (\Exception $e) {
             DB::rollBack();
