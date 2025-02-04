@@ -117,7 +117,6 @@ class OrderDetails extends Component
         notyf()->success('Invoices generated successfully!');
     }
 
-
     private function createCombinedInvoice($orderDetails)
     {
         $mainOrder = $this->order;
@@ -229,7 +228,6 @@ class OrderDetails extends Component
         }
     }
     
-
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {

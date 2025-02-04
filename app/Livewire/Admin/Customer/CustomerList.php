@@ -153,6 +153,7 @@ class CustomerList extends Component
 
         $this->resetPage();
     }
+    
     public function updatedStatus()
     {
         $this->resetPage();

@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-4">
-                        <div class="col-md-12 mb-4">
+                        <div class="col-md-6 mb-2">
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <h6 class="mb-2">Entity Details:</h6>
@@ -29,44 +29,53 @@
                                         {{ $order->entity->postal_code }}</p>
                                     <p class="mb-1"><strong>Reg. No:</strong>
                                         {{ $order->entity->business_reg_number }}</p>
-                                    <p class="mb-1"><strong>VAT No:</strong>
+                                    <p class="mb-7"><strong>VAT No:</strong>
                                         {{ $order->entity->vat_number }}</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <h6 class="mb-2">Customer Details:</h6>
-                            <p class="mb-1">Name: {{ $order->customer->first_name }}
-                                {{ $order->customer->last_name }}</p>
-                            <p class="mb-1">Email: {{ $order->customer->email }}</p>
-                            <p class="mb-1">Shipping Address: {{ $order->shipping_address }}</p>
+                        <div class="col-md-6 mb-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h6 class="mb-2">Order Information:</h6>
+                                    <p class="mb-1">Order Date:
+                                        {{ date('M d, Y', strtotime($order->order_date)) }}</p>
+                                    <p class="mb-1">Payment Mode: {{ $order->payment_mode }}</p>
+                                    <p class="mb-1">Status:
+                                        <span
+                                            class="badge bg-{{ $order->order_status === 'Paid' ? 'success' : ($order->order_status === 'Pending' ? 'warning' : 'danger') }}">
+                                            {{ $order->order_status }}
+                                        </span>
+                                    </p>
+                                    <p class="mb-1">Remarks: {{ $order->remarks }}</p>
+                                    <p class="mb-1">Payment Terms: {{ $order->payment_terms }}</p>
+                                    <p>Delivery Status:
+                                        <span
+                                            class="badge bg-{{ $order->delivery_status === 'Delivered'
+                                                ? 'success'
+                                                : ($order->delivery_status === 'Pending'
+                                                    ? 'warning'
+                                                    : ($order->delivery_status === 'Shipped'
+                                                        ? 'info'
+                                                        : 'danger')) }}">
+                                            {{ $order->delivery_status }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <h6 class="mb-2">Order Information:</h6>
-                            <p class="mb-1">Order Date:
-                                {{ date('M d, Y', strtotime($order->order_date)) }}</p>
-                            <p class="mb-1">Payment Mode: {{ $order->payment_mode }}</p>
-                            <p class="mb-1">Status:
-                                <span
-                                    class="badge bg-{{ $order->order_status === 'Paid' ? 'success' : ($order->order_status === 'Pending' ? 'warning' : 'danger') }}">
-                                    {{ $order->order_status }}
-                                </span>
-                            </p>
-                            <p class="mb-1">Remarks: {{ $order->remarks }}</p>
-                            <p class="mb-1">Payment Terms: {{ $order->payment_terms }}</p>
-                            <p class="mb-1">Delivery Status:
-                                <span
-                                    class="badge bg-{{ $order->delivery_status === 'Delivered'
-                                        ? 'success'
-                                        : ($order->delivery_status === 'Pending'
-                                            ? 'warning'
-                                            : ($order->delivery_status === 'Shipped'
-                                                ? 'info'
-                                                : 'danger')) }}">
-                                    {{ $order->delivery_status }}
-                                </span>
-                            </p>
+                        <div class="col-md-12 mb-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h6 class="mb-2">Customer Details:</h6>
+                                    <p class="mb-1">Name: {{ $order->customer->first_name }}
+                                        {{ $order->customer->last_name }}</p>
+                                    <p class="mb-1">Email: {{ $order->customer->email }}</p>
+                                    <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
+                                    <p class="mb-1">Billing Address: {{ $order->customer->billing_address }}</p>
+                                    <p class="mb-1">Shipping Address: {{ $order->shipping_address }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -176,7 +185,7 @@
                                         <tr>
                                             <th class="text-center">Invoice Number</th>
                                             <th class="text-center">Invoice Date</th>
-                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Quantity</th>
                                             <th class="text-center">Remarks</th>
                                             <th class="text-center">Total</th>
                                             <th class="text-center">Action</th>
@@ -186,17 +195,14 @@
                                         @php
                                             $invoicesToDisplay = $showSplitInvoices ? $invoices->skip(1) : $invoices;
                                         @endphp
-                                        @foreach ($invoicesToDisplay  as $invoice)
+                                        @foreach ($invoicesToDisplay as $invoice)
                                             <tr>
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
                                                 <td class="text-center">
                                                     {{ date('M d, Y', strtotime($invoice->created_at)) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span
-                                                        class="badge bg-{{ $invoice->status === 'Confirmed' ? 'success' : ($invoice->status === 'Draft' ? 'warning' : 'danger') }}">
-                                                        {{ $invoice->status }}
-                                                    </span>
+                                                    {{ $invoice->invoiceDetails->sum('quantity') }}
                                                 </td>
                                                 <td class="text-center">{{ $invoice->remarks }}</td>
                                                 <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
@@ -208,7 +214,7 @@
                                                         </button>
                                                     @endif
                                                 </td>
-                                                
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -283,7 +289,8 @@
                                     @foreach ($order->orderDetails as $index => $detail)
                                         <div class="col-md-4 mb-3">
                                             <label for="quantitySplit_{{ $index }}" class="form-label">
-                                                {{ $detail->product->product_name }} (Remaining Qty: {{ $detail->invoice_rem }})
+                                                {{ $detail->product->product_name }} (Remaining Qty:
+                                                {{ $detail->invoice_rem }})
                                             </label>
                                             <input type="number" id="quantitySplit_{{ $index }}"
                                                 wire:model="quantitySplits.{{ $index }}" class="form-control"
@@ -292,27 +299,28 @@
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label for="sampleQuantity_{{ $index }}" class="form-label">
-                                                Sample Quantity 
+                                                Sample Quantity
                                                 (Remaining Sample: {{ $detail->invoice_rem_sample }})
                                             </label>
                                             <input type="number" id="sampleQuantity_{{ $index }}"
-                                                wire:model="sampleQuantities.{{ $index }}" class="form-control"
-                                                min="0" max="{{ $detail->invoice_rem_sample }}" step="1"
+                                                wire:model="sampleQuantities.{{ $index }}"
+                                                class="form-control" min="0"
+                                                max="{{ $detail->invoice_rem_sample }}" step="1"
                                                 placeholder="Sample Quantity" />
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label for="customPrice_{{ $index }}" class="form-label">
-                                                Custom Unit Price  
+                                                Price Per Box
                                             </label>
                                             <input type="number" id="customPrice_{{ $index }}"
-                                                   wire:model="customUnitPrices.{{ $index }}" class="form-control"
-                                                   min="0" step="0.01"
-                                                   placeholder="Enter Custom Unit Price (optional)" />
+                                                wire:model="customUnitPrices.{{ $index }}"
+                                                class="form-control" min="0" step="0.01"
+                                                placeholder="Enter Price per box (optional)" />
                                         </div>
                                     @endforeach
                                 </div>
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
-                            </form>                            
+                            </form>
                         </div>
                     </div>
                 </div>

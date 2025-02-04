@@ -19,7 +19,7 @@
         <div class="card shadow-sm p-3 mb-4">
             <div class="table-responsive">
                 <h4 class="fw-bold fs-5 mb-4 ml-2">Orders Placed</h4>
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr class="text-center">
                             <th>Order ID</th>

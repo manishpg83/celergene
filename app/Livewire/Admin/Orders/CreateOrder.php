@@ -355,9 +355,9 @@ class CreateOrder extends Component
                     $order->orderDetails()->create($orderDetail);
                 }
 
-                if ($customer = Customer::find($this->customer_id)) {
+                /* if ($customer = Customer::find($this->customer_id)) {
                     Mail::to($customer->email)->send(new OrderConfirmation($order, $customer));
-                }
+                } */
                 $this->generateInvoice($order->order_id);
             });
 

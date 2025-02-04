@@ -23,7 +23,7 @@
 
         <!-- Masters -->
         <li
-            class="menu-item {{ request()->routeIs('admin.suppliers*') || request()->routeIs('admin.warehouses*') || request()->routeIs('admin.customerstype*') || request()->routeIs('admin.currencycountry*') || request()->routeIs('admin.roles*') || request()->routeIs('admin.user*') || request()->routeIs('admin.entities*') || request()->routeIs('admin.invoice*') ? 'active open' : '' }}">
+            class="menu-item {{ request()->routeIs('admin.suppliers*') || request()->routeIs('admin.warehouses*') || request()->routeIs('admin.customerstype*') || request()->routeIs('admin.currencycountry*') || request()->routeIs('admin.roles*') || request()->routeIs('admin.currency*')  || request()->routeIs('admin.user*') || request()->routeIs('admin.entities*') || request()->routeIs('admin.invoice*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Masters">Masters</div>
@@ -119,19 +119,19 @@
 
             <!-- Currency and Country -->
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.currencycountry.*') ? 'active open' : '' }}">
+                <li class="menu-item {{ request()->routeIs('admin.currency.*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="Currency and Country">Currency and Country</div>
+                        <div data-i18n="Currency">Currency</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->routeIs('admin.currencycountry.index') ? 'active' : '' }}">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Currency and Country List">Currency and Country List</div>
+                        <li class="menu-item {{ request()->routeIs('admin.currency.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.currency.index') }}" class="menu-link">
+                                <div data-i18n="Currency List">Currency List</div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->routeIs('admin.currencycountry.add') ? 'active' : '' }}">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Add Currency and Country">Add Currency and Country</div>
+                        <li class="menu-item {{ request()->routeIs('admin.currency.add') ? 'active' : '' }}">
+                            <a href="{{ route('admin.currency.add') }}" class="menu-link">
+                                <div data-i18n="Add Currency">Add Currency</div>
                             </a>
                         </li>
                     </ul>

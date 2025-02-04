@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Admin\AdminEntityController;
@@ -87,6 +88,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::middleware(['permission:manage suppliers'])->group(function () {
                 // Route::get('suppliers/', [SuppliersController::class, 'index'])->name('suppliers.index');
                 // Route::get('suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
+                Route::get('currency', [CurrencyController::class, 'index'])->name('currency.index');
+                Route::get('currency/add', [CurrencyController::class, 'add'])->name('currency.add');
+                Route::get('currency/edit/{id}', [CurrencyController::class, 'showAddEntityForm'])->name('currency.edit');
             });
 
             Route::middleware(['permission:manage inventory'])->group(function () {

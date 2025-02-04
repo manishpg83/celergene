@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Admin\Products;
 
-use Livewire\Component;
+use App\Models\Currency;
 use App\Models\Product;
 use App\Models\ProductCatagory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
@@ -34,21 +35,8 @@ class AddProduct extends Component
     public $modified_by;
     public $isEditMode = false;
     public $categories = [];
-
-    public $currencies = [
-        'USD' => 'USD - US Dollar',
-        'EUR' => 'EUR - Euro',
-        'GBP' => 'GBP - British Pound',
-        'INR' => 'INR - Indian Rupee',
-        'AUD' => 'AUD - Australian Dollar',
-        'SGD' => 'SGD - Singapore Dollar',
-        'NZD' => 'NZD - New Zealand Dollar',
-        'CHF' => 'CHF - Swiss Franc',
-        'ZAR' => 'ZAR - South African Rand',
-        'AED' => 'AED - UAE Dirham',
-        'SAR' => 'SAR - Saudi Riyal',
-        'PHP' => 'PHP - Philippine Peso',
-    ];
+    public $minExpireDate;
+    public $currencies = [];
 
     public function rules()
     {
@@ -67,7 +55,7 @@ class AddProduct extends Component
             'product_category' => 'required|integer',
             'origin' => 'required|string|max:255',
             'batch_number' => 'required|string|max:255',
-            'expire_date' => 'required|date',
+            'expire_date' => 'nullable|date_format:Y-m|after_or_equal:' . date('Y-m'),
             'currency' => 'required|string|max:3',
             'unit_price' => 'required|numeric',
             'remarks_notes' => 'nullable|string',
@@ -79,6 +67,10 @@ class AddProduct extends Component
     {
         $this->categories = ProductCatagory::where('status', 'active')->get();
 
+        $this->currencies = Currency::where('status', 'active')->pluck('name', 'code')->toArray();
+
+        $this->expire_date = date('Y') . '-12';
+        $this->minExpireDate = date('Y-m');
         $this->product_id = request()->query('id');
 
         if ($this->product_id) {
@@ -119,19 +111,11 @@ class AddProduct extends Component
 
         $this->modified_by = Auth::id();
 
-        /*         if ($this->product_img) {
-            $imagePath = $this->product_img->store('', 'custom_product_images');
-            if ($imagePath) {
-                if ($this->isEditMode) {
-                    $product = Product::find($this->product_id);
-                    if ($product && $product->product_img && Storage::disk('custom_product_images')->exists($product->product_img)) {
-                        Storage::disk('custom_product_images')->delete($product->product_img);
-                    }
-                }
-
-                $newImagePath = 'product_img/' . basename($imagePath);
-            }
-        } */
+        if (!$this->expire_date) {
+            $this->expire_date = (date('Y') + 1) . '-12';
+        }
+    
+        $formattedExpireDate = $this->expire_date . '-01';
 
         Product::updateOrCreate(
             ['id' => $this->product_id],
@@ -143,7 +127,7 @@ class AddProduct extends Component
                 'product_category' => $this->product_category,
                 'origin' => $this->origin,
                 'batch_number' => $this->batch_number,
-                'expire_date' => $this->expire_date,
+                'expire_date' => $formattedExpireDate,
                 'currency' => $this->currency,
                 'unit_price' => $this->unit_price,
                 'remarks_notes' => $this->remarks_notes,

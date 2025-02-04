@@ -33,7 +33,7 @@ class CustomerTabs extends Component
     {
         $orders = $this->customer->orders()
             ->orderBy('order_date', 'desc')
-            ->paginate(3);
+            ->paginate(10);
             
         return view('livewire.admin.customer.customer-tabs', [
             'orders' => $orders

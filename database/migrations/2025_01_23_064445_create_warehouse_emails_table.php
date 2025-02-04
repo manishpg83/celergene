@@ -13,7 +13,6 @@ return new class extends Migration
             $table->unsignedBigInteger('warehouse_id');
             $table->string('email');
             $table->timestamps();
-
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
         });
     }

@@ -99,24 +99,24 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expire_date">Expire Date</label>
-                                    <input type="date"  min="{{ date('Y-m-d') }}" class="form-control" id="expire_date" wire:model="expire_date" >
+                                    <input type="month" min="{{ date('Y-m') }}" class="form-control" id="expire_date" wire:model="expire_date">
                                     @error('expire_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div>                                
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="currency">Currency</label>
                                     <select class="form-select" id="currency" wire:model="currency" required>
                                         <option value="">Select currency</option>
                                         @foreach($currencies as $code => $name)
-                                            <option value="{{ $code }}">{{ $name }}</option>
+                                            <option value="{{ $code }}">{{ $name }} ({{ $code }})</option>
                                         @endforeach
                                     </select>
                                     @error('currency')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>                               
+                                </div>                                                             
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="unit_price">Retail price</label>

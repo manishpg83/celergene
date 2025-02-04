@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin\Customer;
 
-use App\Models\Order;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\OrderDetails;
@@ -90,7 +89,6 @@ class CustomerDetails extends Component
             $this->customer->delete();
             notyf()->success('Customer suspended. Click delete again to permanently remove.');
         }
-
         return redirect()->route('admin.customer.index');
     }
 }

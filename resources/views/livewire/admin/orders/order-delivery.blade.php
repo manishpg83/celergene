@@ -52,7 +52,7 @@
                                 Quantity
                             @endif
                         </th>
-                        <th class="text-center">Remaining Sample Qty / Total Sample Qty</th>
+                        <th class="text-center">Remaining / Total Sample Qty</th>
                         <th class="text-center">Warehouse Selection</th>
                     </tr>
                 </thead>

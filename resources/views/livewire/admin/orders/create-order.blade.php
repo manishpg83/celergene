@@ -13,17 +13,6 @@
                 </div>
 
                 <div class="card-body">
-                    @if (session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                    @endif
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
                     <form wire:submit.prevent="submitOrder">
                         <div class="row g-3 mt-0">
                             <div class="col-md-6">
@@ -167,7 +156,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('orderDetails.' . $index . '.product_id')
+                                            @error('orderDetails.' . $index . '.product')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -178,7 +167,7 @@
                                                 <input type="text"
                                                     wire:model="orderDetails.{{ $index }}.manual_product_name"
                                                     placeholder="Enter custom product name" class="form-control">
-                                                @error("orderDetails.{$index}.manual_product_name")
+                                                @error("orderDetails.{$index}.")
                                                     <span class="error">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -191,7 +180,7 @@
                                                 placeholder="Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.quantity') is-invalid @enderror"
                                                 min="1">
-                                            @error('orderDetails.' . $index . '.quantity')
+                                            @error('orderDetails.' . $index . '.')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -206,10 +195,10 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-6 mb-1">Unit Price</div>
+                                            <div class="col-7 mb-1">Retail Price</div>
                                             <input type="number"
                                                 wire:model.live="orderDetails.{{ $index }}.unit_price"
-                                                placeholder="Unit Price" class="form-control">
+                                                placeholder="Retail Price" class="form-control">
                                         </div>
 
                                         {{-- <div class="col-md-2">
