@@ -62,12 +62,10 @@
                         </thead>
                         <tbody>
                             @if ($users && $users->isEmpty())
-                                <tr>
-                                    <td colspan="7" class="text-center">No users found.</td>
-                                </tr>
+                                <tr><td colspan="7" class="text-center">No users found.</td></tr>
                             @else
                                 @foreach ($users as $index => $user)
-                                    <tr>
+                                    <tr class="{{ $user->trashed() ? 'table-warning' : '' }}">
                                         <td>{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
@@ -84,44 +82,42 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-link text-black" type="button"
-                                                    id="actionMenu{{ $user->id }}" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                        fill="currentColor" style="width: 20px; height: 20px;">
-                                                        <circle cx="12" cy="12" r="2" />
-                                                        <circle cx="12" cy="6" r="2" />
-                                                        <circle cx="12" cy="18" r="2" />
-                                                    </svg>
-                                                </button>
-                                                <ul class="dropdown-menu"
-                                                    aria-labelledby="actionMenu{{ $user->id }}">
-                                                    <li>
-                                                        <a class="dropdown-item" wire:click="edit({{ $user->id }})"
-                                                            style="cursor: pointer;">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item {{ $user->trashed() ? 'text-danger' : 'text-warning' }}"
-                                                            wire:click="confirmDelete({{ $user->id }})"
-                                                            style="cursor: pointer;">
-                                                            {{ $user->trashed() ? 'Permanently Delete' : 'Suspend' }}
-                                                        </a>
-                                                    </li>
-                                                    @if ($user->trashed())
+                                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link text-black" type="button" id="actionMenu{{ $user->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                                                            <circle cx="12" cy="12" r="2" />
+                                                            <circle cx="12" cy="6" r="2" />
+                                                            <circle cx="12" cy="18" r="2" />
+                                                        </svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $user->id }}">
+                                                        <li><a class="dropdown-item" wire:click="edit({{ $user->id }})" style="cursor: pointer;">Edit</a></li>
                                                         <li>
-                                                            <a class="dropdown-item text-success"
-                                                                wire:click="restore({{ $user->id }})"
-                                                                style="cursor: pointer;">Restore</a>
+                                                            <a class="dropdown-item {{ $user->trashed() ? 'text-danger' : 'text-warning' }}" 
+                                                                wire:click="confirmDelete({{ $user->id }})" 
+                                                                style="cursor: pointer;">
+                                                                {{ $user->trashed() ? 'Permanently Delete' : 'Suspend' }}
+                                                            </a>
                                                         </li>
-                                                    @endif
-                                                </ul>
+                                                        @if ($user->trashed())
+                                                            <li><a class="dropdown-item text-success" wire:click="restore({{ $user->id }})" style="cursor: pointer;">Restore</a></li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                                @if($user->trashed())
+                                                    <span class="text-danger" title="Suspended">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="width: 16px; height: 16px;">
+                                                            <path d="M7.938 2.016a.13.13 0 0 1 .125 0l6.857 11.987c.042.073.042.163 0 .236a.13.13 0 0 1-.125.061H1.375a.13.13 0 0 1-.125-.061.176.176 0 0 1 0-.236L7.938 2.016zM8 5c-.535 0-.954.462-.9.995l.35 4.507c.035.416.38.748.9.748s.865-.332.9-.748L8.9 5.995C8.954 5.462 8.535 5 8 5zm.002 6a1 1 0 1 0-.002 2 1 1 0 0 0 .002-2z"/>
+                                                        </svg>
+                                                    </span>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
-                        </tbody>
+                         </tbody>
                     </table>
                 </div>
 

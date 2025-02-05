@@ -60,46 +60,50 @@
                             </tr>
                         @else
                             @foreach ($customers as $customer)
-                                <tr class="text-center">
+                                <tr class="text-center {{ $customer->trashed() ? 'table-warning' : '' }}">
                                     <td>{{ $customer->first_name }}</td>
                                     <td>{{ $customer->last_name }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->mobile_number }}</td>
                                     <td>{{ $customer->company_name }}</td>
                                     <td class="text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <!-- View icon -->
-                                            <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black me-3" title="View Details" target="_blank">
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black" title="View Details" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
                                             </a>
-                                             
-                                            <!-- Dropdown menu -->
+                     
                                             <div class="dropdown">
                                                 <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $customer->id }}">
+                                                    <li><a class="dropdown-item" wire:click="edit({{ $customer->id }})" style="cursor: pointer;">Edit</a></li>
                                                     <li>
-                                                        <a class="dropdown-item" wire:click="edit({{ $customer->id }})" style="cursor: pointer;">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}" wire:click="confirmDelete({{ $customer->id }})" style="cursor: pointer;">
+                                                        <a class="dropdown-item {{ $customer->trashed() ? 'text-danger' : 'text-warning' }}" 
+                                                           wire:click="confirmDelete({{ $customer->id }})" 
+                                                           style="cursor: pointer;">
                                                             {{ $customer->trashed() ? 'Permanently Delete' : 'Suspend' }}
                                                         </a>
                                                     </li>
                                                     @if ($customer->trashed())
-                                                        <li>
-                                                            <a class="dropdown-item text-success" wire:click="restore({{ $customer->id }})" style="cursor: pointer;">Restore</a>
-                                                        </li>
+                                                        <li><a class="dropdown-item text-success" wire:click="restore({{ $customer->id }})" style="cursor: pointer;">Restore</a></li>
                                                     @endif
                                                 </ul>
                                             </div>
+                     
+                                            @if($customer->trashed())
+                                                <span class="text-danger" title="Suspended">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="width: 16px; height: 16px;">
+                                                        <path d="M7.938 2.016a.13.13 0 0 1 .125 0l6.857 11.987c.042.073.042.163 0 .236a.13.13 0 0 1-.125.061H1.375a.13.13 0 0 1-.125-.061.176.176 0 0 1 0-.236L7.938 2.016zM8 5c-.535 0-.954.462-.9.995l.35 4.507c.035.416.38.748.9.748s.865-.332.9-.748L8.9 5.995C8.954 5.462 8.535 5 8 5zm.002 6a1 1 0 1 0-.002 2 1 1 0 0 0 .002-2z"/>
+                                                    </svg>
+                                                </span>
+                                            @endif
                                         </div>
-                                    </td>                                    
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif
-                    </tbody>
+                     </tbody>
                 </table>
             </div>
         </div>
