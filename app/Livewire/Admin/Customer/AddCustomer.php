@@ -41,7 +41,7 @@ class AddCustomer extends Component
         'mobile_number' => 'required|string',
         'email' => 'required|email',
         'payment_term_display' => 'required|string',
-        'payment_term_actual' => 'nullable|in:7D,14D,30D',
+        'payment_term_actual' => 'nullable|in:IMMEDIATE,7D,14D,30D',
         'billing_address' => 'required|string',
         'billing_country' => 'required|string',
         'shipping_address_receiver_name_1' => 'required|string',

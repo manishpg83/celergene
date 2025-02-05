@@ -60,12 +60,13 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="expiry">Expiry Date</label>
-                                    <input type="date" wire:model="expiry" id="expiry" min="{{ date('Y-m-d') }}"
-                                        class="form-control" required>
+                                    <input type="month" wire:model="expiry" id="expiry" min="{{ date('Y-m') }}"
+                                        class="form-control @error('expiry') is-invalid @enderror">
                                     @error('expiry')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                
                                 @if ($isEditMode)
                                     <div class="col-md-6">
                                         <label class="form-label" for="remaining">Quantity</label>

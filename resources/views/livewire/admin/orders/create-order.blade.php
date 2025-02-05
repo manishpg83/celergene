@@ -187,7 +187,7 @@
                                         <div class="col-md-2">
                                             <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.sample_quantity"
+                                                wire:model.live.debounce.500ms="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="Sample Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror">
                                             @error('orderDetails.' . $index . '.sample_quantity')
@@ -197,7 +197,7 @@
                                         <div class="col-md-2">
                                             <div class="col-7 mb-1">Retail Price</div>
                                             <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.unit_price"
+                                                wire:model.live.debounce.500ms="orderDetails.{{ $index }}.unit_price"
                                                 placeholder="Retail Price" class="form-control">
                                         </div>
 

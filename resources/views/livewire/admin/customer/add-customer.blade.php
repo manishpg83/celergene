@@ -131,12 +131,12 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label" for="payment_term_actual">Payment Term
-                                            Actual</label>
+                                        <label class="form-label" for="payment_term_actual">Payment Term Actual</label>
                                         <select wire:model="payment_term_actual"
                                             class="form-select @error('payment_term_actual') is-invalid @enderror"
                                             id="payment_term_actual">
                                             <option value="">Select</option>
+                                            <option value="IMMEDIATE">Immediate</option>
                                             <option value="7D">7 Days</option>
                                             <option value="14D">14 Days</option>
                                             <option value="30D">30 Days</option>

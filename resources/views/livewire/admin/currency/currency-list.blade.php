@@ -105,7 +105,7 @@
                 </table>
             </div>
 
-            <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex justify-content-end mt-3">
                 <div>
                     {{ $currencies->links() }}
                 </div>

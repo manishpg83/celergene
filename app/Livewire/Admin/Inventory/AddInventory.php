@@ -24,20 +24,26 @@ class AddInventory extends Component
     public $quantity;
     public $consumed = 0;
     public $remaining;
+    public $minExpireDate;
     public $isEditMode = false;
 
-    protected $rules = [
-        'product_code' => 'required|exists:products,id',
-        'warehouse_id' => 'required|exists:warehouses,id',
-        'batch_number' => 'required|string|max:255',
-        'expiry' => 'required|date',
-        'quantity' => 'required|integer|min:1',
-        'remaining' => 'required|integer|min:1',
-    ];
+    public function rules()
+    {
+        return [
+            'product_code' => 'required|exists:products,id',
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'batch_number' => 'required|string|max:255',
+            'expiry' => 'nullable|date_format:Y-m|after_or_equal:' . date('Y-m'),
+            'quantity' => 'required|integer|min:1',
+            'remaining' => 'required|integer|min:1',
+        ];
+    }
 
     public function mount()
     {
         $this->inventory_id = request()->query('id');
+        $this->minExpireDate = date('Y-m');
+        $this->expiry = date('Y') . '-12';
 
         if ($this->inventory_id) {
             $inventory = Inventory::find($this->inventory_id);
@@ -58,7 +64,7 @@ class AddInventory extends Component
             ->where('inventory_id', $this->inventory_id)
             ->where('product_id', $this->product_code)
             ->orderBy('created_at', 'desc')
-            ->paginate(3);
+            ->paginate(5);
     }
 
     public function saveInventory()
@@ -70,6 +76,11 @@ class AddInventory extends Component
     
             $newQuantity = $this->isEditMode ? $oldQuantity + $this->quantity : $this->quantity;
             $this->remaining = $newQuantity - $this->consumed;
+
+            if (!$this->expiry) {
+                $this->expiry = (date('Y') + 1) . '-12';
+            }
+            $formattedExpireDate = $this->expiry . '-01';
     
             $inventory = Inventory::updateOrCreate(
                 ['id' => $this->inventory_id],
@@ -77,7 +88,7 @@ class AddInventory extends Component
                     'product_code' => $this->product_code,
                     'warehouse_id' => $this->warehouse_id,
                     'batch_number' => $this->batch_number,
-                    'expiry' => $this->expiry,
+                    'expiry' => $formattedExpireDate,
                     'quantity' => $newQuantity,
                     'consumed' => $this->consumed,
                     'remaining' => $this->remaining,
