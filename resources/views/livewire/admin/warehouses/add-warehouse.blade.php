@@ -24,8 +24,6 @@
                                     @enderror
                                 </div>
 
-
-
                                 <div class="col-md-6">
                                     <label class="form-label" for="country">Country</label>
                                     <input wire:model="country" type="text" id="country" class="form-control"

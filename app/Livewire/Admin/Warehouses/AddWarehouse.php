@@ -85,9 +85,9 @@ class AddWarehouse extends Component
                 'email',
                 'distinct',
                 function ($attribute, $value, $fail) {
-                    if (WarehouseEmail::where('email', $value)->where('warehouse_id', '!=', $this->warehouse_id)->exists()) {
+                    /* if (WarehouseEmail::where('email', $value)->where('warehouse_id', '!=', $this->warehouse_id)->exists()) {
                         $fail("The email {$value} is already in use.");
-                    }
+                    } */
                 }
             ],
             'address' => 'required|string|max:500',

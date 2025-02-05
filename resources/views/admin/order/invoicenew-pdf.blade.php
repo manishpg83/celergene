@@ -245,19 +245,20 @@
         <tbody>
             @php
                 $totalRows = 23;
-                $productCount = count($order->orderDetails);
+                $productCount = count($orderInvoiceDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp
-           @foreach ($orderInvoiceDetails as $detail)
-           <tr>
-               <td style="width: 50%;">{{ $detail->product->invoice_description }}</td>
-               <td style="width: 15%;">{{ $detail->quantity }}</td>
-               <td style="width: 15%;">${{ number_format($detail->unit_price, 2) }}</td>
-               {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
-               <td style="width: 20%;">${{ number_format($detail->total, 2) }}</td>
-           </tr>
-       @endforeach
-       
+    
+            @foreach ($orderInvoiceDetails as $detail)
+                <tr>
+                    <td style="width: 50%;">{{ $detail->product->invoice_description }}</td>
+                    <td style="width: 15%;">{{ $detail->quantity }}</td>
+                    <td style="width: 15%;">${{ number_format($detail->unit_price, 2) }}</td>
+                    {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
+                    <td style="width: 20%;">${{ number_format($detail->total, 2) }}</td>
+                </tr>
+            @endforeach
+    
             @for ($i = 0; $i < $blankRows; $i++)
                 <tr class="blank-row">
                     <td style="width: 50%;">&nbsp;</td>
@@ -266,9 +267,19 @@
                     <td style="width: 20%;">&nbsp;</td>
                 </tr>
             @endfor
+    
+            <tr>
+                <td style="width: 50%; font-weight: bold;">
+                    Country Of Origin: Switzerland <br>
+                    Manufactured by: SWISSCAPS/SWITZERLAND
+                </td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 20%;">&nbsp;</td>
+            </tr>
         </tbody>
     </table>
-
+    
     <div class="summary-section">
         <div class="left bank-details"><br>
             <p><strong>DIRECT ALL INQUIRIES TO: </strong></p>

@@ -265,6 +265,16 @@
                     <td style="width: 20%;">&nbsp;</td>
                 </tr>
             @endfor
+
+            <tr>
+                <td style="width: 50%; font-weight: bold;">
+                    Country Of Origin: Switzerland <br>
+                    Manufactured by: SWISSCAPS/SWITZERLAND
+                </td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 20%;">&nbsp;</td>
+            </tr>
         </tbody>
     </table>
 
