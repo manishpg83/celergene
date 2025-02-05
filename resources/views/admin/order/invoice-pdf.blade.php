@@ -244,7 +244,7 @@
         </thead>
         <tbody>
             @php
-                $totalRows = 22;
+                $totalRows = 20;
                 $productCount = count($order->orderDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp
