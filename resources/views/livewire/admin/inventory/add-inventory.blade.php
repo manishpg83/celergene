@@ -65,7 +65,7 @@
                                     @error('expiry')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div>                                
                                 
                                 @if ($isEditMode)
                                     <div class="col-md-6">
@@ -86,6 +86,15 @@
                                         @enderror
                                     </div>
                                 @endif
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="reason">Reason</label>
+                                    <input type="text" wire:model="reason" id="reason" class="form-control" placeholder="Enter reason" required>
+                                    @error('reason')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                                
+                                
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $isEditMode ? 'Update Inventory' : 'Add Inventory' }}

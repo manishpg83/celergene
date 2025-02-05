@@ -26,6 +26,7 @@ class AddInventory extends Component
     public $remaining;
     public $minExpireDate;
     public $isEditMode = false;
+    public $reason;
 
     public function rules()
     {
@@ -36,6 +37,7 @@ class AddInventory extends Component
             'expiry' => 'nullable|date_format:Y-m|after_or_equal:' . date('Y-m'),
             'quantity' => 'required|integer|min:1',
             'remaining' => 'required|integer|min:1',
+            'reason' => 'required|string|max:255',
         ];
     }
 
@@ -49,7 +51,14 @@ class AddInventory extends Component
             $inventory = Inventory::find($this->inventory_id);
             if ($inventory) {
                 $this->fill($inventory->toArray());
+                $this->expiry = $inventory->expiry ? date('Y-m', strtotime($inventory->expiry)) : $this->expiry;
                 $this->isEditMode = true;
+
+                $latestStock = Stock::where('inventory_id', $this->inventory_id)
+                    ->latest('created_at')
+                    ->first();
+
+                $this->reason = $latestStock ? $latestStock->reason : '';
             }
         }
     }
@@ -68,12 +77,12 @@ class AddInventory extends Component
     }
 
     public function saveInventory()
-    {    
+    {
 
         DB::transaction(function () {
             $oldInventory = Inventory::find($this->inventory_id);
             $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
-    
+
             $newQuantity = $this->isEditMode ? $oldQuantity + $this->quantity : $this->quantity;
             $this->remaining = $newQuantity - $this->consumed;
 
@@ -81,7 +90,7 @@ class AddInventory extends Component
                 $this->expiry = (date('Y') + 1) . '-12';
             }
             $formattedExpireDate = $this->expiry . '-01';
-    
+
             $inventory = Inventory::updateOrCreate(
                 ['id' => $this->inventory_id],
                 [
@@ -96,22 +105,21 @@ class AddInventory extends Component
                     'modified_by' => Auth::id(),
                 ]
             );
-        
+
             Stock::create([
                 'inventory_id' => $inventory->id,
                 'product_id' => $this->product_code,
                 'previous_quantity' => $oldQuantity,
                 'quantity_change' => $this->quantity,
                 'new_quantity' => $newQuantity,
-                'reason' => $this->inventory_id ? 'Added more stock' : 'New inventory',
+                'reason' => $this->reason,
                 'created_by' => Auth::id()
             ]);
-    
         });
-    
+
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         return redirect()->route('admin.inventory.index');
-    }    
+    }
 
     public function back()
     {
