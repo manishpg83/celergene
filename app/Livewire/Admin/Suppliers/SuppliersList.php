@@ -10,7 +10,7 @@ class SuppliersList extends Component
 {
     use WithPagination;
 
-    public $perPage = 5;
+    public $perPage = 25;
     public $search = '';
     public $sortField = 'supplier_name'; // Default sort field
     public $sortDirection = 'asc';      // Default sort direction

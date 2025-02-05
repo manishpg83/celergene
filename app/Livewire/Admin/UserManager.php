@@ -14,7 +14,7 @@ class UserManager extends Component
     public $users;
     public $selectedUserId; // To store the ID of the user being edited
     public $selectedRole; // To store the selected role for the user
-    public $perPage = 5;
+    public $perPage = 25;
     public $searchTerm = '';
     public $pagination;
 

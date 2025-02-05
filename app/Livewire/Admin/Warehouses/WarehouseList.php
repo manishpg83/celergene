@@ -12,7 +12,7 @@ class WarehouseList extends Component
 
     public $warehouseId;
     public $warehouse_name, $country, $type, $remarks;
-    public $search = '', $perPage = 5, $isEditing = false;
+    public $search = '', $perPage = 25, $isEditing = false;
     public $sortField = 'warehouse_name';
     public $sortDirection = 'asc';
     public $confirmingDeletion = false;

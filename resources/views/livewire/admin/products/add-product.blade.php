@@ -81,7 +81,7 @@
                                     <label class="form-label" for="origin">Origin</label>
                                     <select class="form-select" id="origin" wire:model="origin" required>
                                         <option value="">Select origin</option>
-                                        <option value="Swiss">Swiss</option>
+                                        <option value="USA/Swiss">USA/Swiss</option>
                                         <option value="Eckhart">Eckhart</option>
                                     </select>
                                     @error('origin')

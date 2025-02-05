@@ -13,7 +13,7 @@ class VendorTable extends Component
 
     public $searchVendor = '';
     public $status = 'all';
-    public $perPage = 5;
+    public $perPage = 25;
     public $vendorToDelete = null;
     public $vendorToEdit = null;
     public $confirmingDeletion = false;

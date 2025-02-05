@@ -12,7 +12,7 @@ class CustomerList extends Component
 
     public $customerId;
     public $first_name, $last_name, $email;
-    public $search = '', $perPage = 5, $isEditing = false;
+    public $search = '', $perPage = 25, $isEditing = false;
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
     public $confirmingDeletion = false;

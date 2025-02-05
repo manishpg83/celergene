@@ -25,7 +25,7 @@ class AdminCustomer extends Component
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
 
     public $search = '';
-    public $perPage = 5;
+    public $perPage = 25;
 
     protected $rules = [
         'customer_type' => 'required|string',

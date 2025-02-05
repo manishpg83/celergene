@@ -176,7 +176,7 @@
                                         <div class="col-md-2">
                                             <div class="col-6 mb-1">Quantity</div>
                                             <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.quantity"
+                                                wire:model.lazy="orderDetails.{{ $index }}.quantity"
                                                 placeholder="Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.quantity') is-invalid @enderror"
                                                 min="1">
@@ -187,7 +187,7 @@
                                         <div class="col-md-2">
                                             <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
-                                                wire:model.live.debounce.500ms="orderDetails.{{ $index }}.sample_quantity"
+                                                wire:model.lazy="orderDetails.{{ $index }}.sample_quantity"
                                                 placeholder="Sample Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.sample_quantity') is-invalid @enderror">
                                             @error('orderDetails.' . $index . '.sample_quantity')
@@ -197,7 +197,7 @@
                                         <div class="col-md-2">
                                             <div class="col-7 mb-1">Retail Price</div>
                                             <input type="number"
-                                                wire:model.live.debounce.500ms="orderDetails.{{ $index }}.unit_price"
+                                                wire:model.lazy="orderDetails.{{ $index }}.unit_price"
                                                 placeholder="Retail Price" class="form-control">
                                         </div>
 
@@ -271,7 +271,7 @@
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
-                                                    <input type="number" wire:model.live="freight"
+                                                    <input type="number" wire:model.lazy="freight"
                                                         class="form-control" min="0" step="0.01" value="0">
                                                 </div>
                                             </div>
@@ -281,7 +281,7 @@
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
-                                                    <input type="number" wire:model.live="tax" class="form-control"
+                                                    <input type="number" wire:model.lazy="tax" class="form-control"
                                                         min="0" step="0.01" value="0">
                                                 </div>
                                             </div>

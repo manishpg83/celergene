@@ -11,7 +11,7 @@ class CustomerTypeList extends Component
     use WithPagination;
 
     public $customer_type, $customerTypeId;
-    public $perPage = 5;
+    public $perPage = 25;
     public $status = 'active';
     public $search = '';
     public $confirmingDeletion = false;

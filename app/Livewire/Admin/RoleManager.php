@@ -18,7 +18,7 @@ class RoleManager extends Component
     public $editingRole = null;
     public $confirmingDeletion = false;
     public $searchTerm = '';
-    public $perPage = 5;
+    public $perPage = 25;
 
     public function mount()
     {

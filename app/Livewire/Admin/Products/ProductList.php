@@ -10,7 +10,7 @@ class ProductList extends Component
 {
     use WithPagination;
 
-    public $perPage = 5;
+    public $perPage = 25;
     public $search = '';
     public $confirmingDeletion = false;
     public $productId;

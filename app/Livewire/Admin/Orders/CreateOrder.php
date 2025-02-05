@@ -251,7 +251,7 @@ class CreateOrder extends Component
         $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
     }
     
-  /*   public function updatedFreight()
+    public function updatedFreight()
     {
         if (empty($this->freight) || !is_numeric($this->freight)) {
             $this->freight = 0;
@@ -260,7 +260,18 @@ class CreateOrder extends Component
         }
     
         $this->calculateFinalTotal();
-    } */
+    }
+
+    public function updatedTax()
+    {
+        if (empty($this->tax) || !is_numeric($this->tax)) {
+            $this->tax = 0;
+        } else {
+            $this->tax = floatval($this->tax);
+        }
+    
+        $this->calculateFinalTotal();
+    }
 
     public function removeOrderDetail($index)
     {

@@ -21,7 +21,7 @@ class CustomInvoiceList extends Component
     public $search = '';
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
-    public $perPage = 10;
+    public $perPage = 25;
     public $selectedEntityId = null;
     public $entities;
     public $dateStart = null;

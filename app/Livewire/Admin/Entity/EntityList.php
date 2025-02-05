@@ -17,7 +17,7 @@ class EntityList extends Component
     public $bank_account_name, $bank_account_number;
     public $currency, $bank_name, $bank_address;
     public $bank_swift_code, $bank_iban_number, $bank_code, $bank_branch_code;
-    public $is_active, $search = '', $status = 'all', $perPage = 5, $isEditing = false, $confirmingDeletion = false;
+    public $is_active, $search = '', $status = 'all', $perPage = 25, $isEditing = false, $confirmingDeletion = false;
     public $sortField = 'company_name';
     public $sortDirection = 'asc';
 
