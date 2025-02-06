@@ -34,6 +34,18 @@ class AddCustomer extends Component
 
     public $customerTypes;
 
+    public $countries = [
+        'LUX' => 'Luxembourg',
+        'USA' => 'United States of America',
+        'MAL' => 'Malaysia',
+        'IND' => 'India',
+        'SIN' => 'Singapore',
+        'CHI' => 'China',
+        'SWI' => 'Switzerland',
+        'THA' => 'Thailand',
+        'PHI' => 'Philippines',
+    ];
+
     protected $rules = [
         'customer_type_id' => 'required|exists:customerstype,id',
         'first_name' => 'required|string',
@@ -61,6 +73,11 @@ class AddCustomer extends Component
                 $this->isEditing = true;
             }
         }
+    }
+
+    public function getBillingCountryName()
+    {
+        return $this->billing_country ? ($this->countries[$this->billing_country] ?? $this->billing_country) : null;
     }
 
     private function fillCustomerData($customer)

@@ -38,8 +38,13 @@
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <h6 class="mb-2">Order Information:</h6>
-                                    <p class="mb-1">Order Date:
-                                        {{ date('M d, Y', strtotime($order->order_date)) }}</p>
+                                    <p class="mb-1">
+                                        Order Date: {{ date('M d, Y', strtotime($order->order_date)) }}
+                                        <i class="fas fa-edit text-primary cursor-pointer ml-1"
+                                            wire:click="$set('isEditingOrderDate', true)" data-bs-toggle="modal"
+                                            data-bs-target="#editOrderDateModal">
+                                        </i>
+                                    </p>
                                     <p class="mb-1">Payment Mode: {{ $order->payment_mode }}</p>
                                     <p class="mb-1">Status:
                                         <span
@@ -322,6 +327,31 @@
                                 <button type="submit" class="btn btn-primary">Generate Invoices</button>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="editOrderDateModal" tabindex="-1" aria-labelledby="editOrderDateModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editOrderDateModalLabel">Edit Order Date</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editedOrderDate">Order Date</label>
+                            <input type="date" class="form-control" id="editedOrderDate"
+                                wire:model="editedOrderDate">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" wire:click="updateOrderDate">Save
+                            Changes</button>
                     </div>
                 </div>
             </div>

@@ -142,6 +142,23 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('livewire:load', function() {
+            const modal = new bootstrap.Modal(document.getElementById('editOrderDateModal'));
+    
+            Livewire.on('closeModal', () => {
+                modal.hide();
+            });
+    
+            Livewire.hook('message.processed', (message, component) => {
+                if (component.get('isEditingOrderDate')) {
+                    modal.show();
+                } else {
+                    modal.hide();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

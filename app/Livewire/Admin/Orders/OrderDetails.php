@@ -24,9 +24,11 @@ class OrderDetails extends Component
     public $deliveryOrders;
     public $invoices;
     public $quantitySplits = [];
-    public $actual_freight;    
+    public $actual_freight;
     public $sampleQuantities = [];
-    public $customUnitPrices = []; 
+    public $customUnitPrices = [];
+    public $isEditingOrderDate = false;
+    public $editedOrderDate;
 
 
     public function mount($order_id)
@@ -40,6 +42,7 @@ class OrderDetails extends Component
                 ->where('order_id', $order_id)
                 ->get();
             Log::info('Raw delivery orders:', ['delivery_orders' => $rawDeliveryOrders->toArray()]);
+            $this->editedOrderDate = $this->order->order_date;
 
             $this->deliveryOrders = $rawDeliveryOrders->map(function ($deliveryOrder) {
                 return [
@@ -74,6 +77,29 @@ class OrderDetails extends Component
         }
     }
 
+    public function updateOrderDate()
+    {
+        try {
+            $this->validate([
+                'editedOrderDate' => 'required|date'
+            ]);
+    
+            $order = OrderMaster::where('order_id', $this->order_id)->firstOrFail();
+            $order->order_date = $this->editedOrderDate;
+            $order->save();
+    
+            $this->isEditingOrderDate = false;
+            $this->dispatch('closeModal');
+            $this->order = $order->fresh();
+            notyf()->success("Order date updated successfully!");
+            
+            return redirect()->route('admin.orders.details', ['order_id' => $this->order_id]);
+            
+        } catch (\Exception $e) {
+            notyf()->error("Failed to update order date.");
+        }
+    }
+    
     public function updateActualFreight()
     {
         try {
@@ -136,8 +162,8 @@ class OrderDetails extends Component
                 $detail->save();
 
                 $unitPrice = isset($this->customUnitPrices[$index]) && $this->customUnitPrices[$index] > 0
-                ? $this->customUnitPrices[$index]
-                : $detail->unit_price;
+                    ? $this->customUnitPrices[$index]
+                    : $detail->unit_price;
 
                 $productSubtotal = $splitQty * $unitPrice;
                 $totalSubtotal += $productSubtotal;
@@ -205,11 +231,11 @@ class OrderDetails extends Component
             $order = OrderMaster::with(['orderDetails.product'])
                 ->where('order_id', $order_id)
                 ->firstOrFail();
-    
+
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
             $fileName = "{$customerName}-{$invoiceDetail->id}.pdf";
-    
+
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
@@ -217,17 +243,16 @@ class OrderDetails extends Component
                 'order' => $order,
                 'orderInvoiceDetails' => $orderInvoiceDetails,
             ]);
-    
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
-    
         } catch (\Exception $e) {
             notyf()->error("Could not download invoice detail PDF.");
             return redirect()->back();
         }
     }
-    
+
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {

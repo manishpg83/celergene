@@ -57,7 +57,7 @@
         <thead>
             <tr>
                 <th>Item Name</th>
-                <th>Quantity Delivered</th>
+                <th>Quantity To Deliver</th>
             </tr>
         </thead>
         <tbody>

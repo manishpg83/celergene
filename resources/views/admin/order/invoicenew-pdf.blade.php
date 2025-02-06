@@ -200,6 +200,22 @@
 </head>
 
 <body>
+
+    @php
+        $countries = [
+            'LUX' => 'Luxembourg',
+            'USA' => 'United States of America',
+            'MAL' => 'Malaysia',
+            'IND' => 'India',
+            'SIN' => 'Singapore',
+            'CHI' => 'China',
+            'SWI' => 'Switzerland',
+            'THA' => 'Thailand',
+            'PHI' => 'Philippines',
+        ];
+
+        $billingCountry = $countries[$order->customer->billing_country] ?? 'Unknown Country';
+    @endphp
     <div class="logo-container">
         <img src="{{ public_path('admin/assets/img/branding/Celergen-Logo.png') }}" alt="Company Logo">
     </div>
@@ -218,7 +234,7 @@
             {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
             VAT No: {{ $order->customer->vat_number }}<br><br>
-            {{ $order->customer->billing_country }}<br>
+            {{ $billingCountry }}<br> <!-- Use the mapped country name -->
             PHONE : {{ $order->customer->mobile_number }}<br>
         </div>
         <div class="shipping-address">
@@ -248,7 +264,7 @@
                 $productCount = count($orderInvoiceDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp
-    
+
             @foreach ($orderInvoiceDetails as $detail)
                 <tr>
                     <td style="width: 50%;">{{ $detail->product->invoice_description }}</td>
@@ -258,7 +274,7 @@
                     <td style="width: 20%;">${{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
-    
+
             @for ($i = 0; $i < $blankRows; $i++)
                 <tr class="blank-row">
                     <td style="width: 50%;">&nbsp;</td>
@@ -267,7 +283,7 @@
                     <td style="width: 20%;">&nbsp;</td>
                 </tr>
             @endfor
-    
+
             <tr>
                 <td style="width: 50%; font-weight: bold;">
                     Country Of Origin: Switzerland <br>
@@ -279,7 +295,7 @@
             </tr>
         </tbody>
     </table>
-    
+
     <div class="summary-section">
         <div class="left bank-details"><br>
             <p><strong>DIRECT ALL INQUIRIES TO: </strong></p>
