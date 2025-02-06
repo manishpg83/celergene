@@ -81,29 +81,21 @@
                                     <label class="form-label" for="origin">Origin</label>
                                     <select class="form-select" id="origin" wire:model="origin" required>
                                         <option value="">Select origin</option>
-                                        <option value="USA/Swiss">USA/Swiss</option>
-                                        <option value="Eckhart">Eckhart</option>
+                                        <option value="US Swiss">US Swiss</option>
+                                        <option value="US Eckhart">US Eckhart</option>
                                     </select>
                                     @error('origin')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <label class="form-label" for="batch_number">Batch Number</label>
                                     <input type="text" class="form-control" id="batch_number" wire:model="batch_number" placeholder="Enter batch number" required>
                                     @error('batch_number')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="expire_date">Expire Date</label>
-                                    <input type="month" min="{{ date('Y-m') }}" class="form-control" id="expire_date" wire:model="expire_date">
-                                    @error('expire_date')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>                                
+                                </div> --}}
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="currency">Currency</label>
@@ -116,7 +108,15 @@
                                     @error('currency')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>                                                             
+                                </div>  
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="expire_date">Expiry Date</label>
+                                    <input type="month" min="{{ date('Y-m') }}" class="form-control" id="expire_date" wire:model="expire_date">
+                                    @error('expire_date')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>                                                                                           
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="unit_price">Retail price</label>

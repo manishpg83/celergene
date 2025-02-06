@@ -75,6 +75,7 @@
                     <p class="mt-4"><strong>Name:</strong>
                         {{ $customer->first_name }} {{ $customer->last_name }}</p>
                     <p class="mt-3"><strong>Email:</strong> {{ $customer->email }}</p>
+                    <p class="mt-3"><strong>Type:</strong> {{ $customer->customerType->customer_type ?? 'N/A' }}</p>
                     <p class="mt-3"><strong>Status:</strong>
                         <span class="badge {{ $customer->trashed() ? 'bg-label-danger' : 'bg-label-success' }}">
                             {{ $customer->trashed() ? 'Suspended' : 'Active' }}

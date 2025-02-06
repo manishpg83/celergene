@@ -69,7 +69,6 @@ class AddProduct extends Component
 
         $this->currencies = Currency::where('status', 'active')->pluck('name', 'code')->toArray();
 
-        $this->expire_date = date('Y') . '-12';
         $this->minExpireDate = date('Y-m');
         $this->product_id = request()->query('id');
 
@@ -80,6 +79,8 @@ class AddProduct extends Component
                 $this->isEditMode = true;
 
                 $this->product_img_url = $product->product_img ? $product->product_img : null;
+
+                $this->expire_date = $product->expire_date ? date('Y-m', strtotime($product->expire_date)) : null;
             }
         }
     }

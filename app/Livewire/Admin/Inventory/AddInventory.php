@@ -45,7 +45,6 @@ class AddInventory extends Component
     {
         $this->inventory_id = request()->query('id');
         $this->minExpireDate = date('Y-m');
-        $this->expiry = date('Y') . '-12';
 
         if ($this->inventory_id) {
             $inventory = Inventory::find($this->inventory_id);
