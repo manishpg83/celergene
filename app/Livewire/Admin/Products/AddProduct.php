@@ -11,7 +11,6 @@ use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
-
 class AddProduct extends Component
 {
     use WithFileUploads;
@@ -24,7 +23,6 @@ class AddProduct extends Component
     public $product_name;
     public $product_category;
     public $origin;
-    public $batch_number;
     public $expire_date;
     public $currency;
     public $unit_price;
@@ -54,7 +52,6 @@ class AddProduct extends Component
             'product_img' => $this->isEditMode ? 'nullable' : 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240',
             'product_category' => 'required|integer',
             'origin' => 'required|string|max:255',
-            'batch_number' => 'required|string|max:255',
             'expire_date' => 'nullable|date_format:Y-m|after_or_equal:' . date('Y-m'),
             'currency' => 'required|string|max:3',
             'unit_price' => 'required|numeric',
@@ -66,9 +63,7 @@ class AddProduct extends Component
     public function mount()
     {
         $this->categories = ProductCatagory::where('status', 'active')->get();
-
         $this->currencies = Currency::where('status', 'active')->pluck('name', 'code')->toArray();
-
         $this->minExpireDate = date('Y-m');
         $this->product_id = request()->query('id');
 
@@ -78,8 +73,7 @@ class AddProduct extends Component
                 $this->fill($product->toArray());
                 $this->isEditMode = true;
 
-                $this->product_img_url = $product->product_img ? $product->product_img : null;
-
+                $this->product_img_url = $product->product_img ?: null;
                 $this->expire_date = $product->expire_date ? date('Y-m', strtotime($product->expire_date)) : null;
             }
         }
@@ -112,11 +106,7 @@ class AddProduct extends Component
 
         $this->modified_by = Auth::id();
 
-        if (!$this->expire_date) {
-            $this->expire_date = (date('Y') + 1) . '-12';
-        }
-    
-        $formattedExpireDate = $this->expire_date . '-01';
+        $formattedExpireDate = $this->expire_date ? $this->expire_date . '-01' : null;
 
         Product::updateOrCreate(
             ['id' => $this->product_id],
@@ -127,7 +117,6 @@ class AddProduct extends Component
                 'invoice_description' => $this->invoice_description,
                 'product_category' => $this->product_category,
                 'origin' => $this->origin,
-                'batch_number' => $this->batch_number,
                 'expire_date' => $formattedExpireDate,
                 'currency' => $this->currency,
                 'unit_price' => $this->unit_price,
@@ -138,6 +127,7 @@ class AddProduct extends Component
                 'product_img' => $newImagePath ?? ($this->isEditMode ? $this->product_img_url : null),
             ]
         );
+
         notyf()->success($this->isEditMode ? 'Product updated successfully.' : 'Product added successfully.');
         return redirect()->route('admin.products.index');
     }
