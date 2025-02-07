@@ -3,77 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Delivery Order</title>
+    <title>Update Tracking Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            padding: 20px;
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
         }
-        .container {
-            max-width: 500px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .main-card {
+            max-height: 95vh;
         }
-        label {
-            display: block;
-            margin-top: 10px;
+        .info-section {
+            font-size: 0.9rem;
         }
-        select, input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .table {
+            font-size: 0.9rem;
+            margin-bottom: 0;
         }
-        button {
-            margin-top: 15px;
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            border-radius: 4px;
+        .table td, .table th {
+            padding: 0.5rem;
         }
-        .alert {
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #d4edda;
-            color: #155724;
-            border-radius: 5px;
+        .compact-form .form-label {
+            margin-bottom: 0.2rem;
+        }
+        .compact-form .form-control, 
+        .compact-form .form-select {
+            padding: 0.375rem 0.5rem;
+        }
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #7367f0, #7367f0);
+
+        }
+        .card-header {
+            background: linear-gradient(45deg, #7367f0, #7367f0);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Update Delivery Order</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow main-card">
+                <div class="card-header py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-white">Update Tracking Info</h5>
+                        <small class="text-white">DO ID: {{ $deliveryOrder->id }}</small>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-5">
+                            <div class="info-section mb-3">
+                                <div class="section-title border-bottom">Shipping Details</div>
+                                <div class="ps-2">
+                                    <small class="d-block"><strong>Name:</strong> {{ $deliveryOrder->orderMaster->customer->first_name }} {{ $deliveryOrder->orderMaster->customer->last_name }}</small>
+                                    <small class="d-block"><strong>Address:</strong> {{ $deliveryOrder->orderMaster->shipping_address ?? '' }}</small>
+                                    <small class="d-block"><strong>Phone:</strong> {{ $deliveryOrder->orderMaster->customer->mobile_number ?? 'N/A' }}</small>
+                                </div>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <div class="section-title border-bottom">Ordered Items</div>
+                                <table class="table table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th width="80">Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($deliveryOrder->details as $detail)
+                                        <tr>
+                                            <td>{{ optional($detail->product)->product_name ?? 'N/A' }}</td>
+                                            <td>{{ $detail->quantity }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-    @if (session('message'))
-        <div class="alert">{{ session('message') }}</div>
-    @endif
-
-    <form action="{{ route('warehouse.update.delivery', $deliveryOrder->id) }}" method="POST">
-        @csrf
-        @method('POST')
-
-        <label>Status:</label>
-        <select name="status">
-            <option value="Pending" {{ $deliveryOrder->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-            <option value="Shipped" {{ $deliveryOrder->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
-            <option value="Delivered" {{ $deliveryOrder->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
-            <option value="Cancelled" {{ $deliveryOrder->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
-        </select>
-
-        <label>Tracking Number:</label>
-        <input type="text" name="tracking_number" value="{{ $deliveryOrder->tracking_number }}" placeholder="Enter tracking number">
-
-        <button type="submit">Update Order</button>
-    </form>
+                        <!-- Right Column -->
+                        <div class="col-md-7">
+                            <div class="section-title border-bottom">Update Status</div>
+                            <form class="compact-form" action="{{ route('warehouse.update.delivery', $deliveryOrder->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label">Status:</label>
+                                        <select class="form-select form-select-sm" name="status">
+                                            <option value="Pending" {{ $deliveryOrder->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="Shipped" {{ $deliveryOrder->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                                            <option value="Delivered" {{ $deliveryOrder->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                                            <option value="Cancelled" {{ $deliveryOrder->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label">Tracking Number:</label>
+                                        <input type="text" class="form-control form-control-sm" name="tracking_number" value="{{ $deliveryOrder->tracking_number }}">
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <label class="form-label">Tracking URL:</label>
+                                        <input type="text" class="form-control form-control-sm" name="tracking_url" value="{{ $deliveryOrder->tracking_url }}">
+                                    </div>
+                                </div>
+                                <div class="d-grid mt-2">
+                                    <button type="submit" class="btn btn-primary btn-sm">Update Order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ use App\Livewire\WarehouseOrderUpdate;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PayPalWebhookController;
 use App\Http\Controllers\Frontend\Auth\FrontAuthController;
-use App\Http\Controllers\admin\WarehouseOrderUpdateController;
+use App\Http\Controllers\Admin\WarehouseOrderUpdateController;
 
 // Public routes
 Route::get('/', function () {

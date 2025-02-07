@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('order_invoice_id')->constrained('order_invoice')->onDelete('cascade');
             $table->string('delivery_number', 20);
             $table->string('tracking_number')->nullable();
+            $table->string('tracking_url')->nullable();
             $table->decimal('received_quantity', 10, 2)->nullable();
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->date('delivery_date');

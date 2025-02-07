@@ -17,6 +17,7 @@ class DeliveryOrder extends Model
         'order_invoice_id',
         'delivery_number',
         'tracking_number',
+        'tracking_url',
         'warehouse_id',
         'delivery_date',
         'status',

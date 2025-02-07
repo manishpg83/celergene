@@ -293,7 +293,6 @@ class OrderDelivery extends Component
                         }
                     }
                 }
-               
 
                 foreach ($warehouseDeliveryOrders as $warehouseId => $deliveryOrder) {
                     $warehouseName = Warehouse::where('id', $warehouseId)->value('warehouse_name');
