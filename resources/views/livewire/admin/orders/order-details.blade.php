@@ -247,6 +247,7 @@
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Quantity</th>
                                             <th class="text-center">Remarks</th>
+                                            <th class="text-center">Tracking Number</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -266,6 +267,7 @@
                                                 </td>
                                                 <td class="text-center">{{ $group['quantity'] ?? 0 }}</td>
                                                 <td class="text-center">{{ $group['remarks'] }}</td>
+                                                <td class="text-center">{{ $group['tracking_number'] }}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-primary"
                                                         wire:click="downloadDeliveryOrder({{ $group['id'] }})">

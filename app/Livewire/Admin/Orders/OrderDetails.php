@@ -50,6 +50,7 @@ class OrderDetails extends Component
                 return [
                     'warehouse_id' => $deliveryOrder->warehouse_id,
                     'delivery_number' => $deliveryOrder->delivery_number,
+                    'tracking_number' => $deliveryOrder->tracking_number,
                     'delivery_date' => $deliveryOrder->delivery_date,
                     'warehouse_name' => $deliveryOrder->warehouse->warehouse_name,
                     'status' => $deliveryOrder->status,

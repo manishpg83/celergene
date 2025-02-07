@@ -244,7 +244,7 @@ class OrderDelivery extends Component
                                 'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
                                 'warehouse_id' => $warehouseId,
                                 'delivery_date' => now(),
-                                'status' => 'Delivered',
+                                'status' => 'Pending',
                                 'remarks' => $this->remarks,
                                 'created_by' => Auth::id(),
                                 'modified_by' => Auth::id(),
