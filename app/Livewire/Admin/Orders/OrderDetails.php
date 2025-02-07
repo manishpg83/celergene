@@ -32,6 +32,10 @@ class OrderDetails extends Component
     public $editedInvoiceDate;
     public $editingInvoiceId;
     public $isEditingInvoiceDate = false;
+    public $editingDeliveryId = null;
+    public $editingStatus;
+    public $editingTrackingNumber;
+    public $editingTrackingUrl;
 
     public function mount($order_id)
     {
@@ -79,7 +83,44 @@ class OrderDetails extends Component
             notyf()->error("Unable to load order details.");
         }
     }
+    public function editDelivery($deliveryId)
+{
+    $delivery = DeliveryOrder::find($deliveryId);
+    if ($delivery) {
+        $this->editingDeliveryId = $deliveryId;
+        $this->editingStatus = $delivery->status;
+        $this->editingTrackingNumber = $delivery->tracking_number;
+        $this->editingTrackingUrl = $delivery->tracking_url;
+    }
+}
+public function updateDelivery()
+{
+    $delivery = DeliveryOrder::find($this->editingDeliveryId);
+    if ($delivery) {
+        $delivery->update([
+            'status' => $this->editingStatus,
+            'tracking_number' => $this->editingTrackingNumber,
+            'tracking_url' => $this->editingTrackingUrl
+        ]);
 
+        $this->editingDeliveryId = null;
+        $this->editingStatus = null;
+        $this->editingTrackingNumber = null;
+        $this->editingTrackingUrl = null;
+
+        $this->mount($this->order_id);
+
+        notyf()->success('Delivery order updated successfully.');
+    }
+}
+
+public function cancelEdit()
+{
+    $this->editingDeliveryId = null;
+    $this->editingStatus = null;
+    $this->editingTrackingNumber = null;
+    $this->editingTrackingUrl = null;
+}
     public function editInvoiceDate($invoiceId)
     {
         $this->editingInvoiceId = $invoiceId;
@@ -107,7 +148,6 @@ class OrderDetails extends Component
             notyf()->success("Invoice date updated successfully!");
 
             return redirect(request()->header('Referer'));
-
         } catch (\Exception $e) {
             notyf()->error("Failed to update invoice date.");
         }
@@ -124,16 +164,13 @@ class OrderDetails extends Component
             $order->order_date = $this->editedOrderDate;
             $order->save();
 
-            // Reset editing state and close the modal
             $this->isEditingOrderDate = false;
             $this->dispatch('closeModal');
 
-            // Refresh order data
             $this->order = $order->fresh();
             notyf()->success("Order date updated successfully!");
 
             return redirect()->route('admin.orders.details', ['order_id' => $this->order_id]);
-
         } catch (\Exception $e) {
             notyf()->error("Failed to update order date.");
         }

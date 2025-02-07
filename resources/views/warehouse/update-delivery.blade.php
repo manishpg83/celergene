@@ -99,7 +99,7 @@
                                 @csrf
                                 @method('POST')
                                 <div class="row">
-                                    <div class="col-md-6 mb-2">
+                                    {{-- <div class="col-md-6 mb-2">
                                         <label class="form-label">Status:</label>
                                         <select class="form-select form-select-sm" name="status">
                                             <option value="Pending" {{ $deliveryOrder->status == 'Pending' ? 'selected' : '' }}>Pending</option>
@@ -107,7 +107,7 @@
                                             <option value="Delivered" {{ $deliveryOrder->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
                                             <option value="Cancelled" {{ $deliveryOrder->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-6 mb-2">
                                         <label class="form-label">Tracking Number:</label>
                                         <input type="text" class="form-control form-control-sm" name="tracking_number" value="{{ $deliveryOrder->tracking_number }}">

@@ -24,8 +24,7 @@ class WarehouseOrderUpdateController extends Controller
 
     public function update(Request $request, $delivery_order_id)
     {
-        $request->validate([
-            'status' => 'required|string',
+        $request->validate([            
             'tracking_number' => 'nullable|string|max:255',
             'tracking_url' => 'nullable|string|max:255',
         ]);
@@ -39,12 +38,12 @@ class WarehouseOrderUpdateController extends Controller
         $oldStatus = $deliveryOrder->status;
     
         $deliveryOrder->update([
-            'status' => $request->status,
+            'status' => 'Shipped',
             'tracking_number' => $request->tracking_number,
             'tracking_url' => $request->tracking_url,
         ]);
     
-        if ($oldStatus !== $request->status) {
+        if ($oldStatus !== 'Shipped') {
             Mail::to($deliveryOrder->orderMaster->customer->email)
                 ->send(new OrderShippedMail($deliveryOrder, $request->status));
         }

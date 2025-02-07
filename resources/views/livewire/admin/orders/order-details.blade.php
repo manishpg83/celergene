@@ -260,10 +260,42 @@
                                                 </td>
                                                 <td class="text-center">{{ $group['warehouse_name'] }}</td>
                                                 <td class="text-center">
-                                                    <span
-                                                        class="badge bg-{{ $group['status'] === 'Delivered' ? 'success' : 'warning' }}">
-                                                        {{ $group['status'] }}
-                                                    </span>
+                                                    @if ($editingDeliveryId === $group['id'])
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <select class="form-select form-select-sm" wire:model="editingStatus">
+                                                                <option value="Pending">Pending</option>
+                                                                <option value="Shipped">Shipped</option>
+                                                                <option value="Delivered">Delivered</option>
+                                                                <option value="Cancelled">Cancelled</option>
+                                                            </select>
+                                                            
+                                                            <input type="text" 
+                                                                   class="form-control form-control-sm" 
+                                                                   wire:model="editingTrackingNumber"
+                                                                   placeholder="Tracking Number">
+                                                            
+                                                            <input type="text" 
+                                                                   class="form-control form-control-sm" 
+                                                                   wire:model="editingTrackingUrl"
+                                                                   placeholder="Tracking URL">
+                                                            
+                                                            <div class="btn-group">
+                                                                <button class="btn btn-primary btn-sm" wire:click="updateDelivery">
+                                                                    Save
+                                                                </button>
+                                                                <button class="btn btn-secondary btn-sm" wire:click="cancelEdit">
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <span class="badge bg-{{ $group['status'] === 'Delivered' ? 'success' : 'warning' }}">
+                                                            {{ $group['status'] }}
+                                                        </span>
+                                                        <button class="btn btn-sm btn-link" wire:click="editDelivery({{ $group['id'] }})">
+                                                            Edit
+                                                        </button>
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">{{ $group['quantity'] ?? 0 }}</td>
                                                 <td class="text-center">{{ $group['remarks'] }}</td>
