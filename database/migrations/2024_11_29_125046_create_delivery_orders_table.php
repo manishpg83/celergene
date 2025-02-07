@@ -10,9 +10,10 @@ return new class extends Migration
     {
         Schema::create('delivery_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');  // Change to unsignedBigInteger
+            $table->unsignedBigInteger('order_id');
             $table->foreignId('order_invoice_id')->constrained('order_invoice')->onDelete('cascade');
             $table->string('delivery_number', 20);
+            $table->string('tracking_number')->nullable();
             $table->decimal('received_quantity', 10, 2)->nullable();
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->date('delivery_date');
@@ -23,7 +24,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            // Check the data type in your order_master table and adjust accordingly
             $table->foreign('order_id')
                   ->references('order_id')
                   ->on('order_master')
