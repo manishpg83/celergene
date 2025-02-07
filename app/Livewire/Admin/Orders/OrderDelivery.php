@@ -293,6 +293,7 @@ class OrderDelivery extends Component
                         }
                     }
                 }
+               
 
                 foreach ($warehouseDeliveryOrders as $warehouseId => $deliveryOrder) {
                     $warehouseName = Warehouse::where('id', $warehouseId)->value('warehouse_name');
@@ -302,6 +303,7 @@ class OrderDelivery extends Component
                         Notification::route('mail', $email)->notify(new WarehouseOrderUpdate(
                             $this->order->load(['customer']),
                             $warehouseProductDetails[$warehouseId],
+                            $deliveryOrder,
                             $warehouseName,
                             $shippingAddress
                         ));

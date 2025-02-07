@@ -85,7 +85,10 @@ class OrderDetails extends Component
         $invoice = OrderInvoice::find($invoiceId);
         $this->editedInvoiceDate = $invoice->invoice_date ?? $invoice->created_at->format('Y-m-d');
         $this->isEditingInvoiceDate = true;
+
+        $this->dispatch('openEditInvoiceDateModal');
     }
+
 
     public function updateInvoiceDate()
     {
@@ -93,21 +96,21 @@ class OrderDetails extends Component
             $this->validate([
                 'editedInvoiceDate' => 'required|date'
             ]);
-    
+
             $invoice = OrderInvoice::findOrFail($this->editingInvoiceId);
             $invoice->invoice_date = $this->editedInvoiceDate;
             $invoice->save();
-    
+
             $this->isEditingInvoiceDate = false;
             $this->dispatch('closeModal');
             notyf()->success("Invoice date updated successfully!");
-    
+
             return redirect(request()->header('Referer'));
-    
+
         } catch (\Exception $e) {
             notyf()->error("Failed to update invoice date.");
         }
-    }    
+    }
 
     public function updateOrderDate()
     {
@@ -115,23 +118,37 @@ class OrderDetails extends Component
             $this->validate([
                 'editedOrderDate' => 'required|date'
             ]);
-    
+
             $order = OrderMaster::where('order_id', $this->order_id)->firstOrFail();
             $order->order_date = $this->editedOrderDate;
             $order->save();
-    
+
+            // Reset editing state and close the modal
             $this->isEditingOrderDate = false;
             $this->dispatch('closeModal');
+
+            // Refresh order data
             $this->order = $order->fresh();
             notyf()->success("Order date updated successfully!");
-            
+
             return redirect()->route('admin.orders.details', ['order_id' => $this->order_id]);
-            
+
         } catch (\Exception $e) {
             notyf()->error("Failed to update order date.");
         }
     }
-    
+
+    public function editOrderDate($orderId)
+    {
+        $this->editedOrderDate = $orderId;
+        $order = OrderMaster::find($orderId);
+        $this->editedOrderDate = $order->order_date ?? $order->created_at->format('Y-m-d');
+        $this->isEditingInvoiceDate = true;
+
+        $this->dispatch('openEditOrderDateModal');
+    }
+
+
     public function updateActualFreight()
     {
         try {

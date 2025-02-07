@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
@@ -14,6 +15,7 @@ class WarehouseOrderUpdate extends Notification
     protected $productDetails; // Change from inventory to productDetails
     protected $warehouseName;
     protected $shippingAddress;
+    protected $deliveryOrder;
 
     /**
      * Create a new notification instance.
@@ -22,11 +24,13 @@ class WarehouseOrderUpdate extends Notification
      * @param  array  $productDetails
      * @param  string $warehouseName
      * @param  string $shippingAddress
+     * @param  string $deliveryOrder
      */
-    public function __construct($order, $productDetails, $warehouseName, $shippingAddress)
+    public function __construct($order, $productDetails,$deliveryOrder, $warehouseName, $shippingAddress)
     {
         $this->order = $order;
         $this->productDetails = $productDetails;
+        $this->deliveryOrder = $deliveryOrder;
         $this->warehouseName = $warehouseName;
         $this->shippingAddress = $shippingAddress;
     }
@@ -51,7 +55,10 @@ class WarehouseOrderUpdate extends Notification
     public function toMail($notifiable)
     {
         $customer = $this->order->customer;
-
+        $updateLink = isset($this->deliveryOrder)
+        ? url("/warehouse/update-delivery/{$this->deliveryOrder->id}")
+        : '#';
+        Log::info("Update Link: " . $updateLink); 
         return (new MailMessage)
             ->subject('Order Update Notification')
             ->markdown('admin.emails.warehouse-do', [
@@ -60,6 +67,8 @@ class WarehouseOrderUpdate extends Notification
                 'warehouseName' => $this->warehouseName,
                 'shippingAddress' => $this->shippingAddress,
                 'customerMobile' => $customer->mobile_number ?? 'N/A',
+                'updateLink' => $updateLink,
             ]);
     }
+
 }

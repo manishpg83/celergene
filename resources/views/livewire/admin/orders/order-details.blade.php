@@ -335,9 +335,9 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="editOrderDateModal" tabindex="-1" aria-labelledby="editOrderDateModalLabel"
-            aria-hidden="true">
+        <!-- Order Date Edit Modal -->
+        <div class="modal fade" id="editOrderDateModal" wire:ignore.self tabindex="-1"
+            aria-labelledby="editOrderDateModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -349,7 +349,7 @@
                         <div class="form-group">
                             <label for="editedOrderDate">Order Date</label>
                             <input type="date" class="form-control" id="editedOrderDate"
-                                wire:model="editedOrderDate">
+                                wire:model.defer="editedOrderDate">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -360,9 +360,10 @@
                 </div>
             </div>
         </div>
+
         <!-- Invoice Date Edit Modal -->
-        <div class="modal fade" id="editInvoiceDateModal" tabindex="-1" aria-labelledby="editInvoiceDateModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editInvoiceDateModal" wire:ignore.self tabindex="-1"
+            aria-labelledby="editInvoiceDateModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -374,7 +375,7 @@
                         <div class="form-group">
                             <label for="editedInvoiceDate">Invoice Date</label>
                             <input type="date" class="form-control" id="editedInvoiceDate"
-                                wire:model="editedInvoiceDate">
+                                wire:model.defer="editedInvoiceDate">
                         </div>
                     </div>
                     <div class="modal-footer">

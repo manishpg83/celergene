@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\WarehouseOrderUpdate;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\Auth\FrontAuthController;
 use App\Http\Controllers\Frontend\PayPalWebhookController;
+use App\Http\Controllers\Frontend\Auth\FrontAuthController;
+use App\Http\Controllers\admin\WarehouseOrderUpdateController;
+
 // Public routes
 Route::get('/', function () {
     return view('frontend.home');
@@ -15,6 +18,11 @@ Route::get('/register', [FrontAuthController::class, 'showRegistrationForm'])->n
 Route::post('/register', [FrontAuthController::class, 'register'])->name('register');
 Route::post('/logout', [FrontAuthController::class, 'logout'])->name('logout');
 
+Route::get('/warehouse/update-delivery/{delivery_order_id}', [WarehouseOrderUpdateController::class, 'edit'])
+    ->name('warehouse.update.delivery.form');
+
+Route::post('/warehouse/update-delivery/{delivery_order_id}', [WarehouseOrderUpdateController::class, 'update'])
+    ->name('warehouse.update.delivery');
 // Routes that require authentication
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [HomeController::class, 'myAccount'])->name('myaccount');

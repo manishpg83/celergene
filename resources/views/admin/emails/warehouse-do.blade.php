@@ -69,6 +69,11 @@
             @endforeach
         </tbody>
     </table>
+    <p>Please update the status of the delivery order and add a tracking number.</p>
+
+<p>
+    <a href="{{ $updateLink }}" class="link">Click here to update delivery status</a>
+</p>
 </body>
 
 </html>
