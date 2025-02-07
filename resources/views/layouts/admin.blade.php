@@ -2,6 +2,7 @@
 
 <html lang="en" class="light-style layout-wide customizer-hide" dir="ltr" data-theme="theme-default"
     data-assets-path="{{ asset('/admin/assets/') }}" data-template="vertical-menu-template" data-style="light">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -58,9 +59,10 @@
     @livewireStyles
     @stack('styles')
     <style>
-        .main-body{
+        .main-body {
             font-family: Arial, Helvetica, sans-serif !important;
         }
+
         .mt-8 {
             margin-top: 8rem !important;
         }
@@ -145,16 +147,37 @@
     <script>
         document.addEventListener('livewire:load', function() {
             const modal = new bootstrap.Modal(document.getElementById('editOrderDateModal'));
-    
+
             Livewire.on('closeModal', () => {
                 modal.hide();
             });
-    
+
             Livewire.hook('message.processed', (message, component) => {
                 if (component.get('isEditingOrderDate')) {
                     modal.show();
                 } else {
                     modal.hide();
+                }
+            });
+        });
+
+        document.addEventListener('livewire:load', function() {
+            const orderDateModal = new bootstrap.Modal(document.getElementById('editOrderDateModal'));
+            const invoiceDateModal = new bootstrap.Modal(document.getElementById('editInvoiceDateModal'));
+
+            Livewire.on('closeModal', () => {
+                orderDateModal.hide();
+                invoiceDateModal.hide();
+            });
+
+            Livewire.hook('message.processed', (message, component) => {
+                if (component.get('isEditingOrderDate')) {
+                    orderDateModal.show();
+                } else if (component.get('isEditingInvoiceDate')) {
+                    invoiceDateModal.show();
+                } else {
+                    orderDateModal.hide();
+                    invoiceDateModal.hide();
                 }
             });
         });

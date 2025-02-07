@@ -29,7 +29,9 @@ class OrderDetails extends Component
     public $customUnitPrices = [];
     public $isEditingOrderDate = false;
     public $editedOrderDate;
-
+    public $editedInvoiceDate;
+    public $editingInvoiceId;
+    public $isEditingInvoiceDate = false;
 
     public function mount($order_id)
     {
@@ -76,6 +78,36 @@ class OrderDetails extends Component
             notyf()->error("Unable to load order details.");
         }
     }
+
+    public function editInvoiceDate($invoiceId)
+    {
+        $this->editingInvoiceId = $invoiceId;
+        $invoice = OrderInvoice::find($invoiceId);
+        $this->editedInvoiceDate = $invoice->invoice_date ?? $invoice->created_at->format('Y-m-d');
+        $this->isEditingInvoiceDate = true;
+    }
+
+    public function updateInvoiceDate()
+    {
+        try {
+            $this->validate([
+                'editedInvoiceDate' => 'required|date'
+            ]);
+    
+            $invoice = OrderInvoice::findOrFail($this->editingInvoiceId);
+            $invoice->invoice_date = $this->editedInvoiceDate;
+            $invoice->save();
+    
+            $this->isEditingInvoiceDate = false;
+            $this->dispatch('closeModal');
+            notyf()->success("Invoice date updated successfully!");
+    
+            return redirect(request()->header('Referer'));
+    
+        } catch (\Exception $e) {
+            notyf()->error("Failed to update invoice date.");
+        }
+    }    
 
     public function updateOrderDate()
     {

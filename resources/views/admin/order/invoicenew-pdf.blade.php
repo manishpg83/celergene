@@ -234,7 +234,7 @@
             {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
             VAT No: {{ $order->customer->vat_number }}<br><br>
-            {{ $billingCountry }}<br> <!-- Use the mapped country name -->
+            {{ $billingCountry }}<br>
             PHONE : {{ $order->customer->mobile_number }}<br>
         </div>
         <div class="shipping-address">
@@ -242,8 +242,8 @@
             {{ $order->shipping_address }}
         </div>
         <div class="invoice-details">
-            <strong>INVOICE NO:</strong> {{ $order->order_number }}<br>
-            <strong>INVOICE DATE:</strong> {{ date('d/m/Y', strtotime($order->order_date)) }}<br>
+            <strong>INVOICE NO:</strong> {{ $invoice->invoice_number }}<br>
+            <strong>INVOICE DATE:</strong> {{ $invoice->invoice_date }}<br>
             <hr class="line">
             <strong>TERMS:</strong> <br>{{ $order->payment_terms }}
         </div>
