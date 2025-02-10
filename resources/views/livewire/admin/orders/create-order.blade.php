@@ -114,7 +114,7 @@
                             
                         </div>
 
-                        <div class="row g-3 mt-4">
+                        <div class="row g-3 mt-4 mb-4">
                             <div class="col-md-6">
                                 <label for="delivery_status" class="form-label">Delivery Status:</label>
                                 <select wire:model="delivery_status" id="delivery_status"
@@ -141,10 +141,23 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="row g-3 mt-4">
+                        <hr>
+                        <div class="row g-3 mt-2">
                             <div class="col-12">
-                                <h5>Order Details</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Order Details</h5>
+                                    <div style="width: 250px">
+                                        <select wire:model.live="currency_id" class="form-select @error('currency_id') is-invalid @enderror">
+                                            <option value="">Select Currency</option>
+                                            @foreach ($currencies as $currency)
+                                                <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->symbol }})</option>
+                                            @endforeach
+                                        </select>
+                                        @error('currency_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                                 @foreach ($orderDetails as $index => $orderDetail)
                                     <div class="row align-items-end mt-0 g-2">
                                         <div class="col-md-3">
@@ -174,7 +187,14 @@
                                         @endif
 
                                         <div class="col-md-2">
-                                            <div class="col-6 mb-1">Quantity</div>
+                                            <div class="col-6 mb-1">
+                                                Quantity
+                                                @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
+                                                    <small class="text-muted">
+                                                        (Avl: {{ $this->getAvailableQuantity($orderDetails[$index]['product_id']) }})
+                                                    </small>
+                                                @endif
+                                            </div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.quantity"
                                                 placeholder="Quantity"
@@ -184,6 +204,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
                                         <div class="col-md-2">
                                             <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
@@ -259,7 +280,7 @@
                                     <div class="card-body">
                                         <div class="row mb-2">
                                             <div class="col-6">Subtotal:</div>
-                                            <div class="col-6 text-end">${{ number_format($subtotal, 2) }}</div>
+                                            <div class="col-6 text-end">{{ $currency_symbol }} {{ number_format($subtotal, 2) }}</div>
                                         </div>
                                         {{-- <div class="row mb-2">
                                             <div class="col-6">Discount:</div>
@@ -270,7 +291,7 @@
                                             <div class="col-6">Freight:</div>
                                             <div class="col-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">{{ $currency_symbol }}</span>
                                                     <input type="number" wire:model.lazy="freight"
                                                         class="form-control" min="0" step="0.01" value="0">
                                                 </div>
@@ -280,17 +301,17 @@
                                             <div class="col-6">Tax:</div>
                                             <div class="col-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">{{ $currency_symbol }}</span>
                                                     <input type="number" wire:model.lazy="tax" class="form-control"
                                                         min="0" step="0.01" value="0">
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
+                                        <div class="row mt-2">
                                             <div class="col-6"><strong>Total:</strong></div>
                                             <div class="col-6 text-end">
-                                                <strong>${{ number_format($total, 2) }}</strong>
+                                                <strong>{{ $currency_symbol }} {{ number_format($total, 2) }}</strong>
                                             </div>
                                         </div>
                                     </div>

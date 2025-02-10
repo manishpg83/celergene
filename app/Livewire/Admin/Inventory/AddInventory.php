@@ -53,6 +53,8 @@ class AddInventory extends Component
                 $this->expiry = $inventory->expiry ? date('Y-m', strtotime($inventory->expiry)) : $this->expiry;
                 $this->isEditMode = true;
 
+                $this->quantity = 0;
+
                 $latestStock = Stock::where('inventory_id', $this->inventory_id)
                     ->latest('created_at')
                     ->first();
@@ -77,13 +79,14 @@ class AddInventory extends Component
 
     public function saveInventory()
     {
-
         DB::transaction(function () {
             $oldInventory = Inventory::find($this->inventory_id);
-            $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
 
-            $newQuantity = $this->isEditMode ? $oldQuantity + $this->quantity : $this->quantity;
-            $this->remaining = $newQuantity - $this->consumed;
+            $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
+            $oldConsumed = $oldInventory ? $oldInventory->consumed : 0;
+
+            $newQuantity = $oldQuantity + $this->quantity;
+            $this->remaining = $newQuantity - $oldConsumed;
 
             if (!$this->expiry) {
                 $this->expiry = (date('Y') + 1) . '-12';
@@ -98,7 +101,7 @@ class AddInventory extends Component
                     'batch_number' => $this->batch_number,
                     'expiry' => $formattedExpireDate,
                     'quantity' => $newQuantity,
-                    'consumed' => $this->consumed,
+                    'consumed' => $oldConsumed,
                     'remaining' => $this->remaining,
                     'created_by' => $this->inventory_id ? $oldInventory->created_by : Auth::id(),
                     'modified_by' => Auth::id(),

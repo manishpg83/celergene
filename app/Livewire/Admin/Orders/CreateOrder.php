@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderWorkflowType;
 use App\Mail\OrderConfirmation;
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Entity;
 use App\Models\Inventory;
@@ -26,6 +27,8 @@ class CreateOrder extends Component
     public $entities;
     public $entity_id;
     public $customers;
+    public $currency_id;
+    public $currency_symbol = '';
     public $created_by;
     public $oldInvoiceStatus;
     public $oldDeliveryStatus;
@@ -56,6 +59,7 @@ class CreateOrder extends Component
         $rules = [
             'customer_id' => 'required|exists:customers,id',
             'entity_id' => 'required|exists:entities,id',
+            'currency_id' => 'required|exists:currency,id',
             'shipping_address' => 'required|string',
             'actual_freight' => 'numeric|min:0',
             'orderDetails' => 'required|array|min:1',
@@ -93,6 +97,12 @@ class CreateOrder extends Component
         return $rules;
     }
 
+    public function updatedCurrencyId()
+    {
+        $currency = Currency::find($this->currency_id);
+        $this->currency_symbol = $currency ? $currency->symbol : '';
+    }
+
     private function getAvailableProducts($index = null)
     {
         $selectedProductIds = array_column($this->orderDetails, 'product_id');
@@ -113,6 +123,7 @@ class CreateOrder extends Component
         $this->products = Product::all();
         $this->created_by = Auth::id();
         $this->modified_by = Auth::id();
+        $this->currency_id = null;
         $this->freight = 0;
         $this->tax = 0;
         $this->addOrderDetail();
@@ -326,6 +337,7 @@ class CreateOrder extends Component
                 $orderData = [
                     'order_number' => $invoiceNumber,
                     'customer_id' => $this->customer_id,
+                    'currency_id' => $this->currency_id,
                     'entity_id' => $this->entity_id,
                     'shipping_address' => $this->shipping_address,
                     'order_date' => $this->order_date,
@@ -417,6 +429,16 @@ class CreateOrder extends Component
                 notyf()->error('An error occurred while creating the order. Check logs for details.');
             }
         }
+    }
+
+    public function getAvailableQuantity($productId)
+    {
+        if (!$productId || $productId == 1) {
+            return 0;
+        }
+        
+        return Inventory::where('product_code', $productId)
+            ->sum('remaining');
     }
     
     public function generateInvoice($order_id)
@@ -527,6 +549,9 @@ class CreateOrder extends Component
 
     public function render()
     {
-        return view('livewire.admin.orders.create-order');
+        return view('livewire.admin.orders.create-order', [
+            'currencies' => Currency::where('status', Currency::STATUS_ACTIVE)->get(),
+            // ... other existing data
+        ]);
     }
 }

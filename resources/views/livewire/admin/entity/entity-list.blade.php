@@ -94,8 +94,10 @@
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $entity->id }}">
                                                     <li>
-                                                        <a class="dropdown-item" wire:click="edit({{ $entity->id }})"
-                                                            style="cursor: pointer;">Edit</a>
+                                                        <a class="dropdown-item" 
+                                                           href="{{ route('admin.entities.add', ['id' => $entity->id]) }}" 
+                                                           target="_blank" 
+                                                           style="cursor: pointer;">Edit</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item {{ $entity->trashed() ? 'text-danger' : 'text-warning' }}"

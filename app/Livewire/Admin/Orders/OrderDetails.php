@@ -315,22 +315,25 @@ public function cancelEdit()
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-            $order = OrderMaster::with(['orderDetails.product'])
+            $order = OrderMaster::with(['orderDetails.product', 'currency']) // Add currency relation
                 ->where('order_id', $order_id)
                 ->firstOrFail();
-
+    
+            $currencySymbol = $order->currency ? $order->currency->symbol : '$';
+    
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
             $fileName = "{$customerName}-{$invoiceDetail->id}.pdf";
-
+    
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
                 'customer' => $customer,
                 'order' => $order,
                 'orderInvoiceDetails' => $orderInvoiceDetails,
+                'currencySymbol' => $currencySymbol,
             ]);
-
+    
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
@@ -339,7 +342,7 @@ public function cancelEdit()
             return redirect()->back();
         }
     }
-
+    
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {

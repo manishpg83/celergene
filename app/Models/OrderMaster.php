@@ -18,6 +18,7 @@ class OrderMaster extends Model
         'order_number',
         'customer_id',
         'entity_id',
+        'currency_id',
         'shipping_address',
         'subtotal',
         'discount',
@@ -57,9 +58,15 @@ class OrderMaster extends Model
     {
         return $this->hasMany(DeliveryOrder::class, 'order_id');
     }
+
     public function entity()
     {
         return $this->belongsTo(Entity::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     public function customer()

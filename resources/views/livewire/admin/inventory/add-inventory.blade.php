@@ -67,25 +67,14 @@
                                     @enderror
                                 </div>                                
                                 
-                                @if ($isEditMode)
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="remaining">Quantity</label>
-                                        <input type="number" wire:model="remaining" id="remaining" class="form-control"
-                                            placeholder="Enter quantity" required>
-                                        @error('remaining')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                @else
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="quantity">Quantity</label>
-                                        <input type="number" wire:model="quantity" id="quantity" class="form-control"
-                                            placeholder="Enter quantity" required>
-                                        @error('quantity')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                @endif
+                                <div class="col-md-6">
+                                    <label class="form-label" for="quantity">Quantity</label>
+                                    <input type="number" wire:model="quantity" id="quantity" class="form-control"
+                                        placeholder="Enter quantity" required>
+                                    @error('quantity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="reason">Reason</label>
