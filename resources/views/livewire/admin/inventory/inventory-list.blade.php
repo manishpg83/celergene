@@ -75,11 +75,8 @@
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $inventory->id }}">
                                                     <li>
-                                                        <a class="dropdown-item" 
-                                                           href="{{ route('admin.inventory.add', ['id' => $inventory->id]) }}" 
-                                                           target="_blank" 
-                                                           style="cursor: pointer;">Edit</a>
-                                                    </li>
+                                                        <a class="dropdown-item" wire:click="editInventory({{ $inventory->id }})" style="cursor: pointer;">Edit</a>
+                                                    </li>                                                    
                                                     <li>
                                                         <a class="dropdown-item {{ $inventory->trashed() ? 'text-danger' : 'text-warning' }}"
                                                             wire:click="{{ $inventory->trashed() ? 'confirmDelete(' . $inventory->id . ')' : 'suspend(' . $inventory->id . ')' }}"

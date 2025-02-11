@@ -74,7 +74,7 @@ class CurrencyList extends Component
             return;
         }
 
-        return redirect()->route('admin.currency.add', ['id' => $id]);
+        $this->dispatch('openEditTab', route('admin.currency.add', ['id' => $id]));
     }
 
     public function toggleActive(Currency $currency)

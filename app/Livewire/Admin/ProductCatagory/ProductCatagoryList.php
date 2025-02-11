@@ -86,6 +86,7 @@ class ProductCatagoryList extends Component
 
     public function edit($id)
     {
+        dd('editCategory method called', $id);
         $category = ProductCatagory::findOrFail($id);
         $this->categoryId = $category->id;
         $this->category_name = $category->category_name;

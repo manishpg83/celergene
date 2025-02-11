@@ -115,10 +115,18 @@ class EntityList extends Component
         $this->isEditing = true;
     }
 
-    public function edit(Entity $entity)
+    public function editEntity($id)
     {
-        return redirect()->route('admin.entities.add', ['id' => $entity->id]);
+        $entity = Entity::withTrashed()->find($id);
+    
+        if ($entity->trashed()) {
+            notyf()->error('Cannot edit a suspended entity. Please restore it first.');
+            return;
+        }
+    
+        $this->dispatch('openEditTab', route('admin.entities.add', ['id' => $id]));
     }
+    
 
 
     public function save()

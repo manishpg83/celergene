@@ -75,8 +75,16 @@ class InventoryList extends Component
         }
     }
 
-    public function edit($id)
+    public function editInventory($id)
     {
-        return redirect()->route('admin.inventory.add', ['id' => $id]);
+        $inventory = Inventory::withTrashed()->find($id);
+
+        if ($inventory->trashed()) {
+            notyf()->error('Cannot edit a suspended inventory item. Please restore it first.');
+            return;
+        }
+
+        $this->dispatch('openEditTab', route('admin.inventory.add', ['id' => $id]));
     }
+
 }

@@ -85,7 +85,7 @@ class CustomerList extends Component
         if ($customer->trashed()) {
             notyf()->error('Customer is suspended. Please restore the customer first.');
         } else {
-            return redirect()->route('admin.customer.add', ['id' => $customer->id]);
+            $this->dispatch('openEditTab', route('admin.customer.add', ['id' => $customer->id]));
         }
     }
 

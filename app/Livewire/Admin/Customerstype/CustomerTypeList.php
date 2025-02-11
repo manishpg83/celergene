@@ -67,8 +67,7 @@ class CustomerTypeList extends Component
             notyf()->error('Cannot edit a suspended customer type. Please restore it first.');
             return;
         }
-
-        return redirect()->route('admin.customerstype.add', ['id' => $id]);
+        $this->dispatch('openEditTab', route('admin.customerstype.add', ['id' => $id]));
     }
 
     public function updateCustomerType()

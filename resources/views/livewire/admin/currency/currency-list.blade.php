@@ -75,7 +75,9 @@
                                                     </svg>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $currency->id }}">
-                                                    <li><a class="dropdown-item" wire:click="editCurrency({{ $currency->id }})" style="cursor: pointer;">Edit</a></li>
+                                                    <li>
+                                                        <a class="dropdown-item" wire:click="editCurrency({{ $currency->id }})" style="cursor: pointer;">Edit</a>
+                                                    </li>
                                                     <li>
                                                         <a class="dropdown-item {{ $currency->trashed() ? 'text-danger' : 'text-warning' }}"
                                                             wire:click="confirmDelete({{ $currency->id }})"

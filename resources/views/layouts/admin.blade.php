@@ -121,6 +121,13 @@
     <script src="{{ asset('/admin/assets/js/app-ecommerce-order-list.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+        Livewire.on('openEditTab', url => {
+            console.log('test');
+            window.open(url, '_blank'); // Opens edit page in new tab
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#sameAsBilling').change(function() {
