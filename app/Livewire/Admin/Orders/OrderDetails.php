@@ -20,6 +20,7 @@ class OrderDetails extends Component
 {
     public $order;
     public $order_id;
+    public $currencySymbol;
     public $isConsignment;
     public $deliveryOrders;
     public $invoices;
@@ -43,6 +44,12 @@ class OrderDetails extends Component
         try {
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
             Log::info('Order found:', ['order' => $this->order->toArray()]);
+
+            $this->order = OrderMaster::with(['currency'])
+            ->where('order_id', $order_id)
+            ->firstOrFail();
+
+            $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
 
             $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
                 ->where('order_id', $order_id)

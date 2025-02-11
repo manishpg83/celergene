@@ -160,24 +160,24 @@
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Subtotal:</span>
-                            <span>${{ number_format($order->subtotal, 2) }}</span>
+                            <span>{{ $currencySymbol }} {{ number_format($order->subtotal, 2) }}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Total Discount:</span>
-                            <span class="text-danger">-${{ number_format($order->discount, 2) }}</span>
+                            <span class="text-danger">- {{ $currencySymbol }} {{ number_format($order->discount, 2) }}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Freight:</span>
-                            <span class="text-success">+${{ number_format($order->freight, 2) }}</span>
+                            <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->freight, 2) }}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Tax:</span>
-                            <span class="text-success">+${{ number_format($order->tax, 2) }}</span>
+                            <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->tax, 2) }}</span>
                         </div>
                         <hr class="my-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="h6 mb-0">Total:</span>
-                            <span class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
+                            <span class="h5 mb-0 fw-semibold">{{ $order->currency->code }} {{ $currencySymbol }} {{ number_format($order->total, 2) }}</span>
                         </div>
                     </div>
                 </div>

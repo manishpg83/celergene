@@ -22,6 +22,7 @@ class OrderDelivery extends Component
 {
     public $order_id;
     public $order;
+    public $currencySymbol;
     public $deliveryStatus;
     public $remarks;
     public $selectedInventories = [];
@@ -41,9 +42,11 @@ class OrderDelivery extends Component
     public function mount($order_id)
     {
         $this->order_id = $order_id;
-        $this->order = OrderMaster::with(['customer', 'orderDetails.product.inventories'])
+        $this->order = OrderMaster::with(['customer', 'orderDetails.product.inventories', 'currency'])
             ->where('order_id', $order_id)
             ->firstOrFail();
+
+        $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
 
         $this->deliveryStatus = $this->order->delivery_status;
 

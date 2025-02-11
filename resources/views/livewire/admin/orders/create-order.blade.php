@@ -190,11 +190,12 @@
                                             <div class="col-6 mb-1">
                                                 Quantity
                                                 @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
-                                                    <small class="text-muted">
+                                                    <small style="color: green;">
                                                         (Avl: {{ $this->getAvailableQuantity($orderDetails[$index]['product_id']) }})
                                                     </small>
                                                 @endif
                                             </div>
+                                            
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.quantity"
                                                 placeholder="Quantity"
@@ -216,10 +217,10 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="col-7 mb-1">Retail Price</div>
+                                            <div class="col-7 mb-1">Price</div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.unit_price"
-                                                placeholder="Retail Price" class="form-control">
+                                                placeholder="Price" class="form-control">
                                         </div>
 
                                         {{-- <div class="col-md-2">

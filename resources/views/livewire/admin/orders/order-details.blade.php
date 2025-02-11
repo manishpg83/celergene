@@ -75,6 +75,7 @@
                                     <h6 class="mb-2">Customer Details:</h6>
                                     <p class="mb-1">Name: {{ $order->customer->first_name }}
                                         {{ $order->customer->last_name }}</p>
+                                    <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}</p>
                                     <p class="mb-1">Email: {{ $order->customer->email }}</p>
                                     <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
                                     <p class="mb-1">Billing Address: {{ $order->customer->billing_address }}</p>
@@ -108,16 +109,16 @@
                                         </td>
                                         <td class="text-center">{{ $detail->quantity }}</td>
                                         <td class="text-center">{{ $detail->sample_quantity }}</td>
-                                        <td class="text-center">${{ number_format($detail->unit_price, 2) }}</td>
+                                        <td class="text-center">{{ $currencySymbol }} {{ number_format($detail->unit_price, 2) }}</td>
                                         <td class="text-danger text-center">
                                             @if ($detail->discount > 0)
-                                                -${{ number_format($detail->discount, 2) }}
+                                                - {{ $currencySymbol }} {{ number_format($detail->discount, 2) }}
                                             @else
-                                                $0.00
+                                            {{ $currencySymbol }} 0.00
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            ${{ number_format(
+                                            {{ $currencySymbol }} {{ number_format(
                                                 (intval($detail->quantity) - intval($detail->sample_quantity)) * floatval($detail->unit_price) -
                                                     floatval($detail->discount),
                                                 2,
@@ -155,24 +156,24 @@
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="text-muted">Subtotal:</span>
-                                        <span>${{ number_format($order->subtotal, 2) }}</span>
+                                        <span>{{ $currencySymbol }} {{ number_format($order->subtotal, 2) }}</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="text-muted">Total Discount:</span>
-                                        <span class="text-danger">-${{ number_format($order->discount, 2) }}</span>
+                                        <span class="text-danger">- {{ $currencySymbol }} {{ number_format($order->discount, 2) }}</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="text-muted">Freight:</span>
-                                        <span class="text-success">+${{ number_format($order->freight, 2) }}</span>
+                                        <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->freight, 2) }}</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="text-muted">Tax:</span>
-                                        <span class="text-success">+${{ number_format($order->tax, 2) }}</span>
+                                        <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->tax, 2) }}</span>
                                     </div>
                                     <hr class="my-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="h6 mb-0">Total:</span>
-                                        <span class="h5 mb-0 fw-semibold">${{ number_format($order->total, 2) }}</span>
+                                        <span class="h5 mb-0 fw-semibold">{{ $order->currency->code }} {{ $currencySymbol }} {{ number_format($order->total, 2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +215,7 @@
                                                     {{ $invoice->invoiceDetails->sum('quantity') }}
                                                 </td>
                                                 <td class="text-center">{{ $invoice->remarks }}</td>
-                                                <td class="text-center">${{ number_format($invoice->total, 2) }}</td>
+                                                <td class="text-center">{{ $currencySymbol }} {{ number_format($invoice->total, 2) }}</td>
                                                 <td class="text-center">
                                                     @if ($invoice->invoiceDetails->count() > 0)
                                                         <button class="btn btn-success"

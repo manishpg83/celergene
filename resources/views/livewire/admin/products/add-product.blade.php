@@ -119,7 +119,7 @@
                                 </div>                                                                                           
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="unit_price">Retail price</label>
+                                    <label class="form-label" for="unit_price">Unit price</label>
                                     <input type="number" class="form-control" id="unit_price" wire:model="unit_price" placeholder="Enter unit price" required>
                                     @error('unit_price')
                                         <span class="text-danger">{{ $message }}</span>

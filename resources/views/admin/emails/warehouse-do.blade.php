@@ -16,9 +16,13 @@
 
         <div class="greeting" style="margin-bottom: 30px; line-height: 1.6;">
             <p>Dear {{ $warehouseName }} team,</p>
+            
+            <p style="font-weight: bold; margin-top: 20px;">Shipping Details:</p>
+            
             <p>
-                {!! nl2br(e($shippingAddress)) !!}<br>
-                Phone: {{ $customerMobile ?? 'N/A' }}
+                <strong>Address:</strong><br>
+                {!! nl2br(implode('<br>', array_map('trim', explode(',', $shippingAddress)))) !!}<br>
+                <strong>Phone:</strong> {{ $customerMobile ?? 'N/A' }}
             </p>
         </div>
 

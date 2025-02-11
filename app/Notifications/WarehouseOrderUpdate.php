@@ -60,7 +60,7 @@ class WarehouseOrderUpdate extends Notification
         : '#';
         Log::info("Update Link: " . $updateLink); 
         return (new MailMessage)
-            ->subject('Order Update Notification')
+            ->subject('Order Delivery Order Request')
             ->markdown('admin.emails.warehouse-do', [
                 'order' => $this->order,
                 'productDetails' => $this->productDetails,
