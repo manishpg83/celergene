@@ -176,10 +176,10 @@
 
                                         @if (isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] == 1)
                                             <div class="col-md-2">
-                                                <div class="col-12">Custom Name / Description</div>
+                                                <div class="col-12">Custom Name & Desc</div>
                                                 <input type="text"
                                                     wire:model="orderDetails.{{ $index }}.manual_product_name"
-                                                    placeholder="Enter custom product name" class="form-control">
+                                                    placeholder="Custom Name & Desc" class="form-control">
                                                 @error("orderDetails.{$index}.")
                                                     <span class="error">{{ $message }}</span>
                                                 @enderror
