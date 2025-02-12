@@ -239,11 +239,11 @@
         </div>
         <div class="shipping-address">
             <strong>Shipping Address</strong><br>
-            {{ $order->shipping_address }}
-        </div>
+            {!! nl2br(e(str_replace(',', "\n", $order->shipping_address))) !!}
+        </div>        
         <div class="invoice-details">
             <strong>INVOICE NO:</strong> {{ $invoice->invoice_number }}<br>
-            <strong>INVOICE DATE:</strong> {{ $invoice->invoice_date }}<br>
+            <strong>INVOICE DATE:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}<br>
             <hr class="line">
             <strong>TERMS:</strong> <br>{{ $order->payment_terms }}
         </div>
