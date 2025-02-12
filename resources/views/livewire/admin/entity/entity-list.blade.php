@@ -96,7 +96,7 @@
                                                     <li>
                                                         <a class="dropdown-item" wire:click="editEntity({{ $entity->id }})" style="cursor: pointer;">Edit</a>
                                                     </li>                                                    
-                                                    <li>
+                                                    <li> 
                                                         <a class="dropdown-item {{ $entity->trashed() ? 'text-danger' : 'text-warning' }}"
                                                             wire:click="confirmDelete({{ $entity->id }})"
                                                             style="cursor: pointer;">

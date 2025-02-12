@@ -26,7 +26,7 @@ class OrderConfirmation extends Mailable
     {
         try {
             if (!$this->order->relationLoaded('orderDetails')) {
-                $this->order->load(['orderDetails.product']);
+                $this->order->load(['orderDetails.product', 'currency']);
             }
 
             return $this->subject('Order Confirmation #' . $this->order_id)

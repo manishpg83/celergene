@@ -16,7 +16,6 @@
 
         <div class="greeting" style="margin-bottom: 30px; line-height: 1.6;">
             <p>Dear {{ $customer->salutation }} {{ $customer->first_name }},</p>
-            <p>Thank you for your payment.</p>
             <p>Your order details are attached below.</p>
         </div>
 
@@ -97,9 +96,9 @@
                         <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
                             {{ $detail->quantity }}</td>
                         <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            ${{ number_format($detail->unit_price, 2) }}</td>
+                            {{ $order->currency->symbol }} {{ number_format($detail->unit_price, 2) }}</td>
                         <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            ${{ number_format($detail->total, 2) }}</td>
+                            {{ $order->currency->symbol }} {{ number_format($detail->total, 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -110,7 +109,7 @@
             <tr>
                 <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Subtotal:
                 </td>
-                <td class="value" style="padding: 8px; text-align: right;">${{ number_format($order->subtotal, 2) }}
+                <td class="value" style="padding: 8px; text-align: right;">{{ $order->currency->symbol }} {{ number_format($order->subtotal, 2) }}
                 </td>
             </tr>
             @if ($order->discount > 0)
@@ -118,14 +117,14 @@
                     <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Total
                         Discount:</td>
                     <td class="value" style="padding: 8px; text-align: right; color: #ff0000;">
-                        -${{ number_format($order->discount, 2) }}</td>
+                        -  {{ $order->currency->symbol }} {{ number_format($order->discount, 2) }}</td>
                 </tr>
             @endif
             @if ($order->tax > 0)
                 <tr>
                     <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Tax:</td>
                     <td class="value" style="padding: 8px; text-align: right; color: #008000;">
-                        +${{ number_format($order->tax, 2) }}</td>
+                        +  {{ $order->currency->symbol }} {{ number_format($order->tax, 2) }}</td>
                 </tr>
             @endif
 
@@ -134,7 +133,7 @@
                     <td class="label" style="padding: 8px; text-align: left; font-weight: bold; color: #333;">Freight:
                     </td>
                     <td class="value" style="padding: 8px; text-align: right; color: #008000;">
-                        +${{ number_format($order->freight, 2) }}</td>
+                        +  {{ $order->currency->symbol }} {{ number_format($order->freight, 2) }}</td>
                 </tr>
             @endif
 
@@ -143,7 +142,7 @@
                     style="padding: 8px; text-align: left; font-weight: bold; color: #333; border-top: 2px solid #eee;">
                     Total:</td>
                 <td class="value" style="padding: 8px; text-align: right; border-top: 2px solid #eee;">
-                    ${{ number_format($order->total, 2) }}</td>
+                    {{ $order->currency->code }} {{ $order->currency->symbol }} {{ number_format($order->total, 2) }}</td>
             </tr>
         </table>
 

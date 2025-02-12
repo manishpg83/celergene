@@ -125,9 +125,7 @@ class EntityList extends Component
         }
     
         $this->dispatch('openEditTab', route('admin.entities.add', ['id' => $id]));
-    }
-    
-
+    }    
 
     public function save()
     {
