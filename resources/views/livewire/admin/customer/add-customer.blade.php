@@ -200,22 +200,15 @@
                                                 <textarea wire:model="billing_address" class="form-control" id="billing_address" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="billing_country">Billing
-                                                    Country</label>
-                                                <select wire:model="billing_country" class="form-select"
-                                                    id="billing_country">
+                                                <label class="form-label" for="billing_country">Billing Country</label>
+                                                <select wire:model="billing_country" class="form-select" id="billing_country">
                                                     <option value="">Select</option>
-                                                    <option value="LUX">Luxembourg</option>
-                                                    <option value="USA">United States of America</option>
-                                                    <option value="MAL">Malaysia</option>
-                                                    <option value="IND">India</option>
-                                                    <option value="SIN">Singapore</option>
-                                                    <option value="CHI">China</option>
-                                                    <option value="SWI">Switzerland</option>
-                                                    <option value="THA">Thailand</option>
-                                                    <option value="PHI">Philippines</option>
+                                                    @foreach($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
+                                            
                                             <div class="col-md-6">
                                                 <label class="form-label" for="billing_postal_code">Billing Postal
                                                     Code</label>
@@ -254,21 +247,12 @@
                                                     @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_1">Shipping Country
-                                                    1</label>
-                                                <select wire:model="shipping_country_1" class="form-select"
-                                                    id="shipping_country_1"
-                                                    @if ($sameAsBilling) value="{{ $billing_country }}" @endif>
+                                                <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
+                                                <select wire:model="shipping_country_1" class="form-select" id="shipping_country_1">
                                                     <option value="">Select</option>
-                                                    <option value="LUX">Luxembourg</option>
-                                                    <option value="USA">United States of America</option>
-                                                    <option value="MAL">Malaysia</option>
-                                                    <option value="IND">India</option>
-                                                    <option value="SIN">Singapore</option>
-                                                    <option value="CHI">China</option>
-                                                    <option value="SWI">Switzerland</option>
-                                                    <option value="THA">Thailand</option>
-                                                    <option value="PHI">Philippines</option>
+                                                    @foreach($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
@@ -303,20 +287,12 @@
                                                     class="form-control" id="shipping_address_2">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_2">Shipping Country
-                                                    2</label>
-                                                <select wire:model="shipping_country_2" class="form-select"
-                                                    id="shipping_country_2">
+                                                <label class="form-label" for="shipping_country_2">Shipping Country 2</label>
+                                                <select wire:model="shipping_country_2" class="form-select" id="shipping_country_2">
                                                     <option value="">Select</option>
-                                                    <option value="LUX">Luxembourg</option>
-                                                    <option value="USA">United States of America</option>
-                                                    <option value="MAL">Malaysia</option>
-                                                    <option value="IND">India</option>
-                                                    <option value="SIN">Singapore</option>
-                                                    <option value="CHI">China</option>
-                                                    <option value="SWI">Switzerland</option>
-                                                    <option value="THA">Thailand</option>
-                                                    <option value="PHI">Philippines</option>
+                                                    @foreach($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
@@ -350,20 +326,12 @@
                                                     class="form-control" id="shipping_address_3">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_3">Shipping Country
-                                                    3</label>
-                                                <select wire:model="shipping_country_3" class="form-select"
-                                                    id="shipping_country_3">
+                                                <label class="form-label" for="shipping_country_3">Shipping Country 3</label>
+                                                <select wire:model="shipping_country_3" class="form-select" id="shipping_country_3">
                                                     <option value="">Select</option>
-                                                    <option value="LUX">Luxembourg</option>
-                                                    <option value="USA">United States of America</option>
-                                                    <option value="MAL">Malaysia</option>
-                                                    <option value="IND">India</option>
-                                                    <option value="SIN">Singapore</option>
-                                                    <option value="CHI">China</option>
-                                                    <option value="SWI">Switzerland</option>
-                                                    <option value="THA">Thailand</option>
-                                                    <option value="PHI">Philippines</option>
+                                                    @foreach($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6">

@@ -6,7 +6,7 @@
     <title>Invoice #{{ $order->customer->first_name }} {{ $order->customer->last_name }}</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family:  Arial, sans-serif,'DejaVu Sans';
             font-size: 12px;
             color: #333;
             margin: 0;
@@ -133,7 +133,7 @@
         }
 
         .right {
-            width: 50%;
+            width: 60%;
         }
 
         .totals table {
@@ -152,11 +152,11 @@
         }
 
         .totals tr td:first-child {
-            width: 60%;
+            width: 66%;
         }
 
         .totals tr td:last-child {
-            width: 40%;
+            width: 34%;
         }
 
         .bank-details .bank-name {
@@ -200,22 +200,6 @@
 </head>
 
 <body>
-
-    @php
-        $countries = [
-            'LUX' => 'Luxembourg',
-            'USA' => 'United States of America',
-            'MAL' => 'Malaysia',
-            'IND' => 'India',
-            'SIN' => 'Singapore',
-            'CHI' => 'China',
-            'SWI' => 'Switzerland',
-            'THA' => 'Thailand',
-            'PHI' => 'Philippines',
-        ];
-
-        $billingCountry = $countries[$order->customer->billing_country] ?? 'Unknown Country';
-    @endphp
     <div class="logo-container">
         <img src="{{ public_path('admin/assets/img/branding/Celergen-Logo.png') }}" alt="Company Logo">
     </div>
@@ -234,7 +218,7 @@
             {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
             VAT No: {{ $order->customer->vat_number }}<br><br>
-            {{ $billingCountry }}<br>
+            {{ $order->customer->billing_country }}<br>
             PHONE : {{ $order->customer->mobile_number }}<br>
         </div>
         <div class="shipping-address">
@@ -253,7 +237,7 @@
             <tr>
                 <th style="width: 50%;">DESCRIPTION</th>
                 <th style="width: 15%;">QUANTITY</th>
-                <th style="width: 15%;">UNIT PRICE</th>
+                <th style="width: 15%;">UNIT PRICE ({{ $order->currency->code }})</th>
                 {{-- <th>DISCOUNT</th> --}}
                 <th style="width: 20%;">AMOUNT ({{ $order->currency->code }})</th>
             </tr>
@@ -267,11 +251,11 @@
 
             @foreach ($orderInvoiceDetails as $detail)
                 <tr>
-                    <td style="width: 50%;">{{ $detail->getDisplayDescription() }}</td>
-                    <td style="width: 15%;">{{ $detail->quantity }}</td>
-                    <td style="width: 15%;">{{ number_format($detail->unit_price, 2) }}</td>
+                    <td style="width: 40%;">{{ $detail->product->invoice_description }}</td>
+                    <td style="width: 20%;">{{ $detail->quantity }}</td>
+                    <td style="width: 20%;">{{ $order->currency->symbol }} {{ number_format($detail->unit_price, 2) }}</td>
                     {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
-                    <td style="width: 20%;">{{ number_format($detail->total, 2) }}</td>
+                    <td style="width: 20%;">{{ $order->currency->symbol }} {{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
 
@@ -320,7 +304,7 @@
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ number_format($invoice->subtotal, 2) }}</td>
+                    <td>{{ $order->currency->symbol }} {{ number_format($invoice->subtotal, 2) }}</td>
                 </tr>
                 {{-- <tr>
                     <td>TOTAL DISCOUNT</td>
@@ -328,15 +312,15 @@
                 </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
-                    <td><span style="color: green">{{ number_format($invoice->freight, 2) }}</span></td>
+                    <td><span style="color: green">{{ $order->currency->symbol }} {{ number_format($invoice->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td><span style="color: green">{{ number_format($invoice->tax, 2) }}</span></td>
+                    <td><span style="color: green">{{ $order->currency->symbol }} {{ number_format($invoice->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
-                    <td><strong>{{ $order->currency->code }} {{ number_format($invoice->total, 2) }}</strong></td>
+                    <td><strong>{{ $order->currency->code }} {{ $order->currency->symbol }} {{ number_format($invoice->total, 2) }}</strong></td>
                 </tr>
             </table>
         </div>

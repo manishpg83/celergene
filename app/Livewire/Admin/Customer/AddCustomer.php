@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Admin\Customer;
 
-use Livewire\Component;
 use App\Models\Customer;
 use App\Models\CustomerType;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class AddCustomer extends Component
 {
@@ -21,7 +22,7 @@ class AddCustomer extends Component
     public $isEditing = false;
     public $customer_id;
     public $sameAsBilling = false;
-
+    public $countries;
     public $customer_type_id;
     public $salutation, $first_name, $last_name, $mobile_number, $email;
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;
@@ -33,18 +34,6 @@ class AddCustomer extends Component
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
 
     public $customerTypes;
-
-    public $countries = [
-        'LUX' => 'Luxembourg',
-        'USA' => 'United States of America',
-        'MAL' => 'Malaysia',
-        'IND' => 'India',
-        'SIN' => 'Singapore',
-        'CHI' => 'China',
-        'SWI' => 'Switzerland',
-        'THA' => 'Thailand',
-        'PHI' => 'Philippines',
-    ];
 
     protected $rules = [
         'customer_type_id' => 'required|exists:customerstype,id',
@@ -64,8 +53,12 @@ class AddCustomer extends Component
     public function mount()
     {
         $this->customerTypes = CustomerType::where('status', 'active')->get();
+        $this->countries = DB::table('country')
+            ->orderBy('name')
+            ->pluck('name');
+    
         $this->customer_id = request()->query('id');
-
+    
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
             if ($customer) {
@@ -73,7 +66,7 @@ class AddCustomer extends Component
                 $this->isEditing = true;
             }
         }
-    }
+    }    
 
     public function getBillingCountryName()
     {

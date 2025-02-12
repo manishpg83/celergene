@@ -169,26 +169,13 @@ class CreateOrder extends Component
     {
         $receiver = $customer["shipping_address_receiver_name_{$index}"];
         $address = $customer["shipping_address_{$index}"];
-        $countryCode = $customer["shipping_country_{$index}"];
+        $country = $customer["shipping_country_{$index}"];
         $postalCode = $customer["shipping_postal_code_{$index}"];
-
-        $countries = [
-            'LUX' => 'Luxembourg',
-            'USA' => 'United States of America',
-            'MAL' => 'Malaysia',
-            'IND' => 'India',
-            'SIN' => 'Singapore',
-            'CHI' => 'China',
-            'SWI' => 'Switzerland',
-            'THA' => 'Thailand',
-            'PHI' => 'Philippines',
-        ];
-
-        $country = $countries[$countryCode] ?? $countryCode;
-
+    
         if ($receiver || $address || $country || $postalCode) {
             return implode(", ", array_filter([$receiver, $address, $country, $postalCode]));
         }
+        
         return null;
     }
 

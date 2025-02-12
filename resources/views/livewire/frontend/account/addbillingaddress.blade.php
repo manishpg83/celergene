@@ -47,9 +47,14 @@
             <div class="col-md-6">
                 <div class="form-group m-b25">
                     <label class="label-title">Country *</label>
-                    <input type="text" wire:model="billing_country" required class="form-control">
+                    <select wire:model="billing_country" class="form-control" required>
+                        <option value="">Select Country</option>
+                        @foreach(\DB::table('country')->get() as $country)
+                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </div>
+            </div>            
             <div class="col-md-6">
                 <div class="form-group m-b25">
                     <label class="label-title">Postal Code *</label>
