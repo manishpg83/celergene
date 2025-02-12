@@ -51,9 +51,16 @@ class WarehouseList extends Component
         $this->isEditing = true;
     }
 
-    public function edit(Warehouse $warehouse)
+    public function edit($id)
     {
-        return redirect()->route('admin.warehouses.add', ['id' => $warehouse->id]);
+        $warehouse = Warehouse::withTrashed()->find($id);
+
+        if ($warehouse->trashed()) {
+            notyf()->error('Cannot edit a suspended entity. Please restore it first.');
+            return;
+        }
+        
+        $this->dispatch('openEditTab', route('admin.warehouses.add', ['id' => $id]));
     }
 
     public function save()
