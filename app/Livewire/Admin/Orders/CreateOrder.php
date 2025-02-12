@@ -69,7 +69,7 @@ class CreateOrder extends Component
                 new UniqueProductInOrder($this->orderDetails),
             ],
             'orderDetails.*.quantity' => 'required|numeric|min:1',
-            'orderDetails.*.unit_price' => 'required|numeric|min:0',
+            'orderDetails.*.unit_price' => 'required|numeric',
             'orderDetails.*.discount' => 'required|numeric|min:0',
             'tax' => 'required|numeric|min:0',
             'freight' => 'required|numeric|min:0',
@@ -92,7 +92,7 @@ class CreateOrder extends Component
                 'min:0',
             ],
             'workflow_type' => 'required|string|in:' . implode(',', array_keys(OrderWorkflowType::options())),
-        ];  
+        ];
 
         return $rules;
     }
@@ -112,7 +112,7 @@ class CreateOrder extends Component
         }
 
         return $this->products->filter(function ($product) use ($selectedProductIds) {
-            return !in_array($product->id, $selectedProductIds);
+            return $product->id == 1 || !in_array($product->id, $selectedProductIds);
         });
     }
 
@@ -174,7 +174,7 @@ class CreateOrder extends Component
         $address = $customer["shipping_address_{$index}"];
         $countryCode = $customer["shipping_country_{$index}"];
         $postalCode = $customer["shipping_postal_code_{$index}"];
-    
+
         $countries = [
             'LUX' => 'Luxembourg',
             'USA' => 'United States of America',
@@ -186,14 +186,14 @@ class CreateOrder extends Component
             'THA' => 'Thailand',
             'PHI' => 'Philippines',
         ];
-    
+
         $country = $countries[$countryCode] ?? $countryCode;
-    
+
         if ($receiver || $address || $country || $postalCode) {
             return implode(", ", array_filter([$receiver, $address, $country, $postalCode]));
         }
         return null;
-    }    
+    }
 
     private function updateShippingAddress()
     {
@@ -245,22 +245,40 @@ class CreateOrder extends Component
     {
         $this->subtotal = 0;
         $this->totalDiscount = 0;
-
+        Log::info('Starting calculateTotals', ['orderDetails' => $this->orderDetails]);
         foreach ($this->orderDetails as $index => $detail) {
-            $regularQuantity = floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0);
-            //$unitPrice = floatval($detail['unit_price']);
-            $quantity = floatval($detail['quantity']);
+            // Sanitize inputs
+            $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0));
             $unitPrice = floatval($detail['unit_price']);
-            $discount = floatval($detail['discount']);
-
-            if ($regularQuantity > 0) {
-                $this->subtotal += $regularQuantity * $unitPrice;
-                $this->totalDiscount += $discount;
-                
-                $this->orderDetails[$index]['total'] = max(($regularQuantity * $unitPrice) - $discount, 0);
+            $discount = max(0, floatval($detail['discount']));
+            Log::info('Processing order detail', [
+                'index' => $index,
+                'regularQuantity' => $regularQuantity,
+                'unitPrice' => $unitPrice,
+                'discount' => $discount,
+                'product_id' => $detail['product_id']
+            ]);
+            // Special handling for product_id == 1 (custom product)
+            if ($detail['product_id'] == 1) {
+                $lineTotal = $regularQuantity * $unitPrice; // Allow negative unit price for adjustments
             } else {
-                $this->orderDetails[$index]['total'] = 0;
+                $lineTotal = $regularQuantity * max(0, $unitPrice); // Force non-negative unit price for regular products
             }
+            Log::info('Line total calculated', [
+                'lineTotal' => $lineTotal,
+                'product_id' => $detail['product_id']
+            ]);
+            // Update subtotal and discount
+            $this->subtotal += $lineTotal;
+            $this->totalDiscount += min($discount, abs($lineTotal)); // Limit discount to line total
+
+            // Calculate and store line total
+            $this->orderDetails[$index]['total'] = $lineTotal - $discount;
+            Log::info('Updated totals', [
+                'current_subtotal' => $this->subtotal,
+                'current_totalDiscount' => $this->totalDiscount,
+                'line_total' => $this->orderDetails[$index]['total']
+            ]);
         }
 
         $this->calculateFinalTotal();
@@ -268,14 +286,31 @@ class CreateOrder extends Component
 
     private function calculateFinalTotal()
     {
+        Log::info('Starting calculateFinalTotal', [
+            'initial_values' => [
+                'subtotal' => $this->subtotal,
+                'totalDiscount' => $this->totalDiscount,
+                'freight' => $this->freight,
+                'tax' => $this->tax
+            ]
+        ]);
         $this->subtotal = floatval($this->subtotal);
         $this->totalDiscount = floatval($this->totalDiscount);
         $this->freight = floatval($this->freight);
         $this->tax = floatval($this->tax);
-    
+
         $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
+        Log::info('Final total calculated', [
+            'final_values' => [
+                'subtotal' => $this->subtotal,
+                'totalDiscount' => $this->totalDiscount,
+                'freight' => $this->freight,
+                'tax' => $this->tax,
+                'total' => $this->total
+            ]
+        ]);
     }
-    
+
     public function updatedFreight()
     {
         if (empty($this->freight) || !is_numeric($this->freight)) {
@@ -283,7 +318,7 @@ class CreateOrder extends Component
         } else {
             $this->freight = floatval($this->freight);
         }
-    
+
         $this->calculateFinalTotal();
     }
 
@@ -294,7 +329,7 @@ class CreateOrder extends Component
         } else {
             $this->tax = floatval($this->tax);
         }
-    
+
         $this->calculateFinalTotal();
     }
 
@@ -307,8 +342,25 @@ class CreateOrder extends Component
 
     public function submitOrder()
     {
-        $this->validate();
-        $this->isSubmitting = true;
+        try {
+            \Log::info('Starting validation');
+            $this->validate();
+            \Log::info('Validation passed');
+            $this->isSubmitting = true;
+            \Log::info('Submission state set to true');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation failed', [
+                'errors' => $e->errors(),
+                'validator' => $e->validator->failed()
+            ]);
+            throw $e;
+        } catch (\Exception $e) {
+            \Log::error('Unexpected error during validation', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
 
         try {
             foreach ($this->orderDetails as $detail) {
@@ -399,7 +451,7 @@ class CreateOrder extends Component
             });
 
             notyf()->success('Order created successfully and confirmation email sent.');
-            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax','freight', 'total', 'order_date', 'remarks']);
+            $this->reset(['orderDetails', 'customer_id', 'shipping_address', 'subtotal', 'totalDiscount', 'tax', 'freight', 'total', 'order_date', 'remarks']);
             $this->addOrderDetail();
             $this->isSubmitting = false;
 
@@ -436,11 +488,11 @@ class CreateOrder extends Component
         if (!$productId || $productId == 1) {
             return 0;
         }
-        
+
         return Inventory::where('product_code', $productId)
             ->sum('remaining');
     }
-    
+
     public function generateInvoice($order_id)
     {
         $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
@@ -484,12 +536,12 @@ class CreateOrder extends Component
                 $invoiceDetails[] = [
                     'order_invoice_id' => $invoice->id,
                     'product_id' => $orderDetail->product_id,
-                    'unit_price' =>  $orderDetail->unit_price,
+                    'unit_price' => $orderDetail->unit_price,
                     'quantity' => $orderDetail->quantity,
-                    'delivered_quantity' =>  $orderDetail->quantity,
-                    'invoiced_quantity' =>  $orderDetail->quantity,
-                    'discount' =>  $orderDetail->discount,
-                    'total' =>  $orderDetail->total,
+                    'delivered_quantity' => $orderDetail->quantity,
+                    'invoiced_quantity' => $orderDetail->quantity,
+                    'discount' => $orderDetail->discount,
+                    'total' => $orderDetail->total,
                     'manual_product_name' => $orderDetail->manual_product_name,
                     'created_at' => now(),
                     'updated_at' => now()
@@ -514,7 +566,7 @@ class CreateOrder extends Component
             return null;
         }
     }
-    
+
     protected function generateUniqueInvoiceNumber()
     {
         do {

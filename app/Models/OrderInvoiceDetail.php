@@ -31,12 +31,20 @@ class OrderInvoiceDetail extends Model
     ];
 
     public function orderInvoice()
-{
-    return $this->belongsTo(OrderInvoice::class);
-}
+    {
+        return $this->belongsTo(OrderInvoice::class);
+    }
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    
+    public function getDisplayDescription()
+    {
+        if ($this->product_id == 1 && $this->manual_product_name) {
+            return $this->manual_product_name;
+        }
+        return $this->product->invoice_description;
     }
 }

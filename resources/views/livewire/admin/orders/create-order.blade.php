@@ -223,43 +223,6 @@
                                                 placeholder="Price" class="form-control">
                                         </div>
 
-                                        {{-- <div class="col-md-2">
-                                            <div class="col-6">Discount</div>
-                                            <input type="number"
-                                                wire:model.live="orderDetails.{{ $index }}.discount"
-                                                placeholder="Discount"
-                                                class="form-control @error('orderDetails.' . $index . '.discount') is-invalid @enderror"
-                                                min="0" step="0.01">
-                                            @error('orderDetails.' . $index . '.discount')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div> --}}
-
-                                        {{-- @if ($workflow_type === 'multi_delivery')
-                                            <div class="col-md-2">
-                                                <div class="col-6 mb-1">Delivery Date</div>
-                                                <input type="date"
-                                                    wire:model="orderDetails.{{ $index }}.delivery_date"
-                                                    class="form-control @error('orderDetails.' . $index . '.delivery_date') is-invalid @enderror"
-                                                    min="{{ $order_date }}">
-                                                @error('orderDetails.' . $index . '.delivery_date')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        @endif
-
-                                        @if ($workflow_type === 'consignment')
-                                            <div class="col-md-2">
-                                                <div class="col-6 mb-1">Consignment Terms</div>
-                                                <input type="text"
-                                                    wire:model="orderDetails.{{ $index }}.consignment_terms"
-                                                    placeholder="Terms"
-                                                    class="form-control @error('orderDetails.' . $index . '.consignment_terms') is-invalid @enderror">
-                                                @error('orderDetails.' . $index . '.consignment_terms')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        @endif --}}
 
                                         <div class="col-md-1 mb-1">
                                             <button wire:click.prevent="removeOrderDetail({{ $index }})"
