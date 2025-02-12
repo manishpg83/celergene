@@ -30,6 +30,7 @@
         <div>
             <p><strong>Order Date :</strong> {{ $deliveryOrder->created_at->format('F d, Y') }}</p>
             <p><strong>Order No :</strong> #{{ $deliveryOrder->id }}</p>
+            <p><strong>Invoice No :</strong> #{{ $deliveryOrder->orderInvoice->invoice_number ?? '-' }}</p>
             <p><strong>Tracking Number :</strong> {{ $deliveryOrder->tracking_number }}</p>
             <p><strong>Tracking Url :</strong> {{ $deliveryOrder->tracking_url }}</p>
         </div>
