@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Frontend\Account;
 
-use Livewire\Component;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class Addshippingaddress extends Component
 {
@@ -117,9 +118,9 @@ class Addshippingaddress extends Component
     public function save()
     {
         $this->validate();
-
+    
         $customer = Customer::where('user_id', Auth::id())->first();
-
+    
         $customer->update([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
@@ -128,27 +129,29 @@ class Addshippingaddress extends Component
             'mobile_number' => $this->phoneNumber ?? '0000000000',
             'updated_by' => Auth::id(),
         ]);
-
+    
+        $countryName = DB::table('country')->where('id', $this->country)->value('name');
+    
         $addressNumber = $this->addressNumber ?? $this->getNextAvailableAddressSlot($customer);
-
+    
         $fullAddress = $this->streetAddress;
         if ($this->apartmentAddress) {
             $fullAddress .= "\n" . $this->apartmentAddress;
         }
-
+    
         $customer->update([
             "shipping_address_receiver_name_{$addressNumber}" => "{$this->firstName} {$this->lastName}",
             "shipping_address_{$addressNumber}" => $fullAddress,
-            "shipping_country_{$addressNumber}" => $this->country,
+            "shipping_country_{$addressNumber}" => $countryName,
             "shipping_postal_code_{$addressNumber}" => $this->pincode,
             "shipping_city_{$addressNumber}" => $this->city,
             "shipping_state_{$addressNumber}" => $this->state,
             'updated_by' => Auth::id(),
         ]);
-
+    
         notyf()->success('Shipping address saved successfully!');
         return redirect()->route('shippingaddress');
-    }
+    }    
 
     protected function getNextAvailableAddressSlot($customer)
     {
@@ -162,13 +165,10 @@ class Addshippingaddress extends Component
 
     public function render()
     {
+        $countries = DB::table('country')->pluck('name', 'id');
+    
         return view('livewire.frontend.account.addshippingaddress', [
-            'countries' => [
-                'India' => 'India',
-                'UK' => 'United Kingdom',
-                'Iraq' => 'Iraq',
-                'US' => 'United States',
-            ]
+            'countries' => $countries,
         ]);
-    }
+    }       
 }

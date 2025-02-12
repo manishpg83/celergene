@@ -136,7 +136,7 @@
                                         <td>#{{ $order->order_id }}</td>
                                         <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
-                                        <td>${{ number_format($order->total, 2) }}</td>
+                                        <td>{{ $order->currency->symbol ?? '$' }} {{ number_format($order->total, 2) }}</td>
                                         <td
                                             class="
                                         text-sm 

@@ -37,13 +37,13 @@
                     <label class="label-title">Country / Region *</label>
                     <select wire:model="country" class="form-select @error('country') is-invalid @enderror">
                         <option value="">Select Country</option>
-                        @foreach($countries as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
+                        @foreach($countries as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option> <!-- Display country name, store country ID -->
                         @endforeach
                     </select>
                     @error('country') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
-            </div>
+            </div>                      
             
             <div class="col-md-12">
                 <div class="form-group m-b25">
