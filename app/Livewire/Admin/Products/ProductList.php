@@ -67,6 +67,13 @@ class ProductList extends Component
 
     public function edit($id)
     {
-        return redirect()->route('admin.products.add', ['id' => $id]);
+        $product = Product::withTrashed()->find($id);
+
+        if ($product->trashed()) {
+            notyf()->error('Cannot edit a suspended entity. Please restore it first.');
+            return;
+        }
+        
+        $this->dispatch('openEditTab', route('admin.products.add', ['id' => $id]));
     }
 }

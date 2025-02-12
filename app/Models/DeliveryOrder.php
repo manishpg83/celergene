@@ -45,6 +45,11 @@ class DeliveryOrder extends Model
         return $this->hasMany(DeliveryOrderDetail::class);
     }
 
+    public function orderInvoice()
+    {
+        return $this->belongsTo(OrderInvoice::class, 'order_invoice_id');
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

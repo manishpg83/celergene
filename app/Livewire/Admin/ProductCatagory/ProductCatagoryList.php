@@ -86,14 +86,18 @@ class ProductCatagoryList extends Component
 
     public function edit($id)
     {
-        dd('editCategory method called', $id);
-        $category = ProductCatagory::findOrFail($id);
+        $category = ProductCatagory::withTrashed()->find($id);
+
+        if ($category->trashed()) {
+            notyf()->error('Cannot edit a suspended entity. Please restore it first.');
+            return;
+        }
         $this->categoryId = $category->id;
         $this->category_name = $category->category_name;
         $this->status = $category->status;
         $this->isEditing = true;
         
-        return redirect()->route('admin.productscategory.add', ['id' => $id]);
+        $this->dispatch('openEditTab', route('admin.productscategory.add', ['id' => $id]));
     }
 
     public function updateCategory()
