@@ -106,8 +106,9 @@
             <div class="flex-item">
                 <div class="box">
                     <p><strong>{{ $deliveryOrder->warehouse->warehouse_name }}</strong></p>
-                    <p>{{ $deliveryOrder->warehouse->address }},{{ $deliveryOrder->warehouse->country }}.</p>
-                </div>
+                    <p>{!! nl2br(e(str_replace(',', "\n", $deliveryOrder->warehouse->address))) !!},<br>
+                    {{ $deliveryOrder->warehouse->country }}.</p>
+                </div>                
             </div>
             <div class="flex-item">
                 <div class="box">
