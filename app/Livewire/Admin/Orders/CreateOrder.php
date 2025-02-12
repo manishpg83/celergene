@@ -514,6 +514,7 @@ class CreateOrder extends Component
             $workflowType = strtolower($workflow_type->value);
             $invoiceData = [
                 'invoice_number' => $invoiceNumber,
+                'invoice_date' => now(),
                 'order_id' => $order->order_id,
                 'customer_id' => $order->customer_id,
                 'entity_id' => $order->entity_id,
