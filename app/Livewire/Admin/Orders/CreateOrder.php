@@ -247,68 +247,31 @@ class CreateOrder extends Component
         $this->totalDiscount = 0;
         Log::info('Starting calculateTotals', ['orderDetails' => $this->orderDetails]);
         foreach ($this->orderDetails as $index => $detail) {
-            // Sanitize inputs
             $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0));
             $unitPrice = floatval($detail['unit_price']);
             $discount = max(0, floatval($detail['discount']));
-            Log::info('Processing order detail', [
-                'index' => $index,
-                'regularQuantity' => $regularQuantity,
-                'unitPrice' => $unitPrice,
-                'discount' => $discount,
-                'product_id' => $detail['product_id']
-            ]);
-            // Special handling for product_id == 1 (custom product)
+            
             if ($detail['product_id'] == 1) {
-                $lineTotal = $regularQuantity * $unitPrice; // Allow negative unit price for adjustments
+                $lineTotal = $regularQuantity * $unitPrice; 
             } else {
-                $lineTotal = $regularQuantity * max(0, $unitPrice); // Force non-negative unit price for regular products
-            }
-            Log::info('Line total calculated', [
-                'lineTotal' => $lineTotal,
-                'product_id' => $detail['product_id']
-            ]);
-            // Update subtotal and discount
+                $lineTotal = $regularQuantity * max(0, $unitPrice);
+            }            
             $this->subtotal += $lineTotal;
-            $this->totalDiscount += min($discount, abs($lineTotal)); // Limit discount to line total
-
-            // Calculate and store line total
-            $this->orderDetails[$index]['total'] = $lineTotal - $discount;
-            Log::info('Updated totals', [
-                'current_subtotal' => $this->subtotal,
-                'current_totalDiscount' => $this->totalDiscount,
-                'line_total' => $this->orderDetails[$index]['total']
-            ]);
+            $this->totalDiscount += min($discount, abs($lineTotal));
+            $this->orderDetails[$index]['total'] = $lineTotal - $discount;            
         }
 
         $this->calculateFinalTotal();
     }
 
     private function calculateFinalTotal()
-    {
-        Log::info('Starting calculateFinalTotal', [
-            'initial_values' => [
-                'subtotal' => $this->subtotal,
-                'totalDiscount' => $this->totalDiscount,
-                'freight' => $this->freight,
-                'tax' => $this->tax
-            ]
-        ]);
+    {        
         $this->subtotal = floatval($this->subtotal);
         $this->totalDiscount = floatval($this->totalDiscount);
         $this->freight = floatval($this->freight);
         $this->tax = floatval($this->tax);
 
         $this->total = max($this->subtotal - $this->totalDiscount + $this->freight + $this->tax, 0);
-        Log::info('Final total calculated', [
-            'final_values' => [
-                'subtotal' => $this->subtotal,
-                'totalDiscount' => $this->totalDiscount,
-                'freight' => $this->freight,
-                'tax' => $this->tax,
-                'total' => $this->total
-            ]
-        ]);
     }
 
     public function updatedFreight()
@@ -421,11 +384,7 @@ class CreateOrder extends Component
 
                 foreach ($this->orderDetails as $detail) {
                     $regularQuantity = floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0);
-                    Log::info('Order Detail Values:', [
-                        'quantity' => $detail['quantity'],
-                        'remaining_quantity' => $detail['quantity'],
-                        'detail_array' => $detail
-                    ]);
+
 
                     $orderDetail = [
                         'product_id' => $detail['product_id'],
@@ -440,7 +399,6 @@ class CreateOrder extends Component
                         'total' => $detail['total'],
                     ];
 
-                    Log::info('Final Order Detail Array:', $orderDetail);
                     $order->orderDetails()->create($orderDetail);
                 }
 
@@ -604,7 +562,6 @@ class CreateOrder extends Component
     {
         return view('livewire.admin.orders.create-order', [
             'currencies' => Currency::where('status', Currency::STATUS_ACTIVE)->get(),
-            // ... other existing data
         ]);
     }
 }
