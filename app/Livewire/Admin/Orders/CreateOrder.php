@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\Orders;
 
 use App\Enums\OrderWorkflowType;
-use App\Mail\OrderConfirmation;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Entity;
@@ -12,12 +11,10 @@ use App\Models\OrderInvoice;
 use App\Models\OrderInvoiceDetail;
 use App\Models\OrderMaster;
 use App\Models\Product;
-use App\Models\Stock;
 use App\Rules\UniqueProductInOrder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
 

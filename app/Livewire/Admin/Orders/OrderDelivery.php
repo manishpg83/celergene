@@ -67,8 +67,9 @@ class OrderDelivery extends Component
 
         foreach ($this->order->orderDetails as $detail) {
             foreach ($detail->product->inventories as $inventory) {
-                $this->inventoryQuantities[$inventory->id] = 0;
-                $this->inventorySampleQuantities[$inventory->id] = 0;
+                $key = $inventory->id . '_' . $detail->id; 
+                $this->inventoryQuantities[$key] = 0; 
+                $this->inventorySampleQuantities[$key] = 0; 
 
             }
         }
@@ -113,13 +114,11 @@ class OrderDelivery extends Component
     }
     
     public function getTotalSelectedSampleQuantity($detail)
-    {
-        return collect($this->inventorySampleQuantities)
-            ->filter(function ($qty, $invId) use ($detail) {
-                return $detail->product->inventories->contains('id', $invId);
-            })
-            ->map(fn($value) => (float) $value) 
-            ->sum();
+    {   
+        return collect($this->inventorySampleQuantities)->filter(function ($qty, $invKey) use ($detail) {
+            $inventoryId = (int) explode('_', $invKey)[0];
+            return $detail->product->inventories->contains('id', $inventoryId);
+        })->map(fn($value) => (float) $value)->sum();
     }
 
     public function updateDelivery()
@@ -128,7 +127,8 @@ class OrderDelivery extends Component
         try {
             DB::transaction(function () {
                 $originalOrder = $this->order;
-
+                $totalSelectedSamples = 0;
+                $totalSelectedQuantity = 0;
                 foreach ($this->order->orderDetails as $detail) {
                     $totalSelectedSamples = $this->getTotalSelectedSampleQuantity($detail);
                     $remainingSamples = $this->calculateRemainingSampleQuantity($detail);
@@ -136,9 +136,13 @@ class OrderDelivery extends Component
                     if ($totalSelectedSamples > $remainingSamples) {
                         throw new \Exception("Selected sample quantity ({$totalSelectedSamples}) exceeds remaining sample quantity ({$remainingSamples}) for product {$detail->product->product_name}");
                     }
+                    foreach ($detail->product->inventories as $inventory) {
+                        $key = $inventory->id . '_' . $detail->id;
+                        $totalSelectedQuantity += $this->inventoryQuantities[$key] ?? 0; 
+                    }
                 }
                 $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
-
+                Log::info("Total Selected Quantity: {$totalSelectedQuantity}, Order Total Quantity: {$originalOrder->orderDetails->sum('quantity')}");
                 $existingDeliveries = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                     $query->where('order_id', $originalOrder->order_id);
                 })->sum('quantity');
@@ -224,8 +228,8 @@ class OrderDelivery extends Component
                 foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
                     if ($quantity > 0 || $this->inventorySampleQuantities[$inventoryId] > 0) {
                         $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
-
-                        $inventory = Inventory::findOrFail($inventoryId);
+                        list($inventoryIds, $orderDetailId) = explode('_', $inventoryId);
+                        $inventory = Inventory::findOrFail($inventoryIds);
                         $warehouseId = $inventory->warehouse_id;
 
                         if ($quantity > $inventory->remaining) {
@@ -269,7 +273,7 @@ class OrderDelivery extends Component
                                 DeliveryOrderDetail::create([
                                     'delivery_order_id' => $deliveryOrder->id,
                                     'product_id' => $detail->product_id,
-                                    'inventory_id' => $inventoryId,
+                                    'inventory_id' => $inventoryIds,
                                     'sample_quantity' => $this->inventorySampleQuantities[$inventoryId],
                                     'quantity' => $quantity,
                                     'unit_price' => $detail->unit_price,
