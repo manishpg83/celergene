@@ -186,7 +186,7 @@
                                             </div>
                                         @endif
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="width: 130px">
                                             <div class="col-6 mb-1">
                                                 Quantity
                                                 @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
@@ -216,7 +216,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="width: 100px">
                                             <div class="col-7 mb-1">Price</div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.unit_price"
