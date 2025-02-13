@@ -36,7 +36,9 @@ class CustomerList extends Component
                 $query->where(function ($subQuery) {
                     $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
                              ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+                             ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                             ->orWhere('company_name', 'LIKE', '%' . $this->search . '%')
+                             ->orWhere('billing_country', 'LIKE', '%' . $this->search . '%');
                 });
             })
             ->when($this->status !== 'all', function ($query) {
@@ -48,14 +50,14 @@ class CustomerList extends Component
             })
             ->withTrashed()
             ->orderBy($this->sortField, $this->sortDirection);
-
+    
         $customers = $query->paginate($this->perPage);
         $perpagerecords = perpagerecords();
         return view('livewire.admin.customer.customer-list', [
             'customers' => $customers,
             'perpagerecords' => $perpagerecords,
         ]);
-    }
+    }    
 
     public function updatedPerPage($value)
     {

@@ -50,6 +50,7 @@
                             <th wire:click="sortBy('email')" style="cursor: pointer;">Email</th>
                             <th wire:click="sortBy('Mobile')" style="cursor: pointer;">Mobile</th>
                             <th wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
+                            <th wire:click="sortBy('billing_country')" style="cursor: pointer;">Country</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -66,6 +67,7 @@
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->mobile_number }}</td>
                                     <td>{{ $customer->company_name }}</td>
+                                    <td>{{ $customer->billing_country }}</td>
                                     <td class="text-center">
                                         <div class="d-flex align-items-center justify-content-center gap-2">
                                             <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black" title="View Details" target="_blank">
