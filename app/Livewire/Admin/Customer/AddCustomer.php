@@ -29,6 +29,7 @@ class AddCustomer extends Component
     public $payment_term_actual, $credit_rating, $allow_consignment = false;
     public $must_receive_payment_before_delivery = false;
     public $billing_address, $billing_country, $billing_postal_code;
+    public $shipping_phone_1, $shipping_phone_2, $shipping_phone_3;
     public $shipping_address_receiver_name_1, $shipping_address_1, $shipping_country_1, $shipping_postal_code_1;
     public $shipping_address_receiver_name_2, $shipping_address_2, $shipping_country_2, $shipping_postal_code_2;
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
@@ -56,9 +57,9 @@ class AddCustomer extends Component
         $this->countries = DB::table('country')
             ->orderBy('name')
             ->pluck('name');
-    
+
         $this->customer_id = request()->query('id');
-    
+
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
             if ($customer) {
@@ -66,7 +67,7 @@ class AddCustomer extends Component
                 $this->isEditing = true;
             }
         }
-    }    
+    }
 
     public function getBillingCountryName()
     {
@@ -104,6 +105,9 @@ class AddCustomer extends Component
         $this->shipping_address_3 = $customer->shipping_address_3;
         $this->shipping_country_3 = $customer->shipping_country_3;
         $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+        $this->shipping_phone_1 = $customer->shipping_phone_1;
+        $this->shipping_phone_2 = $customer->shipping_phone_2;
+        $this->shipping_phone_3 = $customer->shipping_phone_3;
 
         $this->image = $customer->image;
         $this->oldImage = $customer->image;
@@ -134,9 +138,9 @@ class AddCustomer extends Component
     }
 
     public function save()
-    {        
-        $rules = $this->rules;        
-      
+    {
+        $rules = $this->rules;
+
         if ($this->image && !is_string($this->image)) {
             $rules['image'] = 'required|image|max:1024|mimes:jpg,jpeg,png';
         }
@@ -184,6 +188,9 @@ class AddCustomer extends Component
         $this->shipping_address_1 = '';
         $this->shipping_country_1 = '';
         $this->shipping_postal_code_1 = '';
+        $this->shipping_phone_1 = '';
+        $this->shipping_phone_2 = '';
+        $this->shipping_phone_3 = '';
         $this->image = null;
         $this->oldImage = null;
     }
@@ -243,6 +250,9 @@ class AddCustomer extends Component
             'shipping_address_3' => $this->shipping_address_3,
             'shipping_country_3' => $this->shipping_country_3,
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
+            'shipping_phone_1' => $this->shipping_phone_1,
+            'shipping_phone_2' => $this->shipping_phone_2,
+            'shipping_phone_3' => $this->shipping_phone_3,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'image' => $this->handleImageUpload(),

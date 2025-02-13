@@ -263,6 +263,11 @@
                                                     class="form-control" id="shipping_postal_code_1"
                                                     @if ($sameAsBilling) value="{{ $billing_postal_code }}" @endif>
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_phone_1">Contact Number 1</label>
+                                                <input type="text" wire:model="shipping_phone_1"
+                                                    class="form-control" id="shipping_phone_1">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -302,6 +307,11 @@
                                                 <input type="text" wire:model="shipping_postal_code_2"
                                                     class="form-control" id="shipping_postal_code_2">
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_phone_2">Contact Number 2</label>
+                                                <input type="text" wire:model="shipping_phone_2"
+                                                    class="form-control" id="shipping_phone_2">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -340,6 +350,11 @@
                                                     3</label>
                                                 <input type="text" wire:model="shipping_postal_code_3"
                                                     class="form-control" id="shipping_postal_code_3">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_phone_3">Contact Number 3</label>
+                                                <input type="text" wire:model="shipping_phone_3"
+                                                    class="form-control" id="shipping_phone_3">
                                             </div>
                                         </div>
                                     </div>
