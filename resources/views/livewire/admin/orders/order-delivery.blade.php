@@ -106,14 +106,17 @@
                                         </div>
                                     </div>
                                 @endforeach
-
                                 <div class="mt-2">
                                     <div><strong>Total Regular Selected: </strong>
-                                        {{ collect($this->inventoryQuantities)->filter(function ($qty, $invKey) use ($detail) {
+                                        {{ collect($this->inventoryQuantities)
+                                            ->filter(function ($qty, $invKey) use ($detail) {
                                                 $inventoryId = (int) explode('_', $invKey)[0];
-                                                return $detail->product->inventories->contains('id', $inventoryId);
-                                            })->map(fn($value) => (float) $value)->sum() }}
-
+                                                $detailId = (int) explode('_', $invKey)[1];
+                                                return $detail->id === $detailId && 
+                                                       $detail->product->inventories->contains('id', $inventoryId);
+                                            })
+                                            ->map(fn($value) => (float) $value)
+                                            ->sum() }}
                                         /
                                         @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
                                             {{ $this->calculateRemainingQuantity($detail) }}

@@ -43,7 +43,6 @@ class OrderDetails extends Component
         $this->order_id = $order_id;
         try {
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
-            Log::info('Order found:', ['order' => $this->order->toArray()]);
 
             $this->order = OrderMaster::with(['currency'])
             ->where('order_id', $order_id)
@@ -54,7 +53,6 @@ class OrderDetails extends Component
             $rawDeliveryOrders = DeliveryOrder::with('warehouse', 'details.product')
                 ->where('order_id', $order_id)
                 ->get();
-            Log::info('Raw delivery orders:', ['delivery_orders' => $rawDeliveryOrders->toArray()]);
             $this->editedOrderDate = $this->order->order_date;
 
             $this->deliveryOrders = $rawDeliveryOrders->map(function ($deliveryOrder) {
@@ -78,7 +76,6 @@ class OrderDetails extends Component
                     })->toArray(),
                 ];
             })->values();
-            Log::info('Final processed delivery orders:', ['delivery_orders' => $this->deliveryOrders->toArray()]);
 
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
@@ -340,7 +337,7 @@ public function cancelEdit()
                 'orderInvoiceDetails' => $orderInvoiceDetails,
                 'currencySymbol' => $currencySymbol,
             ]);
-    
+            
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);

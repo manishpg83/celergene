@@ -63,7 +63,6 @@ class CreateOrder extends Component
             'orderDetails.*.product_id' => [
                 'required',
                 'exists:products,id',
-                new UniqueProductInOrder($this->orderDetails),
             ],
             'orderDetails.*.quantity' => 'required|numeric|min:1',
             'orderDetails.*.unit_price' => 'required|numeric',
@@ -102,16 +101,9 @@ class CreateOrder extends Component
 
     private function getAvailableProducts($index = null)
     {
-        $selectedProductIds = array_column($this->orderDetails, 'product_id');
-
-        if ($index !== null && isset($this->orderDetails[$index]['product_id'])) {
-            $selectedProductIds = array_diff($selectedProductIds, [$this->orderDetails[$index]['product_id']]);
-        }
-
-        return $this->products->filter(function ($product) use ($selectedProductIds) {
-            return $product->id == 1 || !in_array($product->id, $selectedProductIds);
-        });
+        return $this->products;
     }
+    
 
     public function mount()
     {
@@ -176,7 +168,7 @@ class CreateOrder extends Component
         if ($receiver || $address || $country || $postalCode || $phone) {
             return implode(", ", array_filter([$receiver, $address, $country, $postalCode, $phone]));
         }
-        
+
         return null;
     }
 
@@ -235,22 +227,22 @@ class CreateOrder extends Component
             $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0));
             $unitPrice = floatval($detail['unit_price']);
             $discount = max(0, floatval($detail['discount']));
-            
+
             if ($detail['product_id'] == 1) {
-                $lineTotal = $regularQuantity * $unitPrice; 
+                $lineTotal = $regularQuantity * $unitPrice;
             } else {
                 $lineTotal = $regularQuantity * max(0, $unitPrice);
-            }            
+            }
             $this->subtotal += $lineTotal;
             $this->totalDiscount += min($discount, abs($lineTotal));
-            $this->orderDetails[$index]['total'] = $lineTotal - $discount;            
+            $this->orderDetails[$index]['total'] = $lineTotal - $discount;
         }
 
         $this->calculateFinalTotal();
     }
 
     private function calculateFinalTotal()
-    {        
+    {
         $this->subtotal = floatval($this->subtotal);
         $this->totalDiscount = floatval($this->totalDiscount);
         $this->freight = floatval($this->freight);
