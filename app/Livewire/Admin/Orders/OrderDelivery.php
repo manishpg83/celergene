@@ -236,7 +236,6 @@ class OrderDelivery extends Component
                                     return false;
                                 }
                             } else {
-                                // Handle the case where no product detail is found
                                 Log::error("No product detail found for product code {$inventory->product_code}.", [
                                     'order_id' => $originalOrder->order_id,
                                     'product_code' => $inventory->product_code
@@ -350,7 +349,6 @@ class OrderDelivery extends Component
             ]);
         }
     }
-
 
     public function render()
     {
