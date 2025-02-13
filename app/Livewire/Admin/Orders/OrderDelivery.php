@@ -216,15 +216,13 @@ class OrderDelivery extends Component
                             $productDetail = $originalOrder->orderDetails->where('product_id', $inventory->product_code)->first();
 
                             if ($productDetail) {
-                                // Get the sum of the delivered quantity for the specific product and inventory
                                 $existingDeliveriesForProduct = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                                     $query->where('order_id', $originalOrder->order_id);
                                 })
                                 ->where('product_id', $productDetail->product_id)
-                                ->where('inventory_id', $inventory->id)  // Include inventory_id to avoid over-delivery from same product in different inventories
+                                ->where('inventory_id', $inventory->id) 
                                 ->sum('quantity');
                             
-                                // Calculate total quantity to deliver (existing deliveries + current quantity)
                                 $totalQuantityToDeliver = $existingDeliveriesForProduct + $quantity;
                             
                                 if ($totalQuantityToDeliver > $productDetail->quantity) {
@@ -271,7 +269,6 @@ class OrderDelivery extends Component
         foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
             if ($quantity > 0 || ($this->inventorySampleQuantities[$inventoryId] ?? 0) > 0) {
                 try {
-                    // Attempt to fetch OrderInvoice and handle errors gracefully
                     $orderInvoice = OrderInvoice::where('order_id', $this->order->order_id)->firstOrFail();
                 } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                     Log::error("OrderInvoice not found for order {$this->order->order_id}.");
