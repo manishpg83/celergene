@@ -45,8 +45,7 @@
                 <table class="table">
                     <thead>
                         <tr class="text-center">
-                            <th wire:click="sortBy('first_name')" style="cursor: pointer;">First Name</th>
-                            <th wire:click="sortBy('last_name')" style="cursor: pointer;">Last Name</th>
+                            <th wire:click="sortBy('first_name')" style="cursor: pointer;">Name</th>
                             <th wire:click="sortBy('email')" style="cursor: pointer;">Email</th>
                             <th wire:click="sortBy('Mobile')" style="cursor: pointer;">Mobile</th>
                             <th wire:click="sortBy('company_name')" style="cursor: pointer;">Company Name</th>
@@ -62,8 +61,7 @@
                         @else
                             @foreach ($customers as $customer)
                                 <tr class="text-center {{ $customer->trashed() ? 'table-warning' : '' }}">
-                                    <td>{{ $customer->first_name }}</td>
-                                    <td>{{ $customer->last_name }}</td>
+                                    <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->mobile_number }}</td>
                                     <td>{{ $customer->company_name }}</td>
