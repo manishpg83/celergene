@@ -32,6 +32,7 @@ class Addshippingaddress extends Component
         'city' => 'required|string|max:255',
         'state' => 'required|string|max:255',
         'pincode' => 'required|string|max:20',
+        'phoneNumber' => 'required|string|max:20', // Add this line
     ];
 
     public function mount($addressNumber = null)
@@ -74,10 +75,14 @@ class Addshippingaddress extends Component
 
         if ($addressNumber) {
             $this->streetAddress = $customer->{"shipping_address_$addressNumber"} ?? '';
-            $this->country = $customer->{"shipping_country_$addressNumber"} ?? '';
+            $countryId = DB::table('country')
+                ->where('name', $customer->{"shipping_country_$addressNumber"})
+                ->value('id');
+            $this->country = $countryId ?? '';
             $this->pincode = $customer->{"shipping_postal_code_$addressNumber"} ?? '';
             $this->city = $customer->{"shipping_city_$addressNumber"} ?? '';
             $this->state = $customer->{"shipping_state_$addressNumber"} ?? '';
+            $this->phoneNumber = $customer->{"shipping_phone_$addressNumber"} ?? '';
 
             $fullName = $customer->{"shipping_address_receiver_name_$addressNumber"} ?? '';
             if ($fullName) {
@@ -99,6 +104,7 @@ class Addshippingaddress extends Component
             if (!$this->companyName) {
                 $this->companyName = $customer->company_name ?? '';
             }
+            $this->dispatch('contentChanged');
         }
     }
 
@@ -118,27 +124,27 @@ class Addshippingaddress extends Component
     public function save()
     {
         $this->validate();
-    
+
         $customer = Customer::where('user_id', Auth::id())->first();
-    
+
         $customer->update([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
             'company_name' => $this->companyName,
             'email' => $this->email,
-            'mobile_number' => $this->phoneNumber ?? '0000000000',
+            'mobile_number' => $this->phoneNumber,
             'updated_by' => Auth::id(),
         ]);
-    
+
         $countryName = DB::table('country')->where('id', $this->country)->value('name');
-    
+
         $addressNumber = $this->addressNumber ?? $this->getNextAvailableAddressSlot($customer);
-    
+
         $fullAddress = $this->streetAddress;
         if ($this->apartmentAddress) {
             $fullAddress .= "\n" . $this->apartmentAddress;
         }
-    
+
         $customer->update([
             "shipping_address_receiver_name_{$addressNumber}" => "{$this->firstName} {$this->lastName}",
             "shipping_address_{$addressNumber}" => $fullAddress,
@@ -146,12 +152,13 @@ class Addshippingaddress extends Component
             "shipping_postal_code_{$addressNumber}" => $this->pincode,
             "shipping_city_{$addressNumber}" => $this->city,
             "shipping_state_{$addressNumber}" => $this->state,
+            "shipping_phone_{$addressNumber}" => $this->phoneNumber,
             'updated_by' => Auth::id(),
         ]);
-    
+
         notyf()->success('Shipping address saved successfully!');
         return redirect()->route('shippingaddress');
-    }    
+    }
 
     protected function getNextAvailableAddressSlot($customer)
     {
@@ -166,9 +173,9 @@ class Addshippingaddress extends Component
     public function render()
     {
         $countries = DB::table('country')->pluck('name', 'id');
-    
+
         return view('livewire.frontend.account.addshippingaddress', [
             'countries' => $countries,
         ]);
-    }       
+    }
 }

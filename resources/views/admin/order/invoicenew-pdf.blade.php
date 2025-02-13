@@ -4,6 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>Invoice #{{ $order->customer->first_name }} {{ $order->customer->last_name }}</title>
+       <!-- Icons -->
+       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/fontawesome.css') }}" />
+       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/tabler-icons.css') }}" />
+       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/flag-icons.css') }}" />
     <style>
         body {
             font-family:  Arial, sans-serif,'DejaVu Sans';
@@ -223,8 +227,22 @@
         </div>
         <div class="shipping-address">
             <strong>Shipping Address</strong><br>
-            {!! nl2br(e(str_replace(',', "\n", $order->shipping_address))) !!}
-        </div>        
+            @php
+                $addressParts = explode(',', $order->shipping_address);
+        
+                $addressParts = array_map('trim', $addressParts);
+        
+                $phoneNumber = array_pop($addressParts);
+            @endphp
+        
+            {!! nl2br(e(str_replace(',', "\n", implode(', ', $addressParts)))) !!}
+        
+            @if($phoneNumber)
+                <br>PHONE : {{ $phoneNumber }}
+            @endif
+        </div>
+        
+               
         <div class="invoice-details">
             <strong>INVOICE NO:</strong> {{ $invoice->invoice_number }}<br>
             <strong>INVOICE DATE:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}<br>

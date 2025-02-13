@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/register.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/aos.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/header-footer.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/font-awesome.min.css') }}" />
@@ -213,6 +214,8 @@
     <script src="{{ asset('/frontend/js/dz.ajax.js') }}"></script>
     <!-- AJAX -->
     <script src="{{ asset('/frontend/js/custom.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{ asset('/frontend/js/test.js') }}"></script>
     <script src="{{ asset('/frontend/js/aos.js') }}"></script>

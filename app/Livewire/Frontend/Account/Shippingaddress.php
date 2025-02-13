@@ -14,7 +14,7 @@ class Shippingaddress extends Component
         if (!$customer) {
             return [];
         }
-
+    
         $addresses = [];
         
         for ($i = 1; $i <= 3; $i++) {
@@ -22,7 +22,8 @@ class Shippingaddress extends Component
             $nameField = "shipping_address_receiver_name_{$i}";
             $countryField = "shipping_country_{$i}";
             $postalField = "shipping_postal_code_{$i}";
-
+            $phoneField = "shipping_phone_{$i}";
+    
             if ($customer->$addressField) {
                 $addresses[] = [
                     'id' => $i,
@@ -32,11 +33,11 @@ class Shippingaddress extends Component
                     'country' => $customer->$countryField,
                     'postal_code' => $customer->$postalField,
                     'email' => $customer->email,
-                    'phone' => $customer->mobile_number
+                    'phone' => $customer->$phoneField ?? $customer->mobile_number,
                 ];
             }
         }
-
+    
         return $addresses;
     }
 
@@ -50,9 +51,10 @@ class Shippingaddress extends Component
                 "shipping_address_receiver_name_{$addressNumber}" => null,
                 "shipping_country_{$addressNumber}" => null,
                 "shipping_postal_code_{$addressNumber}" => null,
+                "shipping_phone_{$addressNumber}" => null,
                 'updated_by' => Auth::id()
             ]);
-
+    
             notyf()->success('Address removed successfully');
         }
     }
