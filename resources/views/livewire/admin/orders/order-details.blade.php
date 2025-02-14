@@ -174,9 +174,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="h6 mb-0">Total:</span>
                                         <span class="h5 mb-0 fw-semibold">
-                                            @if (!empty($order->currency->code))
-                                                {{ $order->currency->code }}
-                                            @endif
+                                            {{ $order->currency?->code ?? '' }}
                                             {{ $currencySymbol }} {{ number_format($order->total, 2) }}
                                         </span>
                                     </div>                                    
