@@ -73,13 +73,30 @@
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <h6 class="mb-2">Customer Details:</h6>
-                                    <p class="mb-1">Name: {{ $order->customer->first_name }}
-                                        {{ $order->customer->last_name }}</p>
-                                    <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}</p>
-                                    <p class="mb-1">Email: {{ $order->customer->email }}</p>
-                                    <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
-                                    <p class="mb-1">Billing Address: {{ $order->customer->billing_address }}</p>
-                                    <p class="mb-1">Shipping Address: {{ $order->shipping_address }}</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p class="mb-1">Name: {{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
+                                            <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}</p>
+                                            <p class="mb-1">Email: {{ $order->customer->email }}</p>
+                                            <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6>Billing Address:</h6>
+                                            <p class="mb-1">
+                                                @foreach(explode(',', $order->customer->billing_address) as $line)
+                                                    {{ trim($line) }}<br>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6>Shipping Address:</h6>
+                                            <p class="mb-1">
+                                                @foreach(explode(',', $order->shipping_address) as $line)
+                                                    {{ trim($line) }}<br>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
