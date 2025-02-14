@@ -322,7 +322,7 @@ public function cancelEdit()
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-            $order = OrderMaster::with(['orderDetails.product', 'currency']) // Add currency relation
+            $order = OrderMaster::with(['orderDetails.product', 'currency']) 
                 ->where('order_id', $order_id)
                 ->firstOrFail();
     

@@ -59,7 +59,7 @@
     @stack('styles')
     <style>
         .main-body {
-            font-family: Arial, Helvetica, sans-serif !important;
+            font-family: Arial !important;
         }
 
         .mt-8 {

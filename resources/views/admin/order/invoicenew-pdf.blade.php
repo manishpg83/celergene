@@ -253,11 +253,11 @@
     <table class="item-tabel">
         <thead>
             <tr>
-                <th style="width: 50%;">DESCRIPTION</th>
-                <th style="width: 15%;">QUANTITY</th>
-                <th style="width: 15%;">UNIT PRICE ({{ $order->currency->code }})</th>
-                {{-- <th>DISCOUNT</th> --}}
-                <th style="width: 20%;">AMOUNT ({{ $order->currency->code }})</th>
+                <th style="width: 42%;">DESCRIPTION</th>
+                <th style="width: 12%;">QUANTITY</th>
+                <th style="width: 12%;">SAMPLE QTY</th>
+                <th style="width: 10%;">UNIT PRICE ({{ $order->currency->code }})</th>
+                <th style="width: 14%;">AMOUNT ({{ $order->currency->code }})</th> <!-- Reduced width -->
             </tr>
         </thead>
         <tbody>
@@ -266,37 +266,40 @@
                 $productCount = count($orderInvoiceDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp
-
+    
             @foreach ($orderInvoiceDetails as $detail)
                 <tr>
-                    <td style="width: 40%;">{{ $detail->product->invoice_description }}</td>
-                    <td style="width: 20%;">{{ $detail->quantity }}</td>
-                    <td style="width: 20%;">{{ $order->currency->symbol }} {{ number_format($detail->unit_price, 2) }}</td>
-                    {{-- <td>${{ number_format($detail->discount, 2) }}</td> --}}
-                    <td style="width: 20%;">{{ $order->currency->symbol }} {{ number_format($detail->total, 2) }}</td>
+                    <td style="width: 42%;">{{ $detail->product->invoice_description }}</td>
+                    <td style="width: 12%;">{{ $detail->quantity }}</td>
+                    <td style="width: 12%;">{{ $detail->sample_quantity ?? 0 }}</td>
+                    <td style="width: 10%;">{{ $order->currency->symbol }} {{ number_format($detail->unit_price, 2) }}</td>
+                    <td style="width: 14%;">{{ $order->currency->symbol }} {{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
-
+    
             @for ($i = 0; $i < $blankRows; $i++)
                 <tr class="blank-row">
-                    <td style="width: 50%;">&nbsp;</td>
-                    <td style="width: 15%;">&nbsp;</td>
-                    <td style="width: 15%;">&nbsp;</td>
-                    <td style="width: 20%;">&nbsp;</td>
+                    <td style="width: 42%;">&nbsp;</td>
+                    <td style="width: 12%;">&nbsp;</td>
+                    <td style="width: 12%;">&nbsp;</td>
+                    <td style="width: 14%;">&nbsp;</td>
+                    <td style="width: 10%;">&nbsp;</td>
                 </tr>
             @endfor
-
+    
             <tr>
-                <td style="width: 50%; font-weight: bold;">
+                <td style="width: 42%; font-weight: bold;">
                     Country Of Origin: Switzerland <br>
                     Manufactured by: SWISSCAPS/SWITZERLAND
                 </td>
-                <td style="width: 15%;">&nbsp;</td>
-                <td style="width: 15%;">&nbsp;</td>
-                <td style="width: 20%;">&nbsp;</td>
+                <td style="width: 12%;">&nbsp;</td>
+                <td style="width: 12%;">&nbsp;</td>
+                <td style="width: 14%;">&nbsp;</td>
+                <td style="width: 10%;">&nbsp;</td>
             </tr>
         </tbody>
     </table>
+    
 
     <div class="summary-section">
         <div class="left bank-details"><br>
