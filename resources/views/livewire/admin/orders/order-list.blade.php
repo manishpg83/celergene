@@ -20,61 +20,52 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex gap-2">
-                    <!-- Per Page Select -->
-                    <select wire:model.live="perPage" class="form-select" style="cursor: pointer; width: auto;">
+            <div class="row g-2 align-items-center mb-3">
+                <div class="col-md-auto">
+                    <select wire:model.live="perPage" class="form-select" style="width: auto; min-width: 70px;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
                             <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
                         @endforeach
                     </select>
+                </div>
 
-                    <!-- Status Filter -->
-                    <select wire:model.live="statusFilter" class="form-select"
-                        style="cursor: pointer; width: auto; min-width: 120px;">
+                <div class="col-md-auto">
+                    <select wire:model.live="statusFilter" class="form-select" style="min-width: 130px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
+                </div>
 
-                    <!-- Payment Mode Filter -->
-                    <select wire:model.live="paymentModeFilter" class="form-select"
-                        style="cursor: pointer; width: auto;">
-                        <option value="" class="bg-gray-100 text-gray-800">
-                            All Payment Modes
-                        </option>
-                        <option value="Credit Card" class="bg-blue-50 text-blue-800 hover:bg-blue-100">
-                            💳 Credit Card
-                        </option>
-                        <option value="Bank Transfer" class="bg-green-50 text-green-800 hover:bg-green-100">
-                            🏦 Bank Transfer
-                        </option>
-                        <option value="Cash" class="bg-orange-50 text-orange-800 hover:bg-orange-100">
-                            💵 Cash
-                        </option>
+                <div class="col-md-auto">
+                    <select wire:model.live="paymentModeFilter" class="form-select" style="min-width: 150px;">
+                        <option value="">All Payment Modes</option>
+                        <option value="Credit Card">💳 Credit Card</option>
+                        <option value="Bank Transfer">🏦 Bank Transfer</option>
+                        <option value="Cash">💵 Cash</option>
                     </select>
+                </div>
 
-                    <!-- Date Range Picker -->
-                    <div class="d-flex gap-2">
-                        <div id="reportrange"
-                            style="background: #fff; cursor: pointer; border-radius: 6px; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                            <i class="fa-regular fa-calendar"></i>&nbsp;
-                            <span>{{ $dateStart && $dateEnd ? \Carbon\Carbon::parse($dateStart)->format('M d, Y') . ' - ' . \Carbon\Carbon::parse($dateEnd)->format('M d, Y') : 'Select Date Range' }}</span>
-                            <i class="fa fa-caret-down"></i>
-                        </div>
-
-                        <button id="clearDateRange" class="btn p-0 border-0 bg-transparent" title="Clear Date Range"
-                            style="box-shadow: none;">
-                            <i class="fa fa-times text-danger"></i>
-                        </button>
+                <!-- Date Range Picker -->
+                <div class="col-md-auto d-flex align-items-center">
+                    <div id="reportrange" class="form-control d-flex align-items-center"
+                        style="cursor: pointer; min-width: 190px;">
+                        <i class="fa-regular fa-calendar me-2"></i>
+                        <span>{{ $dateStart && $dateEnd ? \Carbon\Carbon::parse($dateStart)->format('M d, Y') . ' - ' . \Carbon\Carbon::parse($dateEnd)->format('M d, Y') : 'Select Date Range' }}</span>
+                        <i class="fa fa-caret-down ms-2"></i>
                     </div>
+                    <button id="clearDateRange" class="btn text-danger p-0 ml-2" title="Clear Date">
+                        <i class="fa fa-times"></i>
+                    </button>
                 </div>
 
-                <div class="d-flex align-items-center">
-                    <input type="text" wire:model.live="search" placeholder="Search Orders..." class="form-control"
-                        style="width: auto;" />
+                <!-- Right Side Search -->
+                <div class="col-md-auto ms-auto">
+                    <input type="text" wire:model.live="search" placeholder="Search..." class="form-control"
+                        style="width: 230px; min-width: 120px;" />
                 </div>
+
             </div>
 
             @if (session()->has('message'))
@@ -136,7 +127,8 @@
                                         <td>#{{ $order->order_id }}</td>
                                         <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
-                                        <td>{{ $order->currency->symbol ?? '$' }} {{ number_format($order->total, 2) }}</td>
+                                        <td>{{ $order->currency->symbol ?? '$' }}
+                                            {{ number_format($order->total, 2) }}</td>
                                         <td
                                             class="
                                         text-sm 
@@ -256,17 +248,14 @@
     });
 
     document.addEventListener('livewire:initialized', () => {
-        // Make sure moment.js and daterangepicker are loaded
         if (typeof moment === 'undefined') {
             console.error('Moment.js is not loaded');
             return;
         }
 
-        // Initialize the date range values
         let start = moment().subtract(29, 'days');
         let end = moment();
 
-        // If there are existing values, use them
         if (@json($dateStart)) {
             start = moment(@json($dateStart));
         }
@@ -274,14 +263,12 @@
             end = moment(@json($dateEnd));
         }
 
-        // Callback function when dates are selected
         function updateDisplay(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             @this.set('dateStart', start.format('YYYY-MM-DD'));
             @this.set('dateEnd', end.format('YYYY-MM-DD'));
         }
 
-        // Initialize daterangepicker
         $('#reportrange').daterangepicker({
             startDate: start,
             endDate: end,
@@ -296,17 +283,14 @@
             }
         }, updateDisplay);
 
-        // Show initial dates if they exist
         if (@json($dateStart) && @json($dateEnd)) {
             updateDisplay(start, end);
         }
 
-        // Handle the apply event
         $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
             updateDisplay(picker.startDate, picker.endDate);
         });
 
-        // Handle the clear button
         $('#clearDateRange').on('click', function(e) {
             e.preventDefault();
             $('#reportrange span').html('Select Date Range');
@@ -314,7 +298,6 @@
             @this.set('dateEnd', null);
         });
 
-        // Listen for Livewire updates
         Livewire.on('dateRangeUpdated', () => {
             if (@json($dateStart) && @json($dateEnd)) {
                 let newStart = moment(@json($dateStart));
