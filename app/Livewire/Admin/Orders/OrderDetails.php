@@ -45,8 +45,8 @@ class OrderDetails extends Component
             $this->order = OrderMaster::where('order_id', $order_id)->firstOrFail();
 
             $this->order = OrderMaster::with(['currency'])
-            ->where('order_id', $order_id)
-            ->firstOrFail();
+                ->where('order_id', $order_id)
+                ->firstOrFail();
 
             $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
 
@@ -88,43 +88,43 @@ class OrderDetails extends Component
         }
     }
     public function editDelivery($deliveryId)
-{
-    $delivery = DeliveryOrder::find($deliveryId);
-    if ($delivery) {
-        $this->editingDeliveryId = $deliveryId;
-        $this->editingStatus = $delivery->status;
-        $this->editingTrackingNumber = $delivery->tracking_number;
-        $this->editingTrackingUrl = $delivery->tracking_url;
+    {
+        $delivery = DeliveryOrder::find($deliveryId);
+        if ($delivery) {
+            $this->editingDeliveryId = $deliveryId;
+            $this->editingStatus = $delivery->status;
+            $this->editingTrackingNumber = $delivery->tracking_number;
+            $this->editingTrackingUrl = $delivery->tracking_url;
+        }
     }
-}
-public function updateDelivery()
-{
-    $delivery = DeliveryOrder::find($this->editingDeliveryId);
-    if ($delivery) {
-        $delivery->update([
-            'status' => $this->editingStatus,
-            'tracking_number' => $this->editingTrackingNumber,
-            'tracking_url' => $this->editingTrackingUrl
-        ]);
+    public function updateDelivery()
+    {
+        $delivery = DeliveryOrder::find($this->editingDeliveryId);
+        if ($delivery) {
+            $delivery->update([
+                'status' => $this->editingStatus,
+                'tracking_number' => $this->editingTrackingNumber,
+                'tracking_url' => $this->editingTrackingUrl
+            ]);
 
+            $this->editingDeliveryId = null;
+            $this->editingStatus = null;
+            $this->editingTrackingNumber = null;
+            $this->editingTrackingUrl = null;
+
+            $this->mount($this->order_id);
+
+            notyf()->success('Delivery order updated successfully.');
+        }
+    }
+
+    public function cancelEdit()
+    {
         $this->editingDeliveryId = null;
         $this->editingStatus = null;
         $this->editingTrackingNumber = null;
         $this->editingTrackingUrl = null;
-
-        $this->mount($this->order_id);
-
-        notyf()->success('Delivery order updated successfully.');
     }
-}
-
-public function cancelEdit()
-{
-    $this->editingDeliveryId = null;
-    $this->editingStatus = null;
-    $this->editingTrackingNumber = null;
-    $this->editingTrackingUrl = null;
-}
     public function editInvoiceDate($invoiceId)
     {
         $this->editingInvoiceId = $invoiceId;
@@ -322,13 +322,13 @@ public function cancelEdit()
             $order = OrderMaster::with(['orderDetails.product', 'currency'])
                 ->where('order_id', $order_id)
                 ->firstOrFail();
-    
+
             $currencySymbol = $order->currency ? $order->currency->symbol : '$';
-    
+
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
             $fileName = "{$customerName}-{$invoiceDetail->id}.pdf";
-    
+
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
@@ -337,7 +337,7 @@ public function cancelEdit()
                 'orderInvoiceDetails' => $orderInvoiceDetails,
                 'currencySymbol' => $currencySymbol,
             ]);
-            
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);
@@ -346,7 +346,7 @@ public function cancelEdit()
             return redirect()->back();
         }
     }
-    
+
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {

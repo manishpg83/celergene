@@ -124,13 +124,7 @@ class OrderDelivery extends Component
     }
     public function updateDelivery()
     {
-        $this->validate();
-        Log::info('Starting updateDelivery process.', [
-            'order_id' => $this->order->order_id ?? 'N/A',
-            'workflow_type' => $this->order->workflow_type ?? 'N/A',
-            'inventoryQuantities' => $this->inventoryQuantities
-        ]);
-
+        $this->validate();        
         if (empty($this->inventoryQuantities)) {
             Log::error("Inventory quantities are empty for order {$this->order->order_id}. No deliveries to process.");
             notyf()->error("No quantities selected for delivery.");
@@ -251,6 +245,7 @@ class OrderDelivery extends Component
 
                 $this->createDeliveryOrders();
                 notyf()->success('Delivery updated successfully.');
+                return redirect("/admin/orders/{$this->order_id}");
             });
         } catch (\Exception $e) {
             Log::error('Delivery update error.', ['error' => $e->getMessage(), 'order_id' => $this->order->order_id ?? 'N/A']);
@@ -315,6 +310,8 @@ class OrderDelivery extends Component
                     $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
                     if ($sampleQty > 0 && $detail->sample_quantity_remaining >= $sampleQty) {
                         $detail->decrement('sample_quantity_remaining', $sampleQty);
+                        Log::info("Updated remaining sample quantity for OrderDetail {$detail->id}: {$detail->sample_quantity_remaining}");
+
                     }
 
                     $total = $quantity * $detail->unit_price * (1 - $detail->discount / 100);
