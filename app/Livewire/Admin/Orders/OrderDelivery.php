@@ -288,11 +288,10 @@ class OrderDelivery extends Component
                 $inventory->save();
 
                 if (!isset($warehouseDeliveryOrders[$warehouseId])) {
-                    $deliveryOrder = DeliveryOrder::firstOrCreate([
+                    $deliveryOrder = DeliveryOrder::create([
                         'order_id' => $this->order->order_id,
-                        'warehouse_id' => $warehouseId
-                    ], [
                         'delivery_number' => DeliveryOrder::generateDeliveryNumber(),
+                        'warehouse_id' => $warehouseId,
                         'delivery_date' => now(),
                         'status' => 'Pending',
                         'remarks' => $this->remarks,
