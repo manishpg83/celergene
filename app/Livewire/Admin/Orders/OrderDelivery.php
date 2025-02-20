@@ -42,9 +42,37 @@ class OrderDelivery extends Component
     public function mount($order_id)
     {
         $this->order_id = $order_id;
-        $this->order = OrderMaster::with(['customer', 'orderDetails.product.inventories', 'currency'])
+        $this->order = OrderMaster::select([
+            'order_id',
+            'customer_id',
+            'currency_id',
+            'delivery_status',
+            'workflow_type',
+            'is_initial_consignment'
+        ])
+            ->with([
+                'customer:id,first_name,email',
+                'currency:id,symbol',
+                'orderDetails' => function ($query) {
+                    $query->select([
+                        'id',
+                        'order_id',
+                        'product_id',
+                        'quantity',
+                        'sample_quantity',
+                        'unit_price',
+                        'discount',
+                        'remaining_quantity'
+                    ])
+                        ->with([
+                            'product:id,product_name',
+                            'product.inventories:id,product_code,warehouse_id,remaining'
+                        ]);
+                }
+            ])
             ->where('order_id', $order_id)
             ->firstOrFail();
+
 
         $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
 
@@ -53,16 +81,9 @@ class OrderDelivery extends Component
         if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
             $this->isInitialConsignment = $this->order->is_initial_consignment;
 
-            if ($this->order->parent_order_id) {
-                $parentOrder = OrderMaster::find($this->order->parent_order_id);
-                if ($parentOrder) {
-                    $this->remainingQuantity = $parentOrder->remaining_quantity;
-                    $this->totalOrderQuantity = $parentOrder->remaining_quantity;
-                }
-            } else {
-                $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
-                $this->remainingQuantity = $this->order->remaining_quantity ?? $this->totalOrderQuantity;
-            }
+            $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
+            $this->remainingQuantity = $this->order->remaining_quantity ?? $this->totalOrderQuantity;
+
         }
 
         foreach ($this->order->orderDetails as $detail) {
@@ -73,9 +94,17 @@ class OrderDelivery extends Component
             }
         }
 
-        $deliveredQuantity = abs(Stock::where('reason', 'LIKE', '%Order Delivery Update%')
-            ->where('product_id', $this->order->orderDetails->pluck('product_id')->toArray())
-            ->sum('quantity_change'));
+        $deliveredQuantity = abs(
+            Stock::where('reason', 'LIKE', '%Order Delivery Update%')
+                ->whereIn('product_id', function ($query) {
+                    $query->select('product_id')
+                          ->from('order_details')
+                          ->where('order_id', $this->order->order_id);
+                })
+                ->sum('quantity_change')
+        );
+        
+
 
         if ($this->order->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
             $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
@@ -124,9 +153,9 @@ class OrderDelivery extends Component
     }
     public function updateDelivery()
     {
-        $this->validate();        
+        $this->validate();
+
         if (empty($this->inventoryQuantities)) {
-            Log::error("Inventory quantities are empty for order {$this->order->order_id}. No deliveries to process.");
             notyf()->error("No quantities selected for delivery.");
             return false;
         }
@@ -138,20 +167,10 @@ class OrderDelivery extends Component
                 $totalSelectedQuantity = 0;
 
                 foreach ($this->order->orderDetails as $detail) {
-                    Log::info("Processing OrderDetail ID: {$detail->id}", [
-                        'product_name' => $detail->product->product_name,
-                        'order_quantity' => $detail->quantity
-                    ]);
-
                     $totalSelectedSamples = $this->getTotalSelectedSampleQuantity($detail);
                     $remainingSamples = $this->calculateRemainingSampleQuantity($detail);
 
                     if ($totalSelectedSamples > $remainingSamples) {
-                        Log::error("Sample quantity exceeds limit for product {$detail->product->product_name}", [
-                            'selected_samples' => $totalSelectedSamples,
-                            'remaining_samples' => $remainingSamples,
-                            'order_id' => $originalOrder->order_id
-                        ]);
                         throw new \Exception("Selected sample quantity exceeds the remaining quantity.");
                     }
 
@@ -162,9 +181,10 @@ class OrderDelivery extends Component
                     }
                 }
 
-                $totalSelectedQuantity = array_sum(array_map('intval', $this->inventoryQuantities));
-                $existingDeliveries = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
-                    $query->where('order_id', $originalOrder->order_id);
+                $totalSelectedQuantity = collect($this->inventoryQuantities)->sum(fn($qty) => (int) $qty);
+
+                $existingDeliveries = $originalOrder->deliveryOrders->flatMap(function ($deliveryOrder) {
+                    return $deliveryOrder->details;
                 })->sum('quantity');
 
                 $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
@@ -175,7 +195,6 @@ class OrderDelivery extends Component
                         OrderWorkflowType::CONSIGNMENT
                     ])
                 ) {
-                    Log::warning("Attempted multiple delivery for single-delivery workflow.", ['workflow_type' => $originalOrder->workflow_type]);
                     notyf()->error("This order type can only be delivered once.");
                     return false;
                 }
@@ -208,36 +227,25 @@ class OrderDelivery extends Component
                             }
 
                             $productDetail = $originalOrder->orderDetails->where('product_id', $inventory->product_code)->first();
-
                             if ($productDetail) {
                                 $existingDeliveriesForProduct = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                                     $query->where('order_id', $originalOrder->order_id);
                                 })
-                                ->where('product_id', $productDetail->product_id)
-                                ->where('inventory_id', $inventory->id) 
-                                ->sum('quantity');
-                            
+                                    ->where('order_detail_id', $productDetail->id)
+                                    ->where('inventory_id', $inventory->id)
+                                    ->sum('quantity');
+
                                 $totalQuantityToDeliver = $existingDeliveriesForProduct + $quantity;
-                            
+
                                 if ($totalQuantityToDeliver > $productDetail->quantity) {
-                                    Log::error("Cannot deliver more than the ordered quantity for product Code {$inventory->product_code}.", [
-                                        'order_id' => $originalOrder->order_id,
-                                        'product_code' => $inventory->product_code,
-                                        'ordered_quantity' => $productDetail->quantity,
-                                        'attempted_quantity' => $totalQuantityToDeliver
-                                    ]);
                                     notyf()->error("Cannot deliver more than the ordered quantity for product Code {$inventory->product_code}.");
                                     return false;
                                 }
                             } else {
-                                Log::error("No product detail found for product code {$inventory->product_code}.", [
-                                    'order_id' => $originalOrder->order_id,
-                                    'product_code' => $inventory->product_code
-                                ]);
+
                                 notyf()->error("Product detail not found for product code {$inventory->product_code}.");
                                 return false;
                             }
-                            
 
                         }
                     }
@@ -246,6 +254,7 @@ class OrderDelivery extends Component
                 $this->createDeliveryOrders();
                 notyf()->success('Delivery updated successfully.');
                 return redirect("/admin/orders/{$this->order_id}");
+
             });
         } catch (\Exception $e) {
             Log::error('Delivery update error.', ['error' => $e->getMessage(), 'order_id' => $this->order->order_id ?? 'N/A']);
@@ -253,7 +262,7 @@ class OrderDelivery extends Component
             return false;
         }
 
-        Log::info('Delivery update completed successfully.');
+
     }
 
     private function createDeliveryOrders()
@@ -309,10 +318,11 @@ class OrderDelivery extends Component
                     $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
                     if ($sampleQty > 0 && $detail->sample_quantity_remaining >= $sampleQty) {
                         $detail->decrement('sample_quantity_remaining', $sampleQty);
-                        Log::info("Updated remaining sample quantity for OrderDetail {$detail->id}: {$detail->sample_quantity_remaining}");
-
                     }
-
+                    if ($detail->remaining_quantity < $quantity) {
+                        throw new \Exception("Insufficient remaining quantity for order detail ID {$orderDetailId}.");
+                    }
+                    $detail->decrement('remaining_quantity', $quantity);
                     $total = $quantity * $detail->unit_price * (1 - $detail->discount / 100);
 
                     DeliveryOrderDetail::create([

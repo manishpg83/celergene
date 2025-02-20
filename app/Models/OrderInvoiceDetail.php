@@ -39,12 +39,13 @@ class OrderInvoiceDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    
+
     public function getDisplayDescription()
     {
-        if ($this->product_id == 1 && $this->manual_product_name) {
-            return $this->manual_product_name;
+        if (!empty($this->manual_product_name)) {
+            return ($this->product->product_name ?? '') . ' - ' . $this->manual_product_name;
         }
-        return $this->product->invoice_description;
+        return $this->product->invoice_description ?? '';
     }
+
 }

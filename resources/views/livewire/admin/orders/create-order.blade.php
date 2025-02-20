@@ -100,18 +100,14 @@
 
                             <div class="col-md-6">
                                 <label for="order_date" class="form-label">Invoice Date:</label>
-                                <input 
-                                    type="date" 
-                                    wire:model="order_date" 
-                                    id="order_date" 
-                                    min="{{ now()->format('Y-m-d') }}" 
-                                    class="form-control @error('order_date') is-invalid @enderror"
-                                >
+                                <input type="date" wire:model="order_date" id="order_date"
+                                    min="{{ now()->format('Y-m-d') }}"
+                                    class="form-control @error('order_date') is-invalid @enderror">
                                 @error('order_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                         </div>
 
                         <div class="row g-3 mt-4 mb-4">
@@ -147,10 +143,12 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5>Order Details</h5>
                                     <div style="width: 250px">
-                                        <select wire:model.live="currency_id" class="form-select @error('currency_id') is-invalid @enderror">
+                                        <select wire:model.live="currency_id"
+                                            class="form-select @error('currency_id') is-invalid @enderror">
                                             <option value="">Select Currency</option>
                                             @foreach ($currencies as $currency)
-                                                <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->symbol }})</option>
+                                                <option value="{{ $currency->id }}">{{ $currency->name }}
+                                                    ({{ $currency->symbol }})</option>
                                             @endforeach
                                         </select>
                                         @error('currency_id')
@@ -174,38 +172,37 @@
                                             @enderror
                                         </div>
 
-                                        @if (isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] == 1)
-                                            <div class="col-md-3">
-                                                <div class="col-12">Custom Name & Desc</div>
-                                                <input type="text"
-                                                    wire:model="orderDetails.{{ $index }}.manual_product_name"
-                                                    placeholder="Custom Name & Desc" class="form-control">
-                                                @error("orderDetails.{$index}.")
-                                                    <span class="error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        @endif
+                                        <div class="col-md-3">
+                                            <div class="col-12">Custom Name & Desc</div>
+                                            <input type="text"
+                                                wire:model="orderDetails.{{ $index }}.manual_product_name"
+                                                placeholder="Custom Name & Desc"
+                                                class="form-control @error('orderDetails.' . $index . '.manual_product_name') is-invalid @enderror">
+                                            @error("orderDetails.{$index}.manual_product_name")
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                        <div class="col-md-2" style="width: 143px">
+                                        <div class="col-md-2" >
                                             <div class="col-6 mb-1">
                                                 Quantity
-                                                @if(isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
+                                                @if (isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
                                                     <small style="color: green;">
-                                                        (Avl: {{ $this->getAvailableQuantity($orderDetails[$index]['product_id']) }})
+                                                        (Avl:
+                                                        {{ $this->getAvailableQuantity($orderDetails[$index]['product_id']) }})
                                                     </small>
                                                 @endif
                                             </div>
-                                            
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.quantity"
                                                 placeholder="Quantity"
                                                 class="form-control @error('orderDetails.' . $index . '.quantity') is-invalid @enderror"
                                                 min="1">
-                                            @error('orderDetails.' . $index . '.')
+                                            @error('orderDetails.' . $index . '.quantity')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
+
                                         <div class="col-md-2" style="width: 147px">
                                             <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
@@ -216,6 +213,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+
                                         <div class="col-md-2" style="width: 100px">
                                             <div class="col-7 mb-1">Price</div>
                                             <input type="number"
@@ -223,14 +221,12 @@
                                                 placeholder="Price" class="form-control">
                                         </div>
 
-
                                         <div class="col-md-1 mb-1">
                                             <button wire:click.prevent="removeOrderDetail({{ $index }})"
                                                 class="btn btn-danger btn-sm">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
-
                                     </div>
                                 @endforeach
 
@@ -244,7 +240,8 @@
                                     <div class="card-body">
                                         <div class="row mb-2">
                                             <div class="col-6">Subtotal:</div>
-                                            <div class="col-6 text-end">{{ $currency_symbol }} {{ number_format($subtotal, 2) }}</div>
+                                            <div class="col-6 text-end">{{ $currency_symbol }}
+                                                {{ number_format($subtotal, 2) }}</div>
                                         </div>
                                         {{-- <div class="row mb-2">
                                             <div class="col-6">Discount:</div>
@@ -257,7 +254,8 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">{{ $currency_symbol }}</span>
                                                     <input type="number" wire:model.lazy="freight"
-                                                        class="form-control" min="0" step="0.01" value="0">
+                                                        class="form-control" min="0" step="0.01"
+                                                        value="0">
                                                 </div>
                                             </div>
                                         </div>
@@ -288,12 +286,10 @@
                                 <label for="payment_terms" class="form-label">Payment Terms:</label>
                                 <textarea wire:model="payment_terms" id="payment_terms"
                                     class="form-control @error('payment_terms') is-invalid @enderror"></textarea>
-
                                 @error('payment_terms')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="col-md-6">
                                 <label for="remarks" class="form-label">Remarks:</label>
                                 <textarea wire:model="remarks" id="remarks" class="form-control @error('remarks') is-invalid @enderror"></textarea>
@@ -303,19 +299,13 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="actual_freight" class="form-label">Actual Freight:</label>
-                                <input 
-                                    type="number" 
-                                    step="0.01"
-                                    wire:model="actual_freight" 
-                                    id="actual_freight" 
-                                    class="form-control @error('actual_freight') is-invalid @enderror"
-                                />
+                                <input type="number" step="0.01" wire:model="actual_freight" id="actual_freight"
+                                    class="form-control @error('actual_freight') is-invalid @enderror" />
                                 @error('actual_freight')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>                            
+                            </div>
                         </div>
-
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-success d-flex align-items-center gap-2"
                                 wire:loading.attr="disabled" wire:target="submitOrder">

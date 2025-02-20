@@ -79,6 +79,7 @@ class CreateOrder extends Component
             'is_generated' => 'boolean',
             'orderDetails.*.manual_product_name' => [
                 'required_if:orderDetails.*.product_id,1',
+                'nullable',
                 'string',
                 'max:255',
             ],
@@ -103,7 +104,7 @@ class CreateOrder extends Component
     {
         return $this->products;
     }
-    
+
 
     public function mount()
     {
@@ -164,7 +165,7 @@ class CreateOrder extends Component
         $country = $customer["shipping_country_{$index}"];
         $postalCode = $customer["shipping_postal_code_{$index}"];
         $phone = $customer["shipping_phone_{$index}"];
-    
+
         if ($receiver || $address || $country || $postalCode || $phone) {
             return implode(", ", array_filter([$receiver, $address, $country, $postalCode, $phone]));
         }
@@ -365,7 +366,7 @@ class CreateOrder extends Component
 
                     $orderDetail = [
                         'product_id' => $detail['product_id'],
-                        'manual_product_name' => $detail['product_id'] == 1 ? $detail['manual_product_name'] : null,
+                        'manual_product_name' => $detail['manual_product_name'], 
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],

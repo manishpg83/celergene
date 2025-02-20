@@ -198,7 +198,7 @@ class OrderList extends Component
             return null;
         }
     }
-    
+
     protected function generateUniqueInvoiceNumber()
     {
         do {
@@ -289,11 +289,12 @@ class OrderList extends Component
     }
 
     public function render()
-    {   
+    {
         $currentYearStart = now()->startOfYear()->format('Y-m-d');
         $currentYearEnd = now()->endOfYear()->format('Y-m-d');
-      
-        $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+
+        $orders = OrderMaster::with(['customer:id,first_name,last_name', 'entity:id,company_name'])
+            ->select('order_id', 'customer_id', 'entity_id', 'order_date', 'total', 'payment_mode', 'order_status')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('order_id', 'like', '%' . $this->search . '%')

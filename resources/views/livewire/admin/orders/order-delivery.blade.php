@@ -126,7 +126,6 @@
                                             {{ (float) $detail->quantity }}
                                         @endif
                                     </div>
-
                                     <div><strong>Total Samples Selected: </strong>
                                         {{ $this->getTotalSelectedSampleQuantity($detail) }} /
                                         {{ $this->calculateRemainingSampleQuantity($detail) }}
