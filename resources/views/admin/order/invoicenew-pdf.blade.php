@@ -269,7 +269,7 @@
     
             @foreach ($orderInvoiceDetails as $detail)
                 <tr>
-                    <td style="width: 42%;">{{ $detail->product->invoice_description }}</td>
+                    <td style="width: 42%;">{{ $detail->getDisplayDescription() }}</td>
                     <td style="width: 12%;">{{ $detail->quantity }}</td>
                     <td style="width: 12%;">{{ $detail->sample_quantity ?? 0 }}</td>
                     <td style="width: 10%;">{{ $order->currency->symbol }} {{ number_format($detail->unit_price, 2) }}</td>
