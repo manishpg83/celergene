@@ -177,7 +177,8 @@ class OrderDelivery extends Component
                     foreach ($detail->product->inventories as $inventory) {
                         $key = $inventory->id . '_' . $detail->id;
                         $selectedQty = $this->inventoryQuantities[$key] ?? 0;
-                        $totalSelectedQuantity += $selectedQty;
+                        $totalSelectedQuantity += (int) $selectedQty;
+
                     }
                 }
 
