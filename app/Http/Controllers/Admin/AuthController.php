@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -25,8 +25,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             notyf()->success('Login successful');
+
             return redirect()->intended(config('auth.redirect.admin', '/admin/dashboard'));
         }
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -81,7 +83,6 @@ class AuthController extends Controller
         ]);
     }
 
-
     public function showResetPasswordForm($token)
     {
         return view('admin.auth.reset-password', ['token' => $token, 'email' => request('email')]);
@@ -99,7 +100,7 @@ class AuthController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => bcrypt($password)
+                    'password' => bcrypt($password),
                 ])->save();
             }
         );
@@ -114,6 +115,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('admin.login');
     }
 }

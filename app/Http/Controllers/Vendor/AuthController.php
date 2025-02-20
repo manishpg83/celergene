@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Models\User;
-use App\Models\Vendor;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,6 +24,7 @@ class AuthController extends Controller
 
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->intended(route('vendor.dashboard'));
         }
 
@@ -67,6 +67,7 @@ class AuthController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('vendor.login');
     }
 }

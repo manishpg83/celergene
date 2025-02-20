@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Currency;
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 
 class CurrencyController extends Controller
 {
@@ -20,6 +20,7 @@ class CurrencyController extends Controller
     public function showAddEntityForm($id)
     {
         $currency = Currency::findOrFail($id);
+
         return view('livewire.admin.currency.add-currency', compact('currency'));
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Supplier;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Supplier;
 
 class SuppliersController extends Controller
 {
@@ -17,9 +16,11 @@ class SuppliersController extends Controller
     {
         return view('admin.suppliers.add');
     }
+
     public function showAddEntityForm($id)
     {
         $customerstype = Supplier::findOrFail($id);
+
         return view('livewire.admin.customerstype.add-customer-type', compact('customerstype'));
     }
 }

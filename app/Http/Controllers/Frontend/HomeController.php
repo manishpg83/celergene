@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\OrderMaster;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -19,7 +18,7 @@ class HomeController extends Controller
     {
         return view('frontend.auth.register');
     }
-    
+
     public function getTotalOrders()
     {
         return OrderMaster::count();
@@ -31,13 +30,13 @@ class HomeController extends Controller
     }
 
     public function myAccount()
-    {   
+    {
         $auth = Auth::user();
         $customer = Customer::where('user_id', $auth->id)->first();
-    
+
         if ($customer) {
             $customerId = $customer->id;
-    
+
             $totalOrders = OrderMaster::where('customer_id', $customerId)->count();
             $totalPendingOrders = OrderMaster::where('customer_id', $customerId)
                 ->where('order_status', 'pending')
@@ -46,10 +45,9 @@ class HomeController extends Controller
             $totalOrders = 0;
             $totalPendingOrders = 0;
         }
-    
+
         return view('frontend.profile.account', compact('customer', 'totalOrders', 'totalPendingOrders'));
     }
-     
 
     public function myOrders()
     {
@@ -164,55 +162,55 @@ class HomeController extends Controller
                 'title' => 'EXPERT REVIEW',
                 'presenter' => 'Dr. Juan Remos',
                 'thumbnail' => 'videothumb1.jpg',
-                'url' => 'celergenvideo'
+                'url' => 'celergenvideo',
             ],
             [
                 'id' => 2,
                 'youtube_id' => 'XVczQRgM9dM',
                 'title' => 'EXPERT REVIEW',
                 'presenter' => 'Dr. Ghislaine Beilin',
-                'thumbnail' => 'videothumb2.jpg'
+                'thumbnail' => 'videothumb2.jpg',
             ],
             [
                 'id' => 3,
                 'youtube_id' => 'MkOys2XLZ5M',
                 'title' => 'EXPERT REVIEW',
                 'presenter' => 'Dr. Michael Klentze',
-                'thumbnail' => 'videothumb3.jpg'
+                'thumbnail' => 'videothumb3.jpg',
             ],
             [
                 'id' => 4,
                 'youtube_id' => '7lMmVZNelKg',
                 'title' => 'MOUNTAIN CLIMBING EXPEDITION',
                 'presenter' => 'Celergen Mexico Team',
-                'thumbnail' => 'videothumb4.jpg'
+                'thumbnail' => 'videothumb4.jpg',
             ],
             [
                 'id' => 5,
                 'youtube_id' => 'UzyuE4ekfuQ',
                 'title' => 'CELERGEN CORPORATE',
                 'presenter' => 'Celergen Swiss',
-                'thumbnail' => 'videothumb5.jpg'
+                'thumbnail' => 'videothumb5.jpg',
             ],
             [
                 'id' => 6,
                 'youtube_id' => 'W-DwU8v9AqY',
                 'title' => 'CUSTOMER TESTIMONIAL',
                 'presenter' => 'Aaron Younger',
-                'thumbnail' => 'videothumb6.jpg'
+                'thumbnail' => 'videothumb6.jpg',
             ],
             [
                 'id' => 7,
                 'youtube_id' => 'EprOfkVgxUk',
                 'title' => 'CUSTOMER TESTIMONIAL',
                 'presenter' => 'Sarah Corbettw',
-                'thumbnail' => 'videothumb7.jpg'
-            ]
+                'thumbnail' => 'videothumb7.jpg',
+            ],
         ];
 
         $currentVideo = null;
         if ($videoId) {
-            $currentVideo = collect($videos)->firstWhere('id', (int)$videoId);
+            $currentVideo = collect($videos)->firstWhere('id', (int) $videoId);
         }
 
         return view('frontend.pages.celergen-video', compact('videos', 'currentVideo'));

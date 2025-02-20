@@ -16,9 +16,11 @@ class AdminEntityController extends Controller
     {
         return view('admin.entities.add');
     }
+
     public function showAddEntityForm($id)
     {
         $entity = Entity::findOrFail($id);
+
         return view('livewire.admin.entity.add-entity', compact('entity'));
     }
 }
