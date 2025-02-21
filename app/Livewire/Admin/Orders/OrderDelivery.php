@@ -73,17 +73,18 @@ class OrderDelivery extends Component
             ->where('order_id', $order_id)
             ->firstOrFail();
 
-
+        
         $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
-
         $this->deliveryStatus = $this->order->delivery_status;
 
         if ($this->order->workflow_type === OrderWorkflowType::CONSIGNMENT) {
             $this->isInitialConsignment = $this->order->is_initial_consignment;
-
-            $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
-            $this->remainingQuantity = $this->order->remaining_quantity ?? $this->totalOrderQuantity;
-
+            $this->totalOrderQuantity = $this->order->orderDetails
+                ->where('product_id', '!=', 1)
+                ->sum('quantity');
+            $this->remainingQuantity = $this->order->orderDetails
+                ->where('product_id', '!=', 1)
+                ->sum('remaining_quantity');
         }
 
         foreach ($this->order->orderDetails as $detail) {
@@ -98,13 +99,11 @@ class OrderDelivery extends Component
             Stock::where('reason', 'LIKE', '%Order Delivery Update%')
                 ->whereIn('product_id', function ($query) {
                     $query->select('product_id')
-                          ->from('order_details')
-                          ->where('order_id', $this->order->order_id);
+                        ->from('order_details')
+                        ->where('order_id', $this->order->order_id);
                 })
                 ->sum('quantity_change')
         );
-        
-
 
         if ($this->order->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
             $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
@@ -119,6 +118,10 @@ class OrderDelivery extends Component
 
     public function calculateRemainingQuantity($orderDetail)
     {
+        if ($orderDetail->product_id == 1) {
+            return 0;
+        }
+
         if ($this->order->workflow_type === OrderWorkflowType::MULTI_DELIVERY) {
             $deliveredQuantity = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($orderDetail) {
                 $query->where('order_id', $this->order->order_id);
@@ -133,6 +136,10 @@ class OrderDelivery extends Component
 
     public function calculateRemainingSampleQuantity($orderDetail)
     {
+        if ($orderDetail->product_id == 1) {
+            return 0;
+        }
+
         $deliveredSampleQuantity = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($orderDetail) {
             $query->where('order_id', $this->order->order_id);
         })
@@ -144,6 +151,10 @@ class OrderDelivery extends Component
 
     public function getTotalSelectedSampleQuantity($detail)
     {
+        if ($detail->product_id == 1) {
+            return 0;
+        }
+
         return collect($this->inventorySampleQuantities)->filter(function ($qty, $invKey) use ($detail) {
             $inventoryId = (int) explode('_', $invKey)[0];
             $detailId = (int) explode('_', $invKey)[1];
@@ -151,6 +162,7 @@ class OrderDelivery extends Component
                 $detail->product->inventories->contains('id', $inventoryId);
         })->map(fn($value) => (float) $value)->sum();
     }
+
     public function updateDelivery()
     {
         $this->validate();
@@ -167,6 +179,8 @@ class OrderDelivery extends Component
                 $totalSelectedQuantity = 0;
 
                 foreach ($this->order->orderDetails as $detail) {
+                    if ($detail->product_id == 1)
+                        continue;
                     $totalSelectedSamples = $this->getTotalSelectedSampleQuantity($detail);
                     $remainingSamples = $this->calculateRemainingSampleQuantity($detail);
 
@@ -188,7 +202,7 @@ class OrderDelivery extends Component
                     return $deliveryOrder->details;
                 })->sum('quantity');
 
-                $orderTotalQuantity = $originalOrder->orderDetails->sum('quantity');
+                $orderTotalQuantity = $originalOrder->orderDetails->where('product_id', '!=', 1)->sum('quantity');
 
                 if (
                     $existingDeliveries > 0 && in_array($originalOrder->workflow_type, [
@@ -232,7 +246,7 @@ class OrderDelivery extends Component
                                 $existingDeliveriesForProduct = DeliveryOrderDetail::whereHas('deliveryOrder', function ($query) use ($originalOrder) {
                                     $query->where('order_id', $originalOrder->order_id);
                                 })
-                                    ->where('order_detail_id', $productDetail->id)
+                                    ->whereIn('order_detail_id', $productDetail->where('product_id', '!=', 1)->pluck('id'))
                                     ->where('inventory_id', $inventory->id)
                                     ->sum('quantity');
 
@@ -243,11 +257,9 @@ class OrderDelivery extends Component
                                     return false;
                                 }
                             } else {
-
                                 notyf()->error("Product detail not found for product code {$inventory->product_code}.");
                                 return false;
                             }
-
                         }
                     }
                 }
@@ -262,8 +274,6 @@ class OrderDelivery extends Component
             notyf()->error('Error updating delivery: ' . $e->getMessage());
             return false;
         }
-
-
     }
 
     private function createDeliveryOrders()
@@ -281,6 +291,9 @@ class OrderDelivery extends Component
                 }
 
                 list($inventoryIds, $orderDetailId) = explode('_', $inventoryId);
+                $detail = $this->order->orderDetails->firstWhere('id', $orderDetailId);
+                if (!$detail || $detail->product_id == 1)
+                    continue;
                 $inventory = Inventory::findOrFail($inventoryIds);
                 $warehouseId = $inventory->warehouse_id;
 
@@ -313,7 +326,7 @@ class OrderDelivery extends Component
                 }
 
                 $deliveryOrder = $warehouseDeliveryOrders[$warehouseId];
-                $detail = $this->order->orderDetails->firstWhere('id', $orderDetailId);
+
 
                 if ($detail) {
                     $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
@@ -341,19 +354,6 @@ class OrderDelivery extends Component
                     throw new \Exception("Order detail not found for ID {$orderDetailId}.");
                 }
             }
-        }
-
-        $deliveryOrders = DeliveryOrder::where('order_id', $this->order->order_id)->with('details')->get();
-        foreach ($deliveryOrders as $order) {
-            Log::info('Final Delivery Order State', [
-                'delivery_order_id' => $order->id,
-                'details' => $order->details->map(function ($detail) {
-                    return [
-                        'inventory_id' => $detail->inventory_id,
-                        'quantity' => $detail->quantity
-                    ];
-                }),
-            ]);
         }
     }
 

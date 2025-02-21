@@ -223,7 +223,6 @@ class CreateOrder extends Component
     {
         $this->subtotal = 0;
         $this->totalDiscount = 0;
-        Log::info('Starting calculateTotals', ['orderDetails' => $this->orderDetails]);
         foreach ($this->orderDetails as $index => $detail) {
             $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0));
             $unitPrice = floatval($detail['unit_price']);
@@ -284,22 +283,11 @@ class CreateOrder extends Component
     public function submitOrder()
     {
         try {
-            \Log::info('Starting validation');
             $this->validate();
-            \Log::info('Validation passed');
             $this->isSubmitting = true;
-            \Log::info('Submission state set to true');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Validation failed', [
-                'errors' => $e->errors(),
-                'validator' => $e->validator->failed()
-            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {            
             throw $e;
-        } catch (\Exception $e) {
-            \Log::error('Unexpected error during validation', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
+        } catch (\Exception $e) {            
             throw $e;
         }
 
