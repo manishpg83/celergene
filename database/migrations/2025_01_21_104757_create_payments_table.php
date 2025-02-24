@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_method'); // e.g., PayPal, COD
+            $table->string('payment_method');
             $table->decimal('amount', 10, 2);
             $table->string('currency')->default('USD');
-            $table->string('status')->default('pending'); // pending, completed, failed
-            $table->string('transaction_id')->nullable(); // PayPal transaction ID
-            $table->unsignedBigInteger('order_id')->nullable(); // Link to orders
+            $table->string('status')->default('pending');
+            $table->string('transaction_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->date('payment_date')->nullable();
+            $table->text('payment_details')->nullable();
             $table->timestamps();
         });
     }

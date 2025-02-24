@@ -252,6 +252,7 @@
                             </div>
                         </div>
                     </div>
+                    @livewire('admin.payment.manage-payment', ['order_id' => $order_id])
 
                     <div class="card mt-4">
                         <div class="card-header">
