@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\OrderMaster;
-use Illuminate\Http\Request;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -33,8 +32,8 @@ class DashboardController extends Controller
             ->get();
 
         $months = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ];
 
         $monthlyOrderCounts = array_fill(0, 12, 0);

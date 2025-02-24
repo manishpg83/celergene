@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Payment;
-use App\Models\OrderMaster;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
+use App\Models\Payment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalWebhookController extends Controller
@@ -18,7 +17,7 @@ class PayPalWebhookController extends Controller
             $webhookData = $request->all();
             Log::info('PayPal Webhook Received:', ['data' => $webhookData]);
 
-            if (!isset($webhookData['resource']['id'])) {
+            if (! isset($webhookData['resource']['id'])) {
                 throw new \Exception('Transaction ID not found in webhook data');
             }
 
@@ -28,7 +27,7 @@ class PayPalWebhookController extends Controller
 
             $payment = Payment::where('transaction_id', $transactionId)->first();
 
-            if (!$payment) {
+            if (! $payment) {
                 throw new \Exception("Payment not found for transaction: {$transactionId}");
             }
 
@@ -58,14 +57,14 @@ class PayPalWebhookController extends Controller
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            Log::error('PayPal Webhook Error: ' . $e->getMessage(), [
+            Log::error('PayPal Webhook Error: '.$e->getMessage(), [
                 'webhook_data' => $webhookData ?? null,
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Webhook processing failed'
+                'message' => 'Webhook processing failed',
             ], 500);
         }
     }
@@ -77,18 +76,18 @@ class PayPalWebhookController extends Controller
                 ->where('order_id', $orderId)
                 ->update([
                     'order_status' => $status,
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ]);
 
             Log::info('Order status updated successfully', [
                 'order_id' => $orderId,
-                'new_status' => $status
+                'new_status' => $status,
             ]);
         } catch (\Exception $e) {
-            Log::error('Error updating order status: ' . $e->getMessage(), [
+            Log::error('Error updating order status: '.$e->getMessage(), [
                 'order_id' => $orderId,
                 'status' => $status,
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
         }
     }
@@ -100,7 +99,7 @@ class PayPalWebhookController extends Controller
             $provider->getAccessToken();
 
             $token = $request->query('token');
-            if (!$token) {
+            if (! $token) {
                 throw new \Exception('PayPal token not found in request');
             }
 
@@ -114,20 +113,17 @@ class PayPalWebhookController extends Controller
                 if ($payment) {
                     $payment->update([
                         'status' => 'completed',
-                        'payment_response' => json_encode($response)
+                        'payment_response' => json_encode($response),
                     ]);
-
 
                     DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->update([
                             'order_status' => 'Paid',
-                            'updated_at' => now()
+                            'updated_at' => now(),
                         ]);
 
-
                     session()->forget('cart');
-
 
                     return redirect()->route('order.success')
                         ->with('success', 'Your payment has been processed successfully!');
@@ -136,9 +132,9 @@ class PayPalWebhookController extends Controller
 
             throw new \Exception('Payment verification failed');
         } catch (\Exception $e) {
-            Log::error('PayPal Success Callback Error: ' . $e->getMessage(), [
+            Log::error('PayPal Success Callback Error: '.$e->getMessage(), [
                 'token' => $token ?? null,
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return redirect()->route('checkout.error')
@@ -156,14 +152,13 @@ class PayPalWebhookController extends Controller
             Payment::where('transaction_id', $token)
                 ->update(['status' => 'cancelled']);
 
-
             $payment = Payment::where('transaction_id', $token)->first();
             if ($payment) {
                 DB::table('order_master')
                     ->where('order_id', $payment->order_id)
                     ->update([
                         'order_status' => 'Cancelled',
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]);
             }
         }

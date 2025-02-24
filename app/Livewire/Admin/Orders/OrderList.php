@@ -198,7 +198,7 @@ class OrderList extends Component
             return null;
         }
     }
-    
+
     protected function generateUniqueInvoiceNumber()
     {
         do {

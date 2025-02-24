@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
-use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -16,6 +15,7 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $invoice = Invoice::findOrFail($id);
+
         return view('admin.invoice.show', compact('invoice'));
     }
 }

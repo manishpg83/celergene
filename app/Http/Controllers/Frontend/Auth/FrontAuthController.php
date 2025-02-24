@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Models\User;
-use App\Models\Customer;
-use App\Models\CustomerType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-
 
 class FrontAuthController extends Controller
 {
@@ -31,6 +24,7 @@ class FrontAuthController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
             notyf()->success('Login successful');
+
             return redirect()->intended('/myaccount');
         }
 
@@ -38,11 +32,12 @@ class FrontAuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-    
+
     public function showRegistrationForm()
     {
         return view('frontend.auth.register');
     }
+
     public function showForgotPasswordForm()
     {
         return view('admin.auth.forgot-password');
@@ -68,7 +63,6 @@ class FrontAuthController extends Controller
         ]);
     }
 
-
     public function showResetPasswordForm($token)
     {
         return view('admin.auth.reset-password', ['token' => $token, 'email' => request('email')]);
@@ -86,7 +80,7 @@ class FrontAuthController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => bcrypt($password)
+                    'password' => bcrypt($password),
                 ])->save();
             }
         );
@@ -99,12 +93,12 @@ class FrontAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-    
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    
+
         notyf()->success('You Have Successfully Logged Out!');
+
         return redirect()->route('home');
     }
-    
-} 
+}

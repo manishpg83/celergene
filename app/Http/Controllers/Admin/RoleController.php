@@ -4,20 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
     public function index()
     {
         $roles = Role::with('permissions')->get();
+
         return view('admin.roles.index', compact('roles'));
     }
 
     public function create()
     {
         $permissions = Permission::all();
+
         return view('admin.roles.create', compact('permissions'));
     }
 
@@ -37,13 +39,14 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::all();
+
         return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
+            'name' => 'required|unique:roles,name,'.$role->id,
             'permissions' => 'required|array',
         ]);
 
@@ -60,6 +63,7 @@ class RoleController extends Controller
         }
 
         $role->delete();
+
         return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully');
     }
 }

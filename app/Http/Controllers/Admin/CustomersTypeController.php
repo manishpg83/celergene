@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\CustomerType;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\CustomerType;
 
 class CustomersTypeController extends Controller
 {
@@ -17,9 +16,11 @@ class CustomersTypeController extends Controller
     {
         return view('admin.customerstype.add');
     }
+
     public function showAddEntityForm($id)
     {
         $customerstype = CustomerType::findOrFail($id);
+
         return view('livewire.admin.customerstype.add-customer-type', compact('customerstype'));
     }
 }

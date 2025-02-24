@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -16,12 +14,14 @@ class ProfileController extends Controller
     public function index()
     {
         $admin = Auth::user();
+
         return view('admin.profile.index', compact('admin'));
     }
 
     public function edit()
     {
         $admin = Auth::user();
+
         return view('admin.profile.edit', compact('admin'));
     }
 
@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id,
+            'email' => 'required|string|email|max:255|unique:admins,email,'.$admin->id,
             'password' => 'nullable|string|min:8|confirmed',
             'image' => 'nullable|file|image',
         ]);
@@ -90,5 +90,4 @@ class ProfileController extends Controller
 
         return redirect()->route('admin.login');
     }
-
 }

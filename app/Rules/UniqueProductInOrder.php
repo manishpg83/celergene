@@ -16,6 +16,11 @@ class UniqueProductInOrder implements Rule
     public function passes($attribute, $value)
     {
         $selectedProductIds = array_column($this->orderDetails, 'product_id');
+    
+        if ($value == 1) {
+            return true;
+        }
+    
         return count(array_keys($selectedProductIds, $value)) <= 1;
     }
 
