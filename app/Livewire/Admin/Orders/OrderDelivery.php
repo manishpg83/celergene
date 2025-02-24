@@ -279,6 +279,7 @@ class OrderDelivery extends Component
     private function createDeliveryOrders()
     {
         $warehouseDeliveryOrders = [];
+        $warehouseProductDetails = [];
 
         foreach ($this->inventoryQuantities as $inventoryId => $quantity) {
             if ($quantity > 0 || ($this->inventorySampleQuantities[$inventoryId] ?? 0) > 0) {
@@ -350,9 +351,37 @@ class OrderDelivery extends Component
                         'total' => $total,
                         'order_detail_id' => $detail->id,
                     ]);
+                    if (!isset($warehouseProductDetails[$warehouseId])) {
+                        $warehouseProductDetails[$warehouseId] = [];
+                    }
+                    Log::info("Delivery Order Detail Created", [
+                        'product' => $detail->product->product_name,
+                        'quantity' => $quantity,
+                        'sample_quantity' => $this->inventorySampleQuantities[$inventoryId]
+                    ]);
+                    $warehouseProductDetails[$warehouseId][] = [
+                        'product_name' => $detail->product->product_name,
+                        'quantity' => $quantity,
+                        'sample_quantity' => $this->inventorySampleQuantities[$inventoryId],
+
+                    ];
                 } else {
                     throw new \Exception("Order detail not found for ID {$orderDetailId}.");
                 }
+            }
+        }
+        foreach ($warehouseDeliveryOrders as $warehouseId => $deliveryOrder) {
+            $warehouseName = Warehouse::where('id', $warehouseId)->value('warehouse_name');
+            $emails = DB::table('warehouse_emails')->where('warehouse_id', $warehouseId)->pluck('email');
+            $shippingAddress = $this->order->shipping_address;
+            foreach ($emails as $email) {
+                Notification::route('mail', $email)->notify(new WarehouseOrderUpdate(
+                    $this->order->load(['customer']),
+                    $warehouseProductDetails[$warehouseId],
+                    $deliveryOrder,
+                    $warehouseName,
+                    $shippingAddress
+                ));
             }
         }
     }
