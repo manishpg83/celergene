@@ -316,7 +316,7 @@ class Checkout extends Component
                 'subtotal' => $this->subtotal,
                 'total' => $this->subtotal,
                 'order_status' => 'pending',
-                'order_type' => 'Regular',
+                'order_type' => 'Online',
                 'shipping_address' => $shippingAddress,
                 'created_by' => $this->user->id,
                 'created_at' => now(),

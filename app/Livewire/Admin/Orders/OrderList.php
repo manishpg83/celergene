@@ -33,6 +33,7 @@ class OrderList extends Component
     public $dateEnd = null;
     public $statusFilter = '';
     public $paymentModeFilter = '';
+    public $orderTypeFilter = '';
     public $workflow_type = OrderWorkflowType::STANDARD->value;
 
     public $perpagerecords = [
@@ -306,7 +307,8 @@ class OrderList extends Component
                         })
                         ->orWhere('total', 'like', '%' . $this->search . '%')
                         ->orWhere('order_date', 'like', '%' . $this->search . '%')
-                        ->orWhere('payment_mode', 'like', '%' . $this->search . '%');
+                        ->orWhere('payment_mode', 'like', '%' . $this->search . '%')
+                        ->orWhere('order_type', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->selectedEntityId, function ($query) {
@@ -326,6 +328,9 @@ class OrderList extends Component
             ->when($this->paymentModeFilter !== '', function ($query) {
                 $query->where('payment_mode', $this->paymentModeFilter);
             })
+            ->when($this->orderTypeFilter !== '', function ($query) {
+                $query->where('order_type', $this->orderTypeFilter);
+            }) 
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 

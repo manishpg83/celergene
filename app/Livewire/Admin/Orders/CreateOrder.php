@@ -325,6 +325,7 @@ class CreateOrder extends Component
                     'subtotal' => $this->subtotal,
                     'discount' => $this->totalDiscount,
                     'freight' => $this->freight,
+                    'order_type' => 'Offline',
                     'actual_freight' => $this->actual_freight,
                     'tax' => $this->tax,
                     'total' => $this->total,

@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->text('remarks')->nullable();
             $table->enum('payment_mode', ['Credit Card', 'Bank Transfer', 'Cash']);
             $table->enum('order_status', ['Pending', 'Paid', 'Cancelled'])->default('Pending');
-            $table->enum('order_type', ['Regular', 'Zero Value', 'Partial'])->default('Regular');
+            $table->enum('order_type', ['Regular','Zero Value','Partial','Online','Offline'])->default('Regular');
             $table->enum('workflow_type', ['standard', 'multi_delivery', 'consignment'])->default('standard');
             $table->foreignId('parent_order_id')->nullable()->constrained('order_master', 'order_id')->onDelete('set null');
             $table->boolean('is_initial_consignment')->default(false);

@@ -20,41 +20,38 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex gap-2">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                <div class="d-flex flex-wrap gap-2">
                     <!-- Per Page Select -->
-                    <select wire:model.live="perPage" class="form-select" style="cursor: pointer; width: auto;">
+                    <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto; cursor: pointer;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
                             <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
                         @endforeach
                     </select>
-
+            
                     <!-- Status Filter -->
-                    <select wire:model.live="statusFilter" class="form-select"
-                        style="cursor: pointer; width: auto; min-width: 120px;">
+                    <select wire:model.live="statusFilter" class="form-select form-select-sm" style="width: auto; min-width: 130px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
-
-                    <!-- Payment Mode Filter -->
-                    <select wire:model.live="paymentModeFilter" class="form-select"
-                        style="cursor: pointer; width: auto;">
-                        <option value="" class="bg-gray-100 text-gray-800">
-                            All Payment Modes
-                        </option>
-                        <option value="Credit Card" class="bg-blue-50 text-blue-800 hover:bg-blue-100">
-                            💳 Credit Card
-                        </option>
-                        <option value="Bank Transfer" class="bg-green-50 text-green-800 hover:bg-green-100">
-                            🏦 Bank Transfer
-                        </option>
-                        <option value="Cash" class="bg-orange-50 text-orange-800 hover:bg-orange-100">
-                            💵 Cash
-                        </option>
+            
+                    <!-- Order Type Filter -->
+                    <select wire:model.live="orderTypeFilter" class="form-select form-select-sm" style="width: auto;">
+                        <option value="">All Order Types</option>
+                        <option value="Online">🌐 Online</option>
+                        <option value="Offline">🏬 Offline</option>
                     </select>
-
+            
+                    <!-- Payment Mode Filter -->
+                    <select wire:model.live="paymentModeFilter" class="form-select form-select-sm" style="width: auto;">
+                        <option value="">All Payment Modes</option>
+                        <option value="Credit Card">💳 Credit Card</option>
+                        <option value="Bank Transfer">🏦 Bank Transfer</option>
+                        <option value="Cash">💵 Cash</option>
+                    </select>
+            
                     <!-- Date Range Picker -->
                     <div class="d-flex gap-2">
                         <div id="reportrange"
@@ -70,12 +67,13 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="d-flex align-items-center">
-                    <input type="text" wire:model.live="search" placeholder="Search Orders..." class="form-control"
-                        style="width: auto;" />
+            
+                <!-- Search Box -->
+                <div>
+                    <input type="text" wire:model.live="search" class="form-control form-control-sm" placeholder="Search Orders..." style="width: 150px;">
                 </div>
             </div>
+            
 
             @if (session()->has('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
@@ -89,6 +87,13 @@
                                 class="{{ $sortField === 'order_id' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
                                 Order ID
                                 @if ($sortField === 'order_id')
+                                    <span class="text-mute">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
+                            <th wire:click="sortBy('order_type')" style="cursor: pointer;"
+                                class="{{ $sortField === 'order_type' ? ($sortDirection === 'asc' ? 'text-primary' : 'text-secondary') : '' }}">
+                                Order Type
+                                @if ($sortField === 'order_type')
                                     <span class="text-mute">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
@@ -134,6 +139,17 @@
                                 @if ($order->parent_order_id === null)
                                     <tr>
                                         <td>#{{ $order->order_id }}</td>
+                                        <td class="text-sm fw-medium align-middle">
+                                            @if ($order->order_type == 'Online')
+                                                <span class="badge bg-primary text-white px-2 py-1 rounded">
+                                                    {{ $order->order_type }}
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary text-white px-2 py-1 rounded">
+                                                    {{ $order->order_type }}
+                                                </span>
+                                            @endif
+                                        </td>                                        
                                         <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
                                         <td>{{ $order->currency->symbol ?? '$' }} {{ number_format($order->total, 2) }}</td>
