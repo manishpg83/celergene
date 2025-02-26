@@ -58,7 +58,6 @@ class WarehouseOrderUpdate extends Notification
         $updateLink = isset($this->deliveryOrder)
         ? url("/warehouse/update-delivery/{$this->deliveryOrder->id}")
         : '#';
-        Log::info("Update Link: " . $updateLink); 
         return (new MailMessage)
         ->subject("Delivery Order Request - Order #{$this->order->order_id}")
             ->markdown('admin.emails.warehouse-do', [
