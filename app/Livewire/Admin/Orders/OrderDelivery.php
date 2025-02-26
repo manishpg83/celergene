@@ -31,6 +31,12 @@ class OrderDelivery extends Component
     public $totalOrderQuantity = 0;
     public $remainingQuantity = 0;
     public $isInitialConsignment = false;
+    public $disableButton = false;
+    public $currentSubtotal = 0;
+    public $currentDiscount = 0;
+    public $currentFreight = 0;
+    public $currentTax = 0;
+    public $currentTotal = 0;
 
     protected $rules = [
         'deliveryStatus' => 'required|in:Pending,Shipped,Delivered,Cancelled',
@@ -73,7 +79,7 @@ class OrderDelivery extends Component
             ->where('order_id', $order_id)
             ->firstOrFail();
 
-        
+
         $this->currencySymbol = $this->order->currency ? $this->order->currency->symbol : '$';
         $this->deliveryStatus = $this->order->delivery_status;
 
@@ -109,13 +115,63 @@ class OrderDelivery extends Component
             $this->totalOrderQuantity = $this->order->orderDetails->sum('quantity');
             $this->remainingQuantity = $this->totalOrderQuantity - $deliveredQuantity;
         }
-    }
+        $this->disableButton = $this->shouldDisableButton();
 
+    }
+    private function calculateCurrentTotals()
+    {
+        $this->currentSubtotal = 0;
+        $this->currentDiscount = 0;
+        $this->currentFreight = 0;
+        $this->currentTax = 0;
+        $this->currentTotal = 0;
+
+        foreach ($this->order->orderDetails as $detail) {
+            if ($detail->product_id == 1) {
+                continue;
+            }
+
+            foreach ($detail->product->inventories as $inventory) {
+                $key = $inventory->id . '_' . $detail->id;
+                $qty = $this->inventoryQuantities[$key] ?? 0;
+
+                $unitPrice = $detail->unit_price;
+                $discountPercent = $detail->discount;
+
+                $lineSubtotal = $qty * $unitPrice;
+                $lineDiscount = $lineSubtotal * ($discountPercent / 100);
+                $lineTotal = $lineSubtotal - $lineDiscount;
+
+                $this->currentSubtotal += $lineSubtotal;
+                $this->currentDiscount += $lineDiscount;
+            }
+        }
+
+        $totalOrderQty = $this->order->orderDetails->where('product_id', '!=', 1)->sum('quantity');
+        $deliveredQty = collect($this->inventoryQuantities)->sum();
+
+        $ratio = $totalOrderQty > 0 ? $deliveredQty / $totalOrderQty : 0;
+
+        $this->currentFreight = $this->order->freight * $ratio;
+        $this->currentTax = $this->order->tax * $ratio;
+
+        $this->currentTotal = ($this->currentSubtotal - $this->currentDiscount) + $this->currentFreight + $this->currentTax;
+    }
     public function back()
     {
         return redirect()->route('admin.orders.index');
     }
+    private function shouldDisableButton()
+    {
+        $existingDeliveries = $this->order->deliveryOrders->flatMap(function ($deliveryOrder) {
+            return $deliveryOrder->details;
+        })->sum('quantity');
 
+        return $existingDeliveries > 0 && in_array($this->order->workflow_type, [
+            OrderWorkflowType::STANDARD,
+            OrderWorkflowType::CONSIGNMENT
+        ]);
+    }
     public function calculateRemainingQuantity($orderDetail)
     {
         if ($orderDetail->product_id == 1) {
@@ -198,18 +254,9 @@ class OrderDelivery extends Component
 
                 $totalSelectedQuantity = collect($this->inventoryQuantities)->sum(fn($qty) => (int) $qty);
 
-                $existingDeliveries = $originalOrder->deliveryOrders->flatMap(function ($deliveryOrder) {
-                    return $deliveryOrder->details;
-                })->sum('quantity');
-
                 $orderTotalQuantity = $originalOrder->orderDetails->where('product_id', '!=', 1)->sum('quantity');
 
-                if (
-                    $existingDeliveries > 0 && in_array($originalOrder->workflow_type, [
-                        OrderWorkflowType::STANDARD,
-                        OrderWorkflowType::CONSIGNMENT
-                    ])
-                ) {
+                if ($this->shouldDisableButton()) {
                     notyf()->error("This order type can only be delivered once.");
                     return false;
                 }
@@ -297,8 +344,10 @@ class OrderDelivery extends Component
                     continue;
                 $inventory = Inventory::findOrFail($inventoryIds);
                 $warehouseId = $inventory->warehouse_id;
+                $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
+                $totalQty = $quantity + $sampleQty;
 
-                if ($quantity > $inventory->remaining) {
+                if ($totalQty > $inventory->remaining) {
                     throw new \Exception("Insufficient inventory for inventory ID {$inventoryId}.");
                 }
 
@@ -306,8 +355,8 @@ class OrderDelivery extends Component
                     throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
                 }
 
-                $inventory->decrement('remaining', $quantity);
-                $inventory->increment('consumed', $quantity);
+                $inventory->decrement('remaining', $totalQty);
+                $inventory->increment('consumed', $totalQty);
                 $inventory->modified_by = Auth::id();
                 $inventory->save();
 
@@ -382,6 +431,7 @@ class OrderDelivery extends Component
 
     public function render()
     {
+        $this->calculateCurrentTotals();
         return view('livewire.admin.orders.order-delivery');
     }
 }

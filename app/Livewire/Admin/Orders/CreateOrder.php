@@ -224,7 +224,8 @@ class CreateOrder extends Component
         $this->subtotal = 0;
         $this->totalDiscount = 0;
         foreach ($this->orderDetails as $index => $detail) {
-            $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0));
+           /*  $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0)); */
+            $regularQuantity = floatval($detail['quantity']);
             $unitPrice = floatval($detail['unit_price']);
             $discount = max(0, floatval($detail['discount']));
 
@@ -464,6 +465,7 @@ class CreateOrder extends Component
                     'product_id' => $orderDetail->product_id,
                     'unit_price' => $orderDetail->unit_price,
                     'quantity' => $orderDetail->quantity,
+                    'sample_quantity' => $orderDetail->sample_quantity,
                     'delivered_quantity' => $orderDetail->quantity,
                     'invoiced_quantity' => $orderDetail->quantity,
                     'discount' => $orderDetail->discount,

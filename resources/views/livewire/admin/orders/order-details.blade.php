@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-12 mb-4">
-            <div class="card mt-4">
+    <div class="mb-4 row">
+        <div class="mb-4 col-md-12">
+            <div class="mt-4 card">
                 <div
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-between align-items-center flex-column flex-sm-row">
                     <h5 class="card-title mb-sm-0 me-2">Order Details</h5>
@@ -11,13 +11,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-header pr-6 py-0 pt-4 ml-3">
+                <div class="py-0 pt-4 pr-6 ml-3 card-header">
                     <h5 class="card-title">Order ID #{{ $order->order_id }}</h5>
                 </div>
                 <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-6 mb-2">
-                            <div class="card mb-4">
+                    <div class="mb-4 row">
+                        <div class="mb-2 col-md-6">
+                            <div class="mb-4 card">
                                 <div class="card-body">
                                     <h6 class="mb-2">Entity Details:</h6>
                                     <p class="mb-1"><strong>Company:</strong>
@@ -34,13 +34,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="card mb-4">
+                        <div class="mb-4 col-md-6">
+                            <div class="mb-4 card">
                                 <div class="card-body">
                                     <h6 class="mb-2">Order Information:</h6>
                                     <p class="mb-1">
                                         Order Date: {{ date('M d, Y', strtotime($order->order_date)) }}
-                                        <i class="fas fa-edit text-primary cursor-pointer ml-1"
+                                        <i class="ml-1 cursor-pointer fas fa-edit text-primary"
                                             wire:click="$set('isEditingOrderDate', true)" data-bs-toggle="modal"
                                             data-bs-target="#editOrderDateModal">
                                         </i>
@@ -69,8 +69,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-4">
-                            <div class="card mb-4">
+                        <div class="mb-4 col-md-12">
+                            <div class="mb-4 card">
                                 <div class="card-body">
                                     <h6 class="mb-2">Customer Details:</h6>
                                     <div class="row">
@@ -102,9 +102,9 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive mb-4 bg-white rounded">
-                        <table class="table table-bordered align-middle">
-                            <thead class="bg-light border-bottom border-2">
+                    <div class="mb-4 bg-white rounded table-responsive">
+                        <table class="table align-middle table-bordered">
+                            <thead class="border-2 bg-light border-bottom">
                                 <tr>
                                     <th class="text-center">Product</th>
                                     <th class="text-center">Quantity</th>
@@ -127,7 +127,7 @@
                                         <td class="text-center">{{ $detail->quantity }}</td>
                                         <td class="text-center">{{ $detail->sample_quantity }}</td>
                                         <td class="text-center">{{ $currencySymbol }} {{ number_format($detail->unit_price, 2) }}</td>
-                                        <td class="text-danger text-center">
+                                        <td class="text-center text-danger">
                                             @if ($detail->discount > 0)
                                                 - {{ $currencySymbol }} {{ number_format($detail->discount, 2) }}
                                             @else
@@ -136,7 +136,7 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $currencySymbol }} {{ number_format(
-                                                (intval($detail->quantity) - intval($detail->sample_quantity)) * floatval($detail->unit_price) -
+                                                (intval($detail->quantity)) * floatval($detail->unit_price) -
                                                     floatval($detail->discount),
                                                 2,
                                             ) }}
@@ -152,14 +152,14 @@
                         <!-- Left Side: Product Section -->
                         <div class="col-md-6">
                             <div class="mt-8">
-                                <div class="d-flex align-items-center gap-3">
+                                <div class="gap-3 d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <label for="actual_freight" class="form-label">Actual Freight</label>
                                         <input type="number" step="0.01" wire:model="actual_freight"
-                                            id="actual_freight" class="form-control shadow-sm">
+                                            id="actual_freight" class="shadow-sm form-control">
                                     </div>
                                     <div>
-                                        <button wire:click="updateActualFreight" class="btn btn-primary mt-6">
+                                        <button wire:click="updateActualFreight" class="mt-6 btn btn-primary">
                                             Update
                                         </button>
                                     </div>
@@ -169,28 +169,28 @@
 
                         <!-- Right Side: Card Section -->
                         <div class="col-md-6">
-                            <div class="card rounded-3 shadow-sm border">
-                                <div class="card-body p-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="border shadow-sm card rounded-3">
+                                <div class="p-4 card-body">
+                                    <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Subtotal:</span>
                                         <span>{{ $currencySymbol }} {{ number_format($order->subtotal, 2) }}</span>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Total Discount:</span>
                                         <span class="text-danger">- {{ $currencySymbol }} {{ number_format($order->discount, 2) }}</span>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Freight:</span>
                                         <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->freight, 2) }}</span>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Tax:</span>
                                         <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->tax, 2) }}</span>
                                     </div>
                                     <hr class="my-3">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h6 mb-0">Total:</span>
-                                        <span class="h5 mb-0 fw-semibold">
+                                        <span class="mb-0 h6">Total:</span>
+                                        <span class="mb-0 h5 fw-semibold">
                                             {{ $order->currency?->code ?? '' }}
                                             {{ $currencySymbol }} {{ number_format($order->total, 2) }}
                                         </span>
@@ -200,14 +200,14 @@
                         </div>
                     </div>
                     @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
-                    <div class="card mt-4">
+                    <div class="mt-4 card">
                         <div class="card-header">
                             <h5 class="card-title">Invoice Details</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered align-middle">
-                                    <thead class="bg-light border-bottom border-2">
+                                <table class="table align-middle table-bordered">
+                                    <thead class="border-2 bg-light border-bottom">
                                         <tr>
                                             <th class="text-center">Invoice Number</th>
                                             <th class="text-center">Invoice Date</th>
@@ -226,7 +226,7 @@
                                                 <td class="text-center">{{ $invoice->invoice_number }}</td>
                                                 <td class="text-center">
                                                     {{ date('M d, Y', strtotime($invoice->invoice_date ?? $invoice->created_at)) }}
-                                                    <i class="fas fa-edit text-primary cursor-pointer ml-1"
+                                                    <i class="ml-1 cursor-pointer fas fa-edit text-primary"
                                                         wire:click="editInvoiceDate('{{ $invoice->id }}')"
                                                         data-bs-toggle="modal" data-bs-target="#editInvoiceDateModal">
                                                     </i>
@@ -254,14 +254,14 @@
                     </div>
                     @livewire('admin.payment.manage-payment', ['order_id' => $order_id])
 
-                    <div class="card mt-4">
+                    <div class="mt-4 card">
                         <div class="card-header">
                             <h5 class="card-title">Delivery Order Details</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered align-middle">
-                                    <thead class="bg-light border-bottom border-2">
+                                <table class="table align-middle table-bordered">
+                                    <thead class="border-2 bg-light border-bottom">
                                         <tr>
                                             <th class="text-center">Delivery Order Number</th>
                                             <th class="text-center">Delivery Date</th>
@@ -283,7 +283,7 @@
                                                 <td class="text-center">{{ $group['warehouse_name'] }}</td>
                                                 <td class="text-center">
                                                     @if ($editingDeliveryId === $group['id'])
-                                                        <div class="d-flex flex-column gap-2">
+                                                        <div class="gap-2 d-flex flex-column">
                                                             <select class="form-select form-select-sm" wire:model="editingStatus">
                                                                 <option value="Pending">Pending</option>
                                                                 <option value="Shipped">Shipped</option>
@@ -344,7 +344,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-4" @if (!$showSplitInvoices) style="display: none;" @endif>
+                    <div class="mt-4 card" @if (!$showSplitInvoices) style="display: none;" @endif>
                         <div class="card-header">
                             <h5 class="card-title">Generate Split Invoices</h5>
                         </div>
@@ -352,7 +352,7 @@
                             <form wire:submit.prevent="generateInvoices">
                                 <div class="row">
                                     @foreach ($order->orderDetails as $index => $detail)
-                                        <div class="col-md-4 mb-3">
+                                        <div class="mb-3 col-md-4">
                                             <label for="quantitySplit_{{ $index }}" class="form-label">
                                                 {{ $detail->product->product_name }} (Remaining Qty:
                                                 {{ $detail->invoice_rem }})
@@ -362,7 +362,7 @@
                                                 min="0" max="{{ $detail->invoice_rem }}" step="1"
                                                 placeholder="Invoice Quantity" />
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="mb-3 col-md-4">
                                             <label for="sampleQuantity_{{ $index }}" class="form-label">
                                                 Sample Quantity
                                                 (Remaining Sample: {{ $detail->invoice_rem_sample }})
@@ -373,7 +373,7 @@
                                                 max="{{ $detail->invoice_rem_sample }}" step="1"
                                                 placeholder="Sample Quantity" />
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="mb-3 col-md-4">
                                             <label for="customPrice_{{ $index }}" class="form-label">
                                                 Price Per Box
                                             </label>
