@@ -306,7 +306,7 @@ class OrderDetails extends Component
                 'discount' => $detailData['discount'],
                 'total' => $detailData['total'],
                 'manual_product_name' => $detailData['manual_product_name'],
-                'sample_quantity' => $detailData['sample_quantity'],
+                'sample_quantity' => $sampleQty,
             ]);
         }
 
