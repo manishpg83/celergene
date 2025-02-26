@@ -354,16 +354,10 @@ class OrderDelivery extends Component
                     if (!isset($warehouseProductDetails[$warehouseId])) {
                         $warehouseProductDetails[$warehouseId] = [];
                     }
-                    Log::info("Delivery Order Detail Created", [
-                        'product' => $detail->product->product_name,
-                        'quantity' => $quantity,
-                        'sample_quantity' => $this->inventorySampleQuantities[$inventoryId]
-                    ]);
                     $warehouseProductDetails[$warehouseId][] = [
                         'product_name' => $detail->product->product_name,
                         'quantity' => $quantity,
                         'sample_quantity' => $this->inventorySampleQuantities[$inventoryId],
-
                     ];
                 } else {
                     throw new \Exception("Order detail not found for ID {$orderDetailId}.");
