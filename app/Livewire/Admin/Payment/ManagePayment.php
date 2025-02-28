@@ -9,7 +9,7 @@ use App\Models\OrderMaster;
 class ManagePayment extends Component
 {
     public $order_id, $payment_method, $amount, $currency = 'USD', $status = 'pending', $transaction_id;
-    public $payment_date, $payment_details;
+    public $payment_date, $payment_details, $bank_charge;
     public $order;
 
     public function mount($order_id)
@@ -26,7 +26,8 @@ class ManagePayment extends Component
             'payment_date' => 'required|date',
             'status' => 'required|in:pending,partially paid,fully paid',
             'payment_details' => 'nullable|string',
-            'transaction_id' => 'nullable|string'
+            'transaction_id' => 'nullable|string',
+            'bank_charge' => 'nullable|numeric|min:0'
         ]);
 
         Payment::create([
@@ -37,11 +38,12 @@ class ManagePayment extends Component
             'status' => $this->status,
             'transaction_id' => $this->transaction_id,
             'payment_date' => $this->payment_date,
-            'payment_details' => $this->payment_details
+            'payment_details' => $this->payment_details,
+            'bank_charge' => $this->bank_charge
         ]);
 
         notyf()->success('Payment recorded successfully!');
-        $this->reset(['payment_method', 'amount', 'payment_date', 'status', 'payment_details', 'transaction_id']);
+        $this->reset(['payment_method', 'amount', 'payment_date', 'status', 'payment_details', 'transaction_id', 'bank_charge']);
     }
 
     public function render()

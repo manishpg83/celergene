@@ -56,83 +56,84 @@
                 </thead>
                 <tbody>
                     @foreach ($order->orderDetails as $detail)
-                                    @if ($detail->product_id != 1)
-                                                    <tr>
-                                                        <td class="text-center">{{ $detail->product->product_name }}</td>
-                                                        <td class="text-center">
-                                                            @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                                {{ $this->calculateRemainingQuantity($detail) }} /
-                                                                {{ $detail->quantity }}
-                                                            @else
-                                                                {{ $detail->quantity }}
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-center">
-                                                            {{ $this->calculateRemainingSampleQuantity($detail) }} /
-                                                            {{ $detail->sample_quantity }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @foreach ($detail->product->inventories as $inventory)
-                                                                <div class="p-2 mb-3 border rounded">
-                                                                    <div class="mb-2">
-                                                                        <strong>Batch: {{ $inventory->batch_number }}</strong><br>
-                                                                        Available: {{ (float) $inventory->remaining }} |
-                                                                        Warehouse: {{ $inventory->warehouse->warehouse_name }}
-                                                                    </div>
-
-                                                                    <div class="row g-2">
-                                                                        <div class="col-md-6">
-                                                                            <label class="form-label">Regular Quantity</label>
-                                                                            <input type="number"
-                                                                                wire:model.live="inventoryQuantities.{{ $inventory->id }}_{{ $detail->id }}"
-                                                                                class="form-control" min="0" max="{{ (float) $inventory->remaining }}"
-                                                                                placeholder="Enter quantity">
-                                                                            @error("inventoryQuantities.{$inventory->id}_{$detail->id}")
-                                                                                <span class="text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div>
-
-                                                                        <div class="col-md-6">
-                                                                            <label class="form-label">Sample Quantity</label>
-                                                                            <input type="number"
-                                                                                wire:model.live="inventorySampleQuantities.{{ $inventory->id }}_{{ $detail->id }}"
-                                                                                class="form-control" min="0"
-                                                                                max="{{ $this->calculateRemainingSampleQuantity($detail) }}"
-                                                                                placeholder="Enter sample quantity">
-                                                                            @error("inventorySampleQuantities.{$inventory->id}_{$detail->id}")
-                                                                                <span class="text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                            <div class="mt-2">
-                                                                <div><strong>Total Regular Selected: </strong>
-                                                                    {{ collect($this->inventoryQuantities)->filter(function ($qty, $invKey) use ($detail) {
-                                            $inventoryId = (int) explode('_', $invKey)[0];
-                                            $detailId = (int) explode('_', $invKey)[1];
-                                            if ($detail->product_id == 1) {
-                                                return false;
-                                            }
-                                            return $detail->id === $detailId && $detail->product->inventories->contains('id', $inventoryId);
-                                        })->map(fn($value) => (float) $value)->sum() }}
-                                                                    /
-                                                                    @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
-                                                                        {{ $this->calculateRemainingQuantity($detail) }}
-                                                                    @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
-                                                                        {{ $this->calculateRemainingQuantity($detail) }}
-                                                                    @else
-                                                                        {{ (float) $detail->quantity }}
-                                                                    @endif
-                                                                </div>
-                                                                <div><strong>Total Samples Selected: </strong>
-                                                                    {{ $this->getTotalSelectedSampleQuantity($detail) }} /
-                                                                    {{ $this->calculateRemainingSampleQuantity($detail) }}
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                        @if ($detail->product_id != 1)
+                            <tr>
+                                <td class="text-center">{{ $detail->product->product_name }}</td>
+                                <td class="text-center">
+                                    @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                        {{ $this->calculateRemainingQuantity($detail) }} /
+                                        {{ $detail->quantity }}
+                                    @else
+                                        {{ $detail->quantity }}
                                     @endif
+                                </td>
+                                <td class="text-center">
+                                    {{ $this->calculateRemainingSampleQuantity($detail) }} /
+                                    {{ $detail->sample_quantity }}
+                                </td>
+                                <td class="text-center">
+                                    @foreach ($detail->product->inventories as $inventory)
+                                        <div class="p-2 mb-3 border rounded">
+                                            <div class="mb-2">
+                                                <strong>Batch: {{ $inventory->batch_number }}</strong><br>
+                                                Available: {{ (float) $inventory->remaining }} |
+                                                Warehouse: {{ $inventory->warehouse->warehouse_name }}
+                                            </div>
+
+                                            <div class="row g-2">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Regular Quantity</label>
+                                                    <input type="number"
+                                                        wire:model.live="inventoryQuantities.{{ $inventory->id }}_{{ $detail->id }}"
+                                                        class="form-control" min="0"
+                                                        max="{{ (float) $inventory->remaining }}"
+                                                        placeholder="Enter quantity">
+                                                    @error("inventoryQuantities.{$inventory->id}_{$detail->id}")
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Sample Quantity</label>
+                                                    <input type="number"
+                                                        wire:model.live="inventorySampleQuantities.{{ $inventory->id }}_{{ $detail->id }}"
+                                                        class="form-control" min="0"
+                                                        max="{{ $this->calculateRemainingSampleQuantity($detail) }}"
+                                                        placeholder="Enter sample quantity">
+                                                    @error("inventorySampleQuantities.{$inventory->id}_{$detail->id}")
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="mt-2">
+                                        <div><strong>Total Regular Selected: </strong>
+                                            {{ collect($this->inventoryQuantities)->filter(function ($qty, $invKey) use ($detail) {
+                                                    $inventoryId = (int) explode('_', $invKey)[0];
+                                                    $detailId = (int) explode('_', $invKey)[1];
+                                                    if ($detail->product_id == 1) {
+                                                        return false;
+                                                    }
+                                                    return $detail->id === $detailId && $detail->product->inventories->contains('id', $inventoryId);
+                                                })->map(fn($value) => (float) $value)->sum() }}
+                                            /
+                                            @if ($order->workflow_type === \App\Enums\OrderWorkflowType::MULTI_DELIVERY)
+                                                {{ $this->calculateRemainingQuantity($detail) }}
+                                            @elseif($order->workflow_type === \App\Enums\OrderWorkflowType::CONSIGNMENT)
+                                                {{ $this->calculateRemainingQuantity($detail) }}
+                                            @else
+                                                {{ (float) $detail->quantity }}
+                                            @endif
+                                        </div>
+                                        <div><strong>Total Samples Selected: </strong>
+                                            {{ $this->getTotalSelectedSampleQuantity($detail) }} /
+                                            {{ $this->calculateRemainingSampleQuantity($detail) }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
@@ -155,42 +156,11 @@
                     <textarea id="remarks" wire:model.defer="remarks" class="form-control"></textarea>
                 </div>
             </div>
-            <div class="col-md-6 ms-auto">
-                <div class="border shadow-sm card rounded-3">
-                    <div class="p-4 card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                            <span class="text-muted">Subtotal:</span>
-                            <span>{{ $currencySymbol }} {{ number_format($currentSubtotal, 2) }}</span>
-                        </div>
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                            <span class="text-muted">Total Discount:</span>
-                            <span class="text-danger">- {{ $currencySymbol }}
-                                {{ number_format($currentDiscount, 2) }}</span>
-                        </div>
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                            <span class="text-muted">Freight:</span>
-                            <span class="text-success">+ {{ $currencySymbol }}
-                                {{ number_format($currentFreight, 2) }}</span>
-                        </div>
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                            <span class="text-muted">Tax:</span>
-                            <span class="text-success">+ {{ $currencySymbol }}
-                                {{ number_format($currentTax, 2) }}</span>
-                        </div>
-                        <hr class="my-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="mb-0 h6">Total:</span>
-                            <span class="mb-0 h5 fw-semibold">{{ $order->currency?->code ?? '' }} {{ $currencySymbol }}
-                                {{ number_format($currentTotal, 2) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="d-flex justify-content-end">
-            <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled" @if($disableButton)
-            disabled @endif>
+            <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled"
+                @if ($disableButton) disabled @endif>
                 <span wire:loading.remove wire:target="updateDelivery">
                     Update Delivery Order
                 </span>

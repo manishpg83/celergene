@@ -118,45 +118,7 @@ class OrderDelivery extends Component
         $this->disableButton = $this->shouldDisableButton();
 
     }
-    private function calculateCurrentTotals()
-    {
-        $this->currentSubtotal = 0;
-        $this->currentDiscount = 0;
-        $this->currentFreight = 0;
-        $this->currentTax = 0;
-        $this->currentTotal = 0;
-
-        foreach ($this->order->orderDetails as $detail) {
-            if ($detail->product_id == 1) {
-                continue;
-            }
-
-            foreach ($detail->product->inventories as $inventory) {
-                $key = $inventory->id . '_' . $detail->id;
-                $qty = $this->inventoryQuantities[$key] ?? 0;
-
-                $unitPrice = $detail->unit_price;
-                $discountPercent = $detail->discount;
-
-                $lineSubtotal = $qty * $unitPrice;
-                $lineDiscount = $lineSubtotal * ($discountPercent / 100);
-                $lineTotal = $lineSubtotal - $lineDiscount;
-
-                $this->currentSubtotal += $lineSubtotal;
-                $this->currentDiscount += $lineDiscount;
-            }
-        }
-
-        $totalOrderQty = $this->order->orderDetails->where('product_id', '!=', 1)->sum('quantity');
-        $deliveredQty = collect($this->inventoryQuantities)->sum();
-
-        $ratio = $totalOrderQty > 0 ? $deliveredQty / $totalOrderQty : 0;
-
-        $this->currentFreight = $this->order->freight * $ratio;
-        $this->currentTax = $this->order->tax * $ratio;
-
-        $this->currentTotal = ($this->currentSubtotal - $this->currentDiscount) + $this->currentFreight + $this->currentTax;
-    }
+    
     public function back()
     {
         return redirect()->route('admin.orders.index');
@@ -431,7 +393,6 @@ class OrderDelivery extends Component
 
     public function render()
     {
-        $this->calculateCurrentTotals();
         return view('livewire.admin.orders.order-delivery');
     }
 }

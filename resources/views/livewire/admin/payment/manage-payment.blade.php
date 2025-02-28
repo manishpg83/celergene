@@ -20,6 +20,7 @@
             <input type="number" wire:model="amount" class="form-control" step="0.01">
             @error('amount') <div class="text-danger small">{{ $message }}</div> @enderror
         </div>
+    
 
         <div class="col-md-6">
             <label class="form-label">Payment Date</label>
@@ -33,10 +34,15 @@
                 <option value="pending">Pending</option>
                 <option value="partially paid">Partially Paid</option>
                 <option value="fully paid">Fully Paid</option>
+                <option value="fully paid">Fully paid (bank charges waived)</option>
             </select>
             @error('status') <div class="text-danger small">{{ $message }}</div> @enderror
         </div>
-
+        <div class="col-md-6">
+            <label class="form-label">Bank Charges</label>
+            <input type="number" wire:model="bank_charge" class="form-control" step="0.01">
+            @error('bank_charge') <div class="text-danger small">{{ $message }}</div> @enderror
+        </div>
         <div class="col-12">
             <label class="form-label">Payment Details</label>
             <textarea wire:model="payment_details" class="form-control" rows="3"></textarea>
@@ -59,6 +65,7 @@
                     <th>Amount</th>
                     <th>Date</th>
                     <th>Payment Details</th>
+                    <th>Bank Charges</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -69,6 +76,7 @@
                         <td>₱{{ number_format($payment->amount, 2) }}</td>
                         <td>{{ $payment->payment_date }}</td>
                         <td>{{ $payment->payment_details }}</td>
+                        <td>{{ $payment->bank_charge }}</td>
                         <td>{{ ucfirst($payment->status) }}</td>
                     </tr>
                 @endforeach
