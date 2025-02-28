@@ -22,6 +22,12 @@ class DashboardController extends Controller
         $products = Product::latest()->take(5)->get();
         $orders = OrderMaster::with('customer')
             ->whereYear('order_date', $currentYear)
+            ->where('order_type', '=', 'offline')
+            ->latest()->take(5)->get();
+
+        $onlineorders = OrderMaster::with('customer')
+            ->whereYear('order_date', $currentYear)
+            ->where('order_type', '=', 'online')
             ->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
@@ -32,8 +38,18 @@ class DashboardController extends Controller
             ->get();
 
         $months = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
         ];
 
         $monthlyOrderCounts = array_fill(0, 12, 0);
@@ -49,6 +65,7 @@ class DashboardController extends Controller
             'averagePurchase',
             'products',
             'orders',
+            'onlineorders',
             'recentCustomers',
             'months',
             'monthlyOrderCounts'

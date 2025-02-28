@@ -74,7 +74,7 @@
                                 <td class="text-center">
                                     @foreach ($detail->product->inventories as $inventory)
                                         <div class="p-2 mb-3 border rounded">
-                                            <div class="mb-2">
+                                            <div class="mb-2 text-start">
                                                 <strong>Batch: {{ $inventory->batch_number }}</strong><br>
                                                 Available: {{ (float) $inventory->remaining }} |
                                                 Warehouse: {{ $inventory->warehouse->warehouse_name }}
@@ -139,7 +139,7 @@
             </table>
         </div>
         <div class="mb-4 row">
-            <div class="col-md-6 ms-auto">
+            <div class="col-md-12 ms-auto">
                 @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
                     <div class="mb-3 col-md-6">
                         <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
@@ -151,7 +151,7 @@
                         </select>
                     </div>
                 @endif
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label for="remarks">Remarks</label>
                     <textarea id="remarks" wire:model.defer="remarks" class="form-control"></textarea>
                 </div>
