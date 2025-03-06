@@ -13,10 +13,13 @@ use App\Models\Rating; */
 
 function perpagerecords()
 {
-    $pageArr = [10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100];
-    return $pageArr;
+	$pageArr = [10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100];
+	return $pageArr;
 }
-
+function getShippingUnitPrice()
+{
+	return config('app.url') === 'http://127.0.0.1:8000' ? 5.00 : 10.00;
+}
 /*
 function checkPermission($permissions)
 {
@@ -429,30 +432,31 @@ function getOrderID()
 
 /* function get_lat_long($address){
 
-    $address = str_replace(" ", "+", $address);
-    //echo "https://maps.google.com/maps/api/geocode/json?key=".env('GOOGLE_MAP_API_KEY')."&address=$address&sensor=false&region=$region";
-    $json = file_get_contents("https://maps.google.com/maps/api/geocode/json?key=AIzaSyAAVvLhkgxYsKYuXVFeQph4ZCx81iX2wLI&address=$address&sensor=false");
-    $json = json_decode($json);
-    $data = array();
-    $data['lat'] = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
-    $data['long'] = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
-    return $data;
+	$address = str_replace(" ", "+", $address);
+	//echo "https://maps.google.com/maps/api/geocode/json?key=".env('GOOGLE_MAP_API_KEY')."&address=$address&sensor=false&region=$region";
+	$json = file_get_contents("https://maps.google.com/maps/api/geocode/json?key=AIzaSyAAVvLhkgxYsKYuXVFeQph4ZCx81iX2wLI&address=$address&sensor=false");
+	$json = json_decode($json);
+	$data = array();
+	$data['lat'] = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+	$data['long'] = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+	return $data;
 } */
 
-function get_city($latlong){
+function get_city($latlong)
+{
 
 	/*echo env('GOOGLE_MAP_API_KEY');
-	echo "https://maps.google.com/maps/api/geocode/json?key=".env('GOOGLE_MAP_API_KEY')."&latlng=".$latlong."&sensor=false";
-	exit;*/
+	   echo "https://maps.google.com/maps/api/geocode/json?key=".env('GOOGLE_MAP_API_KEY')."&latlng=".$latlong."&sensor=false";
+	   exit;*/
 	/* $json = file_get_contents("https://maps.google.com/maps/api/geocode/json?key=AIzaSyAAVvLhkgxYsKYuXVFeQph4ZCx81iX2wLI&latlng=".$latlong."&sensor=false");
-    $json = json_decode($json);
-    $data = array();
-  	$data['city'] = $json->{'results'}[0]->{'address_components'}[2]->{'long_name'};
-  	$latlongArr = explode(',', $latlong);
-  	$data['lat'] = $latlongArr[0];
-  	$data['long'] = $latlongArr[1];
-    return $data; */
-    //http://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&sensor=true&key=YOUR_KEY
+	   $json = json_decode($json);
+	   $data = array();
+		 $data['city'] = $json->{'results'}[0]->{'address_components'}[2]->{'long_name'};
+		 $latlongArr = explode(',', $latlong);
+		 $data['lat'] = $latlongArr[0];
+		 $data['long'] = $latlongArr[1];
+	   return $data; */
+	//http://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&sensor=true&key=YOUR_KEY
 }
 function p($data, $i = 1)
 {

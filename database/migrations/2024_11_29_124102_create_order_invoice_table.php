@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('modified_by')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('invoice_type', ['regular', 'consignment', 'split_delivery']);
+            $table->enum('invoice_category', ['regular', 'shipping']);
             $table->timestamps();
             $table->softDeletes();
         });

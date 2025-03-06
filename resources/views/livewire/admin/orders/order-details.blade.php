@@ -26,7 +26,8 @@
                                         {{ $order->entity->address }}</p>
                                     <p class="mb-1"><strong>Country:</strong>
                                         {{ $order->entity->country }}
-                                        {{ $order->entity->postal_code }}</p>
+                                        {{ $order->entity->postal_code }}
+                                    </p>
                                     <p class="mb-1"><strong>Reg. No:</strong>
                                         {{ $order->entity->business_reg_number }}</p>
                                     <p class="mb-7"><strong>VAT No:</strong>
@@ -75,15 +76,18 @@
                                     <h6 class="mb-2">Customer Details:</h6>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <p class="mb-1">Name: {{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
-                                            <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}</p>
+                                            <p class="mb-1">Name: {{ $order->customer->first_name }}
+                                                {{ $order->customer->last_name }}
+                                            </p>
+                                            <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}
+                                            </p>
                                             <p class="mb-1">Email: {{ $order->customer->email }}</p>
                                             <p class="mb-1">Phone: {{ $order->customer->mobile_number }}</p>
                                         </div>
                                         <div class="col-md-4">
                                             <h6>Billing Address:</h6>
                                             <p class="mb-1">
-                                                @foreach(explode(',', $order->customer->billing_address) as $line)
+                                                @foreach (explode(',', $order->customer->billing_address) as $line)
                                                     {{ trim($line) }}<br>
                                                 @endforeach
                                             </p>
@@ -91,7 +95,7 @@
                                         <div class="col-md-4">
                                             <h6>Shipping Address:</h6>
                                             <p class="mb-1">
-                                                @foreach(explode(',', $order->shipping_address) as $line)
+                                                @foreach (explode(',', $order->shipping_address) as $line)
                                                     {{ trim($line) }}<br>
                                                 @endforeach
                                             </p>
@@ -126,20 +130,19 @@
                                         </td>
                                         <td class="text-center">{{ $detail->quantity }}</td>
                                         <td class="text-center">{{ $detail->sample_quantity }}</td>
-                                        <td class="text-center">{{ $currencySymbol }} {{ number_format($detail->unit_price, 2) }}</td>
+                                        <td class="text-center">{{ $currencySymbol }}
+                                            {{ number_format($detail->unit_price, 2) }}
+                                        </td>
                                         <td class="text-center text-danger">
                                             @if ($detail->discount > 0)
                                                 - {{ $currencySymbol }} {{ number_format($detail->discount, 2) }}
                                             @else
-                                            {{ $currencySymbol }} 0.00
+                                                {{ $currencySymbol }} 0.00
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{ $currencySymbol }} {{ number_format(
-                                                (intval($detail->quantity)) * floatval($detail->unit_price) -
-                                                    floatval($detail->discount),
-                                                2,
-                                            ) }}
+                                            {{ $currencySymbol }}
+                                            {{ number_format(intval($detail->quantity) * floatval($detail->unit_price) - floatval($detail->discount), 2) }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -177,15 +180,18 @@
                                     </div>
                                     <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Total Discount:</span>
-                                        <span class="text-danger">- {{ $currencySymbol }} {{ number_format($order->discount, 2) }}</span>
+                                        <span class="text-danger">- {{ $currencySymbol }}
+                                            {{ number_format($order->discount, 2) }}</span>
                                     </div>
                                     <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Freight:</span>
-                                        <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->freight, 2) }}</span>
+                                        <span class="text-success">+ {{ $currencySymbol }}
+                                            {{ number_format($order->freight, 2) }}</span>
                                     </div>
                                     <div class="mb-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted">Tax:</span>
-                                        <span class="text-success">+ {{ $currencySymbol }} {{ number_format($order->tax, 2) }}</span>
+                                        <span class="text-success">+ {{ $currencySymbol }}
+                                            {{ number_format($order->tax, 2) }}</span>
                                     </div>
                                     <hr class="my-3">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -194,64 +200,68 @@
                                             {{ $order->currency?->code ?? '' }}
                                             {{ $currencySymbol }} {{ number_format($order->total, 2) }}
                                         </span>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
-                    <div class="mt-4 card">
-                        <div class="card-header">
-                            <h5 class="card-title">Invoice Details</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-bordered">
-                                    <thead class="border-2 bg-light border-bottom">
-                                        <tr>
-                                            <th class="text-center">Invoice Number</th>
-                                            <th class="text-center">Invoice Date</th>
-                                            <th class="text-center">Quantity</th>
-                                            <th class="text-center">Remarks</th>
-                                            <th class="text-center">Total</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            $invoicesToDisplay = $showSplitInvoices ? $invoices->skip(1) : $invoices;
-                                        @endphp
-                                        @foreach ($invoicesToDisplay as $invoice)
+                    @php
+                        $invoicesToDisplay = $showSplitInvoices ? $invoices->skip(1) : $invoices;
+                    @endphp
+                    @if ($invoicesToDisplay->where('invoice_category', 'regular')->count() > 0)
+                        <div class="mt-4 card">
+                            <div class="card-header">
+                                <h5 class="card-title">Invoice Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-bordered">
+                                        <thead class="border-2 bg-light border-bottom">
                                             <tr>
-                                                <td class="text-center">{{ $invoice->invoice_number }}</td>
-                                                <td class="text-center">
-                                                    {{ date('M d, Y', strtotime($invoice->invoice_date ?? $invoice->created_at)) }}
-                                                    <i class="ml-1 cursor-pointer fas fa-edit text-primary"
-                                                        wire:click="editInvoiceDate('{{ $invoice->id }}')"
-                                                        data-bs-toggle="modal" data-bs-target="#editInvoiceDateModal">
-                                                    </i>
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $invoice->invoiceDetails->sum('quantity') }}
-                                                </td>
-                                                <td class="text-center">{{ $invoice->remarks }}</td>
-                                                <td class="text-center">{{ $currencySymbol }} {{ number_format($invoice->total, 2) }}</td>
-                                                <td class="text-center">
-                                                    @if ($invoice->invoiceDetails->count() > 0)
-                                                        <button class="btn btn-success"
-                                                            wire:click="downloadInvoice('{{ $invoice->invoiceDetails->first()->id }}', '{{ $invoice->order_id }}')">
-                                                            <i class="fas fa-download"></i>
-                                                        </button>
-                                                    @endif
-                                                </td>
-
+                                                <th class="text-center">Invoice Number</th>
+                                                <th class="text-center">Invoice Date</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-center">Remarks</th>
+                                                <th class="text-center">Total</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($invoicesToDisplay->where('invoice_category', 'regular') as $invoice)
+                                                <tr>
+                                                    <td class="text-center">{{ $invoice->invoice_number }}</td>
+                                                    <td class="text-center">
+                                                        {{ date('M d, Y', strtotime($invoice->invoice_date ?? $invoice->created_at)) }}
+                                                        <i class="ml-1 cursor-pointer fas fa-edit text-primary"
+                                                            wire:click="editInvoiceDate('{{ $invoice->id }}')"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editInvoiceDateModal">
+                                                        </i>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $invoice->invoiceDetails->sum('quantity') }}
+                                                    </td>
+                                                    <td class="text-center">{{ $invoice->remarks }}</td>
+                                                    <td class="text-center">{{ $currencySymbol }}
+                                                        {{ number_format($invoice->total, 2) }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($invoice->invoiceDetails->count() > 0)
+                                                            <button class="btn btn-success"
+                                                                wire:click="downloadInvoice('{{ $invoice->invoiceDetails->first()->id }}', '{{ $invoice->order_id }}')">
+                                                                <i class="fas fa-download"></i>
+                                                            </button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     @livewire('admin.payment.manage-payment', ['order_id' => $order_id])
 
                     <div class="mt-4 card">
@@ -284,37 +294,40 @@
                                                 <td class="text-center">
                                                     @if ($editingDeliveryId === $group['id'])
                                                         <div class="gap-2 d-flex flex-column">
-                                                            <select class="form-select form-select-sm" wire:model="editingStatus">
+                                                            <select class="form-select form-select-sm"
+                                                                wire:model="editingStatus">
                                                                 <option value="Pending">Pending</option>
                                                                 <option value="Shipped">Shipped</option>
                                                                 <option value="Delivered">Delivered</option>
                                                                 <option value="Cancelled">Cancelled</option>
                                                             </select>
-                                                            
-                                                            <input type="text" 
-                                                                   class="form-control form-control-sm" 
-                                                                   wire:model="editingTrackingNumber"
-                                                                   placeholder="Tracking Number">
-                                                            
-                                                            <input type="text" 
-                                                                   class="form-control form-control-sm" 
-                                                                   wire:model="editingTrackingUrl"
-                                                                   placeholder="Tracking URL">
-                                                            
+
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                wire:model="editingTrackingNumber"
+                                                                placeholder="Tracking Number">
+
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                wire:model="editingTrackingUrl"
+                                                                placeholder="Tracking URL">
+
                                                             <div class="btn-group">
-                                                                <button class="btn btn-primary btn-sm" wire:click="updateDelivery">
+                                                                <button class="btn btn-primary btn-sm"
+                                                                    wire:click="updateDelivery">
                                                                     Save
                                                                 </button>
-                                                                <button class="btn btn-secondary btn-sm" wire:click="cancelEdit">
+                                                                <button class="btn btn-secondary btn-sm"
+                                                                    wire:click="cancelEdit">
                                                                     Cancel
                                                                 </button>
                                                             </div>
                                                         </div>
                                                     @else
-                                                        <span class="badge bg-{{ $group['status'] === 'Delivered' ? 'success' : 'warning' }}">
+                                                        <span
+                                                            class="badge bg-{{ $group['status'] === 'Delivered' ? 'success' : 'warning' }}">
                                                             {{ $group['status'] }}
                                                         </span>
-                                                        <button class="btn btn-sm btn-link" wire:click="editDelivery({{ $group['id'] }})">
+                                                        <button class="btn btn-sm btn-link"
+                                                            wire:click="editDelivery({{ $group['id'] }})">
                                                             Edit
                                                         </button>
                                                     @endif
@@ -330,13 +343,13 @@
                                                 </td>
                                             </tr>
                                             {{-- @foreach ($group['products'] as $product)
-                                                <tr>
-                                                    <td class="text-center">{{ $product['product']->product_name }}
-                                                    </td>
-                                                    <td class="text-center">{{ $product['quantity'] }}</td>
-                                                    <td class="text-center">{{ $product['unit_price'] }}</td>
-                                                    <td class="text-center">{{ $product['total'] }}</td>
-                                                </tr>
+                                            <tr>
+                                                <td class="text-center">{{ $product['product']->product_name }}
+                                                </td>
+                                                <td class="text-center">{{ $product['quantity'] }}</td>
+                                                <td class="text-center">{{ $product['unit_price'] }}</td>
+                                                <td class="text-center">{{ $product['total'] }}</td>
+                                            </tr>
                                             @endforeach --}}
                                         @endforeach
                                     </tbody>
@@ -352,15 +365,16 @@
                             <form wire:submit.prevent="generateInvoices">
                                 <div class="row">
                                     @foreach ($order->orderDetails as $index => $detail)
-                                        @if ($detail->product->id != 1) 
+                                        @if ($detail->product->id != 1)
                                             <div class="mb-3 col-md-4">
                                                 <label for="quantitySplit_{{ $index }}" class="form-label">
                                                     {{ $detail->product->product_name }} (Remaining Qty:
                                                     {{ $detail->invoice_rem }})
                                                 </label>
                                                 <input type="number" id="quantitySplit_{{ $index }}"
-                                                    wire:model="quantitySplits.{{ $index }}" class="form-control"
-                                                    min="0" max="{{ $detail->invoice_rem }}" step="1"
+                                                    wire:model="quantitySplits.{{ $index }}"
+                                                    class="form-control" min="0"
+                                                    max="{{ $detail->invoice_rem }}" step="1"
                                                     placeholder="Invoice Quantity" />
                                             </div>
                                             <div class="mb-3 col-md-4">
@@ -390,6 +404,62 @@
                             </form>
                         </div>
                     </div>
+                    @if ($invoicesToDisplay->where('invoice_category', 'shipping')->count() > 0)
+                        <div class="mt-4 card">
+                            <div class="card-header">
+                                <h5 class="card-title">Shipping Invoices</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-bordered">
+                                        <thead class="border-2 bg-light border-bottom">
+                                            <tr>
+                                                <th class="text-center">Invoice Number</th>
+                                                <th class="text-center">Invoice Date</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-center">Remarks</th>
+                                                <th class="text-center">Total</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($invoicesToDisplay->where('invoice_category', 'shipping') as $invoice)
+                                                @php
+                                                    $shippingTotal = $invoice->invoiceDetails->sum('quantity') * 5;
+                                                @endphp
+                                                <tr>
+                                                    <td class="text-center">{{ $invoice->invoice_number }}</td>
+                                                    <td class="text-center">
+                                                        {{ date('M d, Y', strtotime($invoice->invoice_date ?? $invoice->created_at)) }}
+                                                        <i class="ml-1 cursor-pointer fas fa-edit text-primary"
+                                                            wire:click="editInvoiceDate('{{ $invoice->id }}')"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editInvoiceDateModal">
+                                                        </i>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $invoice->invoiceDetails->sum('quantity') }}
+                                                    </td>
+                                                    <td class="text-center">{{ $invoice->remarks }}</td>
+                                                    <td class="text-center">{{ $currencySymbol }}
+                                                        {{ number_format($shippingTotal, 2) }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($invoice->invoiceDetails->count() > 0)
+                                                            <button class="btn btn-primary"
+                                                                wire:click="downloadShippingInvoice('{{ $invoice->invoiceDetails->first()->id }}', '{{ $invoice->order_id }}')">
+                                                                <i class="fas fa-download"></i>
+                                                            </button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

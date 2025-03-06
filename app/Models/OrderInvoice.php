@@ -30,7 +30,8 @@ class OrderInvoice extends Model
         'status',
         'created_by',
         'modified_by',
-        'invoice_type'
+        'invoice_type',
+        'invoice_category'
     ];
 
     protected $casts = [

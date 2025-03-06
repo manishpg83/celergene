@@ -319,7 +319,7 @@ class OrderDetails extends Component
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
-            $order = OrderMaster::with(['orderDetails.product', 'currency']) 
+            $order = OrderMaster::with(['orderDetails.product', 'currency'])
                 ->where('order_id', $order_id)
                 ->firstOrFail();
 
@@ -346,7 +346,50 @@ class OrderDetails extends Component
             return redirect()->back();
         }
     }
+    public function downloadShippingInvoice($invoiceDetailId, $order_id)
+    {
+        try {
+            $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
+            $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
+            $customer = Customer::findOrFail($invoice->customer_id);
+            $order = OrderMaster::with(['orderDetails.product', 'currency'])
+                ->where('order_id', $order_id)
+                ->firstOrFail();
 
+            $currencySymbol = $order->currency ? $order->currency->symbol : '$';
+           
+            $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
+            foreach ($orderInvoiceDetails as $detail) {
+                $detail->unit_price = 5;
+                $detail->total = $detail->quantity * 5;
+            }
+            $subtotal = $orderInvoiceDetails->sum('total'); 
+            $freight = $invoice->freight;
+            $tax = $invoice->tax; 
+            $total = $subtotal + $freight + $tax; 
+            $invoice->subtotal = $subtotal;
+            $invoice->total = $total;
+
+            $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
+            $fileName = "{$customerName}-Shipping-{$invoiceDetail->id}.pdf";
+
+            $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
+                'invoiceDetail' => $invoiceDetail,
+                'invoice' => $invoice,
+                'customer' => $customer,
+                'order' => $order,
+                'orderInvoiceDetails' => $orderInvoiceDetails,
+                'currencySymbol' => $currencySymbol,
+            ]);
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, $fileName);
+        } catch (\Exception $e) {
+            notyf()->error("Could not download shipping invoice PDF.");
+            return redirect()->back();
+        }
+    }
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {

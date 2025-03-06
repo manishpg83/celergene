@@ -224,7 +224,7 @@ class CreateOrder extends Component
         $this->subtotal = 0;
         $this->totalDiscount = 0;
         foreach ($this->orderDetails as $index => $detail) {
-           /*  $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0)); */
+            /*  $regularQuantity = max(0, floatval($detail['quantity']) - floatval($detail['sample_quantity'] ?? 0)); */
             $regularQuantity = floatval($detail['quantity']);
             $unitPrice = floatval($detail['unit_price']);
             $discount = max(0, floatval($detail['discount']));
@@ -286,9 +286,9 @@ class CreateOrder extends Component
         try {
             $this->validate();
             $this->isSubmitting = true;
-        } catch (\Illuminate\Validation\ValidationException $e) {            
+        } catch (\Illuminate\Validation\ValidationException $e) {
             throw $e;
-        } catch (\Exception $e) {            
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -356,7 +356,7 @@ class CreateOrder extends Component
 
                     $orderDetail = [
                         'product_id' => $detail['product_id'],
-                        'manual_product_name' => $detail['manual_product_name'], 
+                        'manual_product_name' => $detail['manual_product_name'],
                         'quantity' => $detail['quantity'],
                         'unit_price' => $detail['unit_price'],
                         'remaining_quantity' => $detail['quantity'],
@@ -436,10 +436,9 @@ class CreateOrder extends Component
                 ->where('order_id', $order_id)
                 ->firstOrFail();
 
-            $invoiceNumber = $this->generateUniqueInvoiceNumber();
-            $workflowType = strtolower($workflow_type->value);
-            $invoiceData = [
-                'invoice_number' => $invoiceNumber,
+            $orderInvoiceNumber = $this->generateUniqueInvoiceNumber('regular');
+            $orderInvoiceData = [
+                'invoice_number' => $orderInvoiceNumber,
                 'invoice_date' => now(),
                 'order_id' => $order->order_id,
                 'customer_id' => $order->customer_id,
@@ -454,14 +453,15 @@ class CreateOrder extends Component
                 'payment_terms' => $order->payment_terms,
                 'status' => 'Confirmed',
                 'created_by' => Auth::id(),
-                'invoice_type' => $this->determineInvoiceType($order)
+                'invoice_type' => $this->determineInvoiceType($order),
+                'invoice_category' => 'regular'
             ];
-            $invoice = OrderInvoice::create($invoiceData);
+            $orderInvoice = OrderInvoice::create($orderInvoiceData);
 
             $invoiceDetails = [];
             foreach ($order->orderDetails as $orderDetail) {
                 $invoiceDetails[] = [
-                    'order_invoice_id' => $invoice->id,
+                    'order_invoice_id' => $orderInvoice->id,
                     'product_id' => $orderDetail->product_id,
                     'unit_price' => $orderDetail->unit_price,
                     'quantity' => $orderDetail->quantity,
@@ -475,8 +475,33 @@ class CreateOrder extends Component
                     'updated_at' => now()
                 ];
             }
-
             OrderInvoiceDetail::insert($invoiceDetails);
+
+            $shippingInvoiceNumber = $this->generateUniqueInvoiceNumber('shipping');
+            $shippingInvoiceData = $orderInvoiceData;
+            $shippingInvoiceData['invoice_number'] = $shippingInvoiceNumber;
+            $shippingInvoiceData['invoice_category'] = 'shipping';
+            $shippingInvoice = OrderInvoice::create($shippingInvoiceData);
+            $shippingUnitPrice = getShippingUnitPrice();
+
+            $shippingInvoiceDetails = [];
+            foreach ($order->orderDetails as $orderDetail) {
+                $shippingInvoiceDetails[] = [
+                    'order_invoice_id' => $shippingInvoice->id,
+                    'product_id' => $orderDetail->product_id,
+                    'unit_price' => $shippingUnitPrice,
+                    'quantity' => $orderDetail->quantity,
+                    'sample_quantity' => $orderDetail->sample_quantity,
+                    'delivered_quantity' => $orderDetail->quantity,
+                    'invoiced_quantity' => $orderDetail->quantity,
+                    'discount' => 0.00,
+                    'total' => $shippingUnitPrice * $orderDetail->quantity,
+                    'manual_product_name' => $orderDetail->manual_product_name,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            OrderInvoiceDetail::insert($shippingInvoiceDetails);
 
             $order->update([
                 'is_generated' => true,
@@ -485,26 +510,28 @@ class CreateOrder extends Component
 
             DB::commit();
 
-            //notyf()->success('Invoice generated successfully with number: ' . $invoiceNumber);
-            return $invoice;
+            return [
+                'order_invoice' => $orderInvoice,
+                'shipping_invoice' => $shippingInvoice
+            ];
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Invoice generation failed: ' . $e->getMessage());
-            notyf()->error('Could not generate invoice: ' . $e->getMessage());
             return null;
         }
     }
 
-    protected function generateUniqueInvoiceNumber()
+
+    protected function generateUniqueInvoiceNumber($category = 'regular')
     {
         do {
-            $prefix = 'INV-' . now()->format('Ymd') . '-';
-            $randomSuffix = Str::random(4);
-            $invoiceNumber = $prefix . $randomSuffix;
+            $prefix = ($category === 'shipping') ? 'SHIP-' : 'INV-';
+            $invoiceNumber = $prefix . now()->format('Ymd') . '-' . Str::random(4);
         } while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists());
 
         return $invoiceNumber;
     }
+
 
     protected function determineInvoiceType($order)
     {
