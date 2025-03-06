@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Support\Facades\Event;
+use Symfony\Component\Mime\Address;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,10 +20,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-       /*  DB::listen(function ($query) {
-            Log::info("Query executed: {$query->sql} with bindings: " . json_encode($query->bindings));
-        }); */
+        Event::listen(MessageSending::class, function ($event) {
+            $event->message->getHeaders()->addMailboxListHeader('Cc', [
+                new Address('ong.suying@gmail.com', 'Su Ying Ong'),
+                new Address('admin@silapple.com', 'Margaret Lim'),
+            ]);
+        });
     }
 }
