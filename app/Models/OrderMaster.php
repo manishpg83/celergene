@@ -156,28 +156,23 @@ class OrderMaster extends Model
             ? $currentDate->year 
             : $currentDate->year - 1;
 
-        Log::info("Financial Year: {$financialYear}");
 
         $query = self::where('order_number', 'like', $financialYear . '%');
 
         if ($workflowType === OrderWorkflowType::CONSIGNMENT && $parentOrderId) {
             $parentOrder = self::find($parentOrderId);
-            Log::info("Parent Order Found: " . ($parentOrder ? $parentOrder->order_number : 'None'));
 
             if ($parentOrder) {
                 $subOrderCount = self::where('parent_order_id', $parentOrderId)->count() + 1;
                 $generatedOrderNumber = $parentOrder->order_number . '-' . str_pad($subOrderCount, 2, '0', STR_PAD_LEFT);
-                Log::info("Generated Sub-Order Number: {$generatedOrderNumber}");
                 return $generatedOrderNumber;
             }
         }
 
         $lastOrder = $query->orderBy('order_number', 'desc')->first();
-        Log::info("Last Order Found: " . ($lastOrder ? $lastOrder->order_number : 'None'));
 
         if (!$lastOrder) {          
             $generatedOrderNumber = $financialYear . '0001';
-            Log::info("No Previous Orders. Generated Order Number: {$generatedOrderNumber}");
             return $generatedOrderNumber;
         }
 
@@ -185,7 +180,6 @@ class OrderMaster extends Model
         $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
 
         $generatedOrderNumber = $financialYear . $newNumber;
-        Log::info("Generated Order Number: {$generatedOrderNumber}");
         return $generatedOrderNumber;
     }
 
@@ -196,28 +190,23 @@ class OrderMaster extends Model
             ? $currentDate->year 
             : $currentDate->year - 1;
 
-        Log::info("Financial Year: {$financialYear}");
 
         $query = self::where('order_number', 'like', $financialYear . '%');
 
         if ($workflowType === OrderWorkflowType::CONSIGNMENT && $parentOrderId) {
             $parentOrder = self::find($parentOrderId);
-            Log::info("Parent Order Found: " . ($parentOrder ? $parentOrder->order_number : 'None'));
 
             if ($parentOrder) {
                 $subOrderCount = self::where('parent_order_id', $parentOrderId)->count() + 1;
                 $generatedOrderNumber = $parentOrder->order_number . '-' . str_pad($subOrderCount, 2, '0', STR_PAD_LEFT);
-                Log::info("Generated Sub-Order Number: {$generatedOrderNumber}");
                 return $generatedOrderNumber;
             }
         }
 
         $lastOrder = $query->orderBy('order_number', 'desc')->first();
-        Log::info("Last Order Found: " . ($lastOrder ? $lastOrder->order_number : 'None'));
 
         if (!$lastOrder) {          
             $generatedOrderNumber = $financialYear . '0001';
-            Log::info("No Previous Orders. Generated Order Number: {$generatedOrderNumber}");
             return $generatedOrderNumber;
         }
 
@@ -225,7 +214,6 @@ class OrderMaster extends Model
         $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
 
         $generatedOrderNumber = 'ORD-' . $newNumber;
-        Log::info("Generated Order Number: {$generatedOrderNumber}");
         return $generatedOrderNumber;
     }
 

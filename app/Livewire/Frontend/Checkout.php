@@ -148,18 +148,15 @@ class Checkout extends Component
                 ]
             ];
         }
-        Log::debug("Shipping Addresses Loaded: ", $this->shippingAddresses);
     }
 
 
     public function handleAddressChange()
     {
-        Log::debug("Selected Shipping Address Value: " . $this->selectedShippingAddress);
 
         $selectedAddress = collect($this->shippingAddresses)->firstWhere('address', $this->selectedShippingAddress);
 
         if ($selectedAddress) {
-            Log::debug("Selected Address: ", $selectedAddress);
 
             $this->shipping_firstname = $selectedAddress['receiver_name'];
             $this->shipping_lastname = $selectedAddress['receiver_name2'];
@@ -253,70 +250,23 @@ class Checkout extends Component
         try {
             DB::beginTransaction();
 
-            if ($this->useBillingAddress) {
-                DB::table('customers')
-                    ->where('user_id', $this->user->id)
-                    ->update([
-                        'shipping_address_receiver_name_3' => $this->billing_fname,
-                        'shipping_address_receiver_lname_3' => $this->billing_lname,
-                        'shipping_address_3' => $this->billing_address,
-                        'shipping_email_3' => $this->billing_email,
-                        'shipping_company_name_3' => $this->billing_company_name,
-                        'shipping_address_3_1' => $this->billing_address_2,
-                        'shipping_city_3' => $this->billing_city,
-                        'shipping_state_3' => $this->billing_state,
-                        'shipping_phone_3' => $this->billing_phone,
-                        'shipping_country_3' => $this->billing_country,
-                        'shipping_postal_code_3' => $this->billing_postal_code,
-                    ]);
-            } else {
-                DB::table('customers')
-                    ->where('user_id', $this->user->id)
-                    ->update([
-                        'shipping_address_receiver_name_3' => $this->shipping_firstname,
-                        'shipping_address_receiver_lname_3' => $this->shipping_lastname,
-                        'shipping_address_3' => $this->shipping_address1,
-                        'shipping_email_3' => $this->shipping_email,
-                        'shipping_company_name_3' => $this->shipping_company_name,
-                        'shipping_address_3_1' => $this->shipping_address2,
-                        'shipping_city_3' => $this->shipping_city,
-                        'shipping_state_3' => $this->shipping_state,
-                        'shipping_phone_3' => $this->shipping_phone,
-                        'shipping_country_3' => $this->shipping_country,
-                        'shipping_postal_code_3' => $this->shipping_zip,
-                    ]);
-            }
-
-            DB::table('customers')
-                ->where('user_id', $this->user->id)
-                ->update([
-                    'billing_fname' => $this->billing_fname,
-                    'billing_lname' => $this->billing_lname,
-                    'billing_address' => $this->billing_address,
-                    'billing_address_2' => $this->billing_address_2,
-                    'billing_city' => $this->billing_city,
-                    'billing_state' => $this->billing_state,
-                    'billing_phone' => $this->billing_phone,
-                    'billing_email' => $this->billing_email,
-                    'billing_company_name' => $this->billing_company_name,
-                    'billing_country' => $this->billing_country,
-                    'billing_postal_code' => $this->billing_postal_code,
-                ]);
-
             $customer = DB::table('customers')
                 ->where('user_id', $this->user->id)
                 ->first();
 
             $orderNumber = OrderMaster::generateOrderNumber();
+
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
                 'customer_id' => $customer->id,
                 'entity_id' => 1,
+                'currency_id' => 1,
                 'order_date' => now(),
                 'subtotal' => $this->subtotal,
                 'total' => $this->subtotal,
-                'order_status' => 'pending',
+                'order_status' => 'Pending',
                 'order_type' => 'Online',
+                'payment_mode' => 'Credit Card',
                 'shipping_address' => $shippingAddress,
                 'created_by' => $this->user->id,
                 'created_at' => now(),
@@ -339,17 +289,17 @@ class Checkout extends Component
                 }
             }
 
-            Mail::to($this->user->email)->send(new UserOrderConfirmation($orderNumber, $this->user));
             $this->redirectToPaypal($orderId, $orderNumber);
-            session()->forget('cart');
 
+            session()->forget('cart');
             $this->dispatch('cartCountUpdated');
             $this->dispatch('cart-updated');
 
             DB::commit();
 
             session()->flash('order_number', $orderNumber);
-            // $this->dispatch('show-thank-you-modal');
+
+            return true;
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', 'Order processing error: ' . $e->getMessage());
@@ -388,6 +338,7 @@ class Checkout extends Component
             Log::info('PayPal Order Creation Response:', ['response' => $response]);
 
             if (isset($response['id']) && $response['id']) {
+                Log::info('PayPal Order Creation');
                 Payment::create([
                     'order_id' => $orderId,
                     'payment_method' => 'PayPal',
@@ -399,6 +350,8 @@ class Checkout extends Component
 
                 $approveLink = collect($response['links'])
                     ->firstWhere('rel', 'approve')['href'] ?? null;
+
+                Log::info('PayPal Approve Link:', ['link' => $approveLink]);
 
                 if ($approveLink) {
                     return redirect($approveLink);

@@ -45,7 +45,7 @@
                     <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">{{ $detail['quantity'] }}</td>
                 </tr>
                 @endforeach
-            </tbody>
+            </tbody> 
         </table>
         <p>Please update the status of the delivery order and add a tracking number.</p>
 
