@@ -117,6 +117,7 @@
                     <p>{{ $customer->shipping_address_1 ?? 'Shipping Address' }}</p>
                     <p>{{ $customer->shipping_postal_code_1 ?? 'Postal Code' }}</p>
                     <p>{{ $customer->shipping_country_1 ?? 'Country' }}</p>
+                    <p>{{ $customer->shipping_company_name_1 ?? 'shipping company name' }}</p>
                     <p>Phone : {{ $customer->mobile_number ?? 'Phone Number' }}</p>
                 </div>
             </div>

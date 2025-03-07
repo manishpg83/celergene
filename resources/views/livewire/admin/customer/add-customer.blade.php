@@ -240,11 +240,8 @@
                                                     @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_1">Shipping Address
-                                                    1</label>
-                                                <input type="text" wire:model="shipping_address_1"
-                                                    class="form-control" id="shipping_address_1"
-                                                    @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
+                                                <label class="form-label" for="shipping_address_1">Shipping Address 1</label>
+                                                <textarea wire:model="shipping_address_1" class="form-control" id="shipping_address_1" rows="4" @if ($sameAsBilling) value="{{ $billing_address }}" @endif></textarea>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
@@ -268,6 +265,10 @@
                                                 <input type="text" wire:model="shipping_phone_1"
                                                     class="form-control" id="shipping_phone_1">
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_company_name_1">Shipping Company Name 1</label>
+                                                <input type="text" wire:model="shipping_company_name_1" class="form-control" id="shipping_company_name_1">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -286,10 +287,8 @@
                                                     class="form-control" id="shipping_address_receiver_name_2">
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_2">Shipping Address
-                                                    2</label>
-                                                <input type="text" wire:model="shipping_address_2"
-                                                    class="form-control" id="shipping_address_2">
+                                                <label class="form-label" for="shipping_address_2">Shipping Address 2</label>
+                                                <textarea wire:model="shipping_address_2" class="form-control" id="shipping_address_2" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="shipping_country_2">Shipping Country 2</label>
@@ -312,6 +311,10 @@
                                                 <input type="text" wire:model="shipping_phone_2"
                                                     class="form-control" id="shipping_phone_2">
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_company_name_2">Shipping Company Name 2</label>
+                                                <input type="text" wire:model="shipping_company_name_2" class="form-control" id="shipping_company_name_2">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -330,10 +333,8 @@
                                                     class="form-control" id="shipping_address_receiver_name_3">
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_3">Shipping Address
-                                                    3</label>
-                                                <input type="text" wire:model="shipping_address_3"
-                                                    class="form-control" id="shipping_address_3">
+                                                <label class="form-label" for="shipping_address_3">Shipping Address 3</label>
+                                                <textarea wire:model="shipping_address_3" class="form-control" id="shipping_address_3" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="shipping_country_3">Shipping Country 3</label>
@@ -355,6 +356,10 @@
                                                 <label class="form-label" for="shipping_phone_3">Contact Number 3</label>
                                                 <input type="text" wire:model="shipping_phone_3"
                                                     class="form-control" id="shipping_phone_3">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="shipping_company_name_3">Shipping Company Name 3</label>
+                                                <input type="text" wire:model="shipping_company_name_3" class="form-control" id="shipping_company_name_3">
                                             </div>
                                         </div>
                                     </div>

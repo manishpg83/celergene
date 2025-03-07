@@ -58,6 +58,9 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        .bg-light-1{
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 

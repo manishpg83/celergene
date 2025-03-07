@@ -4,6 +4,10 @@ namespace App\Livewire\Frontend;
 
 use App\Mail\OrderConfirmation;
 use App\Mail\UserOrderConfirmation;
+use App\Models\OrderInvoice;
+use App\Models\OrderInvoiceDetail;
+use App\Models\OrderMaster;
+use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use App\Models\Payment;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-use App\Models\OrderMaster;
 
 class Checkout extends Component
 {
@@ -288,7 +290,7 @@ class Checkout extends Component
                     ]);
                 }
             }
-
+            $this->generateInvoice($orderId);
             $this->redirectToPaypal($orderId, $orderNumber);
 
             session()->forget('cart');
@@ -307,7 +309,116 @@ class Checkout extends Component
             return null;
         }
     }
+    public function generateInvoice($order_id)
+    {
+        $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+            ->where('order_id', $order_id)
+            ->firstOrFail();
 
+        $this->generateInvoiceWithWorkflow($order_id, $order->workflow_type);
+    }
+    public function generateInvoiceWithWorkflow($order_id, $workflow_type)
+    {
+        DB::beginTransaction();
+        try {
+            $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+                ->where('order_id', $order_id)
+                ->firstOrFail();
+
+            $orderInvoiceNumber = $this->generateUniqueInvoiceNumber('regular');
+            $orderInvoiceData = [
+                'invoice_number' => $orderInvoiceNumber,
+                'invoice_date' => now(),
+                'order_id' => $order->order_id,
+                'customer_id' => $order->customer_id,
+                'entity_id' => $order->entity_id,
+                'shipping_address' => $order->shipping_address,
+                'subtotal' => $order->subtotal,
+                'discount' => $order->discount,
+                'freight' => $order->freight,
+                'tax' => $order->tax,
+                'total' => $order->total,
+                'remarks' => $order->remarks,
+                'payment_terms' => $order->payment_terms,
+                'status' => 'Confirmed',
+                'created_by' => Auth::id(),
+                'invoice_type' => 'regular',
+                'invoice_category' => 'regular'
+            ];
+            $orderInvoice = OrderInvoice::create($orderInvoiceData);
+
+            $invoiceDetails = [];
+            foreach ($order->orderDetails as $orderDetail) {
+                $invoiceDetails[] = [
+                    'order_invoice_id' => $orderInvoice->id,
+                    'product_id' => $orderDetail->product_id,
+                    'unit_price' => $orderDetail->unit_price,
+                    'quantity' => $orderDetail->quantity,
+                    'sample_quantity' => 0,
+                    'delivered_quantity' => $orderDetail->quantity,
+                    'invoiced_quantity' => $orderDetail->quantity,
+                    'discount' => 0,
+                    'total' => $orderDetail->total,
+                    'manual_product_name' => $orderDetail->manual_product_name,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            OrderInvoiceDetail::insert($invoiceDetails);
+
+            $shippingInvoiceNumber = $this->generateUniqueInvoiceNumber('shipping');
+            $shippingInvoiceData = $orderInvoiceData;
+            $shippingInvoiceData['invoice_number'] = $shippingInvoiceNumber;
+            $shippingInvoiceData['invoice_category'] = 'shipping';
+            $shippingInvoice = OrderInvoice::create($shippingInvoiceData);
+            $shippingUnitPrice = getShippingUnitPrice();
+
+            $shippingInvoiceDetails = [];
+            foreach ($order->orderDetails as $orderDetail) {
+                $shippingInvoiceDetails[] = [
+                    'order_invoice_id' => $shippingInvoice->id,
+                    'product_id' => $orderDetail->product_id,
+                    'unit_price' => $shippingUnitPrice,
+                    'quantity' => $orderDetail->quantity,
+                    'sample_quantity' => 0,
+                    'delivered_quantity' => $orderDetail->quantity,
+                    'invoiced_quantity' => $orderDetail->quantity,
+                    'discount' => 0.00,
+                    'total' => $shippingUnitPrice * $orderDetail->quantity,
+                    'manual_product_name' => $orderDetail->manual_product_name,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            OrderInvoiceDetail::insert($shippingInvoiceDetails);
+
+            $order->update([
+                'is_generated' => true,
+                'modified_by' => Auth::id()
+            ]);
+
+            DB::commit();
+
+            return [
+                'order_invoice' => $orderInvoice,
+                'shipping_invoice' => $shippingInvoice
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Invoice generation failed: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+
+    protected function generateUniqueInvoiceNumber($category = 'regular')
+    {
+        do {
+            $prefix = ($category === 'shipping') ? 'SHIP-' : 'INV-';
+            $invoiceNumber = $prefix . now()->format('Ymd') . '-' . Str::random(4);
+        } while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists());
+        return $invoiceNumber;
+    }
     private function redirectToPaypal($orderId, $orderNumber)
     {
         try {

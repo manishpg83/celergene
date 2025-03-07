@@ -407,7 +407,7 @@
                     @if ($invoicesToDisplay->where('invoice_category', 'shipping')->count() > 0)
                         <div class="mt-4 card">
                             <div class="card-header">
-                                <h5 class="card-title">Shipping Invoices</h5>
+                                <h5 class="card-title">Shipping Invoices  </h5>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

@@ -73,7 +73,7 @@
                 @foreach ($payments as $payment)
                     <tr class="text-center">
                         <td>{{ $payment->payment_method }}</td>
-                        <td>₱{{ number_format($payment->amount, 2) }}</td>
+                        <td>{{ $currencySymbol }} {{ number_format($payment->amount, 2) }}</td>
                         <td>{{ $payment->payment_date }}</td>
                         <td>{{ $payment->payment_details }}</td>
                         <td>{{ $payment->bank_charge }}</td>

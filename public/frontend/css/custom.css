@@ -595,7 +595,8 @@ div#dob-text {
 
 /* app.css or a custom stylesheet */
 .badge-pending {
-    background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;    
+    color: white;
     padding: 3px 4px;
     font-weight: var(--headings-font-weight);
     border-radius: 0;
@@ -609,7 +610,8 @@ div#dob-text {
 
 .badge-paid {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;    
+    color: white;
     padding: 3px 4px;
     font-weight: var(--headings-font-weight);
     border-radius: 0;
@@ -623,7 +625,8 @@ div#dob-text {
 
 .badge-cancelled {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;    color: white;
+    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;    
+    color: white;
     padding: 3px 4px;
     font-weight: var(--headings-font-weight);
     border-radius: 0;

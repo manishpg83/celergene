@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Admin\Payment;
 
-use Livewire\Component;
-use App\Models\Payment;
 use App\Models\OrderMaster;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class ManagePayment extends Component
 {
@@ -44,12 +45,18 @@ class ManagePayment extends Component
 
         notyf()->success('Payment recorded successfully!');
         $this->reset(['payment_method', 'amount', 'payment_date', 'status', 'payment_details', 'transaction_id', 'bank_charge']);
-    }
+    } 
 
     public function render()
     {
+        // Fetch the currency symbol based on the order's currency_id
+        $currencySymbol = DB::table('currency')
+            ->where('id', $this->order->currency_id)
+            ->value('symbol');
+    
         return view('livewire.admin.payment.manage-payment', [
-            'payments' => Payment::where('order_id', $this->order_id)->latest()->get()
+            'payments' => Payment::where('order_id', $this->order_id)->latest()->get(),
+            'currencySymbol' => $currencySymbol, // Pass the currency symbol to the view
         ]);
     }
 }

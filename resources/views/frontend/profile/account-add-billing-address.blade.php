@@ -6,7 +6,7 @@
 @section('content')
     <div class="page-wraper">
 
-        <div class="page-content bg-light">
+        <div class="page-content bg-light-1">
 
             <!--Banner Start-->
             <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">

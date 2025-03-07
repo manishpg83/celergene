@@ -83,7 +83,7 @@
 
                                             <td align="left" valign="top" style="padding-top:10px;"
                                                 class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                <input class="noborder" disabled style="text-align:left;color:#333;"
+                                                <input class="noborder" disabled style="text-align:left;color:#333;font-weight:bold;"
                                                     type="text" id="unitprice_{{ $product->product_code }}"
                                                     name="unitprice_{{ $product->product_code }}"
                                                     value="{{ $product->currency }} {{ number_format($product->unit_price, 2) }}">

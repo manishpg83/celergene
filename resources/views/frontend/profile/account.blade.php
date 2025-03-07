@@ -7,7 +7,7 @@
     {{--  @livewire('frontend.my-account') --}}
     <div class="page-wraper">
 
-        <div class="page-content bg-light">
+        <div class="page-content bg-light-1">
 
             <!--Banner Start-->
             <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">
@@ -74,7 +74,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div class="total-contain">
                                             <div class="total-icon">
                                                 <svg width="33" height="27" viewBox="0 0 33 27" fill="none"
@@ -111,7 +111,7 @@
                                                 <h2 class="title">31576</h2>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 

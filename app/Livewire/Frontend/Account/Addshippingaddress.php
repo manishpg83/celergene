@@ -32,7 +32,7 @@ class Addshippingaddress extends Component
         'city' => 'required|string|max:255',
         'state' => 'required|string|max:255',
         'pincode' => 'required|string|max:20',
-        'phoneNumber' => 'required|string|max:20', // Add this line
+        'phoneNumber' => 'required|string|max:20',
     ];
 
     public function mount($addressNumber = null)
@@ -72,37 +72,31 @@ class Addshippingaddress extends Component
     protected function loadExistingAddress($customer)
     {
         $addressNumber = $this->addressNumber;
-
+    
         if ($addressNumber) {
             $this->streetAddress = $customer->{"shipping_address_$addressNumber"} ?? '';
-            $countryId = DB::table('country')
-                ->where('name', $customer->{"shipping_country_$addressNumber"})
-                ->value('id');
-            $this->country = $countryId ?? '';
+            $this->country = $customer->{"shipping_country_$addressNumber"} ?? '';
             $this->pincode = $customer->{"shipping_postal_code_$addressNumber"} ?? '';
             $this->city = $customer->{"shipping_city_$addressNumber"} ?? '';
             $this->state = $customer->{"shipping_state_$addressNumber"} ?? '';
             $this->phoneNumber = $customer->{"shipping_phone_$addressNumber"} ?? '';
-
+            $this->companyName = $customer->{"shipping_company_name_$addressNumber"} ?? '';
             $fullName = $customer->{"shipping_address_receiver_name_$addressNumber"} ?? '';
             if ($fullName) {
                 $nameParts = explode(' ', $fullName, 2);
                 $this->firstName = $nameParts[0] ?? '';
                 $this->lastName = $nameParts[1] ?? '';
             }
-
+    
             if ($this->streetAddress && str_contains($this->streetAddress, "\n")) {
                 [$this->streetAddress, $this->apartmentAddress] = explode("\n", $this->streetAddress, 2);
             }
-
+    
             if (!$this->email) {
                 $this->email = $customer->email ?? '';
             }
             if (!$this->phoneNumber) {
                 $this->phoneNumber = $customer->mobile_number ?? '';
-            }
-            if (!$this->companyName) {
-                $this->companyName = $customer->company_name ?? '';
             }
             $this->dispatch('contentChanged');
         }
@@ -124,38 +118,36 @@ class Addshippingaddress extends Component
     public function save()
     {
         $this->validate();
-
+    
         $customer = Customer::where('user_id', Auth::id())->first();
-
+    
         $customer->update([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
-            'company_name' => $this->companyName,
             'email' => $this->email,
             'mobile_number' => $this->phoneNumber,
             'updated_by' => Auth::id(),
         ]);
-
-        $countryName = DB::table('country')->where('id', $this->country)->value('name');
-
+    
         $addressNumber = $this->addressNumber ?? $this->getNextAvailableAddressSlot($customer);
-
+    
         $fullAddress = $this->streetAddress;
         if ($this->apartmentAddress) {
             $fullAddress .= "\n" . $this->apartmentAddress;
         }
-
+    
         $customer->update([
             "shipping_address_receiver_name_{$addressNumber}" => "{$this->firstName} {$this->lastName}",
             "shipping_address_{$addressNumber}" => $fullAddress,
-            "shipping_country_{$addressNumber}" => $countryName,
+            "shipping_country_{$addressNumber}" => $this->country,
             "shipping_postal_code_{$addressNumber}" => $this->pincode,
             "shipping_city_{$addressNumber}" => $this->city,
             "shipping_state_{$addressNumber}" => $this->state,
             "shipping_phone_{$addressNumber}" => $this->phoneNumber,
+            "shipping_company_name_{$addressNumber}" => $this->companyName,
             'updated_by' => Auth::id(),
         ]);
-
+    
         notyf()->success('Shipping address saved successfully!');
         return redirect()->route('shippingaddress');
     }
@@ -172,7 +164,7 @@ class Addshippingaddress extends Component
 
     public function render()
     {
-        $countries = DB::table('country')->pluck('name', 'id');
+        $countries = DB::table('country')->pluck('name', 'name');
 
         return view('livewire.frontend.account.addshippingaddress', [
             'countries' => $countries,

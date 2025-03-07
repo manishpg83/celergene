@@ -56,7 +56,7 @@
                     <select wire:model="country" class="form-select @error('country') is-invalid @enderror">
                         <option value="">Select Country</option>
                         @foreach ($countries as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
+                            <option value="{{ $name }}">{{ $name }}</option> 
                         @endforeach
                     </select>
                     @error('country')
@@ -64,7 +64,7 @@
                     @enderror
                 </div>
             </div>
-            <!-- Add this after the company name field -->
+
             <div class="col-md-6">
                 <div class="form-group m-b25">
                     <label class="label-title">Contact Number *</label>

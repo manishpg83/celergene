@@ -33,6 +33,7 @@ class AddCustomer extends Component
     public $shipping_address_receiver_name_1, $shipping_address_1, $shipping_country_1, $shipping_postal_code_1;
     public $shipping_address_receiver_name_2, $shipping_address_2, $shipping_country_2, $shipping_postal_code_2;
     public $shipping_address_receiver_name_3, $shipping_address_3, $shipping_country_3, $shipping_postal_code_3;
+    public $shipping_company_name_1, $shipping_company_name_2, $shipping_company_name_3;
 
     public $customerTypes;
 
@@ -97,14 +98,17 @@ class AddCustomer extends Component
         $this->shipping_address_1 = $customer->shipping_address_1;
         $this->shipping_country_1 = $customer->shipping_country_1;
         $this->shipping_postal_code_1 = $customer->shipping_postal_code_1;
+        $this->shipping_company_name_1 = $customer->shipping_company_name_1;
         $this->shipping_address_receiver_name_2 = $customer->shipping_address_receiver_name_2;
         $this->shipping_address_2 = $customer->shipping_address_2;
         $this->shipping_country_2 = $customer->shipping_country_2;
         $this->shipping_postal_code_2 = $customer->shipping_postal_code_2;
+        $this->shipping_company_name_2 = $customer->shipping_company_name_2;
         $this->shipping_address_receiver_name_3 = $customer->shipping_address_receiver_name_3;
         $this->shipping_address_3 = $customer->shipping_address_3;
         $this->shipping_country_3 = $customer->shipping_country_3;
         $this->shipping_postal_code_3 = $customer->shipping_postal_code_3;
+        $this->shipping_company_name_3 = $customer->shipping_company_name_3;
         $this->shipping_phone_1 = $customer->shipping_phone_1;
         $this->shipping_phone_2 = $customer->shipping_phone_2;
         $this->shipping_phone_3 = $customer->shipping_phone_3;
@@ -242,14 +246,17 @@ class AddCustomer extends Component
             'shipping_address_1' => $this->shipping_address_1,
             'shipping_country_1' => $this->shipping_country_1,
             'shipping_postal_code_1' => $this->shipping_postal_code_1,
+            'shipping_company_name_1' => $this->shipping_company_name_1,
             'shipping_address_receiver_name_2' => $this->shipping_address_receiver_name_2,
             'shipping_address_2' => $this->shipping_address_2,
             'shipping_country_2' => $this->shipping_country_2,
             'shipping_postal_code_2' => $this->shipping_postal_code_2,
+            'shipping_company_name_2' => $this->shipping_company_name_2,
             'shipping_address_receiver_name_3' => $this->shipping_address_receiver_name_3,
             'shipping_address_3' => $this->shipping_address_3,
             'shipping_country_3' => $this->shipping_country_3,
             'shipping_postal_code_3' => $this->shipping_postal_code_3,
+            'shipping_company_name_3' => $this->shipping_company_name_3,
             'shipping_phone_1' => $this->shipping_phone_1,
             'shipping_phone_2' => $this->shipping_phone_2,
             'shipping_phone_3' => $this->shipping_phone_3,
