@@ -36,7 +36,7 @@
         }
 
         .company-address {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .header .company-name {
@@ -213,7 +213,9 @@
         <div class="invoice-text">INVOICE </div>
     </div>
     <div>
-        <div class="company-address">{{ $order->entity->address }}</div>
+        <div class="company-address" style="width: 50%; float: left;">{{ $order->entity->address }}</div>
+        <div style="width: 50%; float: right; text-align: right;"><strong>Order #:</strong> {{ $order->order_number }}</div>
+        <div style="clear: both;"></div>
     </div>
 
     <div class="addresses">
@@ -262,7 +264,7 @@
         </thead>
         <tbody>
             @php
-                $totalRows = 20;
+                $totalRows = 18;
                 $productCount = count($orderInvoiceDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp

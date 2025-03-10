@@ -16,7 +16,7 @@ class CartComponent extends Component
 
     public function mount()
     {
-        $this->products = Product::all();
+        $this->products = Product::where('is_online', true)->get();
         $this->updateCart();
     }
 
@@ -25,7 +25,7 @@ class CartComponent extends Component
         $cart = session()->get('cart', []);
         $cart = is_array($cart) ? $cart : [];
 
-        $product = Product::where('product_code', $productCode)->first();
+        $product = Product::where('product_code', $productCode)->where('is_online', true)->first();
 
         if ($product) {
             if (!isset($cart[$productCode])) {
@@ -50,7 +50,7 @@ class CartComponent extends Component
         $cart = session()->get('cart', []);
         $cart = is_array($cart) ? $cart : [];
 
-        $product = Product::where('product_code', $productCode)->first();
+        $product = Product::where('product_code', $productCode)->where('is_online', true)->first();
 
         if ($product && isset($cart[$productCode])) {
             $cart[$productCode]['quantity'] = ($cart[$productCode]['quantity'] ?? 0) - 1;
@@ -80,7 +80,7 @@ class CartComponent extends Component
         $this->subtotal = 0;
 
         foreach ($this->cartItems as $productCode => $item) {
-            $product = Product::where('product_code', $productCode)->first();
+            $product = Product::where('product_code', $productCode)->where('is_online', true)->first();
             if ($product && isset($item['quantity'])) {
                 $this->subtotal += $product->unit_price * $item['quantity'];
             }

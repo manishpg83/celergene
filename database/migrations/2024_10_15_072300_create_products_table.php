@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->decimal('unit_price', 10, 2);
             $table->text('remarks_notes')->nullable();
             $table->text('description');
+            $table->boolean('is_online')->default(false);
             $table->string('created_by');
             $table->string('modified_by');
             $table->softDeletes();

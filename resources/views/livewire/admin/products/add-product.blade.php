@@ -126,6 +126,17 @@
                                     @enderror
                                 </div>
 
+                                <div class="col-md-6">
+                                    <label class="form-label" for="is_online">Is Online</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="is_online" wire:model="is_online" value="1">
+                                        <label class="form-check-label" for="is_online">Available Online</label>
+                                    </div>
+                                    @error('is_online')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <div class="col-md-12">
                                     <label class="form-label" for="remarks_notes">Remarks/Notes</label>
                                     <textarea class="form-control" id="remarks_notes" wire:model="remarks_notes" placeholder="Enter remarks or notes"></textarea>

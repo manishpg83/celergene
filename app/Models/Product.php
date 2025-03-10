@@ -26,6 +26,7 @@ class Product extends Model
         'unit_price',
         'remarks_notes',
         'description',
+        'is_online',
         'invoice_description',
         'created_by',
         'modified_by',

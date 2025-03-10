@@ -35,6 +35,7 @@ class AddProduct extends Component
     public $categories = [];
     public $minExpireDate;
     public $currencies = [];
+    public $is_online = 0;
 
     public function rules()
     {
@@ -57,6 +58,7 @@ class AddProduct extends Component
             'unit_price' => 'required|numeric',
             'remarks_notes' => 'nullable|string',
             'description' => 'required|string',
+            'is_online' => 'nullable|boolean',
         ];
     }
 
@@ -122,6 +124,7 @@ class AddProduct extends Component
                 'unit_price' => $this->unit_price,
                 'remarks_notes' => $this->remarks_notes,
                 'description' => $this->description,
+                'is_online' => $this->is_online,
                 'created_by' => $this->created_by,
                 'modified_by' => $this->modified_by,
                 'product_img' => $newImagePath ?? ($this->isEditMode ? $this->product_img_url : null),
