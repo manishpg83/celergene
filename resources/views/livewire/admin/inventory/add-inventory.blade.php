@@ -51,8 +51,12 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="batch_number">Batch Number</label>
-                                    <input type="text" wire:model="batch_number" id="batch_number" class="form-control"
-                                        placeholder="Enter batch number" required>
+                                    <select wire:model="batch_number" id="batch_number" class="form-select" required>
+                                        <option value="">-- Select Batch Number --</option>
+                                        @foreach ($batchNumbers as $id => $batchNumber)
+                                            <option value="{{ $batchNumber }}">{{ $batchNumber }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('batch_number')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

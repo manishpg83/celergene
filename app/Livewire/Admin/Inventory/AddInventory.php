@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Inventory;
 
+use App\Models\BatchNumber;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Stock;
@@ -32,6 +33,8 @@ class AddInventory extends Component
     public $transfer_quantity;
     public $transfer_reason;
 
+    public $batchNumbers = [];
+
     public function rules()
     {
         return [
@@ -52,6 +55,8 @@ class AddInventory extends Component
     {
         $this->inventory_id = request()->query('id');
         $this->minExpireDate = date('Y-m');
+
+        $this->batchNumbers = BatchNumber::pluck('batch_number', 'id')->toArray();
 
         if ($this->inventory_id) {
             $inventory = Inventory::find($this->inventory_id);
@@ -87,19 +92,19 @@ class AddInventory extends Component
     public function saveInventory()
     {
         DB::transaction(function () {
-            $oldInventory = Inventory::find($this->inventory_id);
-
-            $oldQuantity = $oldInventory->remaining ? $oldInventory->remaining : 0;
+            $oldInventory = $this->inventory_id ? Inventory::find($this->inventory_id) : null;
+    
+            $oldQuantity = $oldInventory ? $oldInventory->remaining : 0;
             $oldConsumed = $oldInventory ? $oldInventory->consumed : 0;
-
+    
             $newQuantity = $oldQuantity + $this->quantity;
             $this->remaining = $newQuantity - $oldConsumed;
-
+    
             if (!$this->expiry) {
                 $this->expiry = (date('Y') + 1) . '-12';
             }
             $formattedExpireDate = $this->expiry . '-01';
-
+    
             $inventory = Inventory::updateOrCreate(
                 ['id' => $this->inventory_id],
                 [
@@ -114,7 +119,7 @@ class AddInventory extends Component
                     'modified_by' => Auth::id(),
                 ]
             );
-
+    
             Stock::create([
                 'inventory_id' => $inventory->id,
                 'product_id' => $this->product_code,
@@ -125,7 +130,7 @@ class AddInventory extends Component
                 'created_by' => Auth::id()
             ]);
         });
-
+    
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         return redirect()->route('admin.inventory.index');
     }
@@ -212,6 +217,7 @@ class AddInventory extends Component
             'products' => Product::all(),
             'warehouses' => Warehouse::all(),
             'stockHistory' => $this->stockHistory,
+            'batchNumbers' => $this->batchNumbers,
         ]);
     }
 }

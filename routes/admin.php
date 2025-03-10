@@ -1,23 +1,27 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\BatchNumberController;
+use App\Http\Controllers\Admin\CountryManagerController;
+use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CustomersTypeController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\OrderMasterController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SuppliersController;
+use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
-use App\Http\Controllers\Admin\AdminEntityController;
-use App\Http\Controllers\Admin\OrderMasterController;
-use App\Http\Controllers\Admin\CustomersTypeController;
-use App\Http\Controllers\Admin\CountryManagerController;
-use App\Http\Controllers\Admin\ProductCategoryController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -96,6 +100,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::middleware(['permission:manage inventory'])->group(function () {
                 Route::get('inventory/', [InventoryController::class, 'index'])->name('inventory.index');
                 Route::get('inventory/add', [InventoryController::class, 'add'])->name('inventory.add');
+                Route::get('batchnumber', [BatchNumberController::class, 'index'])->name('batchnumber.index');
+                Route::get('batchnumber/add', [BatchNumberController::class, 'add'])->name('batchnumber.add');
+                Route::get('batchnumber/edit/{id}', [BatchNumberController::class, 'showAddEntityForm'])->name('batchnumber.edit');
             });
 
             Route::middleware(['permission:manage customers'])->group(function () {

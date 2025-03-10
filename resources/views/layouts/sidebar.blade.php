@@ -23,7 +23,7 @@
 
         <!-- Masters -->
         <li
-            class="menu-item {{ request()->routeIs('admin.suppliers*') || request()->routeIs('admin.warehouses*') || request()->routeIs('admin.customerstype*') || request()->routeIs('admin.currencycountry*') || request()->routeIs('admin.roles*') || request()->routeIs('admin.currency*')  || request()->routeIs('admin.user*') || request()->routeIs('admin.entities*') || request()->routeIs('admin.invoice*') ? 'active open' : '' }}">
+            class="menu-item {{ request()->routeIs('admin.suppliers*') || request()->routeIs('admin.warehouses*') || request()->routeIs('admin.customerstype*') || request()->routeIs('admin.currencycountry*') || request()->routeIs('admin.roles*') || request()->routeIs('admin.currency*') || request()->routeIs('admin.user*') || request()->routeIs('admin.batchnumber*') || request()->routeIs('admin.entities*') || request()->routeIs('admin.invoice*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Masters">Masters</div>
@@ -52,7 +52,7 @@
             <!-- Entity End -->
 
             <!-- Suppliers -->
-           {{--  <ul class="menu-sub">
+            {{--  <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.suppliers.*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="Distributor">Distributor</div>
@@ -116,6 +116,28 @@
                 </li>
             </ul>
             <!-- Customer Type End -->
+
+            <!-- Batch Number -->
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.batchnumber.*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <div data-i18n="Batch Number">Batch Number</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->routeIs('admin.batchnumber.add') ? 'active' : '' }}">
+                            <a href="{{ route('admin.batchnumber.add') }}" class="menu-link">
+                                <div data-i18n="Add Batch Number">Add Batch Number</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('admin.batchnumber.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.batchnumber.index') }}" class="menu-link">
+                                <div data-i18n="Batch Number List">Batch Number List</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Batch Number End -->
 
             <!-- Currency and Country -->
             <ul class="menu-sub">
@@ -412,7 +434,7 @@
                         <div data-i18n="User Settings">User Settings</div>
                     </a>
                 </li>
-        
+
                 <li class="menu-item">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="View">View</div>
