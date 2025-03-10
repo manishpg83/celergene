@@ -128,7 +128,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="is_online">Is Online</label>
-                                    <div class="form-control d-flex align-items-center" style="height: 38px; padding-left: 12px;">
+                                    <div class="d-flex align-items-center ps-2 bg-transparent" style="height: 38px;">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" class="form-check-input" id="is_online" wire:model="is_online" value="1">
                                             <label class="form-check-label" for="is_online">Available Online</label>
