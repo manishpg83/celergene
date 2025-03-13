@@ -395,7 +395,7 @@ class OrderDetails extends Component
     
             Log::info("Generating PDF", ['fileName' => $fileName]);
     
-            $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
+            $pdf = PDF::loadView('admin.order.shippinginvoice-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
                 'customer' => $customer,
