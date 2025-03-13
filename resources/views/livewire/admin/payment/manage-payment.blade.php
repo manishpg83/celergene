@@ -94,7 +94,7 @@
                         <td>
                             <button class="btn btn-primary btn-sm" wire:click="editPayment('{{ $payment->id }}')"
                                 data-bs-toggle="modal" data-bs-target="#editPaymentModal">
-                                <i class="fas fa-edit"></i> Edit
+                                <i class="fas fa-edit mr-2"></i> Edit
                             </button>
                         </td>
                     </tr>
