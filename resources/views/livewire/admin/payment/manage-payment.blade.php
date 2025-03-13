@@ -12,20 +12,26 @@
                 <option value="PayPal">PayPal</option>
                 <option value="Others">Others</option>
             </select>
-            @error('payment_method') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('payment_method')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Amount</label>
             <input type="number" wire:model="amount" class="form-control" step="0.01">
-            @error('amount') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('amount')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
-    
+
 
         <div class="col-md-6">
             <label class="form-label">Payment Date</label>
             <input type="date" wire:model="payment_date" class="form-control">
-            @error('payment_date') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('payment_date')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-md-6">
@@ -36,17 +42,23 @@
                 <option value="fully paid">Fully Paid</option>
                 <option value="fully paid">Fully paid (bank charges waived)</option>
             </select>
-            @error('status') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('status')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
         <div class="col-md-6">
             <label class="form-label">Bank Charges</label>
             <input type="number" wire:model="bank_charge" class="form-control" step="0.01">
-            @error('bank_charge') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('bank_charge')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
         <div class="col-12">
             <label class="form-label">Payment Details</label>
             <textarea wire:model="payment_details" class="form-control" rows="3"></textarea>
-            @error('payment_details') <div class="text-danger small">{{ $message }}</div> @enderror
+            @error('payment_details')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-12 text-end">
@@ -55,7 +67,7 @@
             </button>
         </div>
     </form>
-    <hr/>
+    <hr />
     <h5 class="mt-4 text-gray-700">Payment Records</h5>
     <div class="table-responsive">
         <table class="table mt-3 table-bordered table-hover">
@@ -67,6 +79,7 @@
                     <th>Payment Details</th>
                     <th>Bank Charges</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,9 +91,44 @@
                         <td>{{ $payment->payment_details }}</td>
                         <td>{{ $payment->bank_charge }}</td>
                         <td>{{ ucfirst($payment->status) }}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" wire:click="editPayment('{{ $payment->id }}')"
+                                data-bs-toggle="modal" data-bs-target="#editPaymentModal">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <!-- Payment Edit Modal -->
+    <div class="modal fade" id="editPaymentModal" wire:ignore.self tabindex="-1"
+    aria-labelledby="editPaymentModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPaymentModalLabel">Edit Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editedAmount">Amount</label>
+                    <input type="number" class="form-control" id="editedAmount"
+                        wire:model.defer="editedAmount" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="editedPaymentDate">Payment Date</label>
+                    <input type="date" class="form-control" id="editedPaymentDate"
+                        wire:model.defer="editedPaymentDate">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" wire:click="updatePayment">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

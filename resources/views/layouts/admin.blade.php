@@ -63,6 +63,7 @@
         .main-body {
             font-family: 'Poppins', Helvetica, sans-serif !important;
         }
+
         .mt-8 {
             margin-top: 8rem !important;
         }
@@ -114,7 +115,7 @@
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Main JS -->
     <script src="{{ asset('/admin/assets/js/main.js') }}"></script>
 
@@ -186,6 +187,18 @@
                     orderDateModal.hide();
                     invoiceDateModal.hide();
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('closeModal', () => {
+                let editModal = new bootstrap.Modal(document.getElementById('editPaymentModal'));
+                editModal.hide();
+            });
+
+            Livewire.on('reloadPage', () => {
+                location.reload();
             });
         });
     </script>

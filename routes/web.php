@@ -50,11 +50,11 @@ Route::middleware('auth')->group(function () {
     })->name('order.success');
 
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
     Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });
 
 // Other public routes
+Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/serum-royale', [HomeController::class, 'serumroyale'])->name('serumroyale');
 Route::get('/energy-and-vitality', [HomeController::class, 'energyandvitality'])->name('energyandvitality');

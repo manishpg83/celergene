@@ -13,6 +13,8 @@ class ManagePayment extends Component
     public $payment_date, $payment_details, $bank_charge;
     public $order;
 
+    public $editedPaymentId, $editedAmount, $editedPaymentDate;
+
     public function mount($order_id)
     {
         $this->order_id = $order_id;
@@ -45,18 +47,50 @@ class ManagePayment extends Component
 
         notyf()->success('Payment recorded successfully!');
         $this->reset(['payment_method', 'amount', 'payment_date', 'status', 'payment_details', 'transaction_id', 'bank_charge']);
-    } 
+    }
+
+    public function editPayment($paymentId)
+    {
+        $payment = Payment::findOrFail($paymentId);
+        $this->editedPaymentId = $payment->id;
+        $this->editedAmount = $payment->amount;
+        $this->editedPaymentDate = $payment->payment_date;
+    }
+
+    public function updatePayment()
+    {
+        try {
+            $this->validate([
+                'editedAmount' => 'required|numeric|min:0',
+                'editedPaymentDate' => 'required|date',
+            ]);
+        
+            $payment = Payment::findOrFail($this->editedPaymentId);
+            $payment->update([
+                'amount' => $this->editedAmount,
+                'payment_date' => $this->editedPaymentDate,
+            ]);
+        
+            $this->reset(['editedPaymentId', 'editedAmount', 'editedPaymentDate']);
+            
+            $this->dispatch('closeModal');
+            notyf()->success('Payment updated successfully!');
+            
+            return redirect(request()->header('Referer'));
+        } catch (\Exception $e) {
+            notyf()->error('Failed to update payment.');
+        }
+    }  
 
     public function render()
     {
-        // Fetch the currency symbol based on the order's currency_id
         $currencySymbol = DB::table('currency')
             ->where('id', $this->order->currency_id)
             ->value('symbol');
     
         return view('livewire.admin.payment.manage-payment', [
             'payments' => Payment::where('order_id', $this->order_id)->latest()->get(),
-            'currencySymbol' => $currencySymbol, // Pass the currency symbol to the view
+            'currencySymbol' => $currencySymbol,
         ]);
     }
 }
