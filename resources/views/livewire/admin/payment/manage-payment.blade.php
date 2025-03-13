@@ -104,31 +104,42 @@
     </div>
     <!-- Payment Edit Modal -->
     <div class="modal fade" id="editPaymentModal" wire:ignore.self tabindex="-1"
-    aria-labelledby="editPaymentModalLabel">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPaymentModalLabel">Edit Payment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="editedAmount">Amount</label>
-                    <input type="number" class="form-control" id="editedAmount"
-                        wire:model.defer="editedAmount" step="0.01">
+        aria-labelledby="editPaymentModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPaymentModalLabel">Edit Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="form-group">
-                    <label for="editedPaymentDate">Payment Date</label>
-                    <input type="date" class="form-control" id="editedPaymentDate"
-                        wire:model.defer="editedPaymentDate">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editedAmount">Amount</label>
+                        <input type="number" class="form-control" id="editedAmount" wire:model.defer="editedAmount"
+                            step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="editedPaymentDate">Payment Date</label>
+                        <input type="date" class="form-control" id="editedPaymentDate"
+                            wire:model.defer="editedPaymentDate">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" wire:click="updatePayment">Save Changes</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" wire:click="updatePayment">Save Changes</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('closeModal', () => {
+                let editModal = new bootstrap.Modal(document.getElementById('editPaymentModal'));
+                editModal.hide();
+            });
+
+            Livewire.on('reloadPage', () => {
+                location.reload();
+            });
+        });
+    </script>
 </div>
