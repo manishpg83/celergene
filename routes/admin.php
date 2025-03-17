@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CustomersTypeController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DebtorsController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\OrderMasterController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -120,6 +122,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('customerstype', [CustomersTypeController::class, 'index'])->name('customerstype.index');
                 Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
                 Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+                Route::get('debtors', [DebtorsController::class, 'index'])->name('debtors.index');
             });
             
             Route::middleware(['permission:manage invoices'])->group(function () {           

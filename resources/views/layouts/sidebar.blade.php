@@ -359,18 +359,18 @@
         <!-- Inventory Management End -->
 
         <!-- Accounts and Billing -->
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('admin.debtors*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-file-dollar"></i>
                 <div data-i18n="Accounts">Accounts</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('admin.debtors.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.debtors.index') }}" class="menu-link">
                         <div data-i18n="Debtors List">Debtors List</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->routeIs('admin.debtors.manage') ? 'active' : '' }}">
                     <a href="#" class="menu-link">
                         <div data-i18n="Manage Debtors">Manage Debtors</div>
                     </a>
