@@ -15,7 +15,7 @@ class DebtorsList extends Component
     use WithPagination;
 
     public $search = '';
-    public $perPage = 10;
+    public $perPage = 25;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
@@ -109,6 +109,11 @@ class DebtorsList extends Component
     public function render()
     {
         $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])
+            ->whereHas('order', function($query) {
+                $query->whereHas('payments', function($q) {
+                    $q->where('status', 'pending');
+                })->orWhereDoesntHave('payments');
+            })
             ->when($this->search, function ($query) {
                 $query->where('invoice_number', 'like', '%' . $this->search . '%')
                     ->orWhere('invoice_date', 'like', '%' . $this->search . '%')

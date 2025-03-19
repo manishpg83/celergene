@@ -45,6 +45,7 @@
                 <table class="table text-center">
                     <thead>
                         <tr>
+                            <th>Sr No</th>
                             <th>Invoice ID</th>
                             <th>Invoice Date</th>
                             <th>Name</th>
@@ -53,12 +54,12 @@
                             <th>Net Amount</th>
                             <th>Balance</th>
                             <th>Overdue by (Days)</th>
-                            <th>Created By</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($debtors as $debtor)
+                        @forelse ($debtors as $index => $debtor)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $debtor->invoice_number }}</td>
                                 <td>{{ $debtor->invoice_date ?? $debtor->created_at->format('Y-m-d') }}</td>
                                 <td>{{ $debtor->customer->first_name }} {{ $debtor->customer->last_name }}</td>
@@ -69,11 +70,10 @@
                                 </td>
                                 <td>{{ number_format($debtor->total, 2) }}</td>
                                 <td>{{ $debtor->overdue_days }}</td>
-                                <td>{{ $debtor->createdBy->name }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">No debtors found.</td>
+                                <td colspan="9" class="text-center">No debtors found.</td>
                             </tr>
                         @endforelse
                     </tbody>

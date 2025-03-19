@@ -359,7 +359,7 @@
         <!-- Inventory Management End -->
 
         <!-- Accounts and Billing -->
-        <li class="menu-item {{ request()->routeIs('admin.debtors*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.debtors*') || request()->routeIs('admin.consignment*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-file-dollar"></i>
                 <div data-i18n="Accounts">Accounts</div>
@@ -368,6 +368,11 @@
                 <li class="menu-item {{ request()->routeIs('admin.debtors.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.debtors.index') }}" class="menu-link">
                         <div data-i18n="Debtors List">Debtors List</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.consignment.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.consignment.index') }}" class="menu-link">
+                        <div data-i18n="Consignment List">Consignment List</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('admin.debtors.manage') ? 'active' : '' }}">

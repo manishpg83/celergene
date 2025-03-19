@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminEntityController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BatchNumberController;
+use App\Http\Controllers\Admin\ConsignmentOrderController;
 use App\Http\Controllers\Admin\CountryManagerController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -123,6 +125,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('customerstype/add', [CustomersTypeController::class, 'add'])->name('customerstype.add');
                 Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
                 Route::get('debtors', [DebtorsController::class, 'index'])->name('debtors.index');
+                Route::get('consignment-list', [ConsignmentOrderController::class, 'index'])->name('consignment.index');
             });
             
             Route::middleware(['permission:manage invoices'])->group(function () {           
