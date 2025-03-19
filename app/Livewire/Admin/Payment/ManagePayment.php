@@ -12,8 +12,9 @@ class ManagePayment extends Component
     public $order_id, $payment_method, $amount, $currency = 'USD', $status = 'pending', $transaction_id;
     public $payment_date, $payment_details, $bank_charge;
     public $order;
+    public $editedPaymentId, $editedAmount, $editedPaymentDate, $editedPaymentMethod;
+    public $editedStatus, $editedBankCharge, $editedPaymentDetails;
 
-    public $editedPaymentId, $editedAmount, $editedPaymentDate;
 
     public function mount($order_id)
     {
@@ -27,7 +28,7 @@ class ManagePayment extends Component
             'payment_method' => 'required',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
-            'status' => 'required|in:pending,partially paid,fully paid',
+            'status' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
             'payment_details' => 'nullable|string',
             'transaction_id' => 'nullable|string',
             'bank_charge' => 'nullable|numeric|min:0'
@@ -55,6 +56,10 @@ class ManagePayment extends Component
         $this->editedPaymentId = $payment->id;
         $this->editedAmount = $payment->amount;
         $this->editedPaymentDate = $payment->payment_date;
+        $this->editedPaymentMethod = $payment->payment_method;
+        $this->editedStatus = $payment->status;
+        $this->editedBankCharge = $payment->bank_charge;
+        $this->editedPaymentDetails = $payment->payment_details;
     }
 
     public function updatePayment()
@@ -63,31 +68,47 @@ class ManagePayment extends Component
             $this->validate([
                 'editedAmount' => 'required|numeric|min:0',
                 'editedPaymentDate' => 'required|date',
+                'editedPaymentMethod' => 'required',
+                'editedStatus' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
+                'editedBankCharge' => 'nullable|numeric|min:0',
+                'editedPaymentDetails' => 'nullable|string',
             ]);
-        
+
             $payment = Payment::findOrFail($this->editedPaymentId);
             $payment->update([
                 'amount' => $this->editedAmount,
                 'payment_date' => $this->editedPaymentDate,
+                'payment_method' => $this->editedPaymentMethod,
+                'status' => $this->editedStatus,
+                'bank_charge' => $this->editedBankCharge,
+                'payment_details' => $this->editedPaymentDetails,
             ]);
-        
-            $this->reset(['editedPaymentId', 'editedAmount', 'editedPaymentDate']);
-            
+
+            $this->reset([
+                'editedPaymentId',
+                'editedAmount',
+                'editedPaymentDate',
+                'editedPaymentMethod',
+                'editedStatus',
+                'editedBankCharge',
+                'editedPaymentDetails',
+            ]);
+
             $this->dispatch('closeModal');
             notyf()->success('Payment updated successfully!');
-            
+
             return redirect(request()->header('Referer'));
         } catch (\Exception $e) {
             notyf()->error('Failed to update payment.');
         }
-    }  
+    }
 
     public function render()
     {
         $currencySymbol = DB::table('currency')
             ->where('id', $this->order->currency_id)
             ->value('symbol');
-    
+
         return view('livewire.admin.payment.manage-payment', [
             'payments' => Payment::where('order_id', $this->order_id)->latest()->get(),
             'currencySymbol' => $currencySymbol,

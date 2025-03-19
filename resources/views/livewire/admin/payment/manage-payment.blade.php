@@ -39,8 +39,8 @@
             <select wire:model="status" class="form-select">
                 <option value="pending">Pending</option>
                 <option value="partially paid">Partially Paid</option>
-                <option value="fully paid">Fully Paid</option>
-                <option value="fully paid">Fully paid (bank charges waived)</option>
+                <option value="fully paid with bank charges">Fully paid with Bank Charges</option>
+                <option value="fully paid without bank charges">Fully paid without Bank Charges</option>
             </select>
             @error('status')
                 <div class="text-danger small">{{ $message }}</div>
@@ -103,24 +103,60 @@
         </table>
     </div>
     <!-- Payment Edit Modal -->
+    <!-- Payment Edit Modal -->
     <div class="modal fade" id="editPaymentModal" wire:ignore.self tabindex="-1"
         aria-labelledby="editPaymentModalLabel">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPaymentModalLabel">Edit Payment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editedAmount">Amount</label>
-                        <input type="number" class="form-control" id="editedAmount" wire:model.defer="editedAmount"
-                            step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label for="editedPaymentDate">Payment Date</label>
-                        <input type="date" class="form-control" id="editedPaymentDate"
-                            wire:model.defer="editedPaymentDate">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Payment Method</label>
+                            <select wire:model.defer="editedPaymentMethod" class="form-select">
+                                <option value="">Select Payment Method</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Credit Card">Credit Card</option>
+                                <option value="PayPal">PayPal</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control" wire:model.defer="editedAmount" step="0.01">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Payment Date</label>
+                            <input type="date" class="form-control" wire:model.defer="editedPaymentDate">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Payment Status</label>
+                            <select wire:model.defer="editedStatus" class="form-select">
+                                <option value="pending">Pending</option>
+                                <option value="partially paid">Partially Paid</option>
+                                <option value="fully paid with bank charges">Fully paid with Bank Charges</option>
+                                <option value="fully paid without bank charges">Fully paid without Bank Charges
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Bank Charges</label>
+                            <input type="number" wire:model.defer="editedBankCharge" class="form-control"
+                                step="0.01">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Payment Details</label>
+                            <textarea wire:model.defer="editedPaymentDetails" class="form-control" rows="3"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
