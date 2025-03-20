@@ -2,19 +2,21 @@
 
 namespace App\Livewire\Admin\Orders;
 
-use App\Models\Entity;
-use Livewire\Component;
-use App\Models\Customer;
-use App\Models\OrderMaster;
-use App\Models\OrderInvoice;
-use App\Models\DeliveryOrder;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Enums\OrderWorkflowType;
-use App\Models\OrderInvoiceDetail;
+use App\Mail\OrderStatusChanged;
+use App\Models\Customer;
+use App\Models\DeliveryOrder;
 use App\Models\DeliveryOrderDetail;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Entity;
 use App\Models\OrderDetails as NewOrderDetails;
+use App\Models\OrderInvoice;
+use App\Models\OrderInvoiceDetail;
+use App\Models\OrderMaster;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Component;
 
 class OrderDetails extends Component
 {
@@ -37,6 +39,9 @@ class OrderDetails extends Component
     public $editingStatus;
     public $editingTrackingNumber;
     public $editingTrackingUrl;
+    public $orderStatus;
+    public $processingStatus = false;
+    public $remarks;
 
     public function mount($order_id)
     {
@@ -79,6 +84,8 @@ class OrderDetails extends Component
 
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
+            $this->remarks = $this->order->remarks; // Add this line
+            $this->orderStatus = $this->order->order_status; // Add this line
         } catch (\Exception $e) {
             Log::error('Error in OrderDetails mount:', [
                 'error' => $e->getMessage(),
@@ -87,6 +94,44 @@ class OrderDetails extends Component
             notyf()->error("Unable to load order details.");
         }
     }
+
+    public function updateOrderDetails()
+    {
+        $this->processingStatus = true;
+    
+        try {
+            $oldStatus = $this->order->order_status;
+            
+            // Update both status and remarks
+            $this->order->order_status = $this->orderStatus;
+            $this->order->remarks = $this->remarks;
+            $this->order->modified_by = Auth::id();
+            $this->order->save();
+    
+            // Success message for the database update
+            notyf()->success('Order details updated successfully.');
+            
+            // Try to send email in a separate try-catch block
+            try {
+                // Send email notification if status changed
+                if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
+                    Mail::to($this->order->customer->email)
+                        ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
+                    notyf()->success('Notification email sent.');
+                }
+            } catch (\Exception $e) {
+                // Only log and notify about email error, but don't fail the whole update
+                Log::error('Email notification failed: ' . $e->getMessage());
+                notyf()->error('Order updated but email notification failed.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Order details update failed: ' . $e->getMessage());
+            notyf()->error('Failed to update order details.');
+        }
+    
+        $this->processingStatus = false;
+    }
+
     public function editDelivery($deliveryId)
     {
         $delivery = DeliveryOrder::find($deliveryId);

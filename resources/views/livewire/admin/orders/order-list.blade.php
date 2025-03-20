@@ -197,27 +197,14 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <select wire:model="orderStatus.{{ $order->order_id }}"
-                                                wire:change="updateStatus({{ $order->order_id }})"
-                                                @if ($processingStatus === $order->order_id) disabled @endif
-                                                class="form-select form-select-sm"
-                                                style="color: white; background-color: 
-                                            @if ($orderStatus[$order->order_id] === 'Paid') #28c76f 
-                                            @elseif ($orderStatus[$order->order_id] === 'Pending') #FF9F43 
-                                            @elseif ($orderStatus[$order->order_id] === 'Cancelled') #FF4C51 
-                                            @else white; @endif;">
-                                                <option value="Paid" style="background-color: white; color: black;">
-                                                    @if ($processingStatus === $order->order_id)
-                                                        Processing...
-                                                    @else
-                                                        Paid
-                                                    @endif
-                                                </option>
-                                                <option value="Pending" style="background-color: white; color: black;">
-                                                    Pending</option>
-                                                <option value="Cancelled"
-                                                    style="background-color: white; color: black;">Cancelled</option>
-                                            </select>
+                                            <span class="badge 
+                                                @if ($order->order_status === 'Paid') bg-success 
+                                                @elseif ($order->order_status === 'Pending') bg-warning 
+                                                @elseif ($order->order_status === 'Cancelled') bg-danger 
+                                                @elseif ($order->order_status === 'Sales Transfered to US') bg-info
+                                                @endif">
+                                                {{ $order->order_status }}
+                                            </span>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex align-items-center justify-content-center">

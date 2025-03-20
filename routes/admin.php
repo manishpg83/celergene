@@ -157,4 +157,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware('role:super-admin');
         });
     });
+    Route::fallback(function(){
+        return response()->view('errors.404' , [], 404);
+    });
 });

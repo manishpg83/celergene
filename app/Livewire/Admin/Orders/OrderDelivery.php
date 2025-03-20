@@ -72,7 +72,7 @@ class OrderDelivery extends Component
                     ])
                         ->with([
                             'product:id,product_name',
-                            'product.inventories:id,product_code,warehouse_id,remaining'
+                            'product.inventories:id,product_code,warehouse_id,remaining,batch_number'
                         ]);
                 }
             ])

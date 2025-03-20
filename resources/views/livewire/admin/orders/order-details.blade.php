@@ -205,6 +205,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mt-6">
+                            <label for="orderStatus" class="form-label">Order Status</label>
+                            <select wire:model="orderStatus" class="form-select">
+                                <option value="Paid" style="color: #28c76f;">Paid</option>
+                                <option value="Pending" style="color: #FF9F43;">Pending</option>
+                                <option value="Cancelled" style="color: #FF4C51;">Cancelled</option>
+                                <option value="Sales Transfered to US" style="color: #4c76ff;">Sales Transfered to US</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4 mt-6">
+                            <label for="remarks" class="form-label">Remarks</label>
+                            <textarea wire:model="remarks" id="remarks" class="form-control" rows="2" placeholder="Enter remarks"></textarea>
+                        </div>
+                        
+                        <div class="col-12 mb-4">
+                            <button wire:click="updateOrderDetails" class="btn btn-primary">Update Order Details</button>
+                        </div>
+                    </div>
+
                     @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
                     @php
                         $invoicesToDisplay = $showSplitInvoices ? $invoices->skip(1) : $invoices;

@@ -254,6 +254,7 @@ class OrderMaster extends Model
             'Pending' => 'warning',
             'Paid' => 'success',
             'Cancelled' => 'danger',
+            'Sales Transfered to US' => 'info',
             default => 'secondary',
         };
     }
