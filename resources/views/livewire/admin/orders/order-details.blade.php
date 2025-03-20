@@ -206,26 +206,41 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-4 mt-6">
-                            <label for="orderStatus" class="form-label">Order Status</label>
-                            <select wire:model="orderStatus" class="form-select">
-                                <option value="Paid" style="color: #28c76f;">Paid</option>
-                                <option value="Pending" style="color: #FF9F43;">Pending</option>
-                                <option value="Cancelled" style="color: #FF4C51;">Cancelled</option>
-                                <option value="Sales Transfered to US" style="color: #4c76ff;">Sales Transfered to US</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-6 mb-4 mt-6">
-                            <label for="remarks" class="form-label">Remarks</label>
-                            <textarea wire:model="remarks" id="remarks" class="form-control" rows="2" placeholder="Enter remarks"></textarea>
-                        </div>
-                        
-                        <div class="col-12 mb-4">
-                            <button wire:click="updateOrderDetails" class="btn btn-primary">Update Order Details</button>
+                    <div class="mt-5">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4 fw-bold text-primary">Order Details</h5>
+                                
+                                <div class="row g-4">
+                                    <!-- Order Status -->
+                                    <div class="col-md-6">
+                                        <label for="orderStatus" class="form-label">Order Status</label>
+                                        <select wire:model="orderStatus" class="form-select custom-dropdown">
+                                            <option value="Paid" class="text-success fw-bold">✅ Paid</option>
+                                            <option value="Pending" class="text-warning fw-bold">⏳ Pending</option>
+                                            <option value="Cancelled" class="text-danger fw-bold">❌ Cancelled</option>
+                                            <option value="Sales Transfered to US" class="text-info fw-bold">🌍 Sales Transferred to US</option>
+                                        </select>
+                                    </div>
+                    
+                                    <!-- Remarks -->
+                                    <div class="col-md-6">
+                                        <label for="remarks" class="form-label">Remarks</label>
+                                        <textarea wire:model="remarks" id="remarks" class="form-control" rows="2" placeholder="Enter remarks"></textarea>
+                                    </div>
+                                </div>
+                    
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button wire:click="updateOrderDetails" wire:loading.attr="disabled" class="btn btn-primary">
+                                        <span wire:loading wire:target="updateOrderDetails" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        <span wire:loading.remove wire:target="updateOrderDetails">Update Order Details</span>
+                                        <span wire:loading wire:target="updateOrderDetails">Processing...</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
 
                     @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
                     @php
@@ -429,7 +444,7 @@
                     @if ($invoicesToDisplay->where('invoice_category', 'shipping')->count() > 0)
                         <div class="mt-4 card">
                             <div class="card-header">
-                                <h5 class="card-title">Shipping Invoices  </h5>
+                                <h5 class="card-title">Shipping Invoices </h5>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

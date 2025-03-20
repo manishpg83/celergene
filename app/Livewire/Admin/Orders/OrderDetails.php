@@ -84,8 +84,8 @@ class OrderDetails extends Component
 
             $this->invoices = OrderInvoice::where('order_id', $order_id)->get();
             $this->actual_freight = $this->order->actual_freight;
-            $this->remarks = $this->order->remarks; // Add this line
-            $this->orderStatus = $this->order->order_status; // Add this line
+            $this->remarks = $this->order->remarks;
+            $this->orderStatus = $this->order->order_status;
         } catch (\Exception $e) {
             Log::error('Error in OrderDetails mount:', [
                 'error' => $e->getMessage(),
@@ -102,27 +102,22 @@ class OrderDetails extends Component
         try {
             $oldStatus = $this->order->order_status;
             
-            // Update both status and remarks
             $this->order->order_status = $this->orderStatus;
             $this->order->remarks = $this->remarks;
             $this->order->modified_by = Auth::id();
             $this->order->save();
     
-            // Success message for the database update
             notyf()->success('Order details updated successfully.');
             
-            // Try to send email in a separate try-catch block
-            try {
-                // Send email notification if status changed
-                if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
+            if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
+                try {
                     Mail::to($this->order->customer->email)
                         ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
                     notyf()->success('Notification email sent.');
+                } catch (\Exception $e) {
+                    Log::error('Email notification failed: ' . $e->getMessage());
+                    notyf()->error('Order updated but email notification failed.');
                 }
-            } catch (\Exception $e) {
-                // Only log and notify about email error, but don't fail the whole update
-                Log::error('Email notification failed: ' . $e->getMessage());
-                notyf()->error('Order updated but email notification failed.');
             }
         } catch (\Exception $e) {
             Log::error('Order details update failed: ' . $e->getMessage());
