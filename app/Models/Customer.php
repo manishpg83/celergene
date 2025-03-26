@@ -84,6 +84,11 @@ class Customer extends Model
         return asset('images/default-avatar.png');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(CustomerInvoice::class);
+    }
+    
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class, 'customer_type_id');

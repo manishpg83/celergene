@@ -115,6 +115,7 @@
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS -->
     <script src="{{ asset('/admin/assets/js/main.js') }}"></script>
 
@@ -150,7 +151,7 @@
                 }
             });
         });
-    </script>
+    </script>  
     <script>
         document.addEventListener('livewire:load', function() {
             const modal = new bootstrap.Modal(document.getElementById('editOrderDateModal'));

@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin\Customer;
 
-use Livewire\Component;
 use App\Models\Customer;
+use App\Models\CustomerInvoice;
 use App\Models\OrderDetails;
+use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerDetails extends Component
 {
@@ -17,6 +19,12 @@ class CustomerDetails extends Component
     public $activeTab = 'overview';
     public $selectedAddress = 'billing';
 
+    public $invoiceFile;
+    public $invoiceNumber;
+    public $invoiceDate;
+    public $invoiceAmount;
+    public $invoiceNotes;
+
     public function mount($id)
     {
         $this->customer = Customer::withTrashed()
@@ -24,7 +32,47 @@ class CustomerDetails extends Component
             ->withSum('orders', 'total')
             ->findOrFail($id);
     }
-    
+
+    public function uploadInvoice()
+    {
+        $this->validate([
+            'invoiceFile' => 'required|mimes:pdf|max:2048',
+            'invoiceNumber' => 'required|string',
+            'invoiceDate' => 'required|date',
+            'invoiceAmount' => 'required|numeric',
+        ]);
+
+        $filePath = $this->invoiceFile->store('customer_invoices', 'public');
+
+        CustomerInvoice::create([
+            'customer_id' => $this->customer->id,
+            'invoice_number' => $this->invoiceNumber,
+            'invoice_date' => $this->invoiceDate,
+            'amount' => $this->invoiceAmount,
+            'file_path' => $filePath,
+            'notes' => $this->invoiceNotes,
+        ]);
+
+        $this->reset(['invoiceFile', 'invoiceNumber', 'invoiceDate', 'invoiceAmount', 'invoiceNotes']);
+        $this->dispatch('refreshComponent');
+        notyf()->success('Invoice uploaded successfully.');
+    }
+
+    public function downloadInvoice($invoiceId)
+    {
+        $invoice = CustomerInvoice::findOrFail($invoiceId);
+        return Storage::disk('public')->download($invoice->file_path);
+    }
+
+    public function deleteInvoice($invoiceId)
+    {
+        $invoice = CustomerInvoice::findOrFail($invoiceId);
+        Storage::disk('public')->delete($invoice->file_path);
+        $invoice->delete();
+        $this->dispatch('refreshComponent');
+        notyf()->success('Invoice deleted successfully.');
+    }
+
     public function details()
     {
         return $this->hasMany(OrderDetails::class);
@@ -42,6 +90,9 @@ class CustomerDetails extends Component
                 ->orderBy('order_date', 'desc')
                 ->paginate(5),
             'addresses' => $this->getAddresses(),
+            'invoices' => $this->customer->invoices()
+                ->orderBy('invoice_date', 'desc')
+                ->paginate(5, ['*'], 'invoices_page'),
         ]);
     }
 
