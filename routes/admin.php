@@ -58,6 +58,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::delete('profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
 
             Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+            Route::get('/customers/import', function () {
+                return view('admin.customers.import');
+            })->name('customers.import');
 
             Route::middleware(['permission:manage vendors'])->group(function () {
                 Route::get('user', [VendorController::class, 'index'])->name('user.index');
