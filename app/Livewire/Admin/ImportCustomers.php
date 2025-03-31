@@ -31,7 +31,7 @@ class ImportCustomers extends Component
 
     public function preview()
     {
-        set_time_limit(0); // Increase to 120 seconds
+        set_time_limit(500);
 
         $this->validate([
             'file' => 'required|file|mimes:xlsx,xls',
@@ -47,10 +47,6 @@ class ImportCustomers extends Component
 
     public function import()
     {
-
-        set_time_limit(0); // Unlimited time
-        ini_set('memory_limit', '512M'); // Increase memory limit
-
         $this->validate();
 
         try {
