@@ -49,43 +49,40 @@ class ImportCustomers extends Component
 
     public function import()
     {
-        // Set higher limits for import
+        // Increase limits for large imports
         set_time_limit(3600);
         ini_set('memory_limit', '1024M');
         gc_enable();
-
+    
         $this->validate();
-
+    
+        $skippedDuplicates = 0;
+        $skippedInvalid = 0;
+    
         try {
             $path = $this->file->getRealPath();
             $data = Excel::toArray([], $path)[0];
-
+    
             $headers = array_shift($data);
-
+    
             foreach ($data as $index => $row) {
                 try {
                     $rowData = array_combine($headers, $row);
-
-                    $rowValidator = Validator::make($rowData, [
-                        'billing_email' => 'required|email',
-                        'first_name' => 'required',
-                        'last_name' => 'required',
-                    ]);
-
-                    if ($rowValidator->fails()) {
-                        $this->errors[] = "Row " . ($index + 2) . ": " . implode(' ', $rowValidator->errors()->all());
+    
+                    // Skip if critical fields are missing
+                    if (empty($rowData['billing_email']) || empty($rowData['last_name'])) {
+                        $skippedInvalid++;
+                        $this->errors[] = "Row " . ($index + 2) . ": Missing billing email or last name.";
                         continue;
                     }
-
-                    // Skip existing emails without adding to errors
+    
+                    // Skip duplicates
                     if (User::where('email', $rowData['billing_email'])->exists()) {
-                        $this->skipped++;  // Increment skipped counter
-                        continue;          // Skip the record
+                        $skippedDuplicates++;
+                        continue;
                     }
-
-                    // Truncate phone numbers to 15 characters
-                    $phone = isset($rowData['billing_phone']) ? substr($rowData['billing_phone'], 0, 15) : null;
-
+    
+                    // Create User
                     $user = User::create([
                         'name' => trim(($rowData['first_name'] ?? '') . ' ' . ($rowData['last_name'] ?? '')),
                         'first_name' => $rowData['first_name'] ?? null,
@@ -93,7 +90,7 @@ class ImportCustomers extends Component
                         'email' => $rowData['billing_email'],
                         'password' => Hash::make($rowData['password'] ?? Str::random(10)),
                         'company' => $rowData['billing_company_name'] ?? null,
-                        'phone' => $phone,  // Use truncated phone number
+                        'phone' => $rowData['billing_phone'] ?? null,
                         'address' => $rowData['billing_address'] ?? null,
                         'city' => $rowData['billing_city'] ?? null,
                         'state' => $rowData['billing_state'] ?? null,
@@ -104,7 +101,8 @@ class ImportCustomers extends Component
                         'type' => 'customer',
                         'created_by' => auth()->id(),
                     ]);
-
+    
+                    // Create Customer record
                     Customer::create([
                         'user_id' => $user->id,
                         'customer_type_id' => $rowData['customer_type_id'] ?? 1,
@@ -122,7 +120,7 @@ class ImportCustomers extends Component
                         'billing_address_2' => $rowData['billing_address_2'] ?? null,
                         'billing_city' => $rowData['billing_city'] ?? null,
                         'billing_state' => $rowData['billing_state'] ?? null,
-                        'billing_phone' => $phone,  // Use truncated phone number
+                        'billing_phone' => $rowData['billing_phone'] ?? null,
                         'billing_email' => $rowData['billing_email'],
                         'billing_company_name' => $rowData['billing_company_name'] ?? null,
                         'billing_country' => $rowData['billing_country'] ?? null,
@@ -141,24 +139,24 @@ class ImportCustomers extends Component
                         'created_at' => $rowData['created_at'] ?? now(),
                         'updated_at' => $rowData['updated_at'] ?? now(),
                     ]);
-
+    
                     $this->imported++;
                 } catch (\Exception $e) {
                     $this->errors[] = "Row " . ($index + 2) . ": " . $e->getMessage();
-                    $this->skipped++;  // Increment skipped counter for errors
                 }
             }
-
+    
             $this->dispatch('import-complete', [
                 'imported' => $this->imported,
-                'skipped' => $this->skipped,
-                'errors' => count($this->errors)
+                'skippedDuplicates' => $skippedDuplicates,
+                'skippedInvalid' => $skippedInvalid,
+                'errors' => count($this->errors),
             ]);
-
         } catch (\Exception $e) {
             $this->addError('file', 'Error processing Excel file: ' . $e->getMessage());
         }
     }
+    
 
     public function cancelPreview()
     {
