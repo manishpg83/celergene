@@ -69,25 +69,27 @@ class ImportCustomers extends Component
                 try {
                     $rowData = array_combine($headers, $row);
     
-                    // Skip if critical fields are missing
+                    // Remove this validation block to allow records without email/last name
+                    /* 
                     if (empty($rowData['billing_email']) || empty($rowData['last_name'])) {
                         $skippedInvalid++;
                         $this->errors[] = "Row " . ($index + 2) . ": Missing billing email or last name.";
                         continue;
                     }
+                    */
     
-                    // Skip duplicates
-                    if (User::where('email', $rowData['billing_email'])->exists()) {
+                    // Check for duplicates only if email is present
+                    if (!empty($rowData['billing_email']) && User::where('email', $rowData['billing_email'])->exists()) {
                         $skippedDuplicates++;
                         continue;
                     }
     
-                    // Create User
+                    // Create User with modified validation
                     $user = User::create([
                         'name' => trim(($rowData['first_name'] ?? '') . ' ' . ($rowData['last_name'] ?? '')),
                         'first_name' => $rowData['first_name'] ?? null,
                         'last_name' => $rowData['last_name'] ?? null,
-                        'email' => $rowData['billing_email'],
+                        'email' => $rowData['billing_email'] ?? null, // Make email optional
                         'password' => Hash::make($rowData['password'] ?? Str::random(10)),
                         'company' => $rowData['billing_company_name'] ?? null,
                         'phone' => $rowData['billing_phone'] ?? null,
@@ -110,7 +112,7 @@ class ImportCustomers extends Component
                         'first_name' => $rowData['first_name'] ?? null,
                         'last_name' => $rowData['last_name'] ?? null,
                         'mobile_number' => $rowData['resmobile'] ?? null,
-                        'email' => $rowData['billing_email'],
+                        'email' => $rowData['billing_email'] ?? null, // Make email optional
                         'company_name' => $rowData['billing_company_name'] ?? null,
                         'business_reg_number' => $rowData['business_reg_number'] ?? null,
                         'vat_number' => $rowData['vat_number'] ?? null,
@@ -121,7 +123,7 @@ class ImportCustomers extends Component
                         'billing_city' => $rowData['billing_city'] ?? null,
                         'billing_state' => $rowData['billing_state'] ?? null,
                         'billing_phone' => $rowData['billing_phone'] ?? null,
-                        'billing_email' => $rowData['billing_email'],
+                        'billing_email' => $rowData['billing_email'] ?? null, // Make email optional
                         'billing_company_name' => $rowData['billing_company_name'] ?? null,
                         'billing_country' => $rowData['billing_country'] ?? null,
                         'billing_postal_code' => $rowData['billing_postal_code'] ?? null,
