@@ -62,9 +62,6 @@
             <i class="bi bi-check-circle-fill me-2"></i>
             <div>
                 <strong>Import completed!</strong> Successfully imported {{ $imported }} customers.
-                @if($skipped > 0)
-                    <div class="text-muted">{{ $skipped }} records were skipped.</div>
-                @endif
             </div>
         </div>
     @endif
