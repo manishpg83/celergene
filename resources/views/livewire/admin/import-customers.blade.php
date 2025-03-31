@@ -57,11 +57,16 @@
         </div>
     @endif
 
-    @if($imported > 0)
-        <div class="alert alert-success mt-4 d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-2"></i>
+    <!-- Import Summary Section -->
+    @if($imported > 0 || $skipped > 0)
+        <div class="alert alert-info mt-4 d-flex align-items-center">
+            <i class="bi bi-clipboard-check me-2"></i>
             <div>
-                <strong>Import completed!</strong> Successfully imported {{ $imported }} customers.
+                <strong>Import Summary:</strong>
+                <ul class="mb-0">
+                    <li><strong>Imported:</strong> {{ $imported }} customers</li>
+                    <li><strong>Skipped:</strong> {{ $skipped }} duplicate records</li>
+                </ul>
             </div>
         </div>
     @endif
