@@ -47,6 +47,9 @@ class ImportCustomers extends Component
 
     public function import()
     {
+        set_time_limit(0); // Disable time limit
+        ini_set('memory_limit', '1024M');
+        
         $this->validate();
 
         try {
