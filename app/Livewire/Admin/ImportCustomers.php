@@ -33,7 +33,7 @@ class ImportCustomers extends Component
     public $endRow;
     public $rangeValidationError = '';
     public $previewPerPage = 10;
-    public $currentPage = 1; 
+    public $currentPage = 1;
 
     protected $rules = [
         'file' => 'required|file|mimes:xlsx,xls|max:10240',
@@ -97,7 +97,7 @@ class ImportCustomers extends Component
                 $this->currentPage
             );
 
-            $paginator->withPath(''); 
+            $paginator->withPath('');
         }
 
         return view('livewire.admin.import-customers', [
@@ -134,9 +134,9 @@ class ImportCustomers extends Component
         try {
             $path = $this->file->getRealPath();
             $data = Excel::toArray([], $path)[0];
-            $headers = array_shift($data); 
+            $headers = array_shift($data);
 
-            
+
             $this->allData = [];
             foreach ($data as $row) {
                 if (count($headers) == count($row)) {
@@ -145,11 +145,11 @@ class ImportCustomers extends Component
             }
 
             $this->totalRows = count($this->allData);
-            $this->endRow = $this->totalRows; 
+            $this->endRow = $this->totalRows;
 
             $this->updatePreviewData();
             $this->showPreview = true;
-            $this->currentPage = 1; 
+            $this->currentPage = 1;
 
         } catch (\Exception $e) {
             Log::error('Customer import preview failed', [
@@ -186,8 +186,10 @@ class ImportCustomers extends Component
         if (!empty($this->rangeValidationError)) {
             return;
         }
-
-        $blankEmailCounter = 1;
+        $existingMax = User::where('email', 'regexp', '^developer\\+[0-9]+@predsolutions\\.com$')
+        ->selectRaw('MAX(CAST(REGEXP_SUBSTR(email, \'[0-9]+\') AS UNSIGNED)) as max_counter')
+        ->value('max_counter') ?? 0;
+        $blankEmailCounter = $existingMax + 1; 
         $this->duplicateEmails = [];
         $importStartTime = now();
 
@@ -200,10 +202,10 @@ class ImportCustomers extends Component
             $this->skippedDuplicates = 0;
             $this->skippedInvalid = 0;
             $this->errors = [];
-
+           
             foreach ($dataToImport as $index => $rowData) {
                 try {
-                    $rowNumber = $startIndex + $index + 1; 
+                    $rowNumber = $startIndex + $index + 1;
 
                     if (empty($rowData['billing_email'])) {
                         $generatedEmail = "developer+{$blankEmailCounter}@predsolutions.com";
@@ -347,14 +349,14 @@ class ImportCustomers extends Component
                 'Row Range: ' . $this->startRow . '-' . (empty($this->endRow) ? $this->totalRows : $this->endRow)
             ]);
 
-            fputcsv($file, []); 
+            fputcsv($file, []);
 
             if (count($this->duplicateEmails) > 0) {
                 fputcsv($file, ['SKIPPED_DUPLICATE', 'Row', 'Email']);
                 foreach ($this->duplicateEmails as $duplicate) {
                     fputcsv($file, ['SKIPPED_DUPLICATE', $duplicate['row'], $duplicate['email']]);
                 }
-                fputcsv($file, []); 
+                fputcsv($file, []);
             }
 
             if (count($this->errors) > 0) {

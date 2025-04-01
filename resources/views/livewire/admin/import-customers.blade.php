@@ -223,13 +223,13 @@
                     </button>
                     <div class="mt-2 collapse" id="duplicateEmails">
                         <div class="card card-body">
-                            <ul class="mb-0">
-                                @foreach($duplicateEmails as $duplicate)
-                                    <li>
-                                        Row {{ $duplicate['row'] }}: {{ $duplicate['email'] }}
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <ul class="mb-0">
+                                    @foreach($duplicateEmails as $duplicate)
+                                        <li>Row {{ $duplicate['row'] }}: {{ $duplicate['email'] }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
