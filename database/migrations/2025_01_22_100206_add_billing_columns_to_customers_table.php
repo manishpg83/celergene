@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('billing_address_2', 255)->nullable()->after('billing_lname');
             $table->string('billing_city', 255)->nullable()->after('billing_address_2');
             $table->string('billing_state', 255)->nullable()->after('billing_city');
-            $table->string('billing_phone', 20)->nullable()->after('billing_state');
+            $table->string('billing_phone', 255)->nullable()->after('billing_state');
             $table->string('billing_email', 255)->nullable()->after('billing_phone');
             $table->string('billing_company_name', 255)->nullable()->after('billing_email');
         });
