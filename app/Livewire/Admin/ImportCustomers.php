@@ -34,6 +34,7 @@ class ImportCustomers extends Component
     public $rangeValidationError = '';
     public $previewPerPage = 10;
     public $currentPage = 1;
+    public $generatedEmails = [];
 
     protected $rules = [
         'file' => 'required|file|mimes:xlsx,xls|max:10240',
@@ -189,7 +190,8 @@ class ImportCustomers extends Component
         $existingMax = User::where('email', 'regexp', '^developer\\+[0-9]+@predsolutions\\.com$')
         ->selectRaw('MAX(CAST(REGEXP_SUBSTR(email, \'[0-9]+\') AS UNSIGNED)) as max_counter')
         ->value('max_counter') ?? 0;
-        $blankEmailCounter = $existingMax + 1; 
+        $blankEmailCounter = $existingMax + 1;
+        $this->generatedEmails = [];
         $this->duplicateEmails = [];
         $importStartTime = now();
 
@@ -205,11 +207,15 @@ class ImportCustomers extends Component
            
             foreach ($dataToImport as $index => $rowData) {
                 try {
-                    $rowNumber = $startIndex + $index + 1;
+                    $rowNumber = $startIndex + $index + 2;
 
                     if (empty($rowData['billing_email'])) {
                         $generatedEmail = "developer+{$blankEmailCounter}@predsolutions.com";
                         $rowData['billing_email'] = $generatedEmail;
+                        $this->generatedEmails[] = [
+                            'row' => $rowNumber,
+                            'email' => $generatedEmail
+                        ];
                         $blankEmailCounter++;
                     }
 
@@ -355,6 +361,13 @@ class ImportCustomers extends Component
                 fputcsv($file, ['SKIPPED_DUPLICATE', 'Row', 'Email']);
                 foreach ($this->duplicateEmails as $duplicate) {
                     fputcsv($file, ['SKIPPED_DUPLICATE', $duplicate['row'], $duplicate['email']]);
+                }
+                fputcsv($file, []);
+            }
+            if (count($this->generatedEmails) > 0) {
+                fputcsv($file, ['GENERATED_EMAIL', 'Row', 'Email']);
+                foreach ($this->generatedEmails as $generated) {
+                    fputcsv($file, ['GENERATED_EMAIL', $generated['row'], $generated['email']]);
                 }
                 fputcsv($file, []);
             }
