@@ -10,7 +10,7 @@
        <div class="CallunaRegular padding-x bg-blue text-white">
           <h1 class="text-white section-heading CallunaRegular border-left m-0"> WHAT IS CELERGEN ? </h1>
        </div>
-       <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/what-is-celergen.jpg" alt="" width="100%">
+       <img src="{{ asset('frontend/images/about/what-is-celergen.jpg') }}" alt="" width="100%">
     </div>
  </section>
  <section>
@@ -18,7 +18,7 @@
        <div class="container-xxl">
           <div class="row pt-lg-5">
              <div class="col-lg-4 text-lg-start text-center aos-init" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="1000">
-                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/about-celergen.png" alt="" class="aboutcelergen-image">
+                <img src="{{ asset('frontend/images/about/about-celergen.png') }}" alt="" class="aboutcelergen-image">
              </div>
              <div class="col-lg-8 aos-init" data-aos="fadeIn" data-aos-duration="1500">
                 <h6 class="lh-base  AdelleSan-Light-Opensans text-blue mb-4">
@@ -121,7 +121,7 @@
              <strong>GLOBAL ACCREDITATION</strong>
           </h3>
           <div>
-             <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/global-accreditaion.png" alt="" width="778" height="98">
+             <img src="{{ asset('frontend/images/about/global-accreditaion.png') }}" alt="" width="778" height="98">
           </div>
           <p class="opensans pt-lg-5 pt-3 pb-5 text-white m-0"> Celergen is not a drug but a pharmaceutical grade food supplement approved by Swiss Federal office of Public Health. </p>
        </div>

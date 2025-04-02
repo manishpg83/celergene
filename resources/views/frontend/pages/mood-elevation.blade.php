@@ -7,7 +7,7 @@
 
     <style>
         ul.bullet li::before {
-            background: url("images/common/ic_benefit_list.png");
+            background: url("{{ asset('frontend/images/benefits/ic_benefit_list.png') }}");
             content: '';
             width: 33px;
             height: 25px;
@@ -94,7 +94,7 @@
             padding-right: calc(var(--bs-gutter-x)* .5);
             padding-left: calc(var(--bs-gutter-x)* .5);
             margin-top: var(--bs-gutter-y);
-        }
+        } 
     </style>
 
     <section>
@@ -212,7 +212,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="images/benefits/DrBruceKLowellMD_3684_162.png" alt=""
+                                                    <img src="{{ asset('frontend/images/benefits/DrBruceKLowellMD_3684_162.png') }}" alt=""
                                                         class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -236,7 +236,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="images/benefits/Dr.-Sharon-Norling.jpg" alt=""
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Sharon-Norling.jpg') }}" alt=""
                                                         class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -259,7 +259,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="images/benefits/Dr.-Nina.jpg" alt=""
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Nina.jpg') }}" alt=""
                                                         class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -281,7 +281,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="images/benefits/DrBruceKLowellMD_3684_162.png" alt=""
+                                                    <img src="{{ asset('frontend/images/benefits/DrBruceKLowellMD_3684_162.png') }}" alt=""
                                                         class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">

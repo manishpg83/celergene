@@ -6,7 +6,7 @@
 @section('content')
 <style>
     ul.bullet li::before {
-            background: url("https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_benefit_list.png");
+            background: url("{{ asset('frontend/images/benefits/ic_benefit_list.png') }}");
             content: '';
             width: 33px;
             height: 25px;
@@ -106,7 +106,7 @@
         <div class="CallunaRegular padding-x bg-blue text-white">
             <h1 class="text-white section-heading CallunaRegular border-left m-0"> ENERGY AND VITALITY </h1>
         </div>
-        <div class="top-banner aos-init" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-energy.jpg');" data-aos="fadeIn" data-aos-duration="500">
+        <div class="top-banner aos-init" style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-increase-energy.jpg') }}');" data-aos="fadeIn" data-aos-duration="500">
             <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
                 Are You Suffering <br>
                 From Chronic Fatigue?
@@ -130,7 +130,7 @@
           <div class="col-lg-9 mx-auto float-none">
              <div class="row box-shadow p-4">
                 <div class="col-lg-3 px-4 py-3 text-lg-start text-center">
-                   <img class="imag-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/DrBruceKLowellMD_3684_162.png" alt="" width="160px" height="190px">
+                   <img class="imag-frame" src="{{ asset('frontend/images/benefits/DrBruceKLowellMD_3684_162.png') }}" alt="" width="160px" height="190px">
                 </div>
                 <div class="col-lg-9 px-4 pt-3 mt-sm-3 text-center text-lg-start">
                    <p class="doctors-review-energy text-blue AdelleSansRegular pb-3">
@@ -149,7 +149,7 @@
              <div class="border-bottom"></div>
              <div class="row pt-5 px-lg-5">
                 <div class="col-lg-6 pt-lg-5">
-                   <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/benefit-clinical-studies.png" alt="" class="" width="100%">
+                   <img src="{{ asset('frontend/images/benefits/benefit-clinical-studies.png') }}" alt="" class="" width="100%">
                 </div>
                 <div class="col-lg-6 pt-lg-5">
                    <p class="benefit-text text-grey  mb-lg-5">

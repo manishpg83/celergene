@@ -46,27 +46,27 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-4.jpg') }}" alt="">
                    </div>
                 </div>
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-5.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-5.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-6.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-6.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/TC-7.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/TC-7.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -86,16 +86,16 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/UK-Tat-2016.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/UK-Tat-2016.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/UK-Tat-2016-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/UK-Tat-2016-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/UK-Tat-2016-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/UK-Tat-2016-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Tatler_Dec-2016-e1480043099306.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Tatler_Dec-2016-e1480043099306.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -115,21 +115,21 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2016-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2016-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2016-2.png" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2016-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2016-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2016-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2016-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2016-4.jpg') }}" alt="">
                    </div>
                 </div>
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RobbReport_Dec2016.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RobbReport_Dec2016.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -149,7 +149,7 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/V-UK-2016.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/V-UK-2016.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -169,24 +169,24 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-1.png" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-1.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-2.png" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-2.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-3.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-4.png') }}" alt="">
                    </div>
                 </div>
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-5.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-5.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2015-6.png" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2015-6.png') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -206,16 +206,16 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2014-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2014-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2014-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2014-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2014-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2014-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2014-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2014-4.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -235,16 +235,16 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Du-Pont-2014-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Du-Pont-2014-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Du-Pont-2014-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Du-Pont-2014-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Du-Pont-2014-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Du-Pont-2014-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Du-Pont-2014-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Du-Pont-2014-4.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -264,10 +264,10 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Jet-Set-2014-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Jet-Set-2014-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Jet-Set-2014-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/Jet-Set-2014-2.jpg') }}" alt="">
                    </div>
                 </div>
              </div>
@@ -287,27 +287,27 @@
              <div class="col-lg-10 mx-auto">
                 <div class="row d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2013-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2013-1.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2013-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2013-2.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2013-3.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2013-3.jpg') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2013-4.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2013-4.jpg') }}" alt="">
                    </div>
                 </div>
                 <div class="row  d-flex justify-content-center pt-lg-2">
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2012-1.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2012-1.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2012-2.jpg" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2012-2.png') }}" alt="">
                    </div>
                    <div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb-3">
-                      <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/RR-2012-3.png" alt="">
+                      <img src="{{ asset('frontend/images/celergen-features/RR-2012-3.png') }}" alt="">
                    </div>
                 </div>
              </div>

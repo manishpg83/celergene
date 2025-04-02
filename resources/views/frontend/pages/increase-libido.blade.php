@@ -81,7 +81,7 @@
        <div class="CallunaRegular padding-x bg-blue text-white">
           <h1 class="text-white section-heading CallunaRegular border-left m-0">INCREASE LIBIDO</h1>
        </div>
-       <div class="top-banner aos-init" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-increase-libido.jpg');" data-aos="fadeIn" data-aos-duration="500">
+       <div class="top-banner aos-init" style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-increase-libido.jpg') }}');" data-aos="fadeIn" data-aos-duration="500">
           <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
              Are You Suffering from <br>
              Sexual Dysfunction?
@@ -108,50 +108,12 @@
              <div class="benefits-review owl-carousel owl-theme owl-loaded">
                 <div class="owl-stage-outer">
                    <div class="owl-stage" style="transform: translate3d(-1980px, 0px, 0px); transition: all; width: 5940px;">
-                      <div class="owl-item cloned" style="width: 930px; margin-right: 60px;">
-                         <div class="item benefits-item">
-                            <div class="item-shadow">
-                               <div class="row">
-                                  <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/DrBruceKLowellMD_3684_162.png" alt="" class="imag-frame">
-                                  </div>
-                                  <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                        “Some of my male patients reported improved libido and sexual performance.”
-                                     </h5>
-                                     <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                        DR. BRUCE LOWELL
-                                     </h5>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <div class="owl-item cloned" style="width: 930px; margin-right: 60px;">
-                         <div class="item benefits-item">
-                            <div class="item-shadow">
-                               <div class="row">
-                                  <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/dr-juan-remos-e1479280710760.jpg" alt="" class="imag-frame">
-                                  </div>
-                                  <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                        “I’ve had several male patients who, having been on Celergen for a month or two, no longer see the need to take Viagra. It gives them a renewed sense of vitality across the board.”
-                                     </h5>
-                                     <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                        DR. JUAN REMOS
-                                     </h5>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
                       <div class="owl-item active" style="width: 930px; margin-right: 60px;">
                          <div class="item benefits-item">
                             <div class="item-shadow">
                                <div class="row">
                                   <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/DrBruceKLowellMD_3684_162.png" alt="" class="imag-frame">
+                                     <img src="{{ asset('frontend/images/benefits/DrBruceKLowellMD_3684_162.png') }}" alt="" class="imag-frame">
                                   </div>
                                   <div class="col-lg-9">
                                      <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
@@ -170,45 +132,7 @@
                             <div class="item-shadow">
                                <div class="row">
                                   <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/dr-juan-remos-e1479280710760.jpg" alt="" class="imag-frame">
-                                  </div>
-                                  <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                        “I’ve had several male patients who, having been on Celergen for a month or two, no longer see the need to take Viagra. It gives them a renewed sense of vitality across the board.”
-                                     </h5>
-                                     <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                        DR. JUAN REMOS
-                                     </h5>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <div class="owl-item cloned" style="width: 930px; margin-right: 60px;">
-                         <div class="item benefits-item">
-                            <div class="item-shadow">
-                               <div class="row">
-                                  <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/DrBruceKLowellMD_3684_162.png" alt="" class="imag-frame">
-                                  </div>
-                                  <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                        “Some of my male patients reported improved libido and sexual performance.”
-                                     </h5>
-                                     <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                        DR. BRUCE LOWELL
-                                     </h5>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <div class="owl-item cloned" style="width: 930px; margin-right: 60px;">
-                         <div class="item benefits-item">
-                            <div class="item-shadow">
-                               <div class="row">
-                                  <div class="col-lg-3">
-                                     <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/dr-juan-remos-e1479280710760.jpg" alt="" class="imag-frame">
+                                     <img src="{{ asset('frontend/images/benefits/dr-juan-remos-e1479280710760.jpg') }}" alt="" class="imag-frame">
                                   </div>
                                   <div class="col-lg-9">
                                      <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
@@ -254,7 +178,7 @@
           <div class="col-lg-10 mx-auto float-none">
              <div class="row border p-4">
                 <div class="col-lg-3 text-center">
-                   <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/reviewed-journal.png" alt="" class="">
+                   <img src="{{ asset('frontend/images/benefits/reviewed-journal.png') }}" alt="" class="">
                 </div>
                 <div class="col-lg-9 p-0 text-lg-start text-center">
                    <h5 class="text-blue lh-base"><strong>Clinical and Laboratory Assessment of Supplementation with Marine Protein Peptides and Selected Antioxidants in Men with Mild-to-Moderate Erectile Dysfunction </strong></h5>

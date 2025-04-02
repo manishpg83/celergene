@@ -14,7 +14,7 @@
         }
 
         ul.bullet li::before {
-            background: url("https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_benefit_list.png");
+            background: url("{{ asset('frontend/images/benefits/ic_benefit_list.png') }}");
             content: '';
             width: 33px;
             height: 25px;
@@ -120,7 +120,7 @@
                     SUGAR LEVELS</h1>
             </div>
             <div class="top-banner aos-init"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-lowers-glycemic-index.jpg');"
+                style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-lowers-glycemic-index.jpg') }}');"
                 data-aos="fadeIn" data-aos-duration="500">
                 <h1 class="top-banner-txt text-white CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
@@ -155,7 +155,7 @@
                 <div class="col-lg-10 mx-auto float-none pt-5">
                     <div class="row py-5">
                         <div class="col-lg-6">
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/lowers-chart.png"
+                            <img src="{{ asset('frontend/images/benefits/lowers-chart.png') }}"
                                 alt="">
                         </div>
                         <div class="col-lg-6 px-0">

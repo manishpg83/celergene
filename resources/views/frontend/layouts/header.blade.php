@@ -3,7 +3,7 @@
         <div id="header" class="header container-fluid expand-header">
             <a class="logo d-none d-lg-block" href="https://celergenswiss.azurewebsites.net"><img id="headerlogo"
                     class="expand-logo"
-                    src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+                    src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
                     alt="logo" width="240" /></a>
             <!-- entire menu -->
             <div id="menu-wrap" class="flex-column menu-container">

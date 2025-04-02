@@ -7,7 +7,7 @@
 
     <style>
         ul.bullet li::before {
-            background: url("https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_benefit_list.png");
+            background: url("{{ asset('frontend/images/benefits/ic_benefit_list.png') }}");
             content: '';
             width: 33px;
             height: 25px;
@@ -134,7 +134,7 @@
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">STAMINA AND RECOVERY</h1>
             </div>
             <div class="top-banner aos-init"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-benefit-stamina-recovery.jpg');"
+                style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-stamina-recovery.jpg') }}');"
                 data-aos="fadeIn" data-aos-duration="500">
                 <h1 class="top-banner-txt text-white CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
@@ -160,66 +160,12 @@
                             <div class="owl-stage-outer">
                                 <div class="owl-stage"
                                     style="transform: translate3d(-1860px, 0px, 0px); transition: all; width: 5580px;">
-                                    <div class="owl-item cloned" style="width: 870px; margin-right: 60px;">
-                                        <div class="item benefits-item">
-                                            <div class="item-shadow">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
-                                                            alt="" class="imag-frame">
-                                                    </div>
-                                                    <div class="col-lg-9 text">
-                                                        <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                                            “The first thing I noticed was that I was able to recover a lot
-                                                            quicker from my workouts…
-                                                            a huge boost to my training regimen because it allows me to work
-                                                            harder without a drop-off in
-                                                            energy and really take it to the next level.”
-                                                        </h5>
-                                                        <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                                            CURTIS MITCHELL (ELITE SPRINTER)
-                                                        </h5>
-                                                        <h6 class="customers-job text-blue">
-                                                            IAAF WORLD CHAMPIONSHIP 200M BRONZE MEDALLIST
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="owl-item cloned" style="width: 870px; margin-right: 60px;">
-                                        <div class="item benefits-item">
-                                            <div class="item-shadow">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
-                                                            alt="" class="imag-frame">
-                                                    </div>
-                                                    <div class="col-lg-9 text">
-                                                        <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                                            “I now suggest that my clients reconsider all the supplements
-                                                            they take and reduce the
-                                                            long list to only Celergen.”
-                                                        </h5>
-                                                        <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                                            GEORGE MICHAEL
-                                                        </h5>
-                                                        <h6 class="customers-job text-blue">
-                                                            CELEBRITY PERSONAL TRAINER
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="owl-item active" style="width: 870px; margin-right: 60px;">
                                         <div class="item benefits-item">
                                             <div class="item-shadow">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
+                                                        <img src="{{ asset('frontend/images/benefits/curtis-mitchell.png') }}"
                                                             alt="" class="imag-frame">
                                                     </div>
                                                     <div class="col-lg-9 text">
@@ -247,61 +193,7 @@
                                             <div class="item-shadow">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
-                                                            alt="" class="imag-frame">
-                                                    </div>
-                                                    <div class="col-lg-9 text">
-                                                        <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                                            “I now suggest that my clients reconsider all the supplements
-                                                            they take and reduce the
-                                                            long list to only Celergen.”
-                                                        </h5>
-                                                        <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                                            GEORGE MICHAEL
-                                                        </h5>
-                                                        <h6 class="customers-job text-blue">
-                                                            CELEBRITY PERSONAL TRAINER
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="owl-item cloned" style="width: 870px; margin-right: 60px;">
-                                        <div class="item benefits-item">
-                                            <div class="item-shadow">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/curtis-mitchell.png"
-                                                            alt="" class="imag-frame">
-                                                    </div>
-                                                    <div class="col-lg-9 text">
-                                                        <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
-                                                            “The first thing I noticed was that I was able to recover a lot
-                                                            quicker from my workouts…
-                                                            a huge boost to my training regimen because it allows me to work
-                                                            harder without a drop-off in
-                                                            energy and really take it to the next level.”
-                                                        </h5>
-                                                        <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
-                                                            CURTIS MITCHELL (ELITE SPRINTER)
-                                                        </h5>
-                                                        <h6 class="customers-job text-blue">
-                                                            IAAF WORLD CHAMPIONSHIP 200M BRONZE MEDALLIST
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="owl-item cloned" style="width: 870px; margin-right: 60px;">
-                                        <div class="item benefits-item">
-                                            <div class="item-shadow">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/george-michael.png"
+                                                        <img src="{{ asset('frontend/images/benefits/george-michael.png') }}"
                                                             alt="" class="imag-frame">
                                                     </div>
                                                     <div class="col-lg-9 text">
@@ -336,7 +228,7 @@
             <div class="container padding-x">
                 <div class="row">
                     <div class="col-lg-3 text-lg-start text-center ">
-                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen-stamina-recovery-certified-1.png"
+                        <img src="{{ asset('frontend/images/benefits/celergen-stamina-recovery-certified-1.png') }}"
                             alt="" width="245px" height="201px">
                     </div>
                     <div class="col-lg-9 text-lg-start text-center">
@@ -363,7 +255,7 @@
                 <div class="aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear"
                     data-aos-duration="1500">
                     <div class="padding-x py-5 pb-3" align="center">
-                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/stamina-recovery-chart-1.png"
+                        <img src="{{ asset('frontend/images/benefits/stamina-recovery-chart-1.png') }}"
                             alt="">
                     </div>
                     <p class="text-grey text-center px-lg-5  px-2">

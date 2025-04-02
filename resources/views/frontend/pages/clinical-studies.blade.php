@@ -75,7 +75,7 @@
                 <div class="tab-pane active show" id="bio-dna-tab-pane" role="tabpanel" aria-labelledby="bio-dna-tab"
                     tabindex="0">
                     <div class="container-fluid clinicalstudies-bg"
-                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0) 0%, rgba(15, 16, 49, 1.75) 100%), url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/image-00.jpg');">
+                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0) 0%, rgba(15, 16, 49, 1.75) 100%), url('{{ asset('frontend/images/clinical-studies/image-00.jpg') }}');">
                         <div class="container">
                             <div class="col-lg-11 mx-auto float-none">
                                 <p class="text-white mb-4">
@@ -102,7 +102,7 @@
                                 surgery.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/I_MANAGEMENT-OF-OSTEOARTHRITIS-PAIN1.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/I_MANAGEMENT-OF-OSTEOARTHRITIS-PAIN1.jpg') }}"
                                     alt="" width="370px" height="386px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     This figure shows the effects of a combination of 400 mg/day of Bio-DNA Cellular Marine
@@ -120,7 +120,7 @@
                                 </p>
                             </div>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/I_MANAGEMENT-OF-OSTEOARTHRITIS-PAIN2.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/I_MANAGEMENT-OF-OSTEOARTHRITIS-PAIN2.jpg') }}"
                                     alt="" width="450px" height="410px" class="float-end ms-4 mb-4">
                                 <p class="text-grey pt-3">
                                     This figure shows the effects of 200 mg/day of Bio-DNA Cellular Marine Complex (Bio-DNA
@@ -163,7 +163,7 @@
                                 exercise.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/II_IMPROVEMENT-IN-STAMINA1.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/II_IMPROVEMENT-IN-STAMINA1.jpg') }}"
                                     alt="" width="359px" height="353px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     This figure shows the effect of Bio-DNA Cellular Marine Complex (Bio-DNA CMC) given
@@ -229,7 +229,7 @@
                                 relief from anxiety, sleep disturbances, memory lapses and depression.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/IV_POSITIVE-EFFECTS-ON-MENTAL-HEALTH.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/IV_POSITIVE-EFFECTS-ON-MENTAL-HEALTH.jpg') }}"
                                     alt="" width="350px" height="364px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     This figure shows the effects of 800 mg/Day Bio-DNA Cellular Marine Complex on
@@ -266,7 +266,7 @@
                                 radicals.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/V_POSTPONING-CELLULAR-AGING-BY-COUNTERING.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/V_POSTPONING-CELLULAR-AGING-BY-COUNTERING.jpg') }}"
                                     alt="" width="350px" height="381px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     This figure shows the effect of Bio-DNA Cellular Marine Complex on lipid peroxidation in
@@ -296,7 +296,7 @@
                 <div class="tab-pane" id="peptide-tab-pane" role="tabpanel" aria-labelledby="peptide-tab"
                     tabindex="0">
                     <div class="container-fluid clinicalstudies-bg"
-                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0) 0%, rgba(15, 16, 49, 1.75) 100%), url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/image-00.jpg');">
+                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0) 0%, rgba(15, 16, 49, 1.75) 100%), url('{{ asset('frontend/images/clinical-studies/image-00.jpg') }}');">
                         <div class="container">
                             <div class="col-lg-11 mx-auto float-none">
                                 <p class="text-white mb-4">
@@ -324,7 +324,7 @@
                                 and roughness.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/I_REDUCTION-OF-LINES-AND-WRINKLES.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/I_REDUCTION-OF-LINES-AND-WRINKLES.jpg') }}"
                                     alt="" width="389px" height="329px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     This figure shows the effect of 2 grams/day of Peptide E Collagen given orally for 28
@@ -366,7 +366,7 @@
                                 therapy for the treatment of rheumatoid arthritis.
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/II_REDUCTION-IN-SWOLLEN-JOINTS-IN-RHEUMATOID-ARTHRITIS.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/II_REDUCTION-IN-SWOLLEN-JOINTS-IN-RHEUMATOID-ARTHRITIS.jpg') }}"
                                     alt="" width="390px" height="363px" class="float-start me-4 mb-4">
                                 <p class="text-grey">
                                     Rheumatoid arthritis is an autoimmune inflammatory disease in which the synovial
@@ -418,7 +418,7 @@
                 </div>
                 <div class="tab-pane" id="hydro-tab-pane" role="tabpanel" aria-labelledby="hydro-tab" tabindex="0">
                     <div class="container-fluid clinicalstudies-bg"
-                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0)   0%, rgba(15, 16, 49, 1.75) 100%), url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/image-00.jpg');">
+                        style="background-image: linear-gradient(to bottom, rgba(15, 16, 49, 0)   0%, rgba(15, 16, 49, 1.75) 100%), url('{{ asset('frontend/images/clinical-studies/image-00.jpg') }}');">
                         <div class="container">
                             <div class="col-lg-11 mx-auto float-none">
                                 <p class="text-white mb-4">
@@ -485,7 +485,7 @@
                                 BLOOD GLUCOSE RESPONSE AFTER 4 MEALS DIFFERING BY THEIR PROTEIN TYPE CONTENT
                             </p>
                             <div class="clearfix pt-3">
-                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/clinical_studies/II_EFFECT-OF-PEPTIDE-N-ON-BLOOD-GLUCOSE-LEVELS-AFTER-MEALS1.jpg"
+                                <img src="{{ asset('frontend/images/clinical-studies/II_EFFECT-OF-PEPTIDE-N-ON-BLOOD-GLUCOSE-LEVELS-AFTER-MEALS1.jpg') }}"
                                     alt="" width="390px" height="363px" class="float-start me-4 mb-4">
                                 <p class="text-grey ">
                                     This figure shows the results of a study evaluating the effects of 4 different proteins

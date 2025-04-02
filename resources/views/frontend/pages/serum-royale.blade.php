@@ -3,13 +3,13 @@
 @section('title', 'About | Celergen')
 @section('header', 'About | Celergen')
 
-@section('content')
+@section('content') 
 
 <section>
     <div class="container-fluid bg-greycolor">
        <div class="row">
           <div class="col-lg-6 p-0 aos-init aos-animate" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="1000">
-             <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/serum-royale-detail.png" alt="" width="100%">
+             <img src="{{ asset('frontend/images/serum-royale/serum-royale-detail.png') }}" alt="" width="100%">
           </div>
           <div class="col-lg-6 d-lg-flex flex-column justify-content-center pb-lg-5 p-4">
              <h1 class="section-heading1 text-blue padding-x">
@@ -54,7 +54,7 @@
              </h6>
           </div>
           <div class="col-lg-6 d-lg-none d-block p-0">
-             <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/serum-royale-beauty-never-sleep.png" alt="">
+             <img src="{{ asset('frontend/images/serum-royale/serum-royale-beauty-never-sleep.png') }}" alt="">
           </div>
        </div>
     </div>
@@ -78,11 +78,11 @@
           </h3>
        </div>
        <div class="container py-5" align="center">
-          <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/serum-royale-diagram.png" alt="" class="py-5">
+          <img src="{{ asset('frontend/images/serum-royale/serum-royale-diagram.png') }}" alt="" class="py-5">
           <h4 class="heading2 text-blue AdelleSan-Reguler-Opensans py-5">
              ACTIVE INTERVENTION AT ANY AGE WITH CELERGEN SERUM ROYALE
           </h4>
-          <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/what-is-celergen/celergen.png" alt="" class="py-lg-5">
+          <img src="{{ asset('frontend/images/serum-royale/celergen.png') }}" alt="" class="py-lg-5">
        </div>
     </div>
  </section>

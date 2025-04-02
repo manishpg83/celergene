@@ -24,7 +24,7 @@
 
         .bottom-shadow:after {
             content: '';
-            background: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/bottom-shadow.png');
+            background: url("{{ asset('frontend/images/celergen-reviews/bottom-shadow.png') }}");
             position: absolute;
             bottom: 0px;
             width: 100%;
@@ -85,7 +85,7 @@
         }
 
         .doctors-review::after {
-            background: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/shadow-arrow-slick.png');
+            background: url("{{ asset('frontend/images/celergen-reviews/shadow-arrow-slick.png') }}");
             content: '';
             width: 84px;
             height: 38px;
@@ -181,7 +181,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/lupita-jones2.png"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/lupita-jones2.png') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/curtis-mitchell.png"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/curtis-mitchell.png') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/george-michael.png"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/george-michael.png') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/anthony-stephen.png"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/anthony-stephen.png') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -312,7 +312,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/elizabethm.jpg"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/elizabethm.jpg') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -345,7 +345,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_grace.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_grace.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -377,7 +377,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_bisimwa.jpg"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/test_bisimwa.jpg') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -410,7 +410,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/maserati_dealership_main-e1479286552250.jpg"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/maserati_dealership_main-e1479286552250.jpg') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -453,7 +453,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_hector.jpg"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/test_hector.jpg') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -483,7 +483,7 @@
                                             <div class="boder-blue"></div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/nea1.jpg"
+                                            <img src="{{ asset('frontend/images/celergen-reviews/nea1.jpg') }}"
                                                 alt="" class="" width="100%">
                                         </div>
                                     </div>
@@ -528,7 +528,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/12558427_1798007863760089_2089721837_n-e1479289427813.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/12558427_1798007863760089_2089721837_n-e1479289427813.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -557,7 +557,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/P1100930-e1479286822673.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/P1100930-e1479286822673.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -584,7 +584,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/photo-e1479287228733.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/photo-e1479287228733.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -611,7 +611,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/testimonial-rie-loo.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/testimonial-rie-loo.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -638,7 +638,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_wang.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_wang.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -667,7 +667,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_kim.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_kim.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -694,7 +694,7 @@
                                         <div class="boder-blue"></div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_drkeren.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_drkeren.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -721,7 +721,7 @@
                     </h1>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Rene.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Rene.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -738,7 +738,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -755,7 +755,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael-Hall.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael-Hall.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -772,7 +772,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/DrBruceKLowellMD_3684_162.png"
+                            <img src="{{ asset('frontend/images/celergen-reviews/DrBruceKLowellMD_3684_162.png') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -787,7 +787,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Yanis.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Yanis.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -804,7 +804,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Karla-Groves.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Karla-Groves.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -820,7 +820,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Terry-Grossman.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Terry-Grossman.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -837,7 +837,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Stephen-Pfeifer.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Stephen-Pfeifer.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -854,7 +854,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-David-Minkoff.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-David-Minkoff.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -871,7 +871,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Thomas-Tzikas.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Thomas-Tzikas.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -892,7 +892,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael-Hytros.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael-Hytros.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -907,7 +907,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Donovan-Christie.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Donovan-Christie.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -927,7 +927,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Angelo-Baccellieri.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Angelo-Baccellieri.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -944,7 +944,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Sharon-Norling.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Sharon-Norling.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -960,7 +960,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Kenneth-Orbeck.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Kenneth-Orbeck.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -976,7 +976,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/druziURHQ-e1479285472801.jpeg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/druziURHQ-e1479285472801.jpeg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -991,7 +991,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Ghislaine-Beilin.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Ghislaine-Beilin.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -1011,7 +1011,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Juan-Remos.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Juan-Remos.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -1026,7 +1026,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Eleana-Papacharalambous.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Eleana-Papacharalambous.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -1055,7 +1055,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/dr-juan-remos-e1479280710760.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/dr-juan-remos-e1479280710760.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-lg-5">
@@ -1105,7 +1105,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/lupita-jones2.png"
+                                    <img src="{{ asset('frontend/images/celergen-reviews/lupita-jones2.png') }}"
                                         alt="" class="pb-2" width="100%">
                                 </div>
                                 <div class="my-5 ">
@@ -1141,7 +1141,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/curtis-mitchell.png"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/curtis-mitchell.png') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1167,7 +1167,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/george-michael.png"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/george-michael.png') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1197,7 +1197,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/anthony-stephen.png"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/anthony-stephen.png') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1224,7 +1224,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/elizabethm.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/elizabethm.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1254,7 +1254,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_grace.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_grace.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1284,7 +1284,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_bisimwa.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_bisimwa.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1314,7 +1314,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/maserati_dealership_main-e1479286552250.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/maserati_dealership_main-e1479286552250.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1354,7 +1354,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_hector.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_hector.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1381,7 +1381,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/nea1.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/nea1.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1424,7 +1424,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/12558427_1798007863760089_2089721837_n-e1479289427813.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/12558427_1798007863760089_2089721837_n-e1479289427813.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1452,7 +1452,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/P1100930-e1479286822673.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/P1100930-e1479286822673.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1478,7 +1478,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/photo-e1479287228733.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/photo-e1479287228733.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1504,7 +1504,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/testimonial-rie-loo.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/testimonial-rie-loo.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1530,7 +1530,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_wang.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_wang.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1559,7 +1559,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_kim.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_kim.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1585,7 +1585,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-4">
-                                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/test_drkeren.jpg"
+                                        <img src="{{ asset('frontend/images/celergen-reviews/test_drkeren.jpg') }}"
                                             alt="" class="" width="100%">
                                     </div>
                                 </div>
@@ -1610,7 +1610,7 @@
                     tabindex="0">
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Rene.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Rene.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1627,7 +1627,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1644,7 +1644,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael-Hall.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael-Hall.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1661,7 +1661,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/DrBruceKLowellMD_3684_162.png"
+                            <img src="{{ asset('frontend/images/celergen-reviews/DrBruceKLowellMD_3684_162.png') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1676,7 +1676,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Yanis.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Yanis.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1693,7 +1693,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Karla-Groves.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Karla-Groves.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1709,7 +1709,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Terry-Grossman.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Terry-Grossman.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1726,7 +1726,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Stephen-Pfeifer.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Stephen-Pfeifer.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1743,7 +1743,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-David-Minkoff.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-David-Minkoff.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1760,7 +1760,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Thomas-Tzikas.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Thomas-Tzikas.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1782,7 +1782,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Michael-Hytros.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Michael-Hytros.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1798,7 +1798,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Donovan-Christie.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Donovan-Christie.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1818,7 +1818,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Angelo-Baccellieri.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Angelo-Baccellieri.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1835,7 +1835,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Sharon-Norling.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Sharon-Norling.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1852,7 +1852,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Kenneth-Orbeck.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Kenneth-Orbeck.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1868,7 +1868,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/druziURHQ-e1479285472801.jpeg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/druziURHQ-e1479285472801.jpeg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1883,7 +1883,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Ghislaine-Beilin.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Ghislaine-Beilin.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1903,7 +1903,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Juan-Remos.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Juan-Remos.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1919,7 +1919,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/Dr.-Eleana-Papacharalambous.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/Dr.-Eleana-Papacharalambous.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">
@@ -1949,7 +1949,7 @@
                     </div>
                     <div id="Doctors" class="text-center doctors-review bg-white">
                         <div>
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/success_stories/dr-juan-remos-e1479280710760.jpg"
+                            <img src="{{ asset('frontend/images/celergen-reviews/dr-juan-remos-e1479280710760.jpg') }}"
                                 alt="" class="doctors-img">
                         </div>
                         <div class="pt-5">

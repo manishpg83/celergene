@@ -13,7 +13,7 @@
             style="transform: translate3d(-8967px, 0px, 0px); transition: all; width: 14091px;">
             <div class="owl-item" style="width: 1281px;">
               <div class="item home-slide-item"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide1.jpg');">
+                style="background-image: url('{{ asset('frontend/images/home/home-slide1.jpg') }}');">
                 <div class="slide1-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">The Only Non-Injectable <br>Swiss Marine Cell Therapy
                     <br>Supplement In The World </h2>
@@ -23,7 +23,7 @@
             </div>
             <div class="owl-item" style="width: 1281px;">
               <div class="item home-slide-item"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide2.jpg');">
+                style="background-image: url('{{ asset('frontend/images/home/home-slide2.jpg') }}');">
                 <div class="slide2-text-box">
                   <h2 class="h2 text-white mb-2 mb-lg-4">Significantly Reduce<br>Joint Pain and Increase Mobility
                   </h2>
@@ -33,7 +33,7 @@
             </div>
             <div class="owl-item" style="width: 1281px;">
               <div class="item home-slide-item"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide3.jpg');">
+                style="background-image: url('{{ asset('frontend/images/home/home-slide3.jpg') }}');">
                 <div class="slide3-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">A Celebrity's Secret for<br>Ageless Beauty </h2>
                   <a href="{{ route ('beautyenhancement') }}" class="a-btn blue-btn1">learn more</a>
@@ -42,7 +42,7 @@
             </div>
             <div class="owl-item" style="width: 1281px;">
               <div class="item home-slide-item"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide4.jpg');">
+                style="background-image: url('{{ asset('frontend/images/home/home-slide4.jpg') }}');">
                 <div class="slide4-text-box">
                   <h2 class="h2 text-blue mb-2 mb-lg-4">Regain Vibrant Youth<br>Energy and Vitality</h2>
                   <a href="{{ route ('energyandvitality') }}" class="a-btn blue-btn1">learn more</a>
@@ -51,7 +51,7 @@
             </div>
             <div class="owl-item animated owl-animated-in fadeIn active" style="width: 1281px;">
               <div class="item home-slide-item"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/home-slide5.jpg');">
+                style="background-image: url('{{ asset('frontend/images/home/home-slide5.jpg') }}');">
                 <div class="slide5-text-box text-lg-end text-center">
                   <h2 class="h2 text-blue text-center text-lg-end mb-2 mb-lg-4 fadeIn">The Transformative Power of
                     <br>Swiss Marine Cell Therapy</h2>
@@ -75,55 +75,55 @@
           </header>
           <div class="row pt-4 mx-0 mx-lg-auto">
              <div class="col-lg-4 col-md-6 benefits aos-init row-0" data-aos="fade-up" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_stimulates_cellular.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_stimulates_cellular.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3  text-blue"> STIMULATES CELLULAR REJUVENATION AND REPAIR </h2>
                 <p class="benefits-content mb-3 text-darkgrey "> Helps delay aging and the onset of metabolic ailments and degenerative diseases </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_reduces-joint.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_reduces-joint.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue">REDUCES JOINT &amp; MUSCLE PAIN </h2>
                 <p class="benefits-content mb-3  text-darkgrey"> Proven effective for healing back, hip, and knee pain associated with osteoarthritis </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_enhances-skin.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_enhances-skin.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue"> ENHANCES SKIN COMPLEXION AND BEAUTY </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Reduces the appearance of wrinkles and gives a natural glow to the skin </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_boosts-energy.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_boosts-energy.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3 text-blue"> BOOSTS ENERGY AND VITALITY </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Noticeably reduces chronic physical and mental fatigue </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_elevated-mood.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_elevated-mood.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3 text-blue"> ELEVATES MOOD, ALLEVIATES MILD DEPRESSION </h2>
                 <p class=" benefits-content mb-3 text-darkgrey"> Reduces anxiety and depression as well as improves sleep quality </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_increases_brain.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_increases_brain.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3 text-blue">INCREASES BRAIN FUNCTION </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Enhances memory, sharpens mental concentration and alertness </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src=" https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_improves_physical.png " alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_improves_physical.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3    text-blue"> IMPROVES PHYSICAL PERFORMANCE </h2>
                 <p class="benefits-content mb-3 text-darkgrey">Enhances stamina during workouts and speeds up recovery process</p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_lowers_blood.png" alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_lowers_blood.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3   text-blue"> LOWERS BLOOD SUGAR LEVELS </h2>
                 <p class="benefits-content mb-3 text-darkgrey"> Reduces glycemic index by 37% </p>
              </div>
              <div class="col-lg-4 col-md-6 benefits aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
-                <div class="benefits-icon"> <img src=" https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/ic_enhances_sexual.png " alt="">
+                <div class="benefits-icon"> <img src="{{ asset('frontend/images/home/ic_enhances_sexual.png') }}" alt="">
                 </div>
                 <h2 class="heading AdelleSansRegular mb-3 text-blue"> ENHANCES SEXUAL PERFORMANCE </h2>
                 <p class="benefits-content mb-3 text-darkgrey "> Improves libido and sexual satisfaction </p>
@@ -144,12 +144,12 @@
           </div>
        </header>
        <div class="container text-center pb-4">
-          <div class="guarded-box1 bg-white box-shadow position-relative aos-init" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/guarded-secret.png" class="guarded-img" alt="" width="100%">
+          <div class="guarded-box1 bg-white box-shadow position-relative aos-init" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000"> <img src="{{ asset('frontend/images/home/guarded-secret.png') }}" class="guarded-img" alt="" width="100%">
           </div>
           <div class="guarded-box2 bg-white box-shadow position-relative aos-init" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">
              <p class="px-4 text-darkgrey"> DISTINGUISHED PERSONALITIES FROM MORE THAN</p>
              <h4 class="section-subheading text-darkgrey mb-4"> <strong>56 COUNTRIES TAKE CELERGEN EVERY DAY </strong> </h4>
-             <a href="#what-is-celergen" class="next-div position-absolute text-center w-100" style="bottom: -50px; left:0;"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/btn-next-div.png" alt="" width="100"> </a>
+             <a href="#what-is-celergen" class="next-div position-absolute text-center w-100" style="bottom: -50px; left:0;"><img src="{{ asset('frontend/images/home/btn-next-div.png') }}" alt="" width="100"> </a>
           </div>
        </div>
     </div>
@@ -196,7 +196,7 @@
           </div>
           <div class="px-3">
              <h4 class="section-subheading pt-lg-5 text-darkgrey mb-5"> <strong>GLOBAL ACCREDITATION</strong> </h4>
-             <div> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/global-accreditaion.png" alt="" width="778" height="98">
+             <div> <img src="{{ asset('frontend/images/home/global-accreditaion.png') }}" alt="" width="778" height="98">
              </div>
              <p class="opensans pt-5 pb-5 text-darkgrey"> Celergen is not a drug but a pharmaceutical grade food supplement approved by Swiss Federal office of Public Health. </p>
           </div>
@@ -209,7 +209,7 @@
   <section>
     <div class="container-fluid px-0 bg-blue py-4 ">
        <div class="container mt-2 doctors-use-celergen">
-          <h4 class="m-0 text-center text-white py-3 pb-lg-4"> <span class="me-2 me-lg-5"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/celergen-quote.png" alt="" class="quatation"> </span> <span class="section-heading"> WHY DOCTORS USE CELERGEN ? </span> <span class="ms-2 ms-lg-5"> <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/celergen-quote.png" alt="" class="quatation" style="transform: rotate(180deg);"> </span></h4>
+          <h4 class="m-0 text-center text-white py-3 pb-lg-4"> <span class="me-2 me-lg-5"> <img src="{{ asset('frontend/images/home/celergen-quote.png') }}" alt="" class="quatation"> </span> <span class="section-heading"> WHY DOCTORS USE CELERGEN ? </span> <span class="ms-2 ms-lg-5"> <img src="{{ asset('frontend/images/home/celergen-quote.png') }}" alt="" class="quatation" style="transform: rotate(180deg);"> </span></h4>
           <div class="docter-review owl-carousel owl-theme owl-loaded owl-drag aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
              <div class="owl-stage-outer">
                 <div class="owl-stage" style="transition: 0.25s; width: 13392px; transform: translate3d(-2232px, 0px, 0px);">
@@ -217,7 +217,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/DrOrbeck-197x300-197x300-e1479285899794.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/DrOrbeck-197x300-197x300-e1479285899794.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review"> "What is special about Celergen is that it is not a pharmaceutical and yet truly works on a cellular level to promote
@@ -236,7 +236,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/Dr.-Rene.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/Dr.-Rene.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is amazing because I look more youthful and my skin is glowing. My energy
@@ -252,7 +252,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/dr-juan-remos-e1479280710760.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/dr-juan-remos-e1479280710760.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> “Celergen is the best natural product that I have come across since I started practicing medicine.
@@ -269,7 +269,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/DrBruceKLowellMD_3684_162.png" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/DrBruceKLowellMD_3684_162.png') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review">"Celergen affects different patients in different ways. Some of my male atients reported
@@ -286,7 +286,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/beilinA-e1479285690261.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/beilinA-e1479285690261.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "I am very pleased with the outstanding benefits of Celergen my patients experience
@@ -302,7 +302,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/druziURHQ-e1479285472801.jpeg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/druziURHQ-e1479285472801.jpeg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is a remarkable tool that can help improve our wellbeing on multiple
@@ -318,7 +318,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/DrOrbeck-197x300-197x300-e1479285899794.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/DrOrbeck-197x300-197x300-e1479285899794.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review"> "What is special about Celergen is that it is not a pharmaceutical and yet truly works on a cellular level to promote
@@ -337,7 +337,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/Dr.-Rene.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/Dr.-Rene.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is amazing because I look more youthful and my skin is glowing. My energy
@@ -353,7 +353,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/dr-juan-remos-e1479280710760.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/dr-juan-remos-e1479280710760.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> “Celergen is the best natural product that I have come across since I started practicing medicine.
@@ -370,7 +370,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/DrBruceKLowellMD_3684_162.png" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/DrBruceKLowellMD_3684_162.png') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review">"Celergen affects different patients in different ways. Some of my male atients reported
@@ -387,7 +387,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/beilinA-e1479285690261.jpg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/beilinA-e1479285690261.jpg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "I am very pleased with the outstanding benefits of Celergen my patients experience
@@ -403,7 +403,7 @@
                       <div class="item">
                          <div class="row">
                             <div class="col-lg-3 px-4 py-3">
-                               <img class="img-frame" src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/druziURHQ-e1479285472801.jpeg" alt="">
+                               <img class="img-frame" src="{{ asset('frontend/images/home/druziURHQ-e1479285472801.jpeg') }}" alt="">
                             </div>
                             <div class="col-lg-9 px-4 pt-3 mt-lg-5 mt-sm-3 text-center text-lg-start">
                                <p class="doctors-review "> "Celergen is a remarkable tool that can help improve our wellbeing on multiple
@@ -436,7 +436,7 @@
              <div class="owl-stage" style="transform: translate3d(-1527px, 0px, 0px); transition: all; width: 6810px; padding-left: 350px; padding-right: 350px;">
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/elizabethm.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/elizabethm.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Elizabeth M, London, UK </p>
@@ -453,7 +453,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_grace.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_grace.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Grace Zenno, Lebanon</p>
@@ -470,7 +470,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_bisimwa.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_bisimwa.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Bisimwa Voglet, Belgium </p>
@@ -485,7 +485,7 @@
                 </div>
                 <div class="owl-item cloned active" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/maserati_dealership_main-e1479286552250.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/maserati_dealership_main-e1479286552250.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Phil McCarroll, Australia </p>
@@ -500,7 +500,7 @@
                 </div>
                 <div class="owl-item cloned active" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_hector.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_hector.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Héctor Sánchez Torres, Mexico </p>
@@ -515,7 +515,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/nea1.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/nea1.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div class="opensans">
                             <p class="reviewer-name">Nea Wasell, Finland </p>
@@ -532,7 +532,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/lupita-jones2.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/lupita-jones2.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Lupita Jones (Miss Mexico 1990) </p>
@@ -550,7 +550,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/curtis-mitchell.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/curtis-mitchell.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Curtis Mitchell (Elite Sprinter) </p>
@@ -569,7 +569,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/george-michael.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/george-michael.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Michael George </p>
@@ -587,7 +587,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/anthony-stephen.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/anthony-stephen.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Anthony Stephen </p>
@@ -604,7 +604,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/elizabethm.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/elizabethm.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Elizabeth M, London, UK </p>
@@ -621,7 +621,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_grace.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_grace.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Grace Zenno, Lebanon</p>
@@ -638,7 +638,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_bisimwa.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_bisimwa.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Bisimwa Voglet, Belgium </p>
@@ -653,7 +653,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/maserati_dealership_main-e1479286552250.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/maserati_dealership_main-e1479286552250.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Phil McCarroll, Australia </p>
@@ -668,7 +668,7 @@
                 </div>
                 <div class="owl-item" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/test_hector.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/test_hector.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name">Héctor Sánchez Torres, Mexico </p>
@@ -683,7 +683,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/nea1.jpg');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/nea1.jpg') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div class="opensans">
                             <p class="reviewer-name">Nea Wasell, Finland </p>
@@ -700,7 +700,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/lupita-jones2.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/lupita-jones2.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Lupita Jones (Miss Mexico 1990) </p>
@@ -718,7 +718,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/curtis-mitchell.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/curtis-mitchell.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Curtis Mitchell (Elite Sprinter) </p>
@@ -737,7 +737,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/george-michael.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/george-michael.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Michael George </p>
@@ -755,7 +755,7 @@
                 </div>
                 <div class="owl-item cloned" style="width: 275.5px; margin-right: 30px;">
                    <div class="item">
-                      <div class="reviewer-pic" style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/anthony-stephen.png');"></div>
+                      <div class="reviewer-pic" style="background-image: url('{{ asset('frontend/images/home/anthony-stephen.png') }}');"></div>
                       <div class="reviewer-details d-flex flex-column justify-content-between">
                          <div>
                             <p class="reviewer-name"> Anthony Stephen </p>
@@ -835,7 +835,7 @@
              <li id="product1" class="home-product mb-4 mb-lg-0 scale1" onmouseover="scale1()">
                 <div class="d-flex flex-column justify-content-between align-items-center h-100">
                    <h3 class="mb-0 p-2 text-blue">1 SERUM ROYALE</h3>
-                   <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/product1.png" style="max-width:200px;">
+                   <img src="{{ asset('frontend/images/home/product1.png') }}" style="max-width:200px;">
                    <h3 class="mb-0 pb-4 price text-grey">$270.00</h3>
                    <form action="add.php" method="post">
                       <div class="order-buttons row m-0 align-self-end w-100">
@@ -853,7 +853,7 @@
              <li id="product2" class="home-product mb-4 mb-lg-0" onmouseover="scale2()">
                 <div class="d-flex flex-column justify-content-between align-items-center h-100">
                    <h3 class="mb-0 p-2 text-blue">1 BOX OF CELERGEN </h3>
-                   <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/product2.png" style="max-width:200px;">
+                   <img src="{{ asset('frontend/images/home/product2.png') }}" style="max-width:200px;">
                    <h3 class="mb-0 pb-4 price text-grey">$350.00</h3>
                    <form action="add.php" method="post">
                       <div class="order-buttons row m-0 align-self-end w-100">
@@ -872,7 +872,7 @@
                 <div class="d-flex flex-column justify-content-between align-items-center h-100">
                    <h3 class="mb-0 p-2 text-blue">1 BOX OF CELERGEN + 1 SERUM ROYALE
                    </h3>
-                   <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/home/product3.png" style="max-width:200px;">
+                   <img src="{{ asset('frontend/images/home/product3.png') }}" style="max-width:200px;">
                    <h3 class="mb-0 pb-4 price text-grey">$620.00</h3>
                    <form action="add.php" method="post">
                       <div class="order-buttons row m-0 align-self-end w-100">

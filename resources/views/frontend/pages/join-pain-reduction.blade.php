@@ -6,7 +6,7 @@
 @section('content')
 <style>
     ul.bullet li::before {
-        background: url("https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_benefit_list.png");
+        background: url("{{ asset('frontend/images/benefits/ic_benefit_list.png') }}");
         content: '';
         width: 33px;
         height: 25px;
@@ -113,7 +113,7 @@
                 <h1 class="text-white section-heading CallunaRegular border-left m-0">JOINT PAIN REDUCTION</h1>
             </div>
             <div class="top-banner aos-init"
-                style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/edt2-GettyImages-542510485_medium.jpg');"
+                style="background-image: url('{{ asset('frontend/images/benefits/edt2-GettyImages-542510485_medium.jpg') }}');"
                 data-aos="fadeIn" data-aos-duration="500">
                 <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
@@ -125,7 +125,7 @@
     </section>
     <section>
         <div class="container-fluid px-0 what-is-celergen-bg padding-y"
-            style="background-image: url('https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/celergen_02.png');">
+            style="background-image: url('{{ asset('frontend/images/benefits/celergen_02.png') }}');">
             <div class="container">
                 <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 pb-5 ">
                     Osteoarthritis (OA) affects tens of millions of Americans and is a leading cause of disability and
@@ -194,7 +194,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/doctor-2.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/doctor-2.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -217,7 +217,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Robban-Sica.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Robban-Sica.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -240,7 +240,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Alex-Alonso.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Alex-Alonso.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -265,7 +265,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Michael.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Michael.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -291,7 +291,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Angelo-Baccellieri.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Angelo-Baccellieri.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -316,7 +316,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/doctor-2.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/doctor-2.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -339,7 +339,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Robban-Sica.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Robban-Sica.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -362,7 +362,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Alex-Alonso.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Alex-Alonso.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -387,7 +387,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Michael.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Michael.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -413,7 +413,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/Dr.-Angelo-Baccellieri.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/Dr.-Angelo-Baccellieri.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -438,7 +438,7 @@
                                         <div class="item-shadow">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/doctor-2.jpg"
+                                                    <img src="{{ asset('frontend/images/benefits/doctor-2.jpg') }}"
                                                         alt="" class="imag-frame">
                                                 </div>
                                                 <div class="col-lg-9">
@@ -473,7 +473,7 @@
                 <div class="padding-x pt-5">
                     <div class="row pt-5">
                         <div class="col-lg-6">
-                            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/join-pain-reduction-left.png"
+                            <img src="{{ asset('frontend/images/benefits/join-pain-reduction-left.png') }}"
                                 alt="" class="" widht="100%">
                         </div>
                         <div class="col-lg-6">
@@ -487,7 +487,7 @@
                         </div>
                     </div>
                     <div class="clearfix">
-                        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/benefits/join-pain-reduction-right.png"
+                        <img src="{{ asset('frontend/images/benefits/join-pain-reduction-right.png') }}"
                             alt="" class="col-lg-6 float-lg-end mb-3 ms-md-3" width="527px" height="498px">
                         <p class="text-grey pt-lg-4 pt-3 lh-lg">
                             This figure shows the effects of 200 mg/day of Bio-DNA Cellular Marine Complex (Bio-DNA CMC)
