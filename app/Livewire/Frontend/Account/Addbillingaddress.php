@@ -26,15 +26,14 @@ class Addbillingaddress extends Component
 
     public function mount($id = null)
     {
-        // Fetch countries directly from the database
         $this->countries = DB::table('country')->orderBy('name')->get();
-
+    
         if ($id) {
             $customer = DB::table('customers')
                 ->where('id', $id)
                 ->where('user_id', Auth::id())
                 ->first();
-
+    
             if ($customer) {
                 $this->customerId = $customer->id;
                 $this->billing_fname = $customer->billing_fname;
@@ -44,7 +43,9 @@ class Addbillingaddress extends Component
                 $this->billing_address_2 = $customer->billing_address_2;
                 $this->billing_city = $customer->billing_city;
                 $this->billing_state = $customer->billing_state;
-                $this->billing_country = $customer->billing_country;
+                $this->billing_country = DB::table('country')
+                    ->where('name', $customer->billing_country)
+                    ->value('id');
                 $this->billing_postal_code = $customer->billing_postal_code;
                 $this->billing_phone = $customer->billing_phone;
                 $this->billing_email = $customer->billing_email;
