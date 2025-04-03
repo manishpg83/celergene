@@ -89,6 +89,11 @@
     </div>
 
     @livewireScripts
+    <script>
+        Livewire.on('alert', ({type, message}) => {
+            alert(message); // Or use a more sophisticated notification system
+        });
+    </script>
     <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
     <script>
         function toggleClass1() {

@@ -45,12 +45,27 @@ class OrderSummaryComponent extends Component
         $this->total = $this->subtotal;
     }
 
+    public function attemptCheckout()
+    {
+        if ($this->isCartEmpty()) {
+            $this->dispatch('alert', type: 'error', message: 'Please add items to your cart before checkout');
+            return;
+        }
+
+        return redirect()->route('checkout');
+    }
+
+    // Make this public so it's accessible in the view
+    public function isCartEmpty()
+    {
+        return empty($this->cartItems);
+    }
+
     public function render()
     {
-        $products = Product::whereIn('product_code', array_keys($this->cartItems))->get();
-        
         return view('livewire.order-summary-component', [
-            'products' => $products
+            'products' => Product::whereIn('product_code', array_keys($this->cartItems))->get(),
+            'isCartEmpty' => $this->isCartEmpty() // Pass this to the view
         ]);
     }
 }

@@ -56,10 +56,41 @@
     @if($showCheckoutButton)
     <div id="paypalinfo" style="margin-top:10px;">
         <div class="col-lg-12 col-md-12 col-sm-12" align="right">
-            <a href="{{ route('checkout') }}" class="myButton" id="submitbutton">
+            <button 
+                wire:click="attemptCheckout" 
+                class="myButton @if($isCartEmpty) disabled @endif" 
+                id="submitbutton"
+                @if($isCartEmpty) disabled @endif
+            >
                 CHECKOUT & PAY >
-            </a>
+            </button>
         </div>
     </div>
     @endif
+
+    <style>
+        .disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .myButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('alert', ({type, message}) => {
+                alert(message);
+            });
+            
+            // Handle clicks on disabled button (for better UX)
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('disabled')) {
+                    alert('Please add items to your cart before checkout');
+                }
+            });
+        });
+    </script>
 </div>
