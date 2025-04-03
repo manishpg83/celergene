@@ -79,13 +79,14 @@
                                 wire:model="billing_postal_code">
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <select class="form-control" id="billing_country" name="billing_country"
-                                wire:model="billing_country">
-                                <option value="{{ $billingAddress->billing_country ?? '' }}" disabled=""
-                                    selected="">Select country</option>
-                                <option data-code="AF" value="AF-Afghanistan"> Afghanistan</option>
-                                <option data-code="AX" value="AX-Aland Islands"> Aland Islands</option>
-                                <option data-code="AL" value="AL-Albania"> Albania</option>
+                            <select class="form-control" id="billing_country" name="billing_country" wire:model="billing_country">
+                                <option value="" disabled selected>Select country</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->code }}-{{ $country->name }}"
+                                        @if(isset($billing_country) && $billing_country == $country->code.'-'.$country->name) selected @endif>
+                                        {{ $country->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
@@ -166,12 +167,14 @@
                                         wire:model="shipping_zip">
                                 </div>
                                 <div class="col-xs-12 col-md-6">
-                                    <select class="form-control" id="country" name="country"
-                                        wire:model="shipping_country">
+                                    <select class="form-control" id="country" name="country" wire:model="shipping_country">
                                         <option value="" disabled selected>Select country</option>
-                                        <option data-code="AF" value="AF-Afghanistan">Afghanistan</option>
-                                        <option data-code="AX" value="AX-Aland Islands">Aland Islands</option>
-                                        <option data-code="AL" value="AL-Albania">Albania</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->code }}-{{ $country->name }}"
+                                                @if(isset($shipping_country) && $shipping_country == $country->code.'-'.$country->name) selected @endif>
+                                                {{ $country->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">

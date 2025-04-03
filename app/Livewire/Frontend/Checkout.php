@@ -46,6 +46,7 @@ class Checkout extends Component
     public $shipping_email;
     public $shipping_phone;
     public $shipping_notes;
+    public $countries = [];
 
     public $user;
     public $cartItems = [];
@@ -64,6 +65,12 @@ class Checkout extends Component
         $this->loadBillingAddress();
         $this->loadShippingAddresses();
         $this->updateCart();
+
+        $this->countries = DB::table('country')
+            ->select('code', 'name')
+            ->orderBy('name')
+            ->get()
+            ->toArray(); // Convert to array for better handling
     }
 
     private function loadShippingAddresses()
