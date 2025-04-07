@@ -82,8 +82,8 @@
                             <select class="form-control" id="billing_country" name="billing_country" wire:model="billing_country">
                                 <option value="" disabled selected>Select country</option>
                                 @foreach($countries as $country)
-                                    <option value="{{ $country->code }}-{{ $country->name }}"
-                                        @if(isset($billing_country) && $billing_country == $country->code.'-'.$country->name) selected @endif>
+                                    <option value="{{ $country->name }}"
+                                        @if($billing_country == $country->name) selected @endif>
                                         {{ $country->name }}
                                     </option>
                                 @endforeach
@@ -170,8 +170,8 @@
                                     <select class="form-control" id="country" name="country" wire:model="shipping_country">
                                         <option value="" disabled selected>Select country</option>
                                         @foreach($countries as $country)
-                                            <option value="{{ $country->code }}-{{ $country->name }}"
-                                                @if(isset($shipping_country) && $shipping_country == $country->code.'-'.$country->name) selected @endif>
+                                            <option value="{{ $country->name }}"
+                                                @if(isset($shipping_country) && $shipping_country == $country->name) selected @endif>
                                                 {{ $country->name }}
                                             </option>
                                         @endforeach

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('business_reg_number')->nullable();
             $table->string('vat_number')->nullable();
-            $table->string('payment_term_display');
+            $table->string('payment_term_display')->nullable();
             $table->string('payment_term_actual')->nullable();
             $table->string('credit_rating')->nullable();
             $table->boolean('allow_consignment')->default(false);

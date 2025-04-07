@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('invoice_description');
             $table->string('product_category');
             $table->string('origin');
-            $table->string('batch_number');
+            $table->string('batch_number')->nullable();
             $table->date('expire_date')->nullable();
             $table->string('currency');
             $table->decimal('unit_price', 10, 2);

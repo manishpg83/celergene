@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id')->nullable();
             $table->date('payment_date')->nullable();
             $table->text('payment_details')->nullable();
-            $table->decimal('bank_charge', 10, 2);
+            $table->decimal('bank_charge', 10, 2)->default(0);
             $table->timestamps();
         });
     }
