@@ -75,7 +75,8 @@ class Registration extends Component
                         'company' => $this->company ?? null,
                         'date_of_birth' => $dob,
                         'type' => 'customer',
-                        'status' => 'active'
+                        'status' => 'active',
+                        'is_guest' => 1,
                     ]);
                     $existingCustomer->update([
                         'user_id' => $user->id,
@@ -106,9 +107,10 @@ class Registration extends Component
                 'company' => $this->company ?? null,
                 'date_of_birth' => $dob,
                 'type' => 'customer',
-                'status' => 'active'
+                'status' => 'active',
+                'is_guest' => 1,
             ]);
-
+            
             $defaultCustomerTypeId = 1;
             $customer = Customer::create([
                 'user_id' => $user->id,

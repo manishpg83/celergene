@@ -37,6 +37,7 @@ class User extends Authenticatable
         'zip',
         'country',
         'created_by',
+        'is_guest',
     ];
 
     /**
