@@ -28,7 +28,7 @@
                     </div>
                 @endunless
                 <div class="col-xs-12 col-md-8">
-                    <div class="row  form-item-ck">
+                    <div class="row form-item-ck">
                         <div class="col-xs-12 " style="margin-top: 20px;margin-bottom: 20px;">
                             <div class="icons-number pull-left">1</div>
                             <div style=" padding-left:10px;float: left;">Billing Address</div>
@@ -212,10 +212,11 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <livewire:order-summary-component :show-checkout-button="false" />
+                   <livewire:order-summary-component />
+
 
                     {{--  @if ($billingAddress && count($cartItems) > 0)
-                        <div class="text-center mt-4">
+                        <div class="mt-4 text-center">
                             <button wire:click="processOrder" class="btn btn-primary btn-lg"
                                 wire:loading.attr="disabled">
                                 <span wire:loading wire:target="processOrder">
@@ -229,13 +230,13 @@
                     @endif --}}
 
                     @if (session()->has('error'))
-                        <div class="alert alert-danger mt-3">
+                        <div class="mt-3 alert alert-danger">
                             {{ session('error') }}
                         </div>
                     @endif
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
-                            @if ($billingAddress && count($cartItems) > 0)
+                            @if (count($cartItems) > 0)
                                 <a href="javascript:void(0);" class="myButton" name="submit" id="submitbutton"
                                     wire:click="processOrder" wire:loading.attr="disabled">
                                     <span wire:loading wire:target="processOrder">

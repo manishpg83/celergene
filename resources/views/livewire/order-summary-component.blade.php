@@ -53,7 +53,7 @@
         </tbody>
     </table>
 
-    @if($showCheckoutButton)
+   @unless(request()->routeIs('checkout'))
     <div id="paypalinfo" style="margin-top:10px;">
         <div class="col-lg-12 col-md-12 col-sm-12" align="right">
             <button 
@@ -66,7 +66,8 @@
             </button>
         </div>
     </div>
-    @endif
+   @endunless
+
 
     <style>
         .disabled {
@@ -93,4 +94,5 @@
             });
         });
     </script>
+
 </div>

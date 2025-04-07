@@ -2,19 +2,21 @@
 
 namespace App\Livewire\Frontend;
 
-use App\Mail\OrderConfirmation;
-use App\Mail\UserOrderConfirmation;
-use App\Models\OrderInvoice;
-use App\Models\OrderInvoiceDetail;
-use App\Models\OrderMaster;
+use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Livewire\Component;
+use App\Models\Customer;
+use App\Models\OrderMaster;
+use Illuminate\Support\Str;
+use App\Models\OrderInvoice;
+use App\Mail\OrderConfirmation;
+use App\Models\OrderInvoiceDetail;
+use Illuminate\Support\Facades\DB;
+use App\Mail\UserOrderConfirmation;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class Checkout extends Component
@@ -247,23 +249,63 @@ class Checkout extends Component
 
     public function processOrder()
     {
-        if (!Auth::check()) {
-            session()->flash('error', 'Please login to complete your order.');
-            return redirect()->route('login');
-        }
-
-        $shippingAddress = $this->useBillingAddress
-            ? ($this->billing_address ?? 'N/A')
-            : ($this->shipping_address1 ?? 'N/A');
-
         try {
             DB::beginTransaction();
 
-            $customer = DB::table('customers')
-                ->where('user_id', $this->user->id)
-                ->first();
+            if (Auth::check()) {
+                $this->user = Auth::user();
+                $customer = Customer::where('user_id', $this->user->id)->first();
+                Log::info('Logged-in customer proceeding to checkout', ['user_id' => $this->user->id]);
+            } else {
+                $existingUser = User::where('email', $this->billing_email)->first();
+
+                if ($existingUser) {
+                    $this->user = $existingUser;
+                    $customer = Customer::where('user_id', $this->user->id)->first();
+                    Log::info('Guest checkout using existing user', ['user_id' => $this->user->id]);
+                } else {
+                    $this->user = User::create([
+                        'name' => $this->billing_fname . ' ' . $this->billing_lname,
+                        'email' => $this->billing_email,
+                        'first_name' => $this->billing_fname,
+                        'last_name' => $this->billing_lname,
+                        'phone' => $this->billing_phone,
+                        'adress' => $this->billing_address,
+                        'city' => $this->billing_city,
+                        'state' => $this->billing_state,
+                        'password' => bcrypt(Str::random(8)),
+                    ]);
+                    Log::info('Guest checkout - new user created', ['user_id' => $this->user->id]);
+
+                    $customer = Customer::create([
+                        'user_id' => $this->user->id,
+                        'customer_type_id' => 1,
+                        'first_name' => $this->billing_fname,
+                        'last_name' => $this->billing_lname,
+                        'mobile_number' => $this->billing_phone,
+                        'email' => $this->billing_email,
+                        'billing_fname' => $this->billing_fname,
+                        'billing_lname' => $this->billing_lname,
+                        'billing_address' => $this->billing_address,
+                        'billing_address_2' => $this->billing_address_2,
+                        'billing_city' => $this->billing_city,
+                        'billing_state' => $this->billing_state,
+                        'billing_phone' => $this->billing_phone,
+                        'billing_email' => $this->billing_email,
+                        'billing_country' => $this->billing_country,
+                        'billing_postal_code' => $this->billing_postal_code,
+                        'created_by' => 1,
+                        'updated_by' => 1
+                    ]);
+                    Log::info('Customer record created for guest user', ['customer_id' => $customer->id]);
+                }
+            }
 
             $orderNumber = OrderMaster::generateOrderNumber();
+
+            $shippingAddress = $this->useBillingAddress
+                ? ($this->billing_address ?? 'N/A')
+                : ($this->shipping_address1 ?? 'N/A');
 
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
@@ -282,6 +324,8 @@ class Checkout extends Component
                 'updated_at' => now()
             ]);
 
+            Log::info('Order created', ['order_id' => $orderId, 'order_number' => $orderNumber]);
+
             foreach ($this->cartItems as $productCode => $item) {
                 $product = Product::where('product_code', $productCode)->first();
 
@@ -295,10 +339,20 @@ class Checkout extends Component
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
+
+                    Log::info('Order item added', [
+                        'order_id' => $orderId,
+                        'product_id' => $product->id,
+                        'quantity' => $item['quantity'],
+                    ]);
                 }
             }
+
             $this->generateInvoice($orderId);
+            Log::info('Invoice generated', ['order_id' => $orderId]);
+
             $this->redirectToPaypal($orderId, $orderNumber);
+            Log::info('Redirected to PayPal', ['order_id' => $orderId]);
 
             session()->forget('cart');
             $this->dispatch('cartCountUpdated');
@@ -309,13 +363,15 @@ class Checkout extends Component
             session()->flash('order_number', $orderNumber);
 
             return true;
+
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Order Processing Error', ['error' => $e->getMessage()]);
             session()->flash('error', 'Order processing error: ' . $e->getMessage());
-            Log::error('Order Processing Error: ' . $e->getMessage());
             return null;
         }
     }
+
     public function generateInvoice($order_id)
     {
         $order = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
@@ -348,7 +404,7 @@ class Checkout extends Component
                 'remarks' => $order->remarks,
                 'payment_terms' => $order->payment_terms,
                 'status' => 'Confirmed',
-                'created_by' => Auth::id(),
+                'created_by' => Auth::id() ?? 1,
                 'invoice_type' => 'regular',
                 'invoice_category' => 'regular'
             ];

@@ -50,7 +50,6 @@ Route::middleware('auth')->group(function () {
     })->name('order.success');
 
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
-    Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 });
 
 // Other public routes
@@ -69,6 +68,7 @@ Route::get('/celergen-reviews', [HomeController::class, 'celergenreviews'])->nam
 Route::get('/celergen-video', [HomeController::class, 'celergenvideo'])->name('celergenvideo');
 Route::get('/celergen-video/{videoId}', [HomeController::class, 'celergenvideo'])->name('show.video');
 Route::get('/celergen-features', [HomeController::class, 'celergenfeatures'])->name('celergenfeatures');
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 include __DIR__.'/admin.php';
 include __DIR__.'/vendor.php';
