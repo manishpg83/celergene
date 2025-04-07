@@ -254,15 +254,18 @@ class Checkout extends Component
 
             if (Auth::check()) {
                 $this->user = Auth::user();
+                $this->user->update(['is_guest' => false]);
+
                 $customer = Customer::where('user_id', $this->user->id)->first();
-                Log::info('Logged-in customer proceeding to checkout', ['user_id' => $this->user->id]);
             } else {
                 $existingUser = User::where('email', $this->billing_email)->first();
 
                 if ($existingUser) {
                     $this->user = $existingUser;
+                    if (!$this->user->is_guest) {
+                        $this->user->update(['is_guest' => true]);
+                    } 
                     $customer = Customer::where('user_id', $this->user->id)->first();
-                    Log::info('Guest checkout using existing user', ['user_id' => $this->user->id]);
                 } else {
                     $this->user = User::create([
                         'name' => $this->billing_fname . ' ' . $this->billing_lname,
@@ -274,8 +277,8 @@ class Checkout extends Component
                         'city' => $this->billing_city,
                         'state' => $this->billing_state,
                         'password' => bcrypt(Str::random(8)),
+                        'is_guest' => true,
                     ]);
-                    Log::info('Guest checkout - new user created', ['user_id' => $this->user->id]);
 
                     $customer = Customer::create([
                         'user_id' => $this->user->id,
@@ -297,7 +300,6 @@ class Checkout extends Component
                         'created_by' => 1,
                         'updated_by' => 1
                     ]);
-                    Log::info('Customer record created for guest user', ['customer_id' => $customer->id]);
                 }
             }
 
@@ -324,8 +326,6 @@ class Checkout extends Component
                 'updated_at' => now()
             ]);
 
-            Log::info('Order created', ['order_id' => $orderId, 'order_number' => $orderNumber]);
-
             foreach ($this->cartItems as $productCode => $item) {
                 $product = Product::where('product_code', $productCode)->first();
 
@@ -338,21 +338,13 @@ class Checkout extends Component
                         'total' => $item['total'],
                         'created_at' => now(),
                         'updated_at' => now()
-                    ]);
-
-                    Log::info('Order item added', [
-                        'order_id' => $orderId,
-                        'product_id' => $product->id,
-                        'quantity' => $item['quantity'],
-                    ]);
+                    ]);                    
                 }
             }
 
             $this->generateInvoice($orderId);
-            Log::info('Invoice generated', ['order_id' => $orderId]);
 
             $this->redirectToPaypal($orderId, $orderNumber);
-            Log::info('Redirected to PayPal', ['order_id' => $orderId]);
 
             session()->forget('cart');
             $this->dispatch('cartCountUpdated');

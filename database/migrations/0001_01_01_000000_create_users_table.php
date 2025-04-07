@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('zip')->nullable();
             $table->string('country')->nullable();
+            $table->boolean('is_guest')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->rememberToken();
             $table->softDeletes();
