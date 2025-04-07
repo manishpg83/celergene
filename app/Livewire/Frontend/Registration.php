@@ -76,7 +76,7 @@ class Registration extends Component
                         'date_of_birth' => $dob,
                         'type' => 'customer',
                         'status' => 'active',
-                        'is_guest' => 1,
+                        'is_guest' => 0,
                     ]);
                     $existingCustomer->update([
                         'user_id' => $user->id,
@@ -108,7 +108,7 @@ class Registration extends Component
                 'date_of_birth' => $dob,
                 'type' => 'customer',
                 'status' => 'active',
-                'is_guest' => 1,
+                'is_guest' => 0,
             ]);
             
             $defaultCustomerTypeId = 1;
