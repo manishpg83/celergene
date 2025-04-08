@@ -33,9 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
     Route::get('/shippingaddress/{addressNumber?}', [HomeController::class, 'shippingaddress'])->name('shippingaddress');
     Route::get('/addshippingaddress', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
-    Route::post('/paypal-webhook', [PayPalWebhookController::class, 'handle'])->name('paypal.webhook');
-    Route::get('/paypal/success', [PayPalWebhookController::class, 'success'])->name('paypal.success');
-    Route::get('/paypal/cancel', [PayPalWebhookController::class, 'cancel'])->name('paypal.cancel');
+
     // Add these with your other routes
     Route::get('/checkout/error', function () {
         return view('frontend.checkout.error');
@@ -45,9 +43,7 @@ Route::middleware('auth')->group(function () {
         return view('frontend.checkout');
     })->name('checkout');
 
-    Route::get('/order/success', function () {
-        return view('frontend.order.success');
-    })->name('order.success');
+
 
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
 });
@@ -69,7 +65,12 @@ Route::get('/celergen-video', [HomeController::class, 'celergenvideo'])->name('c
 Route::get('/celergen-video/{videoId}', [HomeController::class, 'celergenvideo'])->name('show.video');
 Route::get('/celergen-features', [HomeController::class, 'celergenfeatures'])->name('celergenfeatures');
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-
-include __DIR__.'/admin.php';
-include __DIR__.'/vendor.php';
+Route::post('/paypal-webhook', [PayPalWebhookController::class, 'handle'])->name('paypal.webhook');
+Route::get('/paypal/success', [PayPalWebhookController::class, 'success'])->name('paypal.success');
+Route::get('/paypal/cancel', [PayPalWebhookController::class, 'cancel'])->name('paypal.cancel');
+Route::get('/order/success', function () {
+    return view('frontend.order.success');
+})->name('order.success');
+include __DIR__ . '/admin.php';
+include __DIR__ . '/vendor.php';
 
