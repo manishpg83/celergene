@@ -249,6 +249,37 @@ class Checkout extends Component
 
     public function processOrder()
     {
+        // Validate the form fields
+        $this->validate([
+            'billing_fname' => 'required',
+            'billing_lname' => 'required',
+            'billing_address' => 'required',
+            'billing_city' => 'required',
+            'billing_state' => 'required',
+            'billing_postal_code' => 'required',
+            'billing_country' => 'required',
+            'billing_phone' => 'required',
+            'billing_email' => 'required|email',
+        ], [
+            'required' => 'The :attribute field is required.',
+            'email' => 'Please enter a valid email address.'
+        ]);
+
+        // Add shipping validation if billing address isn't used for shipping
+        if (!$this->useBillingAddress) {
+            $this->validate([
+                'shipping_firstname' => 'required',
+                'shipping_lastname' => 'required',
+                'shipping_address1' => 'required',
+                'shipping_city' => 'required',
+                'shipping_state' => 'required',
+                'shipping_zip' => 'required',
+                'shipping_country' => 'required',
+                'shipping_phone' => 'required',
+                'shipping_email' => 'required|email',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
 
@@ -264,7 +295,7 @@ class Checkout extends Component
                     $this->user = $existingUser;
                     if (!$this->user->is_guest) {
                         $this->user->update(['is_guest' => true]);
-                    } 
+                    }
                     $customer = Customer::where('user_id', $this->user->id)->first();
                 } else {
                     $this->user = User::create([
@@ -352,7 +383,7 @@ class Checkout extends Component
                         'total' => $item['total'],
                         'created_at' => now(),
                         'updated_at' => now()
-                    ]);                    
+                    ]);
                 }
             }
 
@@ -369,7 +400,6 @@ class Checkout extends Component
             session()->flash('order_number', $orderNumber);
 
             return true;
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Order Processing Error', ['error' => $e->getMessage()]);
