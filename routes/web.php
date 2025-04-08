@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\WarehouseOrderUpdate;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PayPalWebhookController;
 use App\Http\Controllers\Frontend\Auth\FrontAuthController;
@@ -33,18 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
     Route::get('/shippingaddress/{addressNumber?}', [HomeController::class, 'shippingaddress'])->name('shippingaddress');
     Route::get('/addshippingaddress', [HomeController::class, 'addshippingaddress'])->name('addshippingaddress');
-
     // Add these with your other routes
     Route::get('/checkout/error', function () {
         return view('frontend.checkout.error');
     })->name('checkout.error');
-
     Route::get('/checkout', function () {
         return view('frontend.checkout');
     })->name('checkout');
-
-
-
     Route::get('/addbillingaddress/{id?}', [HomeController::class, 'addbillingaddress'])->name('addbillingaddress');
 });
 
