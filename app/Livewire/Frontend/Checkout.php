@@ -302,7 +302,21 @@ class Checkout extends Component
                     ]);
                 }
             }
-
+            if ($customer) {
+                $customer->update([
+                    'billing_fname' => $this->billing_fname,
+                    'billing_lname' => $this->billing_lname,
+                    'billing_address' => $this->billing_address,
+                    'billing_address_2' => $this->billing_address_2,
+                    'billing_city' => $this->billing_city,
+                    'billing_state' => $this->billing_state,
+                    'billing_phone' => $this->billing_phone,
+                    'billing_email' => $this->billing_email,
+                    'billing_company_name' => $this->billing_company_name,
+                    'billing_country' => $this->billing_country,
+                    'billing_postal_code' => $this->billing_postal_code,
+                ]);
+            }
             $orderNumber = OrderMaster::generateOrderNumber();
 
             $shippingAddress = $this->useBillingAddress
