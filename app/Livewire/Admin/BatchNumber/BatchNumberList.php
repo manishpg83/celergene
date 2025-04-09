@@ -96,7 +96,7 @@ class BatchNumberList extends Component
     private function resetForm()
     {
         $this->batch_number = '';
-        $this->status = 'active';
+        $this->status = '';
         $this->batchNumberId = null;
     }
 
@@ -112,14 +112,24 @@ class BatchNumberList extends Component
     public function render()
     {
         $batchNumbers = BatchNumber::query()
-            ->when($this->search, function ($query) {
-                $query->where('id', 'like', '%' . $this->search . '%')
-                    ->orWhere('batch_number', 'like', '%' . $this->search . '%')
-                    ->orWhere('status', 'like', '%' . $this->search . '%');
-            })
             ->withTrashed()
+            ->when($this->status, function ($query) {
+                if ($this->status === 'suspended') {
+                    $query->onlyTrashed();
+                } else {
+                    $query->where('status', $this->status);
+                }
+            })
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('id', 'like', '%' . $this->search . '%')
+                        ->orWhere('batch_number', 'like', '%' . $this->search . '%')
+                        ->orWhere('status', 'like', '%' . $this->search . '%');
+                });
+            })
             ->orderBy('id')
             ->paginate($this->perPage);
+
         $perpagerecords = perpagerecords();
 
         return view('livewire.admin.batch-number.batch-number-list', [

@@ -24,7 +24,7 @@ class CurrencyList extends Component
     {
         $currency = Currency::withTrashed()->findOrFail($id);
         $this->currencyId = $id;
-        
+
         if ($currency->trashed()) {
             $this->confirmingDeletion = true;
         } else {
@@ -37,7 +37,7 @@ class CurrencyList extends Component
         DB::beginTransaction();
         try {
             $currency = Currency::withTrashed()->findOrFail($this->currencyId);
-            
+
             if ($currency->trashed()) {
                 $currency->forceDelete();
                 notyf()->success('Currency permanently deleted.');
@@ -47,7 +47,7 @@ class CurrencyList extends Component
                 $currency->delete();
                 notyf()->success('Currency suspended. Click delete again to permanently remove.');
             }
-            
+
             DB::commit();
             $this->confirmingDeletion = false;
         } catch (\Exception $e) {
@@ -92,13 +92,18 @@ class CurrencyList extends Component
 
     public function render()
     {
-        $currencies = Currency::where(function($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('code', 'like', '%' . $this->search . '%');
-        })
-        ->withTrashed()
-        ->orderBy('id')
-        ->paginate($this->perPage);
+        $currencies = Currency::withTrashed()
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('code', 'like', '%' . $this->search . '%')
+                        ->orWhere('symbol', 'like', '%' . $this->search . '%')
+                        ->orWhere('rate', 'like', '%' . $this->search . '%')
+                        ->orWhere('status', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->orderBy('id')
+            ->paginate($this->perPage);
 
         return view('livewire.admin.currency.currency-list', [
             'currencies' => $currencies,

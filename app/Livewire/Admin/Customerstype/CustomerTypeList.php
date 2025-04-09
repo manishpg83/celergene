@@ -12,12 +12,14 @@ class CustomerTypeList extends Component
 
     public $customer_type, $customerTypeId;
     public $perPage = 25;
-    public $status = 'active';
+    public string $status = 'all';
     public $search = '';
+    
     public $confirmingDeletion = false;
 
     public function mount()
     {
+        $this->status = 'all';
         $this->resetForm();
     }
 
@@ -104,12 +106,25 @@ class CustomerTypeList extends Component
         }
     }
 
+    public function updatedStatus($value)
+    {
+        $this->status = $value;
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $customerTypes = CustomerType::where('customer_type', 'like', '%' . $this->search . '%')
+        $query = CustomerType::query()
             ->withTrashed()
-            ->orderBy('id')
-            ->paginate($this->perPage);
+            ->when($this->search, function ($q) {
+                $q->where('customer_type', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->status !== 'all', function ($q) {
+                $q->where('status', $this->status);
+            })
+            ->orderBy('id');
+
+        $customerTypes = $query->paginate($this->perPage);
         $perpagerecords = perpagerecords();
 
         return view('livewire.admin.customerstype.customer-type-list', [

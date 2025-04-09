@@ -42,7 +42,9 @@
                     </thead>
                     <tbody>
                         @if ($currencies->isEmpty())
-                            <tr><td colspan="7" class="text-center">No currencies found.</td></tr>
+                            <tr>
+                                <td colspan="7" class="text-center">No currencies found.</td>
+                            </tr>
                         @else
                             @foreach ($currencies as $currency)
                                 <tr class="{{ $currency->trashed() ? 'table-warning' : '' }}">
@@ -74,9 +76,12 @@
                                                         <circle cx="12" cy="18" r="2" />
                                                     </svg>
                                                 </button>
-                                                <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $currency->id }}">
+                                                <ul class="dropdown-menu"
+                                                    aria-labelledby="actionMenu{{ $currency->id }}">
                                                     <li>
-                                                        <a class="dropdown-item" wire:click="editCurrency({{ $currency->id }})" style="cursor: pointer;">Edit</a>
+                                                        <a class="dropdown-item"
+                                                            wire:click="editCurrency({{ $currency->id }})"
+                                                            style="cursor: pointer;">Edit</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item {{ $currency->trashed() ? 'text-danger' : 'text-warning' }}"
@@ -86,14 +91,19 @@
                                                         </a>
                                                     </li>
                                                     @if ($currency->trashed())
-                                                        <li><a class="dropdown-item text-success" wire:click="restore({{ $currency->id }})" style="cursor: pointer;">Restore</a></li>
+                                                        <li><a class="dropdown-item text-success"
+                                                                wire:click="restore({{ $currency->id }})"
+                                                                style="cursor: pointer;">Restore</a></li>
                                                     @endif
                                                 </ul>
                                             </div>
-                                            @if($currency->trashed())
+                                            @if ($currency->trashed())
                                                 <span class="text-danger" title="Suspended">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="width: 16px; height: 16px;">
-                                                        <path d="M7.938 2.016a.13.13 0 0 1 .125 0l6.857 11.987c.042.073.042.163 0 .236a.13.13 0 0 1-.125.061H1.375a.13.13 0 0 1-.125-.061.176.176 0 0 1 0-.236L7.938 2.016zM8 5c-.535 0-.954.462-.9.995l.35 4.507c.035.416.38.748.9.748s.865-.332.9-.748L8.9 5.995C8.954 5.462 8.535 5 8 5zm.002 6a1 1 0 1 0-.002 2 1 1 0 0 0 .002-2z"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16"
+                                                        style="width: 16px; height: 16px;">
+                                                        <path
+                                                            d="M7.938 2.016a.13.13 0 0 1 .125 0l6.857 11.987c.042.073.042.163 0 .236a.13.13 0 0 1-.125.061H1.375a.13.13 0 0 1-.125-.061.176.176 0 0 1 0-.236L7.938 2.016zM8 5c-.535 0-.954.462-.9.995l.35 4.507c.035.416.38.748.9.748s.865-.332.9-.748L8.9 5.995C8.954 5.462 8.535 5 8 5zm.002 6a1 1 0 1 0-.002 2 1 1 0 0 0 .002-2z" />
                                                     </svg>
                                                 </span>
                                             @endif
@@ -102,7 +112,7 @@
                                 </tr>
                             @endforeach
                         @endif
-                     </tbody>
+                    </tbody>
                 </table>
             </div>
 
@@ -113,27 +123,26 @@
             </div>
         </div>
     </div>
-</div>
-
-@if ($confirmingDeletion)
-    <div class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Permanent Deletion</h5>
-                    <button type="button" class="close" wire:click="$set('confirmingDeletion', false)">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to permanently delete this currency? This action cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        wire:click="$set('confirmingDeletion', false)">Cancel</button>
-                    <button type="button" class="btn btn-danger" wire:click="delete">Permanently Delete</button>
+    @if ($confirmingDeletion)
+        <div class="modal" tabindex="-1" role="dialog" style="display: block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Permanent Deletion</h5>
+                        <button type="button" class="close" wire:click="$set('confirmingDeletion', false)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to permanently delete this currency? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            wire:click="$set('confirmingDeletion', false)">Cancel</button>
+                        <button type="button" class="btn btn-danger" wire:click="delete">Permanently Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
+</div>

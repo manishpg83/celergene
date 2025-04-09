@@ -23,7 +23,10 @@ class ProductList extends Component
             ->withTrashed()
             ->where(function ($query) {
                 $query->where('product_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('brand', 'like', '%' . $this->search . '%');
+                ->orWhere('brand', 'like', '%' . $this->search . '%')
+                ->orWhere('product_code', 'like', '%' . $this->search . '%')
+                ->orWhere('product_category', 'like', '%' . $this->search . '%')
+                ->orWhere('unit_price', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
         $perpagerecords = perpagerecords();

@@ -14,21 +14,42 @@ class InventoryList extends Component
     public $search = '';
     public $confirmingDeletion = false;
     public $inventoryId;
+    public $sortField = 'id';
+    public $sortDirection = 'asc';
 
     protected $updatesQueryString = ['search', 'perPage'];
 
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+            $this->sortField = $field;
+        }
+
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $inventories = Inventory::with('product', 'warehouse', 'modifiedBy')
+        $inventories = Inventory::with(['product', 'warehouse', 'modifiedBy'])
             ->withTrashed()
             ->where(function ($query) {
                 $query->whereHas('product', function ($q) {
-                    $q->where('product_name', 'like', '%' . $this->search . '%');
+                    $q->where('product_name', 'like', '%' . $this->search . '%')
+                        ->orWhere('product_code', 'like', '%' . $this->search . '%');
                 })
-                ->orWhereHas('warehouse', function ($q) {
-                    $q->where('warehouse_name', 'like', '%' . $this->search . '%');
-                });
+                    ->orWhereHas('warehouse', function ($q) {
+                        $q->where('warehouse_name', 'like', '%' . $this->search . '%');
+                    })
+                    ->orWhere('batch_number', 'like', '%' . $this->search . '%')
+                    ->orWhere('quantity', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('modifiedBy', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
             })
+            ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
         $perpagerecords = perpagerecords();
@@ -38,7 +59,6 @@ class InventoryList extends Component
             'perpagerecords' => $perpagerecords,
         ]);
     }
-
 
     public function confirmDelete($id)
     {
@@ -86,5 +106,4 @@ class InventoryList extends Component
 
         $this->dispatch('openEditTab', route('admin.inventory.add', ['id' => $id]));
     }
-
 }

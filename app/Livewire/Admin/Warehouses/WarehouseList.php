@@ -134,8 +134,9 @@ class WarehouseList extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($subQuery) {
                     $subQuery->where('warehouse_name', 'LIKE', '%' . $this->search . '%')
-                        ->orWhere('country', 'LIKE', '%' . $this->search . '%')
-                        ->orWhere('type', 'LIKE', '%' . $this->search . '%');
+                    ->orWhere('country', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('type', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $this->search . '%');
                 });
             })
             ->withTrashed()
