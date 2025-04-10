@@ -46,8 +46,7 @@
                         <span class="page-link">Prew</span>
                     </li>
                 @else
-                    <li class="page-item">
-                        <button class="page-link" wire:click="previousPage" wire:loading.attr="disabled">Prew</button>
+                    <button class="page-link" wire:click="previousPage" wire:loading.attr="disabled">Prew</button>
                     </li>
                 @endif
 
@@ -55,8 +54,7 @@
                 @foreach ($elements as $element)
                     {{-- "Three Dots" Separator --}}
                     @if (is_string($element))
-                        <li class="page-item disabled" aria-disabled="true"><span
-                                class="page-link">{{ $element }}</span></li>
+                        <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
                     @endif
 
                     {{-- Array Of Links --}}
@@ -68,7 +66,8 @@
                                 </li>
                             @else
                                 <li class="page-item">
-                                    <button class="page-link" wire:click="gotoPage({{ $page }})" wire:loading.attr="disabled">
+                                    <button class="page-link" wire:click="gotoPage({{ $page }})"
+                                        wire:loading.attr="disabled">
                                         {{ $page }}
                                     </button>
                                 </li>
@@ -91,4 +90,3 @@
         </nav>
     </div>
 @endif
-

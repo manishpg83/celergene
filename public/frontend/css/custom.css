@@ -595,6 +595,7 @@ div#dob-text {
 
 /* app.css or a custom stylesheet */
 .badge-pending {
+    --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;    
     color: white;
     padding: 3px 4px;

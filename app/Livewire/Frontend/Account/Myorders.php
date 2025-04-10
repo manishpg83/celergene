@@ -18,7 +18,8 @@ class Myorders extends Component
         $orders = OrderMaster::select('order_id', 'created_at', 'total', 'order_status', 'order_number')
             ->where('created_by', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(10)
+            ->onEachSide(1); 
 
         foreach ($orders as $order) {
             $order->formatted_order_number = 'ORD - ' . str_pad($order->order_id, 6, '0', STR_PAD_LEFT);
