@@ -50,6 +50,11 @@ class Entity extends Model
         return $query->where('is_active', true);
     }
 
+    public function orderInvoices()
+    {
+        return $this->hasMany(OrderInvoice::class, 'entity_id');
+    }
+
     /**
      * Scope a query to only include inactive entities.
      */

@@ -166,7 +166,12 @@ class EntityList extends Component
     public function delete()
     {
         $entity = Entity::withTrashed()->find($this->entityId);
-
+    
+        if ($entity->orderInvoices()->exists()) {
+            notyf()->error('Cannot delete this entity because it is linked to invoices.');
+            return;
+        }
+    
         if ($entity->trashed()) {
             $entity->forceDelete();
             notyf()->success('Entity permanently deleted.');
@@ -176,9 +181,9 @@ class EntityList extends Component
             $entity->delete();
             notyf()->success('Entity soft deleted. Click delete again to permanently remove.');
         }
-
+    
         $this->confirmingDeletion = false;
-    }
+    }    
 
     public function confirmDelete($id)
     {
