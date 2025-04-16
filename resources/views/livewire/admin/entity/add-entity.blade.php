@@ -28,15 +28,11 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="country">Country</label>
-                                    <select wire:model="country" id="country" class="form-select" data-allow-clear="true">
-                                        <option value="">Select</option>
-                                        <option value="HK">Hong Kong</option>
-                                        <option value="SIN">Singapore</option>
-                                        <option value="CHI">China</option>
-                                        <option value="SWI">Switzerland</option>
-                                        <option value="LUX">Luxembourg</option>
-                                        <option value="THA">Thailand</option>
-                                        <option value="PHI">Philippines</option>
+                                    <select wire:model="country" id="country" class="form-select">
+                                        <option value="">Select Country</option>
+                                        @foreach($countries as $countryName)
+                                            <option value="{{ $countryName }}">{{ $countryName }}</option>
+                                        @endforeach
                                     </select>
                                     @error('country') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
@@ -72,10 +68,12 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="currency">Currency</label>
                                     <select wire:model="currency" id="currency" class="form-select" data-allow-clear="true">
-                                        <option value="">Select</option>
-                                        <option value="USD">US Dollar</option>
-                                        <option value="SGD">Singapore Dollar</option>
-                                        <option value="CHF">Swiss Franc</option>
+                                        <option value="">Select Currency</option>
+                                        @foreach($currencies as $currency)
+                                            <option value="{{ $currency->code }}">
+                                                {{ $currency->name }} ({{ $currency->symbol }})
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @error('currency') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
