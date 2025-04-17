@@ -134,13 +134,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             
             Route::middleware(['permission:manage invoices'])->group(function () {           
                 Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
-                Route::get('reports',[ReportController::class, 'index'])->name('reports.index');
             });
 
             Route::middleware(['permission:manage reports'])->group(function () {
                 Route::get('reports',[ReportController::class, 'index'])->name('reports.index');
             });
-            
+
             Route::middleware(['role:super-admin'])->group(function () {
                 Route::resource('roles', RoleController::class);
 
