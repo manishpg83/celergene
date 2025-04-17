@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\OrderMasterController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SuppliersController;
 use App\Http\Controllers\Admin\VendorController;
@@ -133,7 +134,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             
             Route::middleware(['permission:manage invoices'])->group(function () {           
                 Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+                Route::get('reports',[ReportController::class, 'index'])->name('reports.index');
             });
+
+            Route::middleware(['permission:manage reports'])->group(function () {
+                Route::get('reports',[ReportController::class, 'index'])->name('reports.index');
+            });
+            
             Route::middleware(['role:super-admin'])->group(function () {
                 Route::resource('roles', RoleController::class);
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class InitialRolesAndPermissionsSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class InitialRolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Create permissions
+        // Create permissions with safe check
         $permissions = [
             'view dashboard',
             'admin dashboard',
@@ -31,19 +32,22 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage orders',
             'create roles',
             'assign permissions',
-            'manage invoices'
+            'manage invoices',
+            'manage reports',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(
+                ['name' => $permission, 'guard_name' => 'web'],
+                ['name' => $permission, 'guard_name' => 'web']
+            );
         }
 
-        // Create roles and assign permissions
-        $superAdminRole = Role::create(['name' => 'super-admin']);
-        $superAdminRole->givePermissionTo(Permission::all());
+        // Create roles or update existing ones
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
+        $superAdminRole->syncPermissions(Permission::all());
 
-        $adminRole = Role::create(['name' => 'admin']);
-        $adminRole->givePermissionTo([
+        $adminPermissions = [
             'view dashboard',
             'admin dashboard',
             'manage vendors',
@@ -58,15 +62,20 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             'manage inventory',
             'manage orders',
             'manage invoices'
-        ]);
-        // Assign roles to existing users based on their type
-        User::where('type', 'admin')->get()->each(function ($user) use ($superAdminRole) {
-            $user->assignRole($superAdminRole);
+        ];
+
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $adminRole->syncPermissions($adminPermissions);
+
+        // Assign roles to existing users
+        User::where('type', 'admin')->each(function ($user) use ($superAdminRole) {
+            if (!$user->hasRole($superAdminRole)) {
+                $user->assignRole($superAdminRole);
+            }
         });
 
-
+        // Create or update super admin user
         $superAdminEmail = 'superadmin@celergenswiss.com';
-        
         $superAdminUser = User::firstOrCreate(
             ['email' => $superAdminEmail],
             [
@@ -76,6 +85,7 @@ class InitialRolesAndPermissionsSeeder extends Seeder
             ]
         );
 
-        $superAdminUser->assignRole($superAdminRole);
+        // Ensure the user has the role (won't duplicate if already exists)
+        $superAdminUser->syncRoles($superAdminRole);
     }
 }
