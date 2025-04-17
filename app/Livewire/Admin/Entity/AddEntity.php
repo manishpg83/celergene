@@ -4,6 +4,9 @@ namespace App\Livewire\Admin\Entity;
 
 use Livewire\Component;
 use App\Models\Entity;
+use App\Models\Country;
+use App\Models\Currency;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AddEntity extends Component
@@ -27,6 +30,9 @@ class AddEntity extends Component
     public $bank_branch_code;
     public $is_active = true;
 
+    public $countries = [];
+    public $currencies;
+
     protected $rules = [
         'company_name' => 'required|string|max:255',
         'address' => 'required|string',
@@ -35,7 +41,7 @@ class AddEntity extends Component
         'business_reg_number' => 'nullable|string|max:50',
         'vat_number' => 'nullable|string|max:50',
         'gst_number' => 'nullable|string|max:50',
-        'currency' => 'required|string|max:3',
+        'currency' => 'required|exists:currency,code',
         'bank_account_name' => 'required|string|max:255',
         'bank_account_number' => 'required|string|max:50',
         'bank_name' => 'required|string|max:255',
@@ -49,6 +55,16 @@ class AddEntity extends Component
 
     public function mount()
     {
+        $this->countries = DB::table('country')
+            ->select('name')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
+        $this->currencies = Currency::where('status', Currency::STATUS_ACTIVE)
+            ->orderBy('name')
+            ->get();
+
         $this->entityId = request()->query('id');
 
         if ($this->entityId) {
