@@ -9,14 +9,14 @@
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <i class="ti menu-toggle-icon d-none d-xl-block align-middle"></i>
-            <i class="ti ti-x d-block d-xl-none ti-md align-middle"></i>
+            <i class="align-middle ti menu-toggle-icon d-none d-xl-block"></i>
+            <i class="align-middle ti ti-x d-block d-xl-none ti-md"></i>
         </a>
     </div>
 
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1">
+    <ul class="py-1 menu-inner">
         <li class="menu-header small">
             <span class="menu-header-text" data-i18n="ADMIN DASHBOARD"> ADMIN DASHBOARD</span>
         </li>
@@ -561,7 +561,7 @@
     </li> --}}
 
         <!-- Reports -->
-        <li class="menu-item">
+        {{-- <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-chart-pie"></i>
                 <div data-i18n="Sales Reports">Sales Reports</div>
@@ -573,8 +573,20 @@
                     </a>
                 </li>
             </ul>
+        </li> --}}
+        <li class="menu-item {{ request()->routeIs('admin.reports*') || request()->routeIs('admin.reports.index') || request()->routeIs('admin.consignment*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-chart-pie"></i>
+                <div data-i18n="Reports">Reports</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reports.index') }}" class="menu-link">
+                        <div data-i18n="Custom Report">Custom Report</div>
+                    </a>
+                </li>                
+            </ul>
         </li>
-
         <!-- Settings -->
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
