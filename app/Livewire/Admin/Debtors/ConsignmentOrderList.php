@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Debtors;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\OrderMaster;
-use Carbon\Carbon;
 
 class ConsignmentOrderList extends Component
 {
@@ -29,7 +28,7 @@ class ConsignmentOrderList extends Component
     public function render()
     {
         $consignmentOrders = OrderMaster::with(['customer'])
-            ->where('workflow_type', 'consignment')  // Changed from 'consignment order' to 'consignment'
+            ->where('workflow_type', 'consignment')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('order_number', 'like', '%' . $this->search . '%')

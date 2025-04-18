@@ -18,16 +18,10 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SuppliersController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
-
-
-
-
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -138,6 +132,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
             Route::middleware(['permission:manage reports'])->group(function () {
                 Route::get('reports',[ReportController::class, 'index'])->name('reports.index');
+                Route::get('reports/ytd',[ReportController::class, 'ytd'])->name('reports.ytd');
+                Route::get('reports/business',[ReportController::class, 'business'])->name('reports.business');
+                Route::get('reports/country',[ReportController::class, 'country'])->name('reports.country');
             });
 
             Route::middleware(['role:super-admin'])->group(function () {

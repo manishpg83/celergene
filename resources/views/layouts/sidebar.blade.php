@@ -586,6 +586,27 @@
                     </a>
                 </li>                
             </ul>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.reports.ytd') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reports.ytd') }}" class="menu-link">
+                        <div data-i18n="YTD Report">YTD Report</div>
+                    </a>
+                </li>                
+            </ul>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.reports.business') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reports.business') }}" class="menu-link">
+                        <div data-i18n="Business Report">Business Report</div>
+                    </a>
+                </li>                
+            </ul>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('admin.reports.country') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reports.country') }}" class="menu-link">
+                        <div data-i18n="Country Report">Country Report</div>
+                    </a>
+                </li>                
+            </ul>
         </li>
         <!-- Settings -->
         <li class="menu-item">

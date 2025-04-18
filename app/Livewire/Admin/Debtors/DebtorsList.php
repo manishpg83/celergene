@@ -15,7 +15,7 @@ class DebtorsList extends Component
     use WithPagination;
 
     public $search = '';
-    public $perPage = 25;
+    public $perPage = 2;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 

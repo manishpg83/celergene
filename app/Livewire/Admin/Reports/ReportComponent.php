@@ -24,7 +24,7 @@ class ReportComponent extends Component
     public $startDate;
     public $endDate;
     public $country;
-    public $perPage = 10;
+    public $perPage = 25;
     public $search = '';
     public $selectedYear;
     public $customer;
@@ -39,7 +39,6 @@ class ReportComponent extends Component
 
     public function mount()
     {
-        // Set default date range to current month
         $this->startDate = now()->startOfYear()->format('Y-m-d');
         $this->endDate = now()->format('Y-m-d');
         $this->selectedYear = now()->year;
@@ -47,16 +46,14 @@ class ReportComponent extends Component
 
     public function render()
     {
+        $reportData = collect([]);
+        $invoices = collect([]);
+        $showMonthlyView = false;
+
         if (empty($this->startDate) && empty($this->endDate)) {
             $monthlyData = $this->getMonthlyData($this->selectedYear);
             $countries = Customer::distinct()->pluck('billing_country')->filter()->sort()->values();
-
-            return view('livewire.admin.reports.report-component', [
-                'monthlyData' => $monthlyData,
-                'countries' => $countries,
-                'showMonthlyView' => true,
-                'selectedYear' => $this->selectedYear,
-            ]);
+            $showMonthlyView = true;
         } else {
             $invoicesQuery = OrderInvoice::query()
                 ->join('customers', 'order_invoice.customer_id', '=', 'customers.id')
@@ -81,8 +78,6 @@ class ReportComponent extends Component
                     'customers.billing_country'
                 );
 
-
-            // Apply filters
             if ($this->startDate) {
                 $invoicesQuery->whereDate('order_invoice.created_at', '>=', $this->startDate);
             }
@@ -105,7 +100,6 @@ class ReportComponent extends Component
 
             $invoices = $invoicesQuery->orderBy('order_invoice.created_at')->paginate($this->perPage);
 
-            // Calculate additional data for each invoice
             $reportData = $invoices->map(function ($invoice) {
                 $boxCount = $invoice->invoiceDetails->sum('quantity');
                 $totalAmountCHF = $invoice->total;
@@ -125,39 +119,47 @@ class ReportComponent extends Component
                     'amount_chf_raw' => $totalAmountCHF
                 ];
             });
-
-            // Get unique countries for filter
-            $countries = Customer::distinct()->pluck('billing_country')->filter()->sort()->values();
-
-            return view('livewire.admin.reports.report-component', [
-                'reportData' => $reportData,
-                'countries' => $countries,
-                'invoices' => $invoices,
-                'showMonthlyView' => false,
-            ]);
         }
+
+        $countries = Customer::distinct()->pluck('billing_country')->filter()->sort()->values();
+
+        return view('livewire.admin.reports.report-component', [
+            'reportData' => $reportData,
+            'invoices' => $invoices,
+            'countries' => $countries,
+            'showMonthlyView' => $showMonthlyView,
+            'selectedYear' => $this->selectedYear,
+            'monthlyData' => $monthlyData ?? [],
+        ]);
     }
 
     public function resetFilters()
     {
-        $this->reset(['search', 'startDate', 'endDate', 'country']);
+        $this->reset([
+            'search',
+            'endDate',
+            'country',
+            'customer'
+        ]);
+        $this->startDate = now()->startOfYear()->format('Y-m-d');
+        $this->endDate = now()->format('Y-m-d');
+        $this->resetPage();
     }
 
     public function resetYear()
     {
         $this->selectedYear = now()->year;
+        $this->resetFilters();
+        $this->resetPage();
     }
 
     public function setYear($year)
     {
         $this->selectedYear = $year;
-        $this->resetFilters(); // Clear date filters to show monthly view
+        $this->resetFilters();
+        $this->resetPage();
     }
 
-
-
-
-    // Update the exportCsv method
     public function exportCsv()
     {
         if (empty($this->startDate) && empty($this->endDate)) {
@@ -468,8 +470,6 @@ class ReportComponent extends Component
 
         return $countrySummary;
     }
-
-   
 
     public function exportExcel()
     {
@@ -1007,7 +1007,6 @@ class ReportComponent extends Component
         }
     }
 
-    //Not in use getMonthlyData, getCountrySummaryData, exportMonthlyCsv
     private function getMonthlyData($year)
     {
         $monthlyData = [];

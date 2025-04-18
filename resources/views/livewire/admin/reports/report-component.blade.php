@@ -1,57 +1,51 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">Sales Report</h4>
+    <div class="row-gap-4 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+        <div class="d-flex flex-column justify-content-center">
+            <h4 class="mb-1 ml-2 text-2xl">Sales Report</h4>
         </div>
+        <div class="flex-wrap gap-4 d-flex align-content-center">
+            <div class="gap-4 d-flex">
+                <div class="btn-group">
+                    <button class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light" 
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span><i class="ti ti-upload me-1 ti-xs"></i>Export</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" wire:click="exportExcel">Export to Excel</a></li>
+                        <li><a class="dropdown-item" href="#" wire:click="exportCsv">Export to CSV</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body">
             <div class="mb-4 row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="search">Search</label>
-                        <input type="text" wire:model.live="search" class="form-control" placeholder="Search by name or invoice #">
+                        <input type="text" wire:model.lazy="search" class="form-control" placeholder="Search by name or invoice #">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="startDate">Start Date</label>
-                        <input type="date" wire:model.live="startDate" class="form-control">
+                        <input type="date" wire:model.lazy="startDate" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="endDate">End Date</label>
-                        <input type="date" wire:model.live="endDate" class="form-control">
+                        <input type="date" wire:model.lazy="endDate" class="form-control">
                     </div>
                 </div>
-                {{-- <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <select wire:model.live="country" class="form-control">
-                            <option value="">All Countries</option>
-                            @foreach($countries as $country)
-                                <option value="{{ $country }}">{{ $country }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div> --}}
                 <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-secondary" wire:click="resetFilters">Reset Filters</button>
+                    <button class="btn btn-outline-danger" wire:click="resetFilters" wire:loading.attr="disabled">Reset Filters</button>
                 </div>
             </div>
-            
-            <div class="mb-3 row">
-                <div class="text-right col-md-12">
-                    <button class="mr-2 btn btn-success" wire:click="exportCsv">
-                        <i class="mr-1 fas fa-file-csv"></i> Export CSV
-                    </button>
-                    <button class="btn btn-primary" wire:click="exportExcel">
-                        <i class="mr-1 fas fa-file-excel"></i> Export Excel
-                    </button>
-                </div>
-            </div>
-
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table text-center table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>S/N</th>
@@ -99,7 +93,7 @@
                 </table>
             </div>
 
-            <div class="mt-4">
+            <div class="mt-3">
                 {{ $invoices->links() }}
             </div>
         </div>
