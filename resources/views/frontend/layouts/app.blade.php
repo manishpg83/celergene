@@ -260,9 +260,11 @@
 
         $(document).ready(function() {
             var checkbox = $('#add_same')[0];
-            alert(checkbox);
-            console.log(checkbox);
-            SwitchAddress(checkbox);
+            if(checkbox != undefined)
+            {
+                SwitchAddress(checkbox);
+            }
+
         });
 
         function ValidateFormInputs() {
