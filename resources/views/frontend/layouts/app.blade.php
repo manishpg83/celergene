@@ -258,10 +258,12 @@
             }
         }
 
-        /* $(document).ready(function() {
+        $(document).ready(function() {
             var checkbox = $('#add_same')[0];
+            alert(checkbox);
+            console.log(checkbox);
             SwitchAddress(checkbox);
-        }); */
+        });
 
         function ValidateFormInputs() {
             var addSame = document.getElementById('add_same').checked;
