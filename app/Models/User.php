@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\AdminResetPasswordNotification;
+use App\Notifications\FrontResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -95,6 +96,12 @@ class User extends Authenticatable
     {
         $this->notify(new AdminResetPasswordNotification($token));
     }
+
+    public function sendPasswordResetNotificationFront($token)
+    {
+        $this->notify(new FrontResetPasswordNotification($token));
+    }
+
 
     public function getEmailForPasswordReset()
     {

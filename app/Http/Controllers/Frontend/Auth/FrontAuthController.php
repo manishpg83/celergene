@@ -40,7 +40,7 @@ class FrontAuthController extends Controller
 
     public function showForgotPasswordForm()
     {
-        return view('admin.auth.forgot-password');
+        return view('frontend.auth.forgot-password');
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -50,7 +50,7 @@ class FrontAuthController extends Controller
         $status = Password::broker('users')->sendResetLink(
             $request->only('email'),
             function ($user, $token) {
-                $user->sendPasswordResetNotification($token);
+                $user->sendPasswordResetNotificationFront($token);
             }
         );
 
@@ -65,7 +65,7 @@ class FrontAuthController extends Controller
 
     public function showResetPasswordForm($token)
     {
-        return view('admin.auth.reset-password', ['token' => $token, 'email' => request('email')]);
+        return view('frontend.auth.reset-password', ['token' => $token, 'email' => request('email')]);
     }
 
     public function resetPassword(Request $request)
@@ -86,7 +86,7 @@ class FrontAuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('admin.login')->with('status', __($status))
+            ? redirect()->route('login.form')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 
