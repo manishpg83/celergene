@@ -3,15 +3,15 @@
 	Author			 : IndianCoder
 	Version			 : 1.0
 	File Name	     : custom.js
-	
+
 	Core script to handle the entire theme and core functions
 **/
 
 var Glower = function () {
 	'use strict';
-	
+
 	var screenWidth = $(window).width();
-	
+
 	/* Cookies Function */
 	function setCookie(cname, cvalue, exhours) {
 		var d = new Date();
@@ -51,7 +51,7 @@ var Glower = function () {
 			location.reload();
 		}
 	}
-	
+
 	/* Cookies Function END */
 	var homeSearch = function () {
 		/* top search in header on click function */
@@ -160,7 +160,7 @@ var Glower = function () {
 	var dzTheme = function () {
 		if (screenWidth <= 991) {
 			var menuObj;
-			
+
 			jQuery('.navbar-nav > li > a, .sub-menu > li > a, .navbar-nav > li > a > i, .sub-menu > li > a > i')
 				.unbind()
 				.on({
@@ -196,7 +196,7 @@ var Glower = function () {
 			jQuery('.tabindex').removeAttr("tabindex");
 		}
 	}
-	
+
 	var contactform = function () {
 		jQuery('.menu-btn').on('click', function () {
 			jQuery('body').append('<div class="menu-backdrop"></div>');
@@ -221,7 +221,7 @@ var Glower = function () {
 			jQuery(this).toggleClass('active');
 		});
 	}
-	
+
 	//lightGallery
 	var handleLightgallery = function () {
 		if (jQuery('#lightgallery').length > 0) {
@@ -305,7 +305,7 @@ var Glower = function () {
 	/* Scroll To Top ============ */
 	var scrollTop = function () {
 		var scrollTop = jQuery("button.scroltop");
-		
+
 		/* page scroll top on click function */
 		scrollTop.on('click', function () {
 			jQuery("html, body").animate({
@@ -366,7 +366,7 @@ var Glower = function () {
 						self.masonry({
 							gutter: gutter,
 							columnWidth: columnWidthValue,
-							//columnWidth:3, 
+							//columnWidth:3,
 							//gutterWidth: 15,
 							isAnimated: true,
 							itemSelector: ".card-container",
@@ -466,7 +466,7 @@ var Glower = function () {
 			dialog = modal.find('.modal-dialog');
 		modal.css('display', 'block');
 
-		/* Dividing by two centers the modal exactly, but dividing by three 
+		/* Dividing by two centers the modal exactly, but dividing by three
 		 or four works better for larger screens.  */
 		dialog.css("margin-top", Math.max(0, (jQuery(window).height() - dialog.height()) / 2));
 	}
@@ -674,7 +674,7 @@ var Glower = function () {
 
 	var handleMultipleImageSize = function () {
 		jQuery('.smart-product-details .dz-media img').removeAttr('style');
-		
+
 		setTimeout(function () {
 			jQuery('.smart-product-details .dz-content').each(function () {
 				var ch = Math.ceil(jQuery(this).outerHeight());
@@ -739,7 +739,7 @@ var Glower = function () {
 			$('.round').css({ '-moz-transform': 'rotate(' + rotateNum + 'deg)' });
 			$('.round').css({ '-ms-transform': 'rotate(' + rotateNum + 'deg)' });
 
-			// If the count down is over, write some text 
+			// If the count down is over, write some text
 			if (clockTime < 0) {
 				clearInterval(x);
 				jQuery("#day, #hour, #min, #second").html("EXPIRED");
@@ -778,7 +778,7 @@ var Glower = function () {
 
 	var handleMagnifyGallery = function () {
 		const imageSelector = $('.DZoomImage');
-		
+
 		imageSelector.on('mousemove', function (t) {
 			let e = $(this).offset();
 			var i = (t.pageX - e.left) / $(this).width() * 100 <= 100 ? (t.pageX - e.left) / $(this).width() * 100 : 100;
@@ -853,7 +853,7 @@ var Glower = function () {
 		</div>`;
 
 		jQuery('body').append(modalBox);
-		
+
 		setTimeout(function () {
 			if (!getCookie('inquiryModal')) {
 				jQuery("#myModal").offcanvas('show');
@@ -1021,7 +1021,7 @@ var Glower = function () {
 			element.innerHTML = currentYear;
 		}
 	}
-	
+
 	/* Password Show / Hide */
 	var handleShowPass = function () {
 		jQuery('.show-pass').on('click', function () {
@@ -1106,7 +1106,7 @@ var Glower = function () {
 			counter();
 			masonryBox();
 			//handleMultipleImageSize();
-			handleOpenModal();
+			//handleOpenModal();
 			handleIsotope();
 			jQuery('.modal').on('show.bs.modal', reposition);
 		},
@@ -1131,9 +1131,9 @@ var Glower = function () {
 
 /* Document.ready Start */
 jQuery(document).ready(function () {
-	
+
 	Glower.init();
-	
+
 	$('a[data-bs-toggle="tab"]').click(function () {
 		$('a[data-bs-toggle="tab"]').click(function () {
 			$($(this).attr('href')).show().addClass('show active').siblings().hide();
@@ -1143,7 +1143,7 @@ jQuery(document).ready(function () {
 	jQuery('.navicon').on('click', function () {
 		$(this).toggleClass('open');
 	});
-	
+
 	jQuery('.toggle-btn').on('click', function () {
 		$(this).toggleClass('active');
 		$('.account-sidebar').toggleClass('show');
@@ -1154,7 +1154,7 @@ jQuery(document).ready(function () {
 
 /* Window Load START */
 jQuery(window).on('load', function () {
-	
+
 	Glower.load();
 
 	document.body.addEventListener('keydown', function () {
