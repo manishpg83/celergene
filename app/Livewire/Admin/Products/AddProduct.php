@@ -74,7 +74,7 @@ class AddProduct extends Component
             if ($product) {
                 $this->fill($product->toArray());
                 $this->isEditMode = true;
-
+                $this->is_online = (bool) $product->is_online;
                 $this->product_img_url = $product->product_img ?: null;
                 $this->expire_date = $product->expire_date ? date('Y-m', strtotime($product->expire_date)) : null;
             }
