@@ -18,6 +18,8 @@ class ProductCatagoryList extends Component
     public $category_name;
     public $status;
     public $isEditing = false;
+    public $sortField = 'id';
+    public $sortDirection = 'asc';
 
     protected $updatesQueryString = ['search', 'perPage'];
 
@@ -28,6 +30,7 @@ class ProductCatagoryList extends Component
             ->where(function ($query) {
                 $query->where('category_name', 'like', '%' . $this->search . '%');
             })
+            ->orderBy($this->sortField, $this->sortDirection) // Add this line for sorting
             ->paginate($this->perPage);
 
         $perpagerecords = perpagerecords();
@@ -36,6 +39,17 @@ class ProductCatagoryList extends Component
             'categories' => $categories,
             'perpagerecords' => $perpagerecords,
         ]);
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortField = $field;
     }
 
     public function toggleActive($id)
@@ -96,7 +110,7 @@ class ProductCatagoryList extends Component
         $this->category_name = $category->category_name;
         $this->status = $category->status;
         $this->isEditing = true;
-        
+
         $this->dispatch('openEditTab', route('admin.productscategory.add', ['id' => $id]));
     }
 

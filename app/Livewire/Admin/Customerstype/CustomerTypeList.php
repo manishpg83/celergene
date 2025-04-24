@@ -14,13 +14,25 @@ class CustomerTypeList extends Component
     public $perPage = 25;
     public string $status = 'all';
     public $search = '';
-    
+    public $sortField = 'id';
+    public $sortDirection = 'asc';
     public $confirmingDeletion = false;
 
     public function mount()
     {
         $this->status = 'all';
         $this->resetForm();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortField = $field;
     }
 
     public function delete()
@@ -122,7 +134,7 @@ class CustomerTypeList extends Component
             ->when($this->status !== 'all', function ($q) {
                 $q->where('status', $this->status);
             })
-            ->orderBy('id');
+            ->orderBy($this->sortField, $this->sortDirection);
 
         $customerTypes = $query->paginate($this->perPage);
         $perpagerecords = perpagerecords();

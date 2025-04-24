@@ -15,6 +15,8 @@ class BatchNumberList extends Component
     public $status = 'active';
     public $search = '';
     public $confirmingDeletion = false;
+    public $sortField = 'id';
+    public $sortDirection = 'asc';
 
     public function mount()
     {
@@ -24,6 +26,17 @@ class BatchNumberList extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortField = $field;
     }
 
     public function delete()
@@ -127,7 +140,7 @@ class BatchNumberList extends Component
                         ->orWhere('status', 'like', '%' . $this->search . '%');
                 });
             })
-            ->orderBy('id')
+            ->orderBy($this->sortField, $this->sortDirection) // Add this line for sorting
             ->paginate($this->perPage);
 
         $perpagerecords = perpagerecords();
