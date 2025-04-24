@@ -47,11 +47,10 @@
                                 <table width="100%" class="mt-2 mb-4">
                                     <tbody>
                                         <tr>
-                                            @php
-                                                // Use the actual product image or fall back to a default image if not set
+                                            @php                                                
                                                 $image = $product->product_img
                                                     ? asset('/' . $product->product_img)
-                                                    : asset('images/default_image.jpg');
+                                                    : asset('frontend/images/download.png');
                                             @endphp
 
                                             <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
