@@ -18,7 +18,6 @@ class PayPalWebhookController extends Controller
     {
         try {
             $webhookData = $request->all();
-            Log::info('PayPal Webhook Received:', ['data' => $webhookData]);
 
             if (! isset($webhookData['resource']['id'])) {
                 throw new \Exception('Transaction ID not found in webhook data');
@@ -81,11 +80,6 @@ class PayPalWebhookController extends Controller
                     'order_status' => $status,
                     'updated_at' => now(),
                 ]);
-
-            Log::info('Order status updated successfully', [
-                'order_id' => $orderId,
-                'new_status' => $status,
-            ]);
         } catch (\Exception $e) {
             Log::error('Error updating order status: '.$e->getMessage(), [
                 'order_id' => $orderId,
@@ -106,8 +100,7 @@ class PayPalWebhookController extends Controller
                 throw new \Exception('PayPal token not found in request');
             }
     
-            $response = $provider->capturePaymentOrder($token);
-            Log::info('PayPal Payment Capture Response:', ['response' => $response]);
+            $response = $provider->capturePaymentOrder($token);            
     
             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
                 $payment = Payment::where('transaction_id', $token)->first();
@@ -178,8 +171,7 @@ class PayPalWebhookController extends Controller
     }
 
     public function cancel(Request $request)
-    {
-        Log::info('PayPal Payment Cancelled:', ['request' => $request->all()]);
+    {       
 
         $token = $request->query('token');
         if ($token) {

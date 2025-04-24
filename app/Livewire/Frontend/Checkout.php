@@ -391,9 +391,9 @@ class Checkout extends Component
 
             $this->redirectToPaypal($orderId, $orderNumber);
 
-            session()->forget('cart');
-            $this->dispatch('cartCountUpdated');
-            $this->dispatch('cart-updated');
+            // session()->forget('cart');
+            // $this->dispatch('cartCountUpdated');
+            // $this->dispatch('cart-updated');
 
             DB::commit();
 
@@ -545,10 +545,7 @@ class Checkout extends Component
 
             $response = $provider->createOrder($order);
 
-            Log::info('PayPal Order Creation Response:', ['response' => $response]);
-
             if (isset($response['id']) && $response['id']) {
-                Log::info('PayPal Order Creation');
                 Payment::create([
                     'order_id' => $orderId,
                     'payment_method' => 'PayPal',
@@ -560,8 +557,6 @@ class Checkout extends Component
 
                 $approveLink = collect($response['links'])
                     ->firstWhere('rel', 'approve')['href'] ?? null;
-
-                Log::info('PayPal Approve Link:', ['link' => $approveLink]);
 
                 if ($approveLink) {
                     return redirect($approveLink);
