@@ -23,10 +23,10 @@ class ProductList extends Component
             ->withTrashed()
             ->where(function ($query) {
                 $query->where('product_name', 'like', '%' . $this->search . '%')
-                ->orWhere('brand', 'like', '%' . $this->search . '%')
-                ->orWhere('product_code', 'like', '%' . $this->search . '%')
-                ->orWhere('product_category', 'like', '%' . $this->search . '%')
-                ->orWhere('unit_price', 'like', '%' . $this->search . '%');
+                    ->orWhere('brand', 'like', '%' . $this->search . '%')
+                    ->orWhere('product_code', 'like', '%' . $this->search . '%')
+                    ->orWhere('product_category', 'like', '%' . $this->search . '%')
+                    ->orWhere('unit_price', 'like', '%' . $this->search . '%');
             })
             ->paginate($this->perPage);
         $perpagerecords = perpagerecords();
@@ -44,6 +44,11 @@ class ProductList extends Component
 
     public function suspend($id)
     {
+        if ($id == 1) {
+            notyf()->error('This product cannot be suspended.');
+            return;
+        }
+
         $product = Product::find($id);
         $product->delete();
         notyf()->success('Product suspended. Click permanently delete to remove.');
@@ -51,6 +56,12 @@ class ProductList extends Component
 
     public function deleteProduct()
     {
+        if ($this->productId == 1) {
+            notyf()->error('This product cannot be deleted.');
+            $this->confirmingDeletion = false;
+            return;
+        }
+
         $product = Product::withTrashed()->find($this->productId);
 
         if ($product->trashed()) {
@@ -76,7 +87,7 @@ class ProductList extends Component
             notyf()->error('Cannot edit a suspended entity. Please restore it first.');
             return;
         }
-        
+
         $this->dispatch('openEditTab', route('admin.products.add', ['id' => $id]));
     }
 }
