@@ -35,14 +35,36 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('product_code')" style="cursor: pointer;">Product code</th>
-                            <th class="text-center" wire:click="sortBy('brand')" style="cursor: pointer;">Brand</th>
-                            <th class="text-center" wire:click="sortBy('product_name')" style="cursor: pointer;">Product
-                                Name</th>
+                            <th wire:click="sortBy('product_code')" style="cursor: pointer;">
+                                Product Code
+                                @if($sortField === 'product_code')
+                                    <i class="fa fa-sort-{{ $sortDirection === 'asc' ? 'asc' : 'desc' }}"></i>
+                                @endif
+                            </th>
+                            <th class="text-center" wire:click="sortBy('brand')" style="cursor: pointer;">
+                                Brand
+                                @if($sortField === 'brand')
+                                    <i class="fa fa-sort-{{ $sortDirection === 'asc' ? 'asc' : 'desc' }}"></i>
+                                @endif
+                            </th>
+                            <th class="text-center" wire:click="sortBy('product_name')" style="cursor: pointer;">
+                                Product Name
+                                @if($sortField === 'product_name')
+                                    <i class="fa fa-sort-{{ $sortDirection === 'asc' ? 'asc' : 'desc' }}"></i>
+                                @endif
+                            </th>
                             <th class="text-center" wire:click="sortBy('product_category')" style="cursor: pointer;">
-                                Product Category</th>
-                            <th class="text-center" wire:click="sortBy('unit_price')" style="cursor: pointer;">Unit
-                                Price</th>
+                                Product Category
+                                @if($sortField === 'product_category')
+                                    <i class="fa fa-sort-{{ $sortDirection === 'asc' ? 'asc' : 'desc' }}"></i>
+                                @endif
+                            </th>
+                            <th class="text-center" wire:click="sortBy('unit_price')" style="cursor: pointer;">
+                                Unit Price
+                                @if($sortField === 'unit_price')
+                                    <i class="fa fa-sort-{{ $sortDirection === 'asc' ? 'asc' : 'desc' }}"></i>
+                                @endif
+                            </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -109,7 +131,6 @@
                         @endif
                     </tbody>
                 </table>
-
             </div>
 
             <div class="mt-3">

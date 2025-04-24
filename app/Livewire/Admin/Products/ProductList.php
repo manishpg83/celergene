@@ -14,8 +14,18 @@ class ProductList extends Component
     public $search = '';
     public $confirmingDeletion = false;
     public $productId;
+    public $sortDirection = 'asc';
+    public $sortField = 'product_code'; // default field to sort by
 
-    protected $updatesQueryString = ['search', 'perPage'];
+    public $sortFields = [
+        'product_code' => 'Product Code',
+        'product_name' => 'Product Name',
+        'brand' => 'Brand',
+        'product_category' => 'Category',
+        'unit_price' => 'Unit Price',
+    ];
+
+    protected $updatesQueryString = ['search', 'perPage', 'sortField', 'sortDirection'];
 
     public function render()
     {
@@ -28,7 +38,9 @@ class ProductList extends Component
                     ->orWhere('product_category', 'like', '%' . $this->search . '%')
                     ->orWhere('unit_price', 'like', '%' . $this->search . '%');
             })
+            ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
+
         $perpagerecords = perpagerecords();
         return view('livewire.admin.products.product-list', [
             'products' => $products,
@@ -77,6 +89,16 @@ class ProductList extends Component
         $product = Product::withTrashed()->find($id);
         $product->restore();
         notyf()->success('Product restored successfully.');
+    }
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortField = $field;
     }
 
     public function edit($id)
