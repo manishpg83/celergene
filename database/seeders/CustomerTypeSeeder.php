@@ -13,14 +13,14 @@ class CustomerTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        CustomerType::create([
+        CustomerType::updateOrCreate([
             'customer_type' => 'Individual',
             'status' => 'active',
             'created_at' => '2025-04-17 07:44:38',
             'updated_at' => '2025-04-23 10:00:09',
         ]);
 
-        CustomerType::create([
+        CustomerType::updateOrCreate([
             'customer_type' => 'Corporate',
             'status' => 'active',
             'created_at' => '2025-04-17 07:44:46',
