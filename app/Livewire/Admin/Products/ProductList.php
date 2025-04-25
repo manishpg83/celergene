@@ -15,7 +15,7 @@ class ProductList extends Component
     public $confirmingDeletion = false;
     public $productId;
     public $sortDirection = 'asc';
-    public $sortField = 'product_code'; // default field to sort by
+    public $sortField = 'product_code';
 
     public $sortFields = [
         'product_code' => 'Product Code',

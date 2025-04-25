@@ -362,12 +362,12 @@ class OrderDetails extends Component
             $order = OrderMaster::with(['orderDetails.product', 'currency'])
                 ->where('order_id', $order_id)
                 ->firstOrFail();
-
+            $dateFormatted = $invoiceDetail->created_at->format('d-m-Y');
             $currencySymbol = $order->currency ? $order->currency->symbol : '$';
 
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
-            $fileName = "{$customerName}-{$invoiceDetail->id}.pdf";
+            $fileName = "{$customerName}-{$dateFormatted}.pdf";
 
             $pdf = PDF::loadView('admin.order.invoicenew-pdf', [
                 'invoiceDetail' => $invoiceDetail,
@@ -429,9 +429,9 @@ class OrderDetails extends Component
                 'tax' => $tax,
                 'total' => $total
             ]);
-    
+            $dateFormatted = $invoice->created_at->format('d-m-Y');
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
-            $fileName = "{$customerName}-Shipping-{$invoiceDetail->id}.pdf";
+            $fileName = "{$customerName}-Shipping-{$dateFormatted}.pdf";
     
             Log::info("Generating PDF", ['fileName' => $fileName]);
     
