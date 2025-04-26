@@ -161,8 +161,6 @@
             </ul>
             <!-- Currency and Country End -->
 
-
-
             <!-- Admin Users -->
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.user.*') ? 'active open' : '' }}">
@@ -248,11 +246,11 @@
                         <div data-i18n="Offline Invoices List">Offline Invoices List</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <!-- <li class="menu-item">
                     <a href="#" class="menu-link" target="_blank">
                         <div data-i18n="Shipping Invoice">Shipping Invoice</div>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </li>
         <!-- Invoice Management End-->
@@ -295,45 +293,6 @@
                     </ul>
                 </li>
             </ul>
-            {{-- <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <div data-i18n="Settings">Settings</div>
-                </a>
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Store Details">Store Details</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Payments">Payments</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Checkout">Checkout</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Shipping & Delivery">Shipping &bsp; Delivery</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Locations">Locations</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="app-ecommerce-product-list.html" class="menu-link">
-                            <div data-i18n="Notifications">Notifications</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul> --}}
         </li>
         <!-- Product Management End -->
 
@@ -375,40 +334,14 @@
                         <div data-i18n="Consignment List">Consignment List</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('admin.debtors.manage') ? 'active' : '' }}">
+                <!-- <li class="menu-item {{ request()->routeIs('admin.debtors.manage') ? 'active' : '' }}">
                     <a href="#" class="menu-link">
                         <div data-i18n="Manage Debtors">Manage Debtors</div>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </li>
         <!-- Accounts and Billing End -->
-
-        <!-- Shipping -->
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-truck"></i>
-                <div data-i18n="Shipping">Shipping</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Shipping Fee">Shipping Fee</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Courier Airway Bill">Courier Airway Bill</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Frieght">Frieght Charges</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- Shipping End -->
 
         <!-- Users Dashboard -->
         <li
@@ -433,147 +366,9 @@
                 </li>
             </ul>
             <!-- Manage Roles / Permissions End -->
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="User Settings">User Settings</div>
-                    </a>
-                </li>
-
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="View">View</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Account">Account</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Security">Security</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Billing & Plans">Billing & Plans</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Notifications">Notifications</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="menu-link">
-                                <div data-i18n="Connections">Connections</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </li>
 
-
-        <!-- Content Management -->
-        {{-- <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons ti ti-file"></i>
-            <div data-i18n="Content Management">Content Management</div>
-        </a>
-        <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <div data-i18n="Rages">Pages</div>
-                </a>
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Home">Home</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Home Slider">Home Slider</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Footer">Footer</div>
-                        </a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Contact page">Contact Page</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Contact form Entries">Contact Form Entries</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Media Library">Media Library</div>
-                        </a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="PDFs">PDFs</div>
-                        </a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Social Media">Social Media</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Blog Management -->
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <div data-i18n="Blogs Management">Blogs Management</div>
-                </a>
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Blogs List">Blogs List</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Add New Blog">Add New Blog</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Blog Category">Blog Category</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li> --}}
-
         <!-- Reports -->
-        {{-- <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-chart-pie"></i>
-                <div data-i18n="Sales Reports">Sales Reports</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Custom Report">Custom Report</div>
-                    </a>
-                </li>
-            </ul>
-        </li> --}}
         <li class="menu-item {{ request()->routeIs('admin.reports*') || request()->routeIs('admin.reports.index') || request()->routeIs('admin.consignment*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-chart-pie"></i>
@@ -584,60 +379,26 @@
                     <a href="{{ route('admin.reports.index') }}" class="menu-link">
                         <div data-i18n="Custom Report">Custom Report</div>
                     </a>
-                </li>                
+                </li>
             </ul>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.reports.ytd') ? 'active' : '' }}">
                     <a href="{{ route('admin.reports.ytd') }}" class="menu-link">
                         <div data-i18n="YTD Report">YTD Report</div>
                     </a>
-                </li>                
+                </li>
             </ul>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.reports.business') ? 'active' : '' }}">
                     <a href="{{ route('admin.reports.business') }}" class="menu-link">
                         <div data-i18n="Business Report">Business Report</div>
                     </a>
-                </li>                
+                </li>
             </ul>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('admin.reports.country') ? 'active' : '' }}">
                     <a href="{{ route('admin.reports.country') }}" class="menu-link">
                         <div data-i18n="Country Report">Country Report</div>
-                    </a>
-                </li>                
-            </ul>
-        </li>
-        <!-- Settings -->
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-settings"></i>
-                <div data-i18n="Settings">Settings</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Email Settings">Email Settings</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Notification Settings">Notification Settings</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="SMTP">Language Settings</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Server Settings">Server Settings</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Security Settings">Security Settings</div>
                     </a>
                 </li>
             </ul>

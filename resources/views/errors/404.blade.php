@@ -6,12 +6,13 @@
     <div class="text-center">
         <h1 class="display-1 fw-bold text-danger">404</h1>
         <p class="fs-3 text-muted">
-            <span class="text-danger">Oops!</span> Forbidden
+            <span class="text-danger">Oops!</span> The page you are looking for doesn’t exist.
         </p>
         <p class="lead mb-4">
            Page not found..!
         </p>
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Go Home</a>
+        <a href="{{ route('home') }}" class="btn btn-primary">Go Home</a>
+    </div>
     </div>
 </div>
 @endsection

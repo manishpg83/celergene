@@ -255,7 +255,7 @@
                                         </td>
                                         <td class="price">
                                             <input class="noborder" disabled="" type="text" id="netprice2_PK1"
-                                                name="netprice_PK1" value="0.00">
+                                                name="netprice_PK1" value="0.01">
                                         </td>
                                     </tr>
                                     <tr>
@@ -297,7 +297,7 @@
                                                 type="text" id="nettotal_text" name="nettotal_text"
                                                 value="US$ 0.00">
                                             <input class="noborder" style="text-align:right; font-weight:bold;"
-                                                type="hidden" id="nettotal" name="nettotal" value="0">
+                                                type="hidden" id="nettotal" name="nettotal" value="0.01">
                                         </td>
                                     </tr>
                                 </tbody>
