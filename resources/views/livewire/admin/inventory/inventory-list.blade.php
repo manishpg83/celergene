@@ -51,6 +51,7 @@
                             </tr>
                         @else
                             @foreach ($inventories as $inventory)
+                                @if(!empty($inventory->product->product_name))
                                 <tr class="{{ $inventory->trashed() ? 'table-warning' : '' }}">
                                     <td>{{ $inventory->product->product_name }}</td>
                                     <td class="text-center">{{ $inventory->product->product_code }}</td>
@@ -76,7 +77,7 @@
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $inventory->id }}">
                                                     <li>
                                                         <a class="dropdown-item" wire:click="editInventory({{ $inventory->id }})" style="cursor: pointer;">Edit</a>
-                                                    </li>                                                    
+                                                    </li>
                                                     <li>
                                                         <a class="dropdown-item {{ $inventory->trashed() ? 'text-danger' : 'text-warning' }}"
                                                             wire:click="{{ $inventory->trashed() ? 'confirmDelete(' . $inventory->id . ')' : 'suspend(' . $inventory->id . ')' }}"
@@ -93,7 +94,7 @@
                                                     @endif
                                                 </ul>
                                             </div>
-                                    
+
                                             <!-- Warning Icon (Appears if inventory is trashed) -->
                                             @if($inventory->trashed())
                                                 <span class="text-danger" title="Suspended">
@@ -104,11 +105,12 @@
                                             @endif
                                         </div>
                                     </td>
-                                    
+
                                 </tr>
+                                @endif
                             @endforeach
                         @endif
-                    </tbody>                    
+                    </tbody>
                 </table>
             </div>
 
