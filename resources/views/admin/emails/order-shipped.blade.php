@@ -32,7 +32,7 @@
             <p><strong>Order No :</strong> #{{ $deliveryOrder->id }}</p>
             <p><strong>Invoice No :</strong> #{{ $deliveryOrder->orderInvoice->invoice_number ?? '-' }}</p>
             <p><strong>Tracking Number :</strong> {{ $deliveryOrder->tracking_number }}</p>
-            <p><strong>Tracking Url :</strong> {{ $deliveryOrder->tracking_url }}</p>
+            <p><strong>Tracking Url :</strong> <a href="{{ $deliveryOrder->tracking_url }}" target="_blank">{{ $deliveryOrder->tracking_url }}</a></p>
         </div>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">

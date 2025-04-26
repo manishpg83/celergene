@@ -34,10 +34,10 @@ class UserList extends Component
     public function render()
     {
         $query = User::query()
+            ->where('users.type', '!=', 'customer')
             ->when($this->search, function ($query) {
-                $query->where('name', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('role', 'LIKE', '%' . $this->search . '%');
+                $query->where('users.name', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('users.email', 'LIKE', '%' . $this->search . '%');
             })
             ->when($this->statusFilter !== 'all', function ($query) {
                 $query->where('status', $this->statusFilter);
