@@ -19,8 +19,8 @@ function perpagerecords()
 function getShippingUnitPrice()
 {
     $localUrls = ['http://127.0.0.1:8000', 'http://13.49.251.219'];
-    
-    return in_array(config('app.url'), $localUrls) ? 5.00 : 10.00;
+
+    return in_array(config('app.url'), $localUrls) ? 10.00 : 10.00;
 }
 
 /*

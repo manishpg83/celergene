@@ -266,7 +266,7 @@ class OrderList extends Component
             }
 
             $customerName = $customer->first_name . '_' . $customer->last_name;
-            $fileName = $customerName . '-invoice.pdf';
+            $fileName = 'Invoice-' . $customerName . '.pdf';
 
             $pdf = PDF::loadView('admin.order.invoice-pdf', ['order' => $order]);
 
@@ -290,10 +290,10 @@ class OrderList extends Component
     }
 
     public function render()
-    {   
+    {
         $currentYearStart = now()->startOfYear()->format('Y-m-d');
         $currentYearEnd = now()->endOfYear()->format('Y-m-d');
-      
+
         $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
@@ -330,7 +330,7 @@ class OrderList extends Component
             })
             ->when($this->orderTypeFilter !== '', function ($query) {
                 $query->where('order_type', $this->orderTypeFilter);
-            }) 
+            })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
