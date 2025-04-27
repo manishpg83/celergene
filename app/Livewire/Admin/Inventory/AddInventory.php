@@ -93,18 +93,18 @@ class AddInventory extends Component
     {
         DB::transaction(function () {
             $oldInventory = $this->inventory_id ? Inventory::find($this->inventory_id) : null;
-    
+
             $oldQuantity = $oldInventory ? $oldInventory->remaining : 0;
             $oldConsumed = $oldInventory ? $oldInventory->consumed : 0;
-    
+
             $newQuantity = $oldQuantity + $this->quantity;
             $this->remaining = $newQuantity - $oldConsumed;
-    
+
             if (!$this->expiry) {
                 $this->expiry = (date('Y') + 1) . '-12';
             }
             $formattedExpireDate = $this->expiry . '-01';
-    
+
             $inventory = Inventory::updateOrCreate(
                 ['id' => $this->inventory_id],
                 [
@@ -119,7 +119,7 @@ class AddInventory extends Component
                     'modified_by' => Auth::id(),
                 ]
             );
-    
+
             Stock::create([
                 'inventory_id' => $inventory->id,
                 'product_id' => $this->product_code,
@@ -130,7 +130,7 @@ class AddInventory extends Component
                 'created_by' => Auth::id()
             ]);
         });
-    
+
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         return redirect()->route('admin.inventory.index');
     }
@@ -213,8 +213,9 @@ class AddInventory extends Component
 
     public function render()
     {
+        $products = Product::where('id', '!=', 1)->get();
         return view('livewire.admin.inventory.add-inventory', [
-            'products' => Product::all(),
+            'products' => $products,
             'warehouses' => Warehouse::all(),
             'stockHistory' => $this->stockHistory,
             'batchNumbers' => $this->batchNumbers,

@@ -15,7 +15,7 @@ class DebtorsList extends Component
     use WithPagination;
 
     public $search = '';
-    public $perPage = 2;
+    public $perPage = 25;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
@@ -130,13 +130,13 @@ class DebtorsList extends Component
                     });
             })
             ->paginate($this->perPage);
-    
+
         $debtors->each(function ($invoice) {
             $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
         });
-    
+
         return view('livewire.admin.debtors.debtors-list', [
             'debtors' => $debtors,
         ]);
-    }    
+    }
 }
