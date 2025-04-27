@@ -1,9 +1,9 @@
 @charset "UTF-8";
 /*
-    Name: Glower 
+    Name: Glower
     Author: IndianCoder
-   
-    Table of Content: 
+
+    Table of Content:
 
     1. Abstract
     2. Bootstrap CSS!
@@ -11,7 +11,7 @@
     4. Layout
     5. Component
     7. Pages
-    
+
 */
 @import url(../icons/feather/css/iconfont.css);
 @import url(../icons/fontawesome/css/all.min.css);
@@ -57962,7 +57962,10 @@ table.wishlist_table {
   justify-content: center;
   margin-bottom: 15px;
   border: 1px solid var(--border-color);
+  margin-left: auto;
+  margin-right: auto;
 }
+.total-contain .total-detail { text-align: center; }
 
 @media only screen and (max-width: 767px) {
   .total-contain .total-icon {
