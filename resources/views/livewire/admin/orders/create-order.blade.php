@@ -183,7 +183,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-2" >
+                                        <div class="col-md-2" style="width: 145px;" >
                                             <div class="col-6 mb-1">
                                                 Quantity
                                                 @if (isset($orderDetails[$index]['product_id']) && $orderDetails[$index]['product_id'] != 1)
@@ -203,7 +203,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-2" style="width: 147px">
+                                        <div class="col-md-2" style="width: 145px;">
                                             <div class="col-6 mb-1" style="width: 80%;">Sample Quantity</div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.sample_quantity"
@@ -214,7 +214,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-2" style="width: 100px">
+                                        <div class="col-md-2" style="width: 145px;">
                                             <div class="col-7 mb-1">Price</div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.unit_price"
