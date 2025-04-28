@@ -16,8 +16,9 @@ use App\Http\Controllers\Admin\OrderMasterController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
+#use App\Http\Controllers\Admin\SuppliersController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\WarehouseController;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::get('dashboard', [DashboardController::class, 'index'])
                 ->name('dashboard')
                 ->middleware('permission:view dashboard');
-
 
             Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
             Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,7 +84,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('orders/delivery/{order_id}', [OrderMasterController::class, 'orderDelivery'])->name('orders.delivery');
                 Route::get('orders/{order_id}', [OrderMasterController::class, 'showOrderDetails'])->name('orders.details');
             });
-            
 
             Route::middleware(['permission:manage product categories'])->group(function () {
                 Route::get('productscategory/', [ProductCategoryController::class, 'index'])->name('productscategory.index');
@@ -125,8 +124,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('debtors', [DebtorsController::class, 'index'])->name('debtors.index');
                 Route::get('consignment-list', [ConsignmentOrderController::class, 'index'])->name('consignment.index');
             });
-            
-            Route::middleware(['permission:manage invoices'])->group(function () {           
+
+            Route::middleware(['permission:manage invoices'])->group(function () {
                 Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
             });
 
@@ -143,16 +142,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('truncate-orders', function() {
                     try {
                         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-                        
+
                         DB::table('delivery_orders')->truncate();
                         DB::table('delivery_order_details')->truncate();
                         DB::table('order_details')->truncate();
                         DB::table('order_invoice')->truncate();
                         DB::table('order_invoice_details')->truncate();
                         DB::table('order_master')->truncate();
-                        
+
                         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-                        
+
                         return response()->json(['message' => 'All order related tables truncated successfully']);
                     } catch (\Exception $e) {
                         return response()->json(['error' => $e->getMessage()], 500);
