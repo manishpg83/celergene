@@ -31,6 +31,7 @@ class Customer extends Model
         'billing_fname',
         'billing_lname',
         'billing_address_2',
+        'billing_company_name',
         'billing_city',
         'billing_state',
         'billing_phone',
@@ -88,7 +89,7 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerInvoice::class);
     }
-    
+
     public function customerType()
     {
         return $this->belongsTo(CustomerType::class, 'customer_type_id');
