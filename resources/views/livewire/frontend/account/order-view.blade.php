@@ -64,7 +64,7 @@
                     @foreach ($order->items as $item)
                         <div class="tracking-item">
                             <div class="tracking-product">
-                                <img src="{{ asset($item->product->product_img ?? 'images/shop/small/pic1.png') }}"
+                                <img src="{{ asset($item->product->product_img ?? 'frontend/images/download.png') }}"
                                     alt="">
                             </div>
                             <div class="tracking-product-content">
