@@ -9,8 +9,7 @@ class Cart extends Component
 {
     public function render()
     {
-        $products = Product::whereIn('id', [2, 3, 4])->get();
-
+        $products = Product::where('id', '!=', 1)->get();
         return view('livewire.frontend.cart', ['products' => $products]);
     }
 }
