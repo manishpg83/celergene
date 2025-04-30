@@ -13,14 +13,18 @@ use Illuminate\Support\Str;
 class CustomerTabs extends Component
 {
     use WithPagination, WithFileUploads;
-    
+
     protected $queryString = [];
     protected $paginationTheme = 'bootstrap';
-    
+
     public $customer;
     public $activeTab = 'overview';
     public $invoiceFile;
-    
+    public $search = '';
+    public $dateFrom = null;
+    public $dateTo = null;
+
+
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function mount($customer)
@@ -39,38 +43,38 @@ class CustomerTabs extends Component
         $this->validate([
             'invoiceFile' => 'required|mimes:pdf|max:2048',
         ]);
-    
+
         $directory = public_path('admin/invoices');
         if (!File::exists($directory)) {
             File::makeDirectory($directory, 0755, true);
         }
-    
+
         $originalName = $this->invoiceFile->getClientOriginalName();
-        $safeName = Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) 
-                  . '_' . time() 
-                  . '.' . $this->invoiceFile->getClientOriginalExtension();
-    
+        $safeName = Str::slug(pathinfo($originalName, PATHINFO_FILENAME))
+            . '_' . time()
+            . '.' . $this->invoiceFile->getClientOriginalExtension();
+
         try {
             Storage::disk('public')->putFileAs(
                 'admin/invoices',
                 $this->invoiceFile,
                 $safeName
             );
-    
+
             CustomerInvoice::create([
                 'customer_id' => $this->customer->id,
                 'invoice_number' => 'INV-' . now()->format('Ymd-His'),
                 'invoice_date' => now(),
                 'amount' => 0,
-                'file_path' => 'admin/invoices/'.$safeName,
+                'file_path' => 'admin/invoices/' . $safeName,
                 'original_filename' => $originalName,
                 'notes' => 'Uploaded on ' . now()->format('Y-m-d'),
             ]);
-    
+
             $this->reset('invoiceFile');
             notyf()->success('PDF uploaded successfully!');
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to upload: '.$e->getMessage());
+            session()->flash('error', 'Failed to upload: ' . $e->getMessage());
         }
     }
 
@@ -82,9 +86,9 @@ class CustomerTabs extends Component
     public function downloadInvoice($invoiceId)
     {
         $invoice = CustomerInvoice::findOrFail($invoiceId);
-        
+
         return response()->download(storage_path('app/public/' . $invoice->file_path));
-    }    
+    }
 
     public function deleteInvoice($invoiceId)
     {
@@ -100,23 +104,44 @@ class CustomerTabs extends Component
         $invoice = CustomerInvoice::findOrFail($invoiceId);
         return response()->file(storage_path('app/public/' . $invoice->file_path));
     }
+    public function resetFilters()
+    {
+        $this->reset(['search', 'dateFrom', 'dateTo']);
+        $this->resetPage();
+    }
 
     public function render()
     {
         $data = [];
-        
+
         switch ($this->activeTab) {
             case 'overview':
                 $data['orders'] = $this->customer->orders()
                     ->orderBy('order_date', 'desc')
                     ->paginate(10, ['*'], 'orders_page');
                 break;
-                
+
             case 'invoices':
-                $invoices = $this->customer->invoices()
-                    ->orderBy('invoice_date', 'desc')
-                    ->paginate(10, ['*'], 'invoices_page');
-                
+                $query = $this->customer->invoices()
+                    ->orderBy('invoice_date', 'desc');
+
+                if ($this->search) {
+                    $query->where(function ($q) {
+                        $q->where('original_filename', 'like', '%' . $this->search . '%')
+                            ->orWhere('invoice_number', 'like', '%' . $this->search . '%');
+                    });
+                }
+
+                if ($this->dateFrom) {
+                    $query->whereDate('invoice_date', '>=', $this->dateFrom);
+                }
+
+                if ($this->dateTo) {
+                    $query->whereDate('invoice_date', '<=', $this->dateTo);
+                }
+
+                $invoices = $query->paginate(10, ['*'], 'invoices_page');
+
                 $data['invoices'] = $invoices->setCollection(
                     $invoices->getCollection()->map(function ($item, $key) use ($invoices) {
                         $item->serial = ($invoices->currentPage() - 1) * $invoices->perPage() + $key + 1;
@@ -124,13 +149,13 @@ class CustomerTabs extends Component
                     })
                 );
                 break;
-                
+
             default:
                 $data['orders'] = $this->customer->orders()
                     ->orderBy('order_date', 'desc')
                     ->paginate(10, ['*'], 'orders_page');
         }
-        
+
         return view('livewire.admin.customer.customer-tabs', $data);
     }
 }

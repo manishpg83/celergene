@@ -109,7 +109,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::middleware(['permission:manage customers'])->group(function () {
                 Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
                 Route::get('customer/add', [CustomerController::class, 'add'])->name('customer.add');
-                Route::get('admin/customer/{id}/details', [CustomerController::class, 'showCustomerDetails'])->name('customer.details');
+                Route::get('customer/{id}/details', [CustomerController::class, 'showCustomerDetails'])->name('customer.details');
             });
 
             Route::middleware(['permission:manage countries'])->group(function () {

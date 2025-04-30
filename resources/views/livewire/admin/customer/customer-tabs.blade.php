@@ -1,6 +1,6 @@
 <div>
     <!-- Top Navigation -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center top-navigation">
             <button wire:click="setTab('overview')"
                 class="btn {{ $activeTab === 'overview' ? 'btn-primary' : 'btn-link text-dark' }}">
@@ -20,10 +20,10 @@
 
     <!-- Tab Contents -->
     @if ($activeTab === 'overview')
-        <div class="tab-content p-0">
-            <div class="card shadow-sm p-3 mb-4">
+        <div class="p-0 tab-content">
+            <div class="p-3 mb-4 shadow-sm card">
                 <div class="table-responsive">
-                    <h4 class="fw-bold fs-5 mb-4 ml-2">Orders Placed</h4>
+                    <h4 class="mb-4 ml-2 fw-bold fs-5">Orders Placed</h4>
                     <table class="table">
                         <thead>
                             <tr class="text-center">
@@ -50,7 +50,7 @@
                         </tbody>
                     </table>
 
-                    <div class="d-flex justify-content-end mt-3">
+                    <div class="mt-3 d-flex justify-content-end">
                         {{ $orders->links() }}
                     </div>
                 </div>
@@ -59,10 +59,10 @@
     @endif
 
     @if ($activeTab === 'address')
-        <div class="tab-content p-0">
-            <div class="card shadow-sm p-3 mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="ml-6 mb-0 fs-5">Address Book</h5>
+        <div class="p-0 tab-content">
+            <div class="p-3 mb-4 shadow-sm card">
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 ml-6 fs-5">Address Book</h5>
                     {{-- <button class="btn btn-outline-primary btn-sm">Add new address</button> --}}
                 </div>
                 <div class="list-group list-group-flush">
@@ -71,16 +71,16 @@
                         <div>
                             <p class="mb-0"><strong>Billing Address</strong> <span
                                     class="badge bg-label-success ms-2">Default Address</span></p>
-                            <p class="text-muted mb-0">{{ $customer->billing_address }}</p>
-                            <p class="text-muted mb-0">{{ $customer->billing_country }},
+                            <p class="mb-0 text-muted">{{ $customer->billing_address }}</p>
+                            <p class="mb-0 text-muted">{{ $customer->billing_country }},
                                 {{ $customer->billing_postal_code }}</p>
                         </div>
                         <div>
                             <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
-                                class="btn btn-link p-0 me-2">
+                                class="p-0 btn btn-link me-2">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
+                            {{-- <button class="p-0 btn btn-link"><i class="fas fa-trash-alt"></i></button> --}}
                         </div>
                     </div>
                     <!-- Shipping Addresses -->
@@ -88,16 +88,16 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-0"><strong>Shipping Address 1</strong></p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_address_1 }}</p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_country_1 }},
+                                <p class="mb-0 text-muted">{{ $customer->shipping_address_1 }}</p>
+                                <p class="mb-0 text-muted">{{ $customer->shipping_country_1 }},
                                     {{ $customer->shipping_postal_code_1 }}</p>
                             </div>
                             <div>
                                 <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
-                                    class="btn btn-link p-0 me-2">
+                                    class="p-0 btn btn-link me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
+                                {{-- <button class="p-0 btn btn-link"><i class="fas fa-trash-alt"></i></button> --}}
                             </div>
                         </div>
                     @endif
@@ -106,16 +106,16 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-0"><strong>Shipping Address 2</strong></p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_address_2 }}</p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_country_2 }},
+                                <p class="mb-0 text-muted">{{ $customer->shipping_address_2 }}</p>
+                                <p class="mb-0 text-muted">{{ $customer->shipping_country_2 }},
                                     {{ $customer->shipping_postal_code_2 }}</p>
                             </div>
                             <div>
                                 <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
-                                    class="btn btn-link p-0 me-2">
+                                    class="p-0 btn btn-link me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
+                                {{-- <button class="p-0 btn btn-link"><i class="fas fa-trash-alt"></i></button> --}}
                             </div>
                         </div>
                     @endif
@@ -123,16 +123,16 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-0"><strong>Shipping Address 3</strong></p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_address_3 }}</p>
-                                <p class="text-muted mb-0">{{ $customer->shipping_country_3 }},
+                                <p class="mb-0 text-muted">{{ $customer->shipping_address_3 }}</p>
+                                <p class="mb-0 text-muted">{{ $customer->shipping_country_3 }},
                                     {{ $customer->shipping_postal_code_3 }}</p>
                             </div>
                             <div>
                                 <a href="{{ url('/admin/customer/add?id=' . $customer->id) }}"
-                                    class="btn btn-link p-0 me-2">
+                                    class="p-0 btn btn-link me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                {{-- <button class="btn btn-link p-0"><i class="fas fa-trash-alt"></i></button> --}}
+                                {{-- <button class="p-0 btn btn-link"><i class="fas fa-trash-alt"></i></button> --}}
                             </div>
                         </div>
                     @endif
@@ -142,9 +142,9 @@
     @endif
 
     @if ($activeTab === 'invoices')
-        <div class="tab-content p-0">
-            <div class="card shadow-sm p-3 mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="p-0 tab-content">
+            <div class="p-3 mb-4 shadow-sm card">
+                <div class="mb-4 d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 fs-5 fw-bold">Invoice List</h5>
 
                     <div class="d-flex align-items-center">
@@ -159,7 +159,7 @@
                             <div class="me-3">
                                 <input type="file" wire:model="invoiceFile" accept=".pdf"
                                     class="form-control form-control-sm" id="invoiceUpload" style="display: none;">
-                                <label for="invoiceUpload" class="btn btn-sm btn-outline-primary mb-0">
+                                <label for="invoiceUpload" class="mb-0 btn btn-sm btn-outline-primary">
                                     <i class="fas fa-file-upload me-1"></i> Select PDF
                                 </label>
                                 @if ($invoiceFile)
@@ -179,15 +179,32 @@
                 </div>
 
                 @if (session()->has('message'))
-                    <div class="alert alert-success alert-dismissible fade show mb-4">
+                    <div class="mb-4 alert alert-success alert-dismissible fade show">
                         {{ session('message') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
                 <!-- Invoices Table -->
+                <div class="mb-3 row">
+                    <div class="col-md-3">
+                        <input wire:model.live="search" type="text" class="form-control" placeholder="Search by document name or invoice number">
+                    </div>
+
+                    <div class="col-md-3">
+                        <input wire:model.lazy="dateFrom" type="date" class="form-control" placeholder="From Date">
+                    </div>
+
+                    <div class="col-md-3">
+                        <input wire:model.lazy="dateTo" type="date" class="form-control" placeholder="To Date">
+                    </div>
+
+                    <div class="col-md-3 text-end">
+                        <button wire:click="resetFilters" class="btn btn-secondary">Reset Filters</button>
+                    </div>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
+                    <table class="table align-middle table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th class="text-center" width="60">#</th>
@@ -216,10 +233,10 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <div class="gap-2 d-flex align-items-center justify-content-center">
                                     
                                             <div class="dropdown">
-                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $invoice->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="text-black btn btn-link" type="button" id="actionMenu{{ $invoice->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
                                                 </button>
                                     
@@ -248,9 +265,9 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-4">
+                                    <td colspan="4" class="py-4 text-center">
                                         <div class="text-muted">
-                                            <i class="fas fa-file-alt fa-2x mb-3"></i>
+                                            <i class="mb-3 fas fa-file-alt fa-2x"></i>
                                             <p class="mb-0">No invoices found</p>
                                             <small>Upload your first invoice using the button above</small>
                                         </div>
@@ -262,7 +279,7 @@
 
                     <!-- Pagination -->
                     @if ($invoices->hasPages())
-                        <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="mt-3 d-flex justify-content-between align-items-center">
                             <div class="text-muted small">
                                {{--  Showing {{ $invoices->firstItem() }} to {{ $invoices->lastItem() }} of
                                 {{ $invoices->total() }} entries --}}
