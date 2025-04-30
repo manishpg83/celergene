@@ -27,13 +27,13 @@ class Addbillingaddress extends Component
     public function mount($id = null)
     {
         $this->countries = DB::table('country')->orderBy('name')->get();
-    
+
         if ($id) {
             $customer = DB::table('customers')
                 ->where('id', $id)
                 ->where('user_id', Auth::id())
                 ->first();
-    
+
             if ($customer) {
                 $this->customerId = $customer->id;
                 $this->billing_fname = $customer->billing_fname;
@@ -58,8 +58,6 @@ class Addbillingaddress extends Component
     public function saveAddress()
     {
         try {
-            Log::info('saveAddress() method called.');
-    
             $validatedData = $this->validate([
                 'billing_fname' => 'required|string|max:255',
                 'billing_lname' => 'required|string|max:255',
@@ -67,7 +65,7 @@ class Addbillingaddress extends Component
                 'billing_address_2' => 'nullable|string|max:255',
                 'billing_city' => 'required|string|max:255',
                 'billing_state' => 'required|string|max:255',
-                'billing_country' => 'required|string|max:255',
+                'billing_country' => 'required|numeric|exists:country,id',
                 'billing_postal_code' => 'required|string|max:10',
                 'billing_phone' => 'required|string|max:20',
                 'billing_email' => 'required|email|max:255',
@@ -79,9 +77,7 @@ class Addbillingaddress extends Component
                 notyf()->error('Invalid country selected.');
                 return;
             }
-    
-            Log::info('Validation successful.', $validatedData);
-    
+
             $data = [
                 'user_id' => Auth::id(),
                 'billing_fname' => $this->billing_fname,
@@ -97,55 +93,44 @@ class Addbillingaddress extends Component
                 'billing_email' => $this->billing_email,
                 'updated_by' => Auth::id()
             ];
-    
-            Log::info('Data prepared for database insertion.', $data);
-    
-            if ($this->customerId) {
-                Log::info('Updating existing customer with ID: ' . $this->customerId);
+
+            if ($this->customerId) {               
                 $updated = DB::table('customers')->where('id', $this->customerId)->update($data);
-    
-                if ($updated) {
-                    Log::info('Customer updated successfully.');
+
+                if ($updated !== false) {                   
                     notyf()->success('Address updated successfully.');
-                } else {
-                    Log::error('Customer update failed.');
+                } else {                   
                     notyf()->error('Failed to update address.');
                 }
-            } else {
-                Log::info('Checking for existing customer.');
-    
+
+            } else {                
+
                 $existingCustomer = DB::table('customers')->where('user_id', Auth::id())->first();
-    
-                if ($existingCustomer) {
-                    Log::info('Updating existing customer with ID: ' . $existingCustomer->id);
+
+                if ($existingCustomer) {                   
                     $updated = DB::table('customers')->where('id', $existingCustomer->id)->update($data);
-    
-                    if ($updated) {
-                        Log::info('Customer updated successfully.');
+
+                    if ($updated !== false) {                       
                         notyf()->success('Address updated successfully.');
-                    } else {
-                        Log::error('Customer update failed.');
+                    } else {                        
                         notyf()->error('Failed to update address.');
                     }
-                } else {
-                    Log::info('No existing customer found. Creating new record.');
-    
+                } else {                   
+
                     $data['created_by'] = Auth::id();
                     $data['customer_type_id'] = 1;
                     $data['payment_term_display'] = 'default';
-    
+
                     $inserted = DB::table('customers')->insert($data);
-    
-                    if ($inserted) {
-                        Log::info('Customer created successfully.');
+
+                    if ($inserted) {                        
                         notyf()->success('Address added successfully.');
-                    } else {
-                        Log::error('Failed to insert new customer.');
+                    } else {                        
                         notyf()->error('Failed to add address.');
                     }
                 }
             }
-    
+
             return redirect()->route('billingaddress');
         } catch (\Exception $e) {
             Log::error('Error in saveAddress(): ' . $e->getMessage());

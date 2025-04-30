@@ -82,10 +82,11 @@ class Addshippingaddress extends Component
             $this->phoneNumber = $customer->{"shipping_phone_$addressNumber"} ?? '';
             $this->companyName = $customer->{"shipping_company_name_$addressNumber"} ?? '';
             $fullName = $customer->{"shipping_address_receiver_name_$addressNumber"} ?? '';
+            $lastName = $customer->{"shipping_address_receiver_lname_$addressNumber"} ?? '';
             if ($fullName) {
                 $nameParts = explode(' ', $fullName, 2);
                 $this->firstName = $nameParts[0] ?? '';
-                $this->lastName = $nameParts[1] ?? '';
+                $this->lastName = $nameParts[1] ?? $lastName;
             }
     
             if ($this->streetAddress && str_contains($this->streetAddress, "\n")) {
@@ -121,23 +122,24 @@ class Addshippingaddress extends Component
     
         $customer = Customer::where('user_id', Auth::id())->first();
     
-        $customer->update([
-            'first_name' => $this->firstName,
-            'last_name' => $this->lastName,
-            'email' => $this->email,
-            'mobile_number' => $this->phoneNumber,
-            'updated_by' => Auth::id(),
-        ]);
+        // $customer->update([
+        //     'first_name' => $this->firstName,
+        //     'last_name' => $this->lastName,
+        //     'email' => $this->email,
+        //     'mobile_number' => $this->phoneNumber,
+        //     'updated_by' => Auth::id(),
+        // ]);
     
         $addressNumber = $this->addressNumber ?? $this->getNextAvailableAddressSlot($customer);
-    
+       
         $fullAddress = $this->streetAddress;
         if ($this->apartmentAddress) {
             $fullAddress .= "\n" . $this->apartmentAddress;
         }
     
         $customer->update([
-            "shipping_address_receiver_name_{$addressNumber}" => "{$this->firstName} {$this->lastName}",
+            "shipping_address_receiver_name_{$addressNumber}" => "{$this->firstName}",
+            "shipping_address_receiver_lname_{$addressNumber}" => "{$this->lastName}",
             "shipping_address_{$addressNumber}" => $fullAddress,
             "shipping_country_{$addressNumber}" => $this->country,
             "shipping_postal_code_{$addressNumber}" => $this->pincode,

@@ -154,6 +154,7 @@
 
                         <div id="ship_address">
                             <div class="row form-item-ck">
+                                @if(Auth::check())
                                 <div class="col-xs-12 select-address-wrapper">
                                     <select wire:model="selectedShippingAddress" wire:change="handleAddressChange">
                                         @foreach ($shippingAddresses as $address)
@@ -163,6 +164,7 @@
                                     </select>
                                     <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
                                 </div>
+                                @endif
 
                                 <div class="col-xs-12 col-md-6">
                                     <input type="text" maxlength="100" name="firstname" id="firstname"
@@ -253,8 +255,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
-                                    <input type="email" maxlength="20" name="shipping_email" id="shipping_email"
-                                        class="form-control" placeholder="Shipping Email" data-validation="number"
+                                    <input type="email" name="shipping_email" id="shipping_email"
+                                        class="form-control" placeholder="Shipping Email" data-validation="email"
                                         wire:model="shipping_email">
                                     @error('shipping_email')
                                         <span class="text-danger">{{ $message }}</span>

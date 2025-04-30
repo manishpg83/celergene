@@ -14,15 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
         $this->call([
             InitialRolesAndPermissionsSeeder::class,
+            CountrySeeder::class,
         ]);
-        /* User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@celergen.com',
-            'password' => Hash::make('admin@123'),
-            'type' => 'super-admin',
-        ]); */
     }
 }
