@@ -254,7 +254,7 @@
                                 </div>
                                 <div class="col-xs-12 col-md-6" style="padding-bottom: 20px;">
                                     <input type="email" maxlength="20" name="shipping_email" id="shipping_email"
-                                        class="form-control" placeholder="shipping_email" data-validation="number"
+                                        class="form-control" placeholder="Shipping Email" data-validation="number"
                                         wire:model="shipping_email">
                                     @error('shipping_email')
                                         <span class="text-danger">{{ $message }}</span>
