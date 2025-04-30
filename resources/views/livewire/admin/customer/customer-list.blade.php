@@ -1,15 +1,21 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div
-        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
+        class="row-gap-4 mb-6 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
         <div class="d-flex flex-column justify-content-center">
-            <h4 class="mb-1 text-2xl ml-2">Customer List</h4> 
+            <h4 class="mb-1 ml-2 text-2xl">Customer List</h4> 
         </div>
-        <div class="d-flex align-content-center flex-wrap gap-4">
-            <div class="d-flex gap-4">
-                <div class="btn-group"><button
+        <div class="flex-wrap gap-4 d-flex align-content-center">
+            <div class="gap-4 d-flex">
+                <div class="btn-group">
+                    <button
                         class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
-                        tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
-                        aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span><i class="ti ti-upload me-1 ti-xs"></i>Export</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" wire:click="exportExcel">Export to Excel</a></li>
+                        <li><a class="dropdown-item" href="#" wire:click="exportCsv">Export to CSV</a></li>
+                    </ul>
                 </div>
             </div>
             <a href="{{ route('admin.customer.add') }}" class="btn btn-primary">
@@ -22,7 +28,7 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
+            <div class="mb-3 d-flex justify-content-between">
                 <div class="d-flex">
                     <select wire:model.live="perPage" class="form-select me-2" style="width: auto;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
@@ -67,13 +73,13 @@
                                     <td>{{ $customer->company_name }}</td>
                                     <td>{{ $customer->billing_country }}</td>
                                     <td class="text-center">
-                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <div class="gap-2 d-flex align-items-center justify-content-center">
                                             <a href="{{ route('admin.customer.details', $customer->id) }}" class="text-black" title="View Details" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
                                             </a>
                      
                                             <div class="dropdown">
-                                                <button class="btn btn-link text-black" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="text-black btn btn-link" type="button" id="actionMenu{{ $customer->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $customer->id }}">

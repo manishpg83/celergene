@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Customer;
 
-use App\Models\Customer;
 use Livewire\Component;
+use App\Models\Customer;
 use Livewire\WithPagination;
+use App\Exports\CustomersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerList extends Component
 {
@@ -35,10 +37,10 @@ class CustomerList extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($subQuery) {
                     $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('email', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('company_name', 'LIKE', '%' . $this->search . '%')
-                             ->orWhere('billing_country', 'LIKE', '%' . $this->search . '%');
+                        ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('company_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('billing_country', 'LIKE', '%' . $this->search . '%');
                 });
             })
             ->when($this->status !== 'all', function ($query) {
@@ -50,14 +52,14 @@ class CustomerList extends Component
             })
             ->withTrashed()
             ->orderBy($this->sortField, $this->sortDirection);
-    
+
         $customers = $query->paginate($this->perPage);
         $perpagerecords = perpagerecords();
         return view('livewire.admin.customer.customer-list', [
             'customers' => $customers,
             'perpagerecords' => $perpagerecords,
         ]);
-    }    
+    }
 
     public function updatedPerPage($value)
     {
@@ -155,9 +157,70 @@ class CustomerList extends Component
 
         $this->resetPage();
     }
-    
+
     public function updatedStatus()
     {
         $this->resetPage();
+    }
+
+
+
+    public function exportExcel()
+    {
+        $customers = Customer::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('company_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('billing_country', 'LIKE', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->status !== 'all', function ($query) {
+                if ($this->status === 'active') {
+                    $query->whereNull('deleted_at');
+                } elseif ($this->status === 'inactive') {
+                    $query->whereNotNull('deleted_at');
+                }
+            })
+            ->withTrashed()
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->get();
+
+        return Excel::download(
+            new CustomersExport($customers),
+            'customers-' . now()->format('Y-m-d') . '.xlsx'
+        );
+    }
+
+    public function exportCsv()
+    {
+        $customers = Customer::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('first_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('company_name', 'LIKE', '%' . $this->search . '%')
+                        ->orWhere('billing_country', 'LIKE', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->status !== 'all', function ($query) {
+                if ($this->status === 'active') {
+                    $query->whereNull('deleted_at');
+                } elseif ($this->status === 'inactive') {
+                    $query->whereNotNull('deleted_at');
+                }
+            })
+            ->withTrashed()
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->get();
+
+        return Excel::download(
+            new CustomersExport($customers),
+            'customers-' . now()->format('Y-m-d') . '.csv',
+            \Maatwebsite\Excel\Excel::CSV
+        );
     }
 }
