@@ -230,7 +230,7 @@
         <!-- Customers End-->
 
         <!-- Invoice Management -->
-        <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
+        {{-- <li class="menu-item {{ request()->routeIs('admin.invoices.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-file-dollar"></i>
                 <div data-i18n="Invoice Management">Invoice Management</div>
@@ -252,7 +252,7 @@
                     </a>
                 </li> -->
             </ul>
-        </li>
+        </li> --}}
         <!-- Invoice Management End-->
 
         <!-- Product Management -->
