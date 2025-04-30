@@ -236,11 +236,11 @@
                 <div data-i18n="Invoice Management">Invoice Management</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <!-- <li class="menu-item">
                     <a href="../front-pages/landing-page.html" class="menu-link" target="_blank">
                         <div data-i18n="Online Invoices List">Online Invoices List</div>
                     </a>
-                </li>
+                </li> -->
                 <li class="menu-item {{ request()->routeIs('admin.invoices.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.invoices.index') }}" class="menu-link" target="_blank">
                         <div data-i18n="Offline Invoices List">Offline Invoices List</div>
