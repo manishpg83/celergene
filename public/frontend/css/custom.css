@@ -519,16 +519,6 @@ header#main-header.sticky #brand {
     padding-left: 20px;
 }
 
-.dz-bnr-inr1 {
-    --dz-banner-height: 315px;
-    min-height: var(--dz-banner-height);
-    background-size: auto;
-    background-position: top;
-    background-color: #fbfbfb;
-    position: relative;
-    width: 100%;
-}
-
 .space {
     padding-top: 20px;
 } 
