@@ -107,7 +107,7 @@
                                 <div class="align-items-end">
                                     <ul class="navbar-nav flex-row">
                                         <li class="nav-item me-2">
-                                            <a href="https://store.celergenswiss.com/login.php" class="px-2 pb-2 pt-1">
+                                            <a href="{{ route('login') }}" class="px-2 pb-2 pt-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                     viewBox="0 0 20 20" fill="none">
                                                     <path

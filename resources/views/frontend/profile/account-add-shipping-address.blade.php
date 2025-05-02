@@ -14,7 +14,7 @@
         <div class="page-content bg-light-1">
 
             <!--Banner Start-->
-            <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">
+            <div class="dz-bnr-inr overlay-black-light" style="background-color: #002d59; background-image: none;">
                 <div class="container">
                     <div class="dz-bnr-inr-entry">
                         <h1>My Account</h1>

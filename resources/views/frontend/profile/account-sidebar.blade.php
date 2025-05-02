@@ -8,7 +8,7 @@
             <div class="profile-head">
                 <div class="user-thumb">
                     @if ($customer && $customer->image)
-                        <img src="{{ asset($customer->image) }}" alt="{{ $customer->first_name }}">
+                        <img src="{{ Storage::url($customer->image) }}" alt="{{ $customer->first_name }}">
                     @else
                         <img src="{{ asset('frontend/images/default.jpeg') }}" alt="Default Profile">
                     @endif
@@ -20,12 +20,12 @@
                 </span>
             </div>
             <div class="account-nav">
-                <div class="nav-title bg-light">DASHBOARD</div>
+                <div class="nav-title">DASHBOARD</div>
                 <ul>
                     <li><a href="{{ route('myaccount') }}">Dashboard</a></li>
                     <li><a href="{{ route('myorders') }}">Orders</a></li>
                 </ul>
-                <div class="nav-title bg-light">ACCOUNT SETTINGS</div>
+                <div class="nav-title">ACCOUNT SETTINGS</div>
                 <ul class="account-info-list">
                     <li><a href="{{ route('myprofile') }}">Profile</a></li>
                     <li><a href="{{ route('billingaddress') }}">Billing Address</a></li>

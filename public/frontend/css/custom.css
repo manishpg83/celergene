@@ -504,7 +504,7 @@ header#main-header.sticky #brand {
     position: absolute;
     left: 0px;
     width: 12px;
-    height: 80px;
+    height: 56px;
     background: #B21230;
 }
 
@@ -515,6 +515,8 @@ header#main-header.sticky #brand {
     color: white;
     font-family: 'Calluna-Regular';
     padding: 0;
+    background-color:silver;
+    padding-left: 20px;
 }
 
 .space {

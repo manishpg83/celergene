@@ -15951,7 +15951,7 @@ a:hover {
 }
 
 .text-primary {
-  color: var(--primary) !important;
+  color: #b11230 !important;
 }
 
 .text-secondary {
@@ -57367,6 +57367,7 @@ table.wishlist_table {
 .account-sidebar .account-nav .nav-title {
   padding: 10px 20px;
   margin-bottom: 10px;
+  background-color: #e8e5e6;
 }
 
 .account-sidebar .account-nav ul {
@@ -57973,9 +57974,7 @@ table.wishlist_table {
   }
 }
 
-.total-contain .total-icon svg path {
-  fill: var(--primary);
-}
+
 
 .total-contain .total-detail .title {
   font-weight: 500;
@@ -57999,7 +57998,7 @@ table.wishlist_table {
 }
 
 .total-contain:hover {
-  background-color: var(--primary);
+  background-color: #b11230;
 }
 
 .total-contain:hover .total-detail .title,
@@ -61585,7 +61584,6 @@ a {
   background-position: top;
   background-color: #fbfbfb;
   position: relative;
-  z-index: 2;
   width: 100%;
 }
 

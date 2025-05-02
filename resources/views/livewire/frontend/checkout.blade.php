@@ -3,7 +3,7 @@
         <div id="header-title">
             <div class="container">
                 <div class="header-box"></div>
-                <div class="header-text" style="background-color:silver;">CHECKOUT</div>
+                <div class="header-text" style="background-color:silver; padding-left: 20px;">CHECKOUT</div>
             </div>
         </div>
     </div>

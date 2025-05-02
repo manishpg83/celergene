@@ -43,7 +43,7 @@ class Myprofile extends Component
     public function updateProfile()
     {
         $user = Auth::user();
-
+    
         $this->validate([
             'first_name' => 'nullable|string|max:25',
             'last_name' => 'nullable|string|max:50',
@@ -52,37 +52,40 @@ class Myprofile extends Component
             'password' => 'nullable|min:8|confirmed',
             'image' => 'nullable|image|max:1024'
         ]);
-
+    
         $user->first_name = $this->first_name;
         $user->last_name = $this->last_name;
         $user->email = $this->email;
         $user->phone = $this->phone;
-
+    
         if ($this->password) {
             $user->password = Hash::make($this->password);
         }
-
+    
         $user->save();
-
+    
         $updateData = [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
             'mobile_number' => $this->phone
         ];
-
+    
         if ($this->image) {
-            $imagePath = $this->image->store('', 'custom_profile_images');
+            // Use the same storage path as admin
+            $imageName = time() . '_' . $this->image->getClientOriginalName();
+            $imagePath = $this->image->storeAs('customers', $imageName, 'public');
+            
             if ($imagePath) {
-                if ($this->customer->image && Storage::disk('custom_profile_images')->exists($this->customer->image)) {
-                    Storage::disk('custom_profile_images')->delete($this->customer->image);
+                // Delete old image if exists
+                if ($this->customer->image && Storage::disk('public')->exists($this->customer->image)) {
+                    Storage::disk('public')->delete($this->customer->image);
                 }
-
-                $newImagePath = 'admin/assets/img/profile_img/' . basename($imagePath);
-                $updateData['image'] = $newImagePath;
+                
+                $updateData['image'] = $imagePath;
             }
         }
-
+    
         $this->customer->update($updateData);
         $this->reset('image');
         notyf()->success('Profile updated successfully.');
