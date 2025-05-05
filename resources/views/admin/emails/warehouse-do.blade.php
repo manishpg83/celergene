@@ -9,16 +9,16 @@
 <body style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
     <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px; width: 100%; display: block;">
-            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png" 
-                 alt="Celergen Logo" 
+            <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+                 alt="Celergen Logo"
                  style="max-height: 60px; width: auto; display: inline-block; margin: 0 auto;">
         </div>
 
         <div class="greeting" style="margin-bottom: 30px; line-height: 1.6;">
             <p>Dear {{ $warehouseName }} team,</p>
-            
+
             <p style="font-weight: bold; margin-top: 20px;">Shipping Details:</p>
-            
+
             <p>
                 <strong>Address:</strong><br>
                 {!! nl2br(implode('<br>', array_map('trim', explode(',', $shippingAddress)))) !!}<br>
@@ -28,7 +28,7 @@
 
         <div>
             <p><strong>Order Date :</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}</p>
-            <p><strong>Order No :</strong> #{{ $order->order_number }}</p>
+            <p><strong>Order No :</strong> #{{ $order->order_id }}</p>
         </div>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
@@ -45,7 +45,7 @@
                     <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">{{ $detail['quantity'] }}</td>
                 </tr>
                 @endforeach
-            </tbody> 
+            </tbody>
         </table>
         <p>Please update the status of the delivery order and add a tracking number.</p>
 

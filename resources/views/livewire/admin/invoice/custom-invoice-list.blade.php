@@ -83,16 +83,16 @@
                         @else
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{ $order->order_number }}</td>
+                                    <td>{{ $order->order_id }}</td>
                                     <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
                                     <td>${{ number_format($order->total, 2) }}</td>
                                     <td>{{ $order->payment_mode }}</td>
                                     <td>
-                                        <span style="color:                                                   
-                                                    @if ($orderStatus[$order->order_id] === 'Paid') #28c76f 
-                                                    @elseif ($orderStatus[$order->order_id] === 'Pending') #FF9F43 
-                                                    @elseif ($orderStatus[$order->order_id] === 'Cancelled') #FF4C51 
+                                        <span style="color:
+                                                    @if ($orderStatus[$order->order_id] === 'Paid') #28c76f
+                                                    @elseif ($orderStatus[$order->order_id] === 'Pending') #FF9F43
+                                                    @elseif ($orderStatus[$order->order_id] === 'Cancelled') #FF4C51
                                                     @else white; @endif;">
                                             {{ $orderStatus[$order->order_id] }}
                                         </span>
@@ -102,20 +102,20 @@
                                         <div class="d-flex align-items-center justify-content-center">
                                             <!-- <a href="{{ route('admin.orders.details', $order->order_id) }}" class="text-black ml-3" title="View Order" target="_blank">
                                                 <i class="fa fa-eye" style="font-size: 20px; color: #7367f0;"></i>
-                                            </a>   -->                                      
+                                            </a>   -->
                                             @if($order->is_generated)
-                                                <button wire:click="downloadInvoice('{{ $order->order_id }}')" 
+                                                <button wire:click="downloadInvoice('{{ $order->order_id }}')"
                                                         class="btn btn-sm btn-primary mx-2">
                                                     <i class="bi bi-download mr-1"></i> Download
                                                 </button>
                                             @else
-                                                <button wire:click="generateInvoice('{{ $order->order_id }}')" 
+                                                <button wire:click="generateInvoice('{{ $order->order_id }}')"
                                                         class="btn btn-sm btn-success mx-2">
                                                     <i class="bi bi-file-earmark-plus mr-1"></i> Generate
                                                 </button>
                                             @endif
                                         </div>
-                                    </td> 
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif

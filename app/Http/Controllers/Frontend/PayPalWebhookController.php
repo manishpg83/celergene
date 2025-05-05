@@ -94,40 +94,40 @@ class PayPalWebhookController extends Controller
         try {
             $provider = new PayPalClient;
             $provider->getAccessToken();
-    
+
             $token = $request->query('token');
             if (! $token) {
                 throw new \Exception('PayPal token not found in request');
             }
-    
-            $response = $provider->capturePaymentOrder($token);            
-    
+
+            $response = $provider->capturePaymentOrder($token);
+
             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
                 $payment = Payment::where('transaction_id', $token)->first();
-    
+
                 if ($payment) {
                     $payment->update([
                         'status' => 'completed',
                         'payment_response' => json_encode($response),
                     ]);
-    
+
                     $order = DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->first();
-    
+
                     DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->update([
                             'order_status' => 'Paid',
                             'updated_at' => now(),
                         ]);
-    
+
                     $customer = DB::table('customers')
                         ->where('id', $order->customer_id)
                         ->first();
-    
+
                     $user = User::find($customer->user_id);
-    
+
                     $billingAddress = implode(', ', array_filter([
                         $customer->billing_address,
                         $customer->billing_address_2,
@@ -136,42 +136,42 @@ class PayPalWebhookController extends Controller
                         $customer->billing_postal_code,
                         $customer->billing_country
                     ]));
-    
+
                     $shippingAddress = $order->shipping_address;
-    
-                    $orderNumber = $order->order_number;
-    
+
+                    $orderNumber = $order->order_id;
+
                     $orderId = $order->order_id;
-    
+
                     Mail::to($user->email)->send(new UserOrderConfirmation(
-                        $orderNumber, 
-                        $user, 
+                        $orderNumber,
+                        $user,
                         $billingAddress,
                         $shippingAddress,
                         $orderId
                     ));
-    
+
                     session()->forget('cart');
-    
+
                     return redirect()->route('order.success')
                         ->with('success', 'Your payment has been processed successfully!');
                 }
             }
-    
+
             throw new \Exception('Payment verification failed');
         } catch (\Exception $e) {
             Log::error('PayPal Success Callback Error: '.$e->getMessage(), [
                 'token' => $token ?? null,
                 'trace' => $e->getTraceAsString(),
             ]);
-    
+
             return redirect()->route('checkout.error')
                 ->with('error', 'There was an error processing your payment. Please contact support.');
         }
     }
 
     public function cancel(Request $request)
-    {       
+    {
 
         $token = $request->query('token');
         if ($token) {

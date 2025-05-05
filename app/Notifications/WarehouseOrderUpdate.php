@@ -59,7 +59,7 @@ class WarehouseOrderUpdate extends Notification
         ? url("/warehouse/update-delivery/{$this->deliveryOrder->id}")
         : '#';
         return (new MailMessage)
-        ->subject("Delivery Order Request - Order #{$this->order->order_number}")
+        ->subject("Delivery Order Request - Order #{$this->order->order_id}")
             ->markdown('admin.emails.warehouse-do', [
                 'order' => $this->order,
                 'productDetails' => $this->productDetails,

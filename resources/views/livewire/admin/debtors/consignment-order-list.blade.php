@@ -16,7 +16,7 @@
                         <option value="100">100</option>
                     </select>
                 </div>
-                
+
                 <div>
                     <input type="text" wire:model.live="search" class="form-control form-control-sm" placeholder="Search Orders..." style="width: 150px;">
                 </div>
@@ -44,7 +44,7 @@
                         @forelse ($consignmentOrders as $index => $order)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $order->order_number }}</td>
+                                <td>{{ $order->order_id }}</td>
                                 <td>{{ $order->order_date ? \Carbon\Carbon::parse($order->order_date)->format('Y-m-d') : 'N/A' }}</td>
                                 <td>
                                     @if($order->customer)
