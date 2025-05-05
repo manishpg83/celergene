@@ -63,7 +63,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="expiry">Expiry Date</label>
+                                    <label class="form-label" for="expiry">Expiry Date (Scroll down to change year)</label>
                                     <input type="month" wire:model="expiry" id="expiry" min="{{ date('Y-m') }}"
                                         class="form-control @error('expiry') is-invalid @enderror">
                                     @error('expiry')
