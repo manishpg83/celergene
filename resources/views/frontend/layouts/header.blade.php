@@ -55,7 +55,7 @@
                             <li class="nav-item pe-3">
                                 <a class="nav-link" aria-current="page" href="https://www.facebook.com/CelergenSwiss"
                                     target="_blank">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_fb.png"
+                                    <img src="{{ asset('/frontend/images/common/ic_fb.png') }}"
                                         alt="" class="src" />
                                 </a>
                             </li>
@@ -63,7 +63,7 @@
                             <li class="nav-item pe-3">
                                 <a class="nav-link" aria-current="page" href="https://www.instagram.com/celergeneurope"
                                     target="_blank">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_instagram.png"
+                                    <img src="{{ asset('/frontend/images/common/ic_instagram.png') }}"
                                         alt="" class="src" />
                                 </a>
                             </li>
@@ -71,20 +71,20 @@
                             <li class="nav-item pe-3">
                                 <a class="nav-link" aria-current="page" href="https://twitter.com/CelergenSocial"
                                     target="_blank">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_twitter.png"
+                                    <img src="{{ asset('/frontend/images/common/ic_twitter.png') }}"
                                         alt="" class="src" />
                                 </a>
                             </li>
                             <li class="nav-item pe-3">
                                 <a class="nav-link" aria-current="page" href="index.php">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/download.png"
+                                    <img src="{{ asset('/frontend/images/common/download.png') }}"
                                         alt="" /></a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link pe-0" aria-current="page" href="https://celergenswiss.com/th/"
                                     target="_blank">
-                                    <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/Thai.png"
+                                    <img src="{{ asset('/frontend/images/common/Thai.png') }}"
                                         alt="" class="" />
                                 </a>
                             </li>
@@ -101,7 +101,7 @@
                                 <div>
                                     <a href="https://celergenswiss.azurewebsites.net/"><img id="headerlogo1"
                                             class="expand-logo"
-                                            src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+                                            src="{{ asset('/frontend/images/common/cropped-celergen-logo.png') }}"
                                             alt="logo" width="200" /></a>
                                 </div>
                                 <div class="align-items-end">
@@ -155,7 +155,7 @@
                                             <a class="navbar-toggler p-2" data-bs-toggle="offcanvas"
                                                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                                                 style="border: none">
-                                                <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_burger.png"
+                                                <img src="{{ asset('/frontend/images/common/ic_burger.png') }}"
                                                     alt="" class="burger-menu" />
                                             </a>
                                         </li>
@@ -169,7 +169,7 @@
                             aria-labelledby="offcanvasNavbarLabel">
                             <div class="mobile-menubar">
                                 <a class="d-block d-lg-none mx-auto text-center p-4 mb-4" href="#"><img
-                                        src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+                                        src="{{ asset('/frontend/images/common/cropped-celergen-logo.png') }}"
                                         alt="logo" width="120" /></a>
                                 <ul class="navbar-nav justify-content-end sidbar-main-menu text-end">
                                     <li class="nav-item mx-xl-2 mx-lg-0 py-xl-2 dropdown">
@@ -358,19 +358,19 @@
                                     <ul id="mobile-social" class="p-0 m-0 float-end">
                                         <li class="p-2 d-inline">
                                             <a href="https://twitter.com/CelergenSocial" target="_blank"><img
-                                                    src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_twitter_27.png"
+                                                    src="{{ asset('/frontend/images/common/ic_twitter_27.png') }}"
                                                     width="20px" alt="Celergen Switzerland Twitter"
                                                     class="twitter" /></a>
                                         </li>
                                         <li class="p-2 d-inline">
                                             <a href="https://www.instagram.com/celergeneurope" target="_blank"><img
-                                                    src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_instagram_27.png"
+                                                    src="{{ asset('/frontend/images/common/ic_instagram_27.png') }}"
                                                     width="20px" alt="Celergen Switzerland Instagram"
                                                     class="twitter" /></a>
                                         </li>
                                         <li class="p-2 d-inline">
                                             <a href="https://www.facebook.com/CelergenSwiss" target="_blank"><img
-                                                    src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_fb_27.png"
+                                                    src="{{ asset('/frontend/images/common/ic_fb_27.png') }}"
                                                     width="20px" alt="Celergen Switzerland Facebook"
                                                     class="facebook" /></a>
                                         </li>
