@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/bootstrap-icons.css') }}" />
 
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/css/pages/page-auth.css') }}" />
@@ -55,7 +55,7 @@
     <script src="{{ asset('/admin/assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/config.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/pages-account-settings-account.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/css/daterangepicker.css') }}" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
@@ -94,8 +94,8 @@
     </div>
     @yield('scripts')
     @livewireScripts
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('/admin/assets/vendor/js/chart.js') }}"></script>
+    <script src="{{ asset('/admin/assets/vendor/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/node-waves/node-waves.js') }}"></script>
@@ -115,14 +115,14 @@
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('/admin/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('/admin/assets/vendor/js/sweetalert2@11') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('/admin/assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('/admin/assets/js/app-ecommerce-order-list.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="{{ asset('/admin/assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('/admin/assets/js/daterangepicker.min.js') }}"></script>
 
     <script>
         Livewire.on('openEditTab', url => {
