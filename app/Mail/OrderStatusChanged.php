@@ -23,7 +23,7 @@ class OrderStatusChanged extends Mailable
 
     public function build()
     {
-        return $this->subject('Order Status Updated - #' . $this->order->order_id)
+        return $this->subject('Payment Update - #' . $this->order->order_id)
                     ->view('admin.emails.order-status-changed');
     }
 }
