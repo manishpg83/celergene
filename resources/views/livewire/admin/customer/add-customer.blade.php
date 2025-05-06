@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
+                <div
+                    class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
                     <h5 class="card-title mb-sm-0 me-2">Add New Customer</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
@@ -13,11 +14,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-10 mx-auto">
+                        <div class="mx-auto col-lg-10">
                             <form wire:submit.prevent="{{ $isEditing ? 'save' : 'save' }}">
                                 <!-- Customer Details -->
-                                <div class="row g-3 mt-2">
-                                    <div class="col-md-12 mt-4">
+                                <div class="mt-2 row g-3">
+                                    <div class="mt-4 col-md-12">
                                         <label class="form-label" for="customer_type_id">Customer Type</label>
                                         <select wire:model="customer_type_id"
                                             class="form-select @error('customer_type_id') is-invalid @enderror"
@@ -130,7 +131,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label" for="payment_term_actual">Payment Term Actual</label>
+                                        <label class="form-label" for="payment_term_actual">Payment Term
+                                            Actual</label>
                                         <select wire:model="payment_term_actual"
                                             class="form-select @error('payment_term_actual') is-invalid @enderror"
                                             id="payment_term_actual">
@@ -188,7 +190,7 @@
                                 </div>
                                 <hr class="mt-6">
                                 <!-- Billing Details Card -->
-                                <div class="card mb-4 mt-6">
+                                <div class="mt-6 mb-4 card">
                                     <div class="card-header">
                                         <h5>Billing Details</h5>
                                     </div>
@@ -200,15 +202,18 @@
                                                 <textarea wire:model="billing_address" class="form-control" id="billing_address" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="billing_country">Billing Country</label>
-                                                <select wire:model="billing_country" class="form-select" id="billing_country">
+                                                <label class="form-label" for="billing_country">Billing
+                                                    Country</label>
+                                                <select wire:model="billing_country" class="form-select"
+                                                    id="billing_country">
                                                     <option value="">Select</option>
-                                                    @foreach($countries as $name)
-                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @foreach ($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            
+
                                             <div class="col-md-6">
                                                 <label class="form-label" for="billing_postal_code">Billing Postal
                                                     Code</label>
@@ -217,7 +222,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-check mt-6 mb-3">
+                                        <div class="mt-6 mb-3 form-check">
                                             <input type="checkbox" wire:model="sameAsBilling"
                                                 class="form-check-input" id="sameAsBilling">
                                             <label class="form-check-label" for="sameAsBilling">My billing and
@@ -226,31 +231,54 @@
                                     </div>
                                 </div>
                                 <!-- Billing Details Card -->
-                                <div class="card mb-4 mt-6">
+                                <div class="mt-6 mb-4 card">
                                     <div class="card-body">
                                         <!-- Shipping Details -->
                                         <h5 class="my-4">Shipping Details</h5>
                                         <div class="row g-3" @if ($sameAsBilling) wire:ignore @endif>
                                             <div class="col-12">
                                                 <label class="form-label"
-                                                    for="shipping_address_receiver_name_1">Shipping
-                                                    Address Receiver Name 1</label>
+                                                    for="shipping_address_receiver_name_1">Shipping Address Receiver
+                                                    Name 1</label>
                                                 <input type="text" wire:model="shipping_address_receiver_name_1"
-                                                    class="form-control" id="shipping_address_receiver_name_1"
-                                                    @if ($sameAsBilling) value="{{ $billing_address }}" @endif>
+                                                    class="form-control @if (!$sameAsBilling) @error('shipping_address_receiver_name_1') is-invalid @enderror @endif"
+                                                    id="shipping_address_receiver_name_1"
+                                                    @if ($sameAsBilling) value="{{ $first_name }} {{ $last_name }}" @endif>
+                                                @if (!$sameAsBilling)
+                                                    @error('shipping_address_receiver_name_1')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                @endif
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_1">Shipping Address 1</label>
-                                                <textarea wire:model="shipping_address_1" class="form-control" id="shipping_address_1" rows="4" @if ($sameAsBilling) value="{{ $billing_address }}" @endif></textarea>
+                                                <label class="form-label" for="shipping_address_1">Shipping Address
+                                                    1</label>
+                                                <textarea wire:model="shipping_address_1"
+                                                    class="form-control @if (!$sameAsBilling) @error('shipping_address_1') is-invalid @enderror @endif"
+                                                    id="shipping_address_1" rows="4" @if ($sameAsBilling) value="{{ $billing_address }}" @endif></textarea>
+                                                @if (!$sameAsBilling)
+                                                    @error('shipping_address_1')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                @endif
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_1">Shipping Country 1</label>
-                                                <select wire:model="shipping_country_1" class="form-select" id="shipping_country_1">
+                                                <label class="form-label" for="shipping_country_1">Shipping Country
+                                                    1</label>
+                                                <select wire:model="shipping_country_1"
+                                                    class="form-select @if (!$sameAsBilling) @error('shipping_country_1') is-invalid @enderror @endif"
+                                                    id="shipping_country_1">
                                                     <option value="">Select</option>
-                                                    @foreach($countries as $name)
-                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @foreach ($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
+                                                @if (!$sameAsBilling)
+                                                    @error('shipping_country_1')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                @endif
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="shipping_postal_code_1">Shipping Postal
@@ -261,20 +289,23 @@
                                                     @if ($sameAsBilling) value="{{ $billing_postal_code }}" @endif>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_phone_1">Contact Number 1</label>
+                                                <label class="form-label" for="shipping_phone_1">Contact Number
+                                                    1</label>
                                                 <input type="text" wire:model="shipping_phone_1"
                                                     class="form-control" id="shipping_phone_1">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_company_name_1">Shipping Company Name 1</label>
-                                                <input type="text" wire:model="shipping_company_name_1" class="form-control" id="shipping_company_name_1">
+                                                <label class="form-label" for="shipping_company_name_1">Shipping
+                                                    Company Name 1</label>
+                                                <input type="text" wire:model="shipping_company_name_1"
+                                                    class="form-control" id="shipping_company_name_1">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Billing Details Card -->
-                                <div class="card mb-4 mt-6">
+                                <div class="mt-6 mb-4 card">
                                     <div class="card-body">
                                         <!-- Shipping Details 2 -->
                                         <h5 class="my-4">Shipping Details 2</h5>
@@ -287,15 +318,19 @@
                                                     class="form-control" id="shipping_address_receiver_name_2">
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_2">Shipping Address 2</label>
+                                                <label class="form-label" for="shipping_address_2">Shipping Address
+                                                    2</label>
                                                 <textarea wire:model="shipping_address_2" class="form-control" id="shipping_address_2" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_2">Shipping Country 2</label>
-                                                <select wire:model="shipping_country_2" class="form-select" id="shipping_country_2">
+                                                <label class="form-label" for="shipping_country_2">Shipping Country
+                                                    2</label>
+                                                <select wire:model="shipping_country_2" class="form-select"
+                                                    id="shipping_country_2">
                                                     <option value="">Select</option>
-                                                    @foreach($countries as $name)
-                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @foreach ($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -307,20 +342,23 @@
                                                     class="form-control" id="shipping_postal_code_2">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_phone_2">Contact Number 2</label>
+                                                <label class="form-label" for="shipping_phone_2">Contact Number
+                                                    2</label>
                                                 <input type="text" wire:model="shipping_phone_2"
                                                     class="form-control" id="shipping_phone_2">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_company_name_2">Shipping Company Name 2</label>
-                                                <input type="text" wire:model="shipping_company_name_2" class="form-control" id="shipping_company_name_2">
+                                                <label class="form-label" for="shipping_company_name_2">Shipping
+                                                    Company Name 2</label>
+                                                <input type="text" wire:model="shipping_company_name_2"
+                                                    class="form-control" id="shipping_company_name_2">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Billing Details Card -->
-                                <div class="card mb-4 mt-6">
+                                <div class="mt-6 mb-4 card">
                                     <div class="card-body">
                                         <!-- Shipping Details 3 -->
                                         <h5 class="my-4">Shipping Details 3</h5>
@@ -333,15 +371,19 @@
                                                     class="form-control" id="shipping_address_receiver_name_3">
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label" for="shipping_address_3">Shipping Address 3</label>
+                                                <label class="form-label" for="shipping_address_3">Shipping Address
+                                                    3</label>
                                                 <textarea wire:model="shipping_address_3" class="form-control" id="shipping_address_3" rows="4"></textarea>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_country_3">Shipping Country 3</label>
-                                                <select wire:model="shipping_country_3" class="form-select" id="shipping_country_3">
+                                                <label class="form-label" for="shipping_country_3">Shipping Country
+                                                    3</label>
+                                                <select wire:model="shipping_country_3" class="form-select"
+                                                    id="shipping_country_3">
                                                     <option value="">Select</option>
-                                                    @foreach($countries as $name)
-                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @foreach ($countries as $name)
+                                                        <option value="{{ $name }}">{{ $name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -353,26 +395,29 @@
                                                     class="form-control" id="shipping_postal_code_3">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_phone_3">Contact Number 3</label>
+                                                <label class="form-label" for="shipping_phone_3">Contact Number
+                                                    3</label>
                                                 <input type="text" wire:model="shipping_phone_3"
                                                     class="form-control" id="shipping_phone_3">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="shipping_company_name_3">Shipping Company Name 3</label>
-                                                <input type="text" wire:model="shipping_company_name_3" class="form-control" id="shipping_company_name_3">
+                                                <label class="form-label" for="shipping_company_name_3">Shipping
+                                                    Company Name 3</label>
+                                                <input type="text" wire:model="shipping_company_name_3"
+                                                    class="form-control" id="shipping_company_name_3">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mb-3 mt-6">
+                                <div class="mt-6 mb-3 col-md-12">
                                     <label class="form-label" for="image">Customer Image</label>
-                                    <div class="d-flex gap-3 align-items-start">
+                                    <div class="gap-3 d-flex align-items-start">
                                         @if ($image && !is_string($image))
                                             <div class="position-relative">
                                                 <img src="{{ $image->temporaryUrl() }}" class="rounded"
                                                     style="width: 100px; height: 100px; object-fit: cover;">
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    class="top-0 btn btn-danger btn-sm position-absolute end-0"
                                                     wire:click="removeImage">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" fill="currentColor" class="bi bi-x"
@@ -387,7 +432,7 @@
                                                 <img src="{{ Storage::url($oldImage) }}" class="rounded"
                                                     style="width: 100px; height: 100px; object-fit: cover;">
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    class="top-0 btn btn-danger btn-sm position-absolute end-0"
                                                     wire:click="removeImage">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" fill="currentColor" class="bi bi-x"
@@ -414,7 +459,7 @@
 
 
                                 <!-- Submit Button -->
-                                <div class="row g-3 mt-4">
+                                <div class="mt-4 row g-3">
                                     <div class="col-sm-6 col-4 d-grid">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
