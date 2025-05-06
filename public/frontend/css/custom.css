@@ -513,7 +513,7 @@ header#main-header.sticky #brand {
     padding-top: 33px;
     position: relative;
     color: white;
-    font-family: 'Calluna-Regular';
+    font-family: "AdelleSansW01-Regular";
     padding: 0;
     background-color:silver;
     padding-left: 20px;
@@ -577,7 +577,7 @@ div#dob-text {
         color: white;
         bottom: 0px;
         left: 10px;
-        font-family: 'Calluna-Regular';
+        font-family: "AdelleSansW01-Regular";
     } 
 
     .space {
@@ -652,7 +652,7 @@ div#dob-text {
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    font-family:Arial;
+    font-family:"AdelleSansW01-Regular";
     font-size:14px;
     padding:9px 26px;
     text-decoration:none !important;
@@ -676,7 +676,7 @@ div#dob-text {
     display: inline-block;
     cursor: pointer;
     color: #ffffff !important;
-    font-family: Arial;
+    font-family: "AdelleSansW01-Regular";
     font-size: 14px;
     padding: 12px 45px;
     margin-top: 10px;
@@ -692,7 +692,7 @@ div#dob-text {
     display: inline-block;
     cursor: pointer;
     color: #ffffff;
-    font-family: Arial;
+    font-family: "AdelleSansW01-Regular";
     font-size: 14px;
     padding: 12px 45px;
     margin-top: 10px;
@@ -708,7 +708,7 @@ div#dob-text {
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    font-family:Arial;
+    font-family:"AdelleSansW01-Regular";
     font-size:14px;
     padding:15px 26px;
     text-decoration:none !important;
@@ -925,7 +925,7 @@ hr.hr-content {
 }
 .ops
 {
-    font-family: 'OpenSans';
+    font-family: "AdelleSansW01-Regular";
 }
 
 .title2

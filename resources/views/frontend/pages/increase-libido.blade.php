@@ -77,9 +77,9 @@
 </style>
 
 <section class="margin-top">
-    <div class="container-fluid px-0">
-       <div class="CallunaRegular padding-x bg-blue text-white">
-          <h1 class="text-white section-heading CallunaRegular border-left m-0">INCREASE LIBIDO</h1>
+    <div class="px-0 container-fluid">
+       <div class="text-white CallunaRegular padding-x bg-blue">
+          <h1 class="m-0 text-white section-heading CallunaRegular border-left">INCREASE LIBIDO</h1>
        </div>
        <div class="top-banner aos-init" style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-increase-libido.jpg') }}');" data-aos="fadeIn" data-aos-duration="500">
           <h1 class="top-banner-txt text-blue CallunaRegular aos-init" data-aos="fadeIn" data-aos-duration="1000" data-aos-delay="500">
@@ -91,9 +91,9 @@
  </section>
 
  <section>
-    <div class="container-fluid px-0 padding-y">
+    <div class="px-0 container-fluid padding-y">
        <div class="container px-lg-5">
-          <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 pb-lg-5 pb-3">
+          <p class="pb-3 text-center text-grey AdelleSan-Light-Opensans px-lg-5 pb-lg-5">
              ED is often the result of diseases or conditions that become more common with age.
              It can also be a side effect of the medications used to treat them. Other age-related factors besides disease can
              also affect a man’s ability to have an erection — for example, with age, tissues become less elastic and nerve
@@ -101,10 +101,10 @@
           </p>
        </div>
        <div class="container pt-lg-5">
-          <h1 class="seaction-heading text-blue AdelleSansLight text-center">
+          <h1 class="text-center seaction-heading text-blue AdelleSansRegular">
              DOCTORS' CELERGEN REVIEWS
           </h1>
-          <div class="col-xl-10 col-xxl-10 text-lg-start text-center mx-auto float-none px-0">
+          <div class="float-none px-0 mx-auto text-center col-xl-10 col-xxl-10 text-lg-start">
              <div class="benefits-review owl-carousel owl-theme owl-loaded">
                 <div class="owl-stage-outer">
                    <div class="owl-stage" style="transform: translate3d(-1980px, 0px, 0px); transition: all; width: 5940px;">
@@ -116,7 +116,7 @@
                                      <img src="{{ asset('frontend/images/benefits/DrBruceKLowellMD_3684_162.png') }}" alt="" class="imag-frame">
                                   </div>
                                   <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                     <h5 class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                         “Some of my male patients reported improved libido and sexual performance.”
                                      </h5>
                                      <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
@@ -135,7 +135,7 @@
                                      <img src="{{ asset('frontend/images/benefits/dr-juan-remos-e1479280710760.jpg') }}" alt="" class="imag-frame">
                                   </div>
                                   <div class="col-lg-9">
-                                     <h5 class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                     <h5 class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                         “I’ve had several male patients who, having been on Celergen for a month or two, no longer see the need to take Viagra. It gives them a renewed sense of vitality across the board.”
                                      </h5>
                                      <h5 class="doctors-name text-blue AdelleSansBold pt-lg-3">
@@ -158,13 +158,13 @@
     <div class="container-fluid px-sm-2">
        <div class="container padding px-lg-4">
           <div class="aos-init" data-aos="fade-up" data-aos-delay="300" data-aos-easing="linear" data-aos-duration="1000">
-             <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 lh-base">
+             <h1 class="text-center section-heading text-blue CallunaRegular px-lg-5 lh-base">
                 SCIENTIFIC PEER REVIEWED JOURNAL
              </h1>
              <div class="border-bottom"></div>
           </div>
           <div class="pt-5 aos-init" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">
-             <h5 class="text-blue text-center pt-lg-3 pt-3">REPRODUCTIVE SYSTEM &amp; SEXUAL DISORDERS: CURRENT RESEARCH</h5>
+             <h5 class="pt-3 text-center text-blue pt-lg-3">REPRODUCTIVE SYSTEM &amp; SEXUAL DISORDERS: CURRENT RESEARCH</h5>
           </div>
           <div>
           </div>
@@ -173,14 +173,14 @@
  </section>
 
  <section>
-    <div class="container-fluid px-0">
+    <div class="px-0 container-fluid">
        <div class="container">
-          <div class="col-lg-10 mx-auto float-none">
-             <div class="row border p-4">
-                <div class="col-lg-3 text-center">
+          <div class="float-none mx-auto col-lg-10">
+             <div class="p-4 border row">
+                <div class="text-center col-lg-3">
                    <img src="{{ asset('frontend/images/benefits/reviewed-journal.png') }}" alt="" class="">
                 </div>
-                <div class="col-lg-9 p-0 text-lg-start text-center">
+                <div class="p-0 text-center col-lg-9 text-lg-start">
                    <h5 class="text-blue lh-base"><strong>Clinical and Laboratory Assessment of Supplementation with Marine Protein Peptides and Selected Antioxidants in Men with Mild-to-Moderate Erectile Dysfunction </strong></h5>
                 </div>
              </div>
@@ -193,7 +193,7 @@
                    mechanistic studies are needed, along with larger-scale multi-centre placebo-controlled clinical trials.
                 </p>
              </div>
-             <div class="pt-lg-4 py-5">
+             <div class="py-5 pt-lg-4">
                 <h5 class="text-blue AdelleSan-Regular-Opensans">CELERGEN IS SAFE AND EFFECTIVE <span class="text-darkred">FOR LONG TERM USE </span></h5>
                 <p class="text-grey">
                    The never ending advertisements for erectile dysfunction drugs seem to suggest that popping a pill

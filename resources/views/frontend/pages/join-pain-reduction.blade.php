@@ -108,9 +108,9 @@
 </style>
 
     <section>
-        <div class="container-fluid px-0">
-            <div class="CallunaRegular padding-x bg-blue text-white">
-                <h1 class="text-white section-heading CallunaRegular border-left m-0">JOINT PAIN REDUCTION</h1>
+        <div class="px-0 container-fluid">
+            <div class="text-white CallunaRegular padding-x bg-blue">
+                <h1 class="m-0 text-white section-heading CallunaRegular border-left">JOINT PAIN REDUCTION</h1>
             </div>
             <div class="top-banner aos-init"
                 style="background-image: url('{{ asset('frontend/images/benefits/edt2-GettyImages-542510485_medium.jpg') }}');"
@@ -124,35 +124,35 @@
         </div>
     </section>
     <section>
-        <div class="container-fluid px-0 what-is-celergen-bg padding-y"
+        <div class="px-0 container-fluid what-is-celergen-bg padding-y"
             style="background-image: url('{{ asset('frontend/images/benefits/celergen_02.png') }}');">
             <div class="container">
-                <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 pb-5 ">
+                <p class="pb-5 text-center text-grey AdelleSan-Light-Opensans px-lg-5 ">
                     Osteoarthritis (OA) affects tens of millions of Americans and is a leading cause of disability and
                     reduced quality of life across the globe. <br>
                     Joint pain can affect physical mobility and our daily chores and activities.
                 </p>
                 <div class="aos-init" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
-                    <h1 class="section-heading text-darkred CallunaReguler-Opensans text-center pt-3 pb-lg-5 pb-3">
+                    <h1 class="pt-3 pb-3 text-center section-heading text-darkred CallunaReguler-Opensans pb-lg-5">
                         WHAT CAUSES JOINT PAIN ?
                     </h1>
                 </div>
                 <h5 class="px-lg-5">
                     <ul class="text-blue">
                         <div class="row">
-                            <div class="col-lg-4 pb-3 pb-lg-0">
+                            <div class="pb-3 col-lg-4 pb-lg-0">
                                 <li>OSTEOPOROSIS</li>
                             </div>
-                            <div class="col-lg-4 pb-3 pb-lg-0">
+                            <div class="pb-3 col-lg-4 pb-lg-0">
                                 <li>OLD INJURIES</li>
                             </div>
-                            <div class="col-lg-4 pb-3 pb-lg-0">
+                            <div class="pb-3 col-lg-4 pb-lg-0">
                                 <li>SIDE EFFECTS FROM LONG TERM USE OF NSAIDS OR STEROIDS</li>
                             </div>
-                            <div class="col-lg-4 pb-3 pb-lg-0">
+                            <div class="pb-3 col-lg-4 pb-lg-0">
                                 <li>RHEUMATOID ARTHRITIS</li>
                             </div>
-                            <div class="col-lg-4 pb-3 pb-lg-0">
+                            <div class="pb-3 col-lg-4 pb-lg-0">
                                 <li>AGING</li>
                             </div>
                         </div>
@@ -162,11 +162,11 @@
         </div>
     </section>
     <section>
-        <div class="container-fluid px-0 bg-blue text-center pb-lg-5 pb-3">
+        <div class="px-0 pb-3 text-center container-fluid bg-blue pb-lg-5">
             <div class="container">
                 <div class="border-right"></div>
                 <div class="pt-3 px-lg-5">
-                    <h5 class="benefits-box AdelleSan-Regular-Opensans pb-lg-5 pb-3">
+                    <h5 class="pb-3 benefits-box AdelleSan-Regular-Opensans pb-lg-5">
                         Celergen can help you start living an active, pain-free life within weeks <span>without painkillers
                             or surgery.</span>
                         It’s a proven natural remedy to manage osteoarthritis pain effectively and naturally without any
@@ -177,14 +177,14 @@
         </div>
     </section>
     <section class="padding-y">
-        <div class="container-fluid padding-y px-0">
+        <div class="px-0 container-fluid padding-y">
             <div class="container mt-3">
                 <div class="px-3">
-                    <h1 class=" section-heading text-blue AdelleSansLight text-center">
+                    <h1 class="text-center  section-heading text-blue AdelleSansRegular">
                         DOCTORS' CELERGEN REVIEWS
                     </h1>
                 </div>
-                <div class=" col-xl-10 col-xxl-10 text-lg-start text-center mx-auto float-none px-0">
+                <div class="float-none px-0 mx-auto text-center  col-xl-10 col-xxl-10 text-lg-start">
                     <div class="benefits-review owl-carousel owl-theme owl-loaded">
                         <div class="owl-stage-outer">
                             <div class="owl-stage"
@@ -199,7 +199,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “My patient, she couldn’t straighten her fingers. In addition to the
                                                         pain, it caused her great
                                                         embarrassment.”
@@ -222,7 +222,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I was plagued by chronic hip pain and I was considering hip
                                                         replacement. I started taking Celergen
                                                         daily and within a month, my hip ailments had disappeared.”
@@ -245,7 +245,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “Three months later, a subsequent MRI found bona fide cartilage
                                                         growth in the afflicted area.
                                                         Where the cartilage had once been thinning, there was now a
@@ -270,7 +270,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “Moreover, I had a complete tear on the left knee meniscus. The
                                                         orthopaedist advised me go for surgery.
                                                         I refused. I took Celergen: and now, I have no more problems and I
@@ -296,7 +296,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I have been on Celergen for about three months and have suffered
                                                         chronic pain to my ankle from a fall.
                                                         Now I am walking without a limp and have decreased the pain and
@@ -321,7 +321,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “My patient, she couldn’t straighten her fingers. In addition to the
                                                         pain, it caused her great
                                                         embarrassment.”
@@ -344,7 +344,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I was plagued by chronic hip pain and I was considering hip
                                                         replacement. I started taking Celergen
                                                         daily and within a month, my hip ailments had disappeared.”
@@ -367,7 +367,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “Three months later, a subsequent MRI found bona fide cartilage
                                                         growth in the afflicted area.
                                                         Where the cartilage had once been thinning, there was now a
@@ -392,7 +392,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “Moreover, I had a complete tear on the left knee meniscus. The
                                                         orthopaedist advised me go for surgery.
                                                         I refused. I took Celergen: and now, I have no more problems and I
@@ -418,7 +418,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I have been on Celergen for about three months and have suffered
                                                         chronic pain to my ankle from a fall.
                                                         Now I am walking without a limp and have decreased the pain and
@@ -443,7 +443,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “My patient, she couldn’t straighten her fingers. In addition to the
                                                         pain, it caused her great
                                                         embarrassment.”
@@ -466,18 +466,18 @@
     <section>
         <div class="container-fluid px-sm-4">
             <div class="container padding-y">
-                <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5">
+                <h1 class="text-center section-heading text-blue CallunaRegular px-lg-5">
                     CLINICAL STUDIES ON THE EFFECTIVENESS OF CELERGEN ON JOINT PAIN REDUCTION
                 </h1>
                 <div class="border-bottom"></div>
-                <div class="padding-x pt-5">
-                    <div class="row pt-5">
+                <div class="pt-5 padding-x">
+                    <div class="pt-5 row">
                         <div class="col-lg-6">
                             <img src="{{ asset('frontend/images/benefits/join-pain-reduction-left.png') }}"
                                 alt="" class="" widht="100%">
                         </div>
                         <div class="col-lg-6">
-                            <p class="text-grey pt-3 lh-base">
+                            <p class="pt-3 text-grey lh-base">
                                 This figure shows the effects of 200 mg/day of Bio-DNA Cellular Marine Complex given orally
                                 for 30 days for 2,960
                                 clinical subjects with an average age of 61 years. About 21% of the subjects reported
@@ -488,8 +488,8 @@
                     </div>
                     <div class="clearfix">
                         <img src="{{ asset('frontend/images/benefits/join-pain-reduction-right.png') }}"
-                            alt="" class="col-lg-6 float-lg-end mb-3 ms-md-3" width="527px" height="498px">
-                        <p class="text-grey pt-lg-4 pt-3 lh-lg">
+                            alt="" class="mb-3 col-lg-6 float-lg-end ms-md-3" width="527px" height="498px">
+                        <p class="pt-3 text-grey pt-lg-4 lh-lg">
                             This figure shows the effects of 200 mg/day of Bio-DNA Cellular Marine Complex (Bio-DNA CMC)
                             given orally for
                             21 days and 42 days respectively, on self-reported knee and hip pain associated with
@@ -497,19 +497,19 @@
                             The effects of Diclofenac, a painkilling non-steroidal anti-inflammatory drug (NSAID) is also
                             provided for comparison.
                         </p>
-                        <p class="text-grey pt-lg-4 pt-3  lh-lg">
+                        <p class="pt-3 text-grey pt-lg-4 lh-lg">
                             At 21 days, just under 15% of invalids treated with Bio-DNA CMC reported significantly less knee
                             and hip pain,
                             compared to just over 25% for Diclofenac. At 42 days, nearly 40% of invalids reported a
                             significant reduction in
                             their knee and hip pain with Bio-DNA CMC, relative to 35% with Diclofenac.
                         </p>
-                        <p class="text-grey pt-lg-4 pt-3 lh-lg">
+                        <p class="pt-3 text-grey pt-lg-4 lh-lg">
                             In other words, Bio-DNA CMC is as or more effective than Diclofenac after 6 weeks of treatment
                             in managing arthritis
                             pain – without any of Diclofenac’s side effects.
                         </p>
-                        <p class="text-grey pt-lg-4 pt-3  lh-lg">
+                        <p class="pt-3 text-grey pt-lg-4 lh-lg">
                             While we are fairly good at acute pain management, many chronic pain conditions such as OA, low
                             back pain, and others
                             are harder to treat effectively. Many researchers in the field believe that a multidisciplinary
@@ -527,12 +527,12 @@
         <div class="container-fluid pt-lg-5">
             <div class="container">
                 <div class="aos-init" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
-                    <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 pt-5 lh-base">
+                    <h1 class="pt-5 text-center section-heading text-blue CallunaRegular px-lg-5 lh-base">
                         DON’T LET JOINT PAIN DEPRIVED YOU OF AN<br>ACTIVE LIFESTYLE
                     </h1>
                 </div>
                 <div class="pt-4 pb-4 text-center">
-                    <a href="order-here.php" class="ordernow-btn AdelleSansBold bg-darkred text-white">ORDER CELERGEN
+                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred">ORDER CELERGEN
                         NOW</a>
                 </div>
                 <div class="container padding-x">

@@ -23,7 +23,7 @@
 
 .red-btn,
 .red-btn:hover {
-  background-color: #b11230;
+  background-color: #002d59;
 }
 .cart-count-badge {
   position: absolute;
@@ -379,12 +379,12 @@
 
 /* headings, sub-headings, Paragraph */
 .section-heading {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   letter-spacing: 2px;
   font-size: 45px;
 }
 .section-subheading {
-  font-family: "AdelleSansW01-Regular", "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular", "AdelleSansW01-Regular";
   font-size: 25px;
 }
 .heading {
@@ -464,7 +464,7 @@
 .slide3-text-box h2,
 .slide4-text-box h2,
 .slide5-text-box h2 {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   font-weight: 500;
   line-height: 1.2;
   font-variant: small-caps;
@@ -611,7 +611,7 @@
     text-align: center;
     color: #fff;
     background-color: #002d59;
-    font-family: "opensans-Regular";
+    font-family: "AdelleSansW01-Regular";
     font-size: 17px;
     text-transform: uppercase;
     font-weight: bold;
@@ -620,7 +620,7 @@
   .blue-btn1:hover {
     text-align: center;
     color: #fff;
-    background-color: #b11230;
+    background-color: #002d59;
     transition: all 0.5s;
   }
   .home-slider .owl-dots {
@@ -637,7 +637,7 @@
     text-align: center;
     color: #fff;
     background-color: #002d59;
-    font-family: "opensans-Regular";
+    font-family: "AdelleSansW01-Regular";
     font-size: 10px;
     text-transform: uppercase;
     font-weight: bold;
@@ -646,7 +646,7 @@
   .blue-btn1:hover {
     text-align: center;
     color: #fff;
-    background-color: #b11230;
+    background-color: #002d59;
     transition: all 0.5s;
   }
   .home-slider .owl-dots {
@@ -743,7 +743,7 @@
 }
 .benefits-content {
   line-height: 24px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
   font-weight: 400;
   letter-spacing: 0.5px;
 }
@@ -1014,7 +1014,7 @@
   margin: auto;
 }
 .customer-section-heading {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   font-size: 20px;
 }
 .reviewer-details {
@@ -1055,7 +1055,7 @@
   line-height: 20px;
   text-align: center;
   margin-top: 25px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
 }
 #customer-review .item::after {
   content: "";
@@ -1128,7 +1128,7 @@
   transition: all 1s;
 }
 .review {
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
   line-height: 20px;
   font-weight: 300;
   font-size: 16px !important;
@@ -1150,7 +1150,7 @@
   font-family: "AdelleSansW01-Bold";
 }
 .Read-btn:hover {
-  color: #b11230;
+  color: #002d59;
 }
 .customer-slide .owl-stage {
   display: flex;
@@ -1481,12 +1481,12 @@ h3 {
 
 /* headings, sub-headings, Paragraph */
 .section-heading {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   letter-spacing: 0.5px;
   font-size: 45px;
 }
 .section-subheading {
-  font-family: "AdelleSansW01-Regular", "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular", "AdelleSansW01-Regular";
   font-size: 25px;
 }
 .heading {
@@ -1566,7 +1566,7 @@ h3 {
 .slide3-text-box h2,
 .slide4-text-box h2,
 .slide5-text-box h2 {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   font-weight: 500;
   line-height: 1.2;
   font-variant: small-caps;
@@ -1713,7 +1713,7 @@ h3 {
     text-align: center;
     color: #fff;
     background-color: #002d59;
-    font-family: "opensans-Regular";
+    font-family: "AdelleSansW01-Regular";
     font-size: 17px;
     text-transform: uppercase;
     font-weight: bold;
@@ -1722,7 +1722,7 @@ h3 {
   .blue-btn1:hover {
     text-align: center;
     color: #fff;
-    background-color: #b11230;
+    background-color: #002d59;
     transition: all 0.5s;
   }
   .home-slider .owl-dots {
@@ -1739,7 +1739,7 @@ h3 {
     text-align: center;
     color: #fff;
     background-color: #002d59;
-    font-family: "opensans-Regular";
+    font-family: "AdelleSansW01-Regular";
     font-size: 10px;
     text-transform: uppercase;
     font-weight: bold;
@@ -1748,7 +1748,7 @@ h3 {
   .blue-btn1:hover {
     text-align: center;
     color: #fff;
-    background-color: #b11230;
+    background-color: #002d59;
     transition: all 0.5s;
   }
   .home-slider .owl-dots {
@@ -1845,7 +1845,7 @@ h3 {
 }
 .benefits-content {
   line-height: 24px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
   font-weight: 400;
   letter-spacing: 0.5px;
 }
@@ -2116,7 +2116,7 @@ h3 {
   margin: auto;
 }
 .customer-section-heading {
-  font-family: "Calluna-Regular";
+  font-family: "AdelleSansW01-Regular";
   font-size: 20px;
 }
 .reviewer-details {
@@ -2157,7 +2157,7 @@ h3 {
   line-height: 20px;
   text-align: center;
   margin-top: 25px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
 }
 #customer-review .item::after {
   content: "";
@@ -2230,7 +2230,7 @@ h3 {
   transition: all 1s;
 }
 .review {
-  font-family: "Open Sans", sans-serif;
+  font-family: "AdelleSansW01-Regular";
   line-height: 20px;
   font-weight: 300;
   font-size: 16px !important;
@@ -2252,7 +2252,7 @@ h3 {
   font-family: "AdelleSansW01-Bold";
 }
 .Read-btn:hover {
-  color: #b11230;
+  color: #002d59;
 }
 .customer-slide .owl-stage {
   display: flex;
@@ -2453,7 +2453,7 @@ h3 {
 .benefits-review .owl-nav .prev-btn {position: absolute; left: 0px;}
 .benefits-review .owl-nav .next-btn {position: absolute; right:0px;}
 .benefits-review .owl-nav .next-btn img, .benefits-review .owl-nav .prev-btn img{width:100%;}
-.border-bottom{border: 10px solid #B21230; width: 130px;position: absolute;left: 45%;margin: 35px 0px;}
+.border-bottom{border: 10px solid #002d59; width: 130px;position: absolute;left: 45%;margin: 35px 0px;}
 .border-right {border-right: 15px solid #B21230; height: 75px;}
 .benefits-box {font-size: 20px; color: #38b9e1; line-height: 1.5}
 .benefits-box span {font-size: 25px; color: #3ed2f5;}
@@ -2604,7 +2604,7 @@ h3 {
         .section-heading1 {
         font-size: 32px !important;
         text-transform: uppercase;
-        font-family: 'Calluna-light';
+        font-family: "AdelleSansW01-Bold";
         }
         }
         @media (min-width:769px) {
@@ -2614,7 +2614,7 @@ h3 {
         .section-heading1 {
         font-size: 55px !important;
         font-variant: small-caps;
-        font-family: 'Calluna-light';
+        font-family: "AdelleSansW01-Bold";
         }
         }
         @media (min-width:993px) {

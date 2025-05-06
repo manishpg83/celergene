@@ -98,9 +98,9 @@
     </style>
 
     <section>
-        <div class="container-fluid px-0">
-            <div class="CallunaRegular padding-x bg-blue text-white">
-                <h1 class="text-white section-heading CallunaRegular border-left m-0">MOOD ELEVATION</h1>
+        <div class="px-0 container-fluid">
+            <div class="text-white CallunaRegular padding-x bg-blue">
+                <h1 class="m-0 text-white section-heading CallunaRegular border-left">MOOD ELEVATION</h1>
             </div>
             <div class="top-banner aos-init"
                 style="background-image: url('{{ asset('frontend/images/celergen-benefit-mood-elevation.jpg') }}');"
@@ -117,9 +117,9 @@
     </section>
 
     <section>
-        <div class="container-fluid px-0">
+        <div class="px-0 container-fluid">
             <div class="container px-lg-5">
-                <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 py-lg-5 pb-3">
+                <p class="pb-3 text-center text-grey AdelleSan-Light-Opensans px-lg-5 py-lg-5">
                     Do you feel anxious for no reason, unable to sleep or concentrate properly? It could be low-level
                     depression. <br>
                     According to recent estimates by the World Health Organization, as many as 120 million people worldwide
@@ -130,10 +130,10 @@
                 </p>
             </div>
             <div class="container pt-lg-5">
-                <h1 class="section-heading text-blue AdelleSansLight text-center">
+                <h1 class="text-center section-heading text-blue AdelleSansRegular">
                     DOCTORS' CELERGEN REVIEWS
                 </h1>
-                <div class="col-xl-10 col-xxl-10 text-lg-start text-center mx-auto float-none px-0">
+                <div class="float-none px-0 mx-auto text-center col-xl-10 col-xxl-10 text-lg-start">
                     <div class="benefits-review owl-carousel owl-theme owl-loaded">
                         <div class="owl-stage-outer">
                             <div class="owl-stage"
@@ -148,7 +148,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “One of my patients suffer from mild depression and was taking
                                                         anti-depression medication but
                                                         within one month of Celergen, she was back to being herself and
@@ -172,7 +172,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I don’t believe in prescribing mood-altering drugs. So when a
                                                         natural therapy like Celergen comes along, it’s a huge gift. There
                                                         no apparent side effects.”
@@ -195,7 +195,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “My overall mood and outlook have definitely improved. I feel more
                                                         energized and focused.”
                                                     </h5>
@@ -217,7 +217,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “One of my patients suffer from mild depression and was taking
                                                         anti-depression medication but
                                                         within one month of Celergen, she was back to being herself and
@@ -241,7 +241,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I don’t believe in prescribing mood-altering drugs. So when a
                                                         natural therapy like Celergen comes along, it’s a huge gift. There
                                                         no apparent side effects.”
@@ -264,7 +264,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “My overall mood and outlook have definitely improved. I feel more
                                                         energized and focused.”
                                                     </h5>
@@ -286,7 +286,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “One of my patients suffer from mild depression and was taking
                                                         anti-depression medication but
                                                         within one month of Celergen, she was back to being herself and
@@ -311,7 +311,7 @@
     <section>
         <div class="container-fluid px-sm-4">
             <div class="container padding-y px-lg-5">
-                <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 pt-lg-5">
+                <h1 class="text-center section-heading text-blue CallunaRegular px-lg-5 pt-lg-5">
                     CLINICAL STUDIES ON THE EFFECTIVENESS OF
                     CELERGEN ON MOOD ELEVATION AND MENTAL HEALTH
                 </h1>
@@ -323,7 +323,7 @@
                                 width="100%">
                         </div>
                         <div class="col-lg-8">
-                            <p class="text-grey pt-3 lh-base">
+                            <p class="pt-3 text-grey lh-base">
                                 This figure shows the effects of 800 mg/Day Bio-DNA Cellular Marine Complex on self-reported
                                 markers of mental health in 688 subjects (average age 44 years). After 15 days, subjects
                                 reported s
@@ -331,7 +331,7 @@
                                 fears (54%);
                                 sleep disorders (47%); memory loss (45%); and sadness/depression (50%).
                             </p>
-                            <p class="text-grey pt-3 lh-base">
+                            <p class="pt-3 text-grey lh-base">
                                 This study shows that Bio-DNA Cellular Marine Complex is highly effective in improving
                                 various aspects
                                 of mental health after just 15 days, without any of the toxic side effects of commercial
@@ -347,12 +347,12 @@
         </div>
     </section>
 
-    <section class="pb-lg-5 pb-3">
-        <div class="container-fluid px-0 bg-blue text-center pb-lg-5 pb-3">
+    <section class="pb-3 pb-lg-5">
+        <div class="px-0 pb-3 text-center container-fluid bg-blue pb-lg-5">
             <div class="container px-lg-5">
                 <div class="border-right"></div>
                 <div class="pt-3 px-lg-5">
-                    <h5 class="benefits-box pb-lg-5 pb-3 AdelleSan-Regular-Opensans">
+                    <h5 class="pb-3 benefits-box pb-lg-5 AdelleSan-Regular-Opensans">
                         CELERGEN, THE WORLD’S ONLY SWISS MARINE ORAL CELL THERAPY SUPPLEMENT, WILL IMPROVE YOUR MOOD,
                         RESTORE SATISFACTION IN YOUR DAILY ACTIVITIES, AND RENEW PLEASURE IN RECONNECTING WITH YOUR FRIENDS
                         AND LOVED ONES WHILE ALSO <span> BANISHING ANXIETY, SLEEP DISORDERS, MEMORY LOSS, AND DEPRESSION.
@@ -366,18 +366,18 @@
 
     <section>
         <div class="container-fluid">
-            <div class="container  pt-3 pb-lg-5 pb-3">
-                <p class="text-grey mood-disorders AdelleSan-Light-Opensans text-center px-lg-5">
+            <div class="container pt-3 pb-3 pb-lg-5">
+                <p class="text-center text-grey mood-disorders AdelleSan-Light-Opensans px-lg-5">
                     While anti-depressants are typically the standard medical treatment for such mood disorders,
                     many are discovering that Celergen offers tangible results in this area too.
                 </p>
                 <div class="">
-                    <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 pt-lg-5 pt-3">
+                    <h1 class="pt-3 text-center section-heading text-blue CallunaRegular px-lg-5 pt-lg-5">
                         DON’T LET DEPRESSION ROB YOU OF LIFE’S JOYS.
                     </h1>
                 </div>
                 <div class="pt-4 pb-4 text-center">
-                    <a href="order-here.php" class="ordernow-btn AdelleSansBold bg-darkred text-white blink">
+                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred blink">
                         ORDER CELERGEN NOW
                     </a>
                 </div>

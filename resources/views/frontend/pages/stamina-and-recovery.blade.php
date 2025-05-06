@@ -129,14 +129,14 @@
     </style>
 
     <section>
-        <div class="container-fluid px-0">
-            <div class="CallunaRegular padding-x bg-blue text-white">
-                <h1 class="text-white section-heading CallunaRegular border-left m-0">STAMINA AND RECOVERY</h1>
+        <div class="px-0 container-fluid">
+            <div class="text-white CallunaRegular padding-x bg-blue">
+                <h1 class="m-0 text-white section-heading CallunaRegular border-left">STAMINA AND RECOVERY</h1>
             </div>
             <div class="top-banner aos-init"
                 style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-stamina-recovery.jpg') }}');"
                 data-aos="fadeIn" data-aos-duration="500">
-                <h1 class="top-banner-txt text-white CallunaRegular aos-init" data-aos="fadeIn"
+                <h1 class="text-white top-banner-txt CallunaRegular aos-init" data-aos="fadeIn"
                     data-aos-duration="1000" data-aos-delay="500">
                     Do You Need More Stamina<br>and Enhanced Performance ?
                 </h1>
@@ -145,17 +145,17 @@
     </section>
 
     <section>
-        <div class="container-fluid px-0 padding-y">
+        <div class="px-0 container-fluid padding-y">
             <div class="container px-lg-5">
-                <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 pb-lg-5 pb-3">
+                <p class="pb-3 text-center text-grey AdelleSan-Light-Opensans px-lg-5 pb-lg-5">
                     Do you sometimes find you lack energy and feels exhausted after a normal workout? Do you wish for more
                     stamina and faster recovery for better performance?
                 </p>
                 <div class="pt-lg-5">
-                    <h1 class="section-heading text-blue AdelleSansLight text-center">
+                    <h1 class="text-center section-heading text-blue AdelleSansRegular">
                         CUSTOMERS' CELERGEN REVIEWS
                     </h1>
-                    <div class=" col-xl-10 col-xxl-10 text-lg-start text-center mx-auto float-none px-0">
+                    <div class="float-none px-0 mx-auto text-center  col-xl-10 col-xxl-10 text-lg-start">
                         <div class="benefits-review owl-carousel owl-theme owl-loaded">
                             <div class="owl-stage-outer">
                                 <div class="owl-stage"
@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div class="col-lg-9 text">
                                                         <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                            class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                             “The first thing I noticed was that I was able to recover a lot
                                                             quicker from my workouts…
                                                             a huge boost to my training regimen because it allows me to work
@@ -198,7 +198,7 @@
                                                     </div>
                                                     <div class="col-lg-9 text">
                                                         <h5
-                                                            class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                            class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                             “I now suggest that my clients reconsider all the supplements
                                                             they take and reduce the
                                                             long list to only Celergen.”
@@ -224,15 +224,15 @@
     </section>
 
     <section>
-        <div class="container-fluid px-0 bg-lightgrey padding-y">
+        <div class="px-0 container-fluid bg-lightgrey padding-y">
             <div class="container padding-x">
                 <div class="row">
-                    <div class="col-lg-3 text-lg-start text-center ">
+                    <div class="text-center col-lg-3 text-lg-start ">
                         <img src="{{ asset('frontend/images/benefits/celergen-stamina-recovery-certified-1.png') }}"
                             alt="" width="245px" height="201px">
                     </div>
-                    <div class="col-lg-9 text-lg-start text-center">
-                        <h5 class="grey-box text-grey AdelleSan-Regular-Opensans pt-3 ps-lg-3">
+                    <div class="text-center col-lg-9 text-lg-start">
+                        <h5 class="pt-3 grey-box text-grey AdelleSan-Regular-Opensans ps-lg-3">
                             CELERGEN IS BSCG (BANNED SUBSTANCES CONTROL GROUP) APPROVED AND IS
                             <span>CERTIFIED DRUG-FREE FOR PROFESSIONALS AND ELITE ATHLETES.</span> THIS MEANS THAT CELERGEN
                             DOES
@@ -247,18 +247,18 @@
     <section>
         <div class="container-fluid px-sm-2">
             <div class="container padding px-lg-4">
-                <h1 class="section-heading lh-base text-center text-blue CallunaRegular px-lg-5">
+                <h1 class="text-center section-heading lh-base text-blue CallunaRegular px-lg-5">
                     CLINICAL STUDIES ON THE EFFECTIVENESS OF
                     CELERGEN ON STAMINA AND RECOVERY
                 </h1>
                 <div class="border-bottom"></div>
                 <div class="aos-init" data-aos="fade-up" data-aos-delay="150" data-aos-easing="linear"
                     data-aos-duration="1500">
-                    <div class="padding-x py-5 pb-3" align="center">
+                    <div class="py-5 pb-3 padding-x" align="center">
                         <img src="{{ asset('frontend/images/benefits/stamina-recovery-chart-1.png') }}"
                             alt="">
                     </div>
-                    <p class="text-grey text-center px-lg-5  px-2">
+                    <p class="px-2 text-center text-grey px-lg-5">
                         These figures show the effects Bio-DNA Cellular Marine Complex on increased stamina during exercise
                         and
                         recuperation after exercise for athletes tested based using a double blind placebo protocol.
@@ -270,12 +270,12 @@
         </div>
     </section>
 
-    <section class="pb-lg-5 pb-3">
-        <div class="container-fluid px-0 bg-blue text-center pb-lg-5 pb-3">
+    <section class="pb-3 pb-lg-5">
+        <div class="px-0 pb-3 text-center container-fluid bg-blue pb-lg-5">
             <div class="container px-lg-5">
                 <div class="border-right"></div>
                 <div class="pt-3 px-lg-5">
-                    <h5 class="benefits-box pb-lg-5 pb-3 AdelleSan-Regular-Opensans">
+                    <h5 class="pb-3 benefits-box pb-lg-5 AdelleSan-Regular-Opensans">
                         CELERGEN, THE WORLD’S ONLY SWISS MARINE ORAL CELL THERAPY SUPPLEMENT, WILL ENHANCE YOUR STAMINA AND
                         RECOVERY IN YOUR WORKOUTS, GIVING YOU <span>OPTIMAL PERFORMANCE. </span>
                     </h5>
@@ -287,16 +287,16 @@
     <section>
         <div class="container-fluid">
             <div class="container pt-5">
-                <h1 class="section-heading text-blue text-center CallunaRegular padding aos-init"
+                <h1 class="text-center section-heading text-blue CallunaRegular padding aos-init"
                     data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
                     THERE’S NO REASON TO FACE AN ENERGY SHORTAGE!
                 </h1>
                 <div class="pt-2 pb-4 text-center">
-                    <a href="order-here.php" class="ordernow-btn AdelleSansBold bg-darkred text-white blinking">
+                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred blinking">
                         ORDER CELERGEN NOW
                     </a>
                 </div>
-                <div class="container padding-x col-lg-12 col-xl-8 col-7 mx-auto float-none">
+                <div class="container float-none mx-auto padding-x col-lg-12 col-xl-8 col-7">
                     <ul style="list-style: none" class="bullet">
                         <div class="row padding-top">
                             <li class="benefits-text text-blue">ENERGY BOOST AND ENHANCED STAMINA</li>

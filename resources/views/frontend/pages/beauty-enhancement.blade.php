@@ -127,9 +127,9 @@
     </style>
 
     <section>
-        <div class="container-fluid px-0">
-            <div class="CallunaRegular padding-x bg-blue text-white">
-                <h1 class="text-white section-heading CallunaRegular border-left m-0">BEAUTY ENHANCEMENT</h1>
+        <div class="px-0 container-fluid">
+            <div class="text-white CallunaRegular padding-x bg-blue">
+                <h1 class="m-0 text-white section-heading CallunaRegular border-left">BEAUTY ENHANCEMENT</h1>
             </div>
             <div class="top-banner aos-init"
                 style="background-image: url('{{ asset('frontend/images/benefits/celergen-benefit-beautyenhancement.jpg') }}');"
@@ -143,18 +143,18 @@
     </section>
 
     <section>
-        <div class="container-fluid px-0 padding-y">
+        <div class="px-0 container-fluid padding-y">
             <div class="container px-lg-5">
-                <p class="text-grey AdelleSan-Light-Opensans text-center px-lg-5 pb-lg-5 pb-3">
+                <p class="pb-3 text-center text-grey AdelleSan-Light-Opensans px-lg-5 pb-lg-5">
                     It is never too early or late to arrest the aging of your skin by stimulating cell renewal and repair.
                     Beauty from the inside out is crucial for sustaining and maintaining ageless beauty.
                 </p>
             </div>
             <div class="container pt-lg-5">
-                <h1 class="seaction-heading text-blue AdelleSansLight text-center">
+                <h1 class="text-center seaction-heading text-blue AdelleSansRegular">
                     DOCTORS' CELERGEN REVIEWS
                 </h1>
-                <div class="col-xl-10 col-xxl-10 text-lg-start text-center mx-auto float-none px-0">
+                <div class="float-none px-0 mx-auto text-center col-xl-10 col-xxl-10 text-lg-start">
                     <div class="benefits-review owl-carousel owl-theme owl-loaded">
                         <div class="owl-stage-outer">
                             <div class="owl-stage"
@@ -169,7 +169,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “I am amazed in the difference in my skin. It went from dull and
                                                         lifeless to radiant,
                                                         hydrated and gorgeous.”
@@ -192,7 +192,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “The result varied from person to person. Many said they noticed an
                                                         improvement in their skin texture and thought they had a certain
                                                         glow they didn’t have before.”
@@ -215,7 +215,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <h5
-                                                        class="doctors-review-energy text-blue AdelleSansRegular pb-lg-4 py-4">
+                                                        class="py-4 doctors-review-energy text-blue AdelleSansRegular pb-lg-4">
                                                         “After a month of Celergen, I noticed my skin look more radiant than
                                                         before.”
                                                     </h5>
@@ -238,23 +238,23 @@
     <section>
         <div class="container-fluid px-sm-2">
             <div class="container padding px-lg-4">
-                <h1 class="section-heading text-center text-blue CallunaRegular px-lg-5 lh-base">
+                <h1 class="text-center section-heading text-blue CallunaRegular px-lg-5 lh-base">
                     CLINICAL STUDIES ON THE EFFECTIVENESS OF CELERGEN ON REDUCTION IN WRINKLES
                 </h1>
                 <div class="border-bottom"></div>
-                <div class=" pt-lg-5 pt-3 px-lg-5">
-                    <div class="row pt-lg-5 pt-5">
+                <div class="pt-3  pt-lg-5 px-lg-5">
+                    <div class="pt-5 row pt-lg-5">
                         <div class="col-lg-5">
                             <img src="{{ asset('frontend/images/benefits/beauty-enchancement-diagram.png') }}"
                                 alt="" width="100%">
                         </div>
                         <div class="col-lg-7">
-                            <p class=" text-grey pb-lg-4 pb-3">
+                            <p class="pb-3  text-grey pb-lg-4">
                                 This figure shows the effect of 2 grams/day of Peptide E Collagen given orally for 28 days
                                 on
                                 forearm wrinkles and crow’s feet in 43 healthy female volunteers, aged 40-55 years.
                             </p>
-                            <p class="text-grey pb-lg-4 pb-3">
+                            <p class="pb-3 text-grey pb-lg-4">
                                 At 28 days, 71% of subjects in the Peptide E Collagen group showed a significant decrease in
                                 the number
                                 of deep wrinkles. The average deep wrinkle reduction was equal to 19%. On the other hand,
@@ -263,7 +263,7 @@
                                 deep wrinkles
                                 by 28% in 82% of subjects.
                             </p>
-                            <p class="text-grey pb-lg-4 pb-3">
+                            <p class="pb-3 text-grey pb-lg-4">
                                 In other words – Peptide E Collagen and Peptide M in Celergen rebuild outer skin layers from
                                 the
                                 inside out and make your skin toned, supple and well hydrated while also reducing lines,
@@ -279,9 +279,9 @@
         </div>
     </section>
 
-    <section class="py-lg-5 pt-3">
-        <div class="container-fluid px-0">
-            <div class="col-lg-6 col-sm-10 mx-auto float-none text-center aos-init" data-aos="fade-up"
+    <section class="pt-3 py-lg-5">
+        <div class="px-0 container-fluid">
+            <div class="float-none mx-auto text-center col-lg-6 col-sm-10 aos-init" data-aos="fade-up"
                 data-aos-delay="150" data-aos-easing="linear" data-aos-duration="1500">
                 <h1 class="section-heading text-blue CallunaReguler-Opensans "> CELERGEN SERUM ROYALE</h1>
                 <hr>
@@ -293,17 +293,17 @@
     <section>
         <div class="container-fluid bg-darkgrey ">
             <div class="row">
-                <div class="col-lg-5 px-0">
+                <div class="px-0 col-lg-5">
                     <img src="{{ asset('frontend/images/benefits/celergen-SERUM-ROYALE-BEAUTY.png') }}"
                         alt="" width="100%">
                 </div>
-                <div class="col-lg-7 px-0">
+                <div class="px-0 col-lg-7">
                     <div class="pt-5">
                         <h2 class="text-white section-subheading lh-base CallunaReguler-Opensans cellular-skincare">
                             PAMPER YOURSELF WITH SWISS CELLULAR SKINCARE
                         </h2>
                     </div>
-                    <div class="px-lg-5 px-3">
+                    <div class="px-3 px-lg-5">
                         <h4 class="cellular-skincare-text text-blue AdelleSan-Light-Opensans">
                             CELERGEN SERUM ROYALE HELPS PREVENT MOISTURE LOSS AND TREAT INVISIBLE, DEEP SEATED INFLAMMATION,
                             REPAIRING DAMAGE BY STIMULATING TURNOVER OF SKIN CELLS AND BOOSTING COLLAGEN SYNTHESIS.
@@ -314,12 +314,12 @@
         </div>
     </section>
 
-    <section class="pb-lg-5 pb-3">
-        <div class="container-fluid px-0 bg-blue text-center pb-lg-5 pb-3">
+    <section class="pb-3 pb-lg-5">
+        <div class="px-0 pb-3 text-center container-fluid bg-blue pb-lg-5">
             <div class="container px-lg-5">
                 <div class="border-right"></div>
                 <div class="pt-3 px-lg-5">
-                    <h5 class="benefits-box pb-lg-5 pb-3 AdelleSan-Regular-Opensans">
+                    <h5 class="pb-3 benefits-box pb-lg-5 AdelleSan-Regular-Opensans">
                         THE SYNERGISTIC COMBINATION OF CELERGEN MARINE CELL THERAPY SUPPLEMENT, AND SERUM ROYALE
                         SKIN CARE RETARDS THE AGING PROCESS, INTERVENING AND FIGHTING AGING AT THE CELLULAR LEVEL,
                         STIMULATING SKIN REGENERATION AND ENHANCED BEAUTY, <span> WITHOUT ANY OF THE NEGATIVE CONSEQUENCES
@@ -334,7 +334,7 @@
         <div class="container-fluid">
             <div class="container pt-5">
                 <div class="pt-2 pb-4 text-center">
-                    <a href="order-here.php" class="ordernow-btn AdelleSansBold bg-darkred text-white blinking">
+                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred blinking">
                         ORDER CELERGEN NOW
                     </a>
                 </div>
