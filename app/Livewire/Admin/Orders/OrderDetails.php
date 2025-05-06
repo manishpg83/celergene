@@ -319,10 +319,11 @@ class OrderDetails extends Component
         $freight = ($mainOrder->freight / $totalOrderQuantity) * $totalQuantity;
 
         $total = $totalSubtotal + $tax + $freight;
+        $invoiceNumber = $this->generateUniqueInvoiceNumber('regular');
 
         $invoice = OrderInvoice::create([
             'order_id' => $this->order_id,
-            'invoice_number' => 'INV-' . strtoupper(uniqid()),
+            'invoice_number' => $invoiceNumber,
             'status' => 'Draft',
             'total' => $total,
             'remarks' => 'Generated for split quantities',
@@ -351,6 +352,39 @@ class OrderDetails extends Component
         }
 
         return $invoice;
+    }
+    protected function generateUniqueInvoiceNumber($category = 'regular')
+    {
+        $prefix = ($category === 'shipping') ? 'SHIP-' : 'INV-';
+
+        $appName = config('invoice.invoice_variable_name');
+        $startingNumbers = config('invoice.starting_numbers');
+        $startingNumber = $startingNumbers[$appName] ?? $startingNumbers['default'];
+
+        $latestSequentialInvoice = OrderInvoice::where('invoice_number', 'like', $prefix . '%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($latestSequentialInvoice) {
+            preg_match('/' . $prefix . '(\d+)/', $latestSequentialInvoice->invoice_number, $matches);
+
+            if (isset($matches[1])) {
+                $nextNumber = (int) $matches[1] + 1;
+            } else {
+                $nextNumber = $startingNumber + 1;
+            }
+        } else {
+            $nextNumber = $startingNumber + 1;
+        }
+
+        $invoiceNumber = $prefix . $nextNumber;
+
+        while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists()) {
+            $nextNumber++;
+            $invoiceNumber = $prefix . $nextNumber;
+        }
+
+        return $invoiceNumber;
     }
 
     public function downloadInvoice($invoiceDetailId, $order_id)
@@ -388,29 +422,14 @@ class OrderDetails extends Component
     }
     public function downloadShippingInvoice($invoiceDetailId, $order_id)
     {
-        try {
-            Log::info("Download Shipping Invoice started", [
-                'invoiceDetailId' => $invoiceDetailId,
-                'order_id' => $order_id,
-                'user_id' => Auth::id(),
-            ]);
-
+        try {           
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
-            Log::info("Invoice detail found", ['invoiceDetailId' => $invoiceDetail->id]);
-
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
-            Log::info("Invoice found", ['invoice_id' => $invoice->id]);
-
             $customer = Customer::findOrFail($invoice->customer_id);
-            Log::info("Customer found", ['customer_id' => $customer->id]);
-
             $order = OrderMaster::with(['orderDetails.product', 'currency'])
                 ->where('order_id', $order_id)
                 ->firstOrFail();
-            Log::info("Order found", ['order_id' => $order->order_id]);
-
             $currencySymbol = $order->currency ? $order->currency->symbol : '$';
-
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
             foreach ($orderInvoiceDetails as $detail) {
                 $detail->unit_price = 5;
@@ -422,19 +441,9 @@ class OrderDetails extends Component
             $total = $subtotal + $freight + $tax;
             $invoice->subtotal = $subtotal;
             $invoice->total = $total;
-
-            Log::info("Calculated invoice amounts", [
-                'subtotal' => $subtotal,
-                'freight' => $freight,
-                'tax' => $tax,
-                'total' => $total
-            ]);
             $dateFormatted = $invoice->created_at->format('d-m-Y');
             $customerName = preg_replace('/[^A-Za-z0-9\-]/', '_', $customer->first_name . '_' . $customer->last_name);
             $fileName = "{$customerName}-Shipping-{$dateFormatted}.pdf";
-
-            Log::info("Generating PDF", ['fileName' => $fileName]);
-
             $pdf = PDF::loadView('admin.order.shippinginvoice-pdf', [
                 'invoiceDetail' => $invoiceDetail,
                 'invoice' => $invoice,
@@ -443,9 +452,6 @@ class OrderDetails extends Component
                 'orderInvoiceDetails' => $orderInvoiceDetails,
                 'currencySymbol' => $currencySymbol,
             ]);
-
-            Log::info("PDF generated successfully", ['fileName' => $fileName]);
-
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output();
             }, $fileName);

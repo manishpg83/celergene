@@ -18,9 +18,15 @@ function perpagerecords()
 }
 function getShippingUnitPrice()
 {
-    $localUrls = ['http://127.0.0.1:8000', 'http://13.49.251.219'];
+	$invoiceVariableName = env('INVOICE_VARIABLE_NAME', 'default');
 
-    return in_array(config('app.url'), $localUrls) ? 10.00 : 10.00;
+	if ($invoiceVariableName === 'celergen') {
+		return 5.00;
+	} elseif ($invoiceVariableName === 'caviarlieri') {
+		return 10.00;
+	} else {
+		return 10.00;
+	}
 }
 
 /*
