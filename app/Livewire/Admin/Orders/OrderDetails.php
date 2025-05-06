@@ -431,10 +431,10 @@ class OrderDetails extends Component
                 ->firstOrFail();
             $currencySymbol = $order->currency ? $order->currency->symbol : '$';
             $orderInvoiceDetails = OrderInvoiceDetail::where('order_invoice_id', $invoice->id)->get();
-            foreach ($orderInvoiceDetails as $detail) {
-                $detail->unit_price = 5;
-                $detail->total = $detail->quantity * 5;
-            }
+            // foreach ($orderInvoiceDetails as $detail) {
+            //     $detail->unit_price = 5;
+            //     $detail->total = $detail->quantity * 5;
+            // }
             $subtotal = $orderInvoiceDetails->sum('total');
             $freight = $invoice->freight;
             $tax = $invoice->tax;
