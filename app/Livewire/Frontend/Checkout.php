@@ -546,12 +546,38 @@ class Checkout extends Component
 
     protected function generateUniqueInvoiceNumber($category = 'regular')
     {
-        do {
-            $prefix = ($category === 'shipping') ? 'SHIP-' : 'INV-';
-            $invoiceNumber = $prefix . now()->format('Ymd') . '-' . Str::random(4);
-        } while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists());
+        $prefix = ($category === 'shipping') ? 'SHIP-' : 'INV-';
+
+        $appName = config('invoice.invoice_variable_name');
+        $startingNumbers = config('invoice.starting_numbers');
+        $startingNumber = $startingNumbers[$appName] ?? $startingNumbers['default'];
+
+        $latestSequentialInvoice = OrderInvoice::where('invoice_number', 'like', $prefix . '%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($latestSequentialInvoice) {
+            preg_match('/' . $prefix . '(\d+)/', $latestSequentialInvoice->invoice_number, $matches);
+
+            if (isset($matches[1])) {
+                $nextNumber = (int) $matches[1] + 1;
+            } else {
+                $nextNumber = $startingNumber + 1;
+            }
+        } else {
+            $nextNumber = $startingNumber + 1;
+        }
+
+        $invoiceNumber = $prefix . $nextNumber;
+
+        while (OrderInvoice::where('invoice_number', $invoiceNumber)->exists()) {
+            $nextNumber++;
+            $invoiceNumber = $prefix . $nextNumber;
+        }
+
         return $invoiceNumber;
     }
+
 
     private function redirectToPaypal($orderId, $orderNumber)
     {
