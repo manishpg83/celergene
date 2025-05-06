@@ -16,13 +16,12 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
     <!-- STYLESHEETS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/owl.carousel.min.css') }}" />
-    <link rel="stylesheet"
-        href="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/css/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/owl.theme.default.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/globle.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/test.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/register.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/select2.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/aos.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/header-footer.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/css/font-awesome.min.css') }}" />
@@ -58,7 +57,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .bg-light-1{
+
+        .bg-light-1 {
             background-color: #f5f5f5;
         }
     </style>
@@ -90,11 +90,14 @@
 
     @livewireScripts
     <script>
-        Livewire.on('alert', ({type, message}) => {
+        Livewire.on('alert', ({
+            type,
+            message
+        }) => {
             alert(message); // Or use a more sophisticated notification system
         });
     </script>
-    <script src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/js/header.js"></script>
+    <script src="{{ asset('/frontend/js/header.js') }}"></script> 
     <script>
         function toggleClass1() {
             var screensize = screen.width;
@@ -191,16 +194,16 @@
             dots: false,
             autoplay: false,
             mouseDrag: false,
-            autoheight: false,
+            autoHeight: false,
             items: 1,
             loop: true,
             margin: 60,
             nav: true,
             navText: [
-                '<a class="prev-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_left_arrow_white.png"/></a>',
-                '<a class="next-btn" aria-hidden="true"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_right_arrow_white.png"/></a>'
+                "<a class='prev-btn' aria-hidden='true'><img src='{{ asset('/frontend/images/common/ic_left_arrow_white.png') }}'/></a>",
+                "<a class='prev-btn' aria-hidden='true'><img src='{{ asset('/frontend/images/common/ic_right_arrow_white.png') }}'/></a>"
             ]
-        })
+        });
     </script>
     <!-- GLOBAL-JS -->
     <script src="{{ asset('/frontend/vendor/global/global.min.js') }}"></script>
@@ -223,7 +226,7 @@
     <!-- AJAX -->
     <script src="{{ asset('/frontend/js/custom.js') }}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('/frontend/js/select2.min.js') }}"></script>
 
     <script src="{{ asset('/frontend/js/test.js') }}"></script>
     <script src="{{ asset('/frontend/js/aos.js') }}"></script>
@@ -260,8 +263,7 @@
 
         $(document).ready(function() {
             var checkbox = $('#add_same')[0];
-            if(checkbox != undefined)
-            {
+            if (checkbox != undefined) {
                 SwitchAddress(checkbox);
             }
 

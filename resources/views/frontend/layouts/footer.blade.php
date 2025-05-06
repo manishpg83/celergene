@@ -31,9 +31,9 @@
                     </div>
                     <div class="col-lg-3 d-flex align-items-center p-3 justify-content-lg-start justify-content-center mb-md-4">
                        <div class="">
-                          <a class="me-4  d-inline" href="https://www.facebook.com/CelergenSwiss" target="_blank"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_fb-gray.png" alt=""></a>
-                          <a class="me-4  d-inline" href="https://www.instagram.com/celergeneurope" target="_blank"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_instagram_gray.png" alt=""></a>
-                          <a class="d-inline" href="https://twitter.com/CelergenSocial" target="_blank"><img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/ic_twitter-gray.png" alt=""></a>
+                          <a class="me-4  d-inline" href="https://www.facebook.com/CelergenSwiss" target="_blank"><img src="{{ asset('/frontend/images/common/ic_fb-gray.png') }}" alt=""></a>
+                          <a class="me-4  d-inline" href="https://www.instagram.com/celergeneurope" target="_blank"><img src="{{ asset('/frontend/images/common/ic_instagram_gray.png') }}" alt=""></a>
+                          <a class="d-inline" href="https://twitter.com/CelergenSocial" target="_blank"><img src="{{ asset('/frontend/images/common/ic_twitter-gray.png') }}" alt=""></a>
                        </div>
                     </div>
                  </div>
