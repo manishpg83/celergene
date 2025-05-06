@@ -63,7 +63,8 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="expiry">Expiry Date (Scroll down to change year)</label>
+                                    <label class="form-label" for="expiry">Expiry Date (Scroll down to change
+                                        year)</label>
                                     <input type="month" wire:model="expiry" id="expiry" min="{{ date('Y-m') }}"
                                         class="form-control @error('expiry') is-invalid @enderror">
                                     @error('expiry')
@@ -99,120 +100,121 @@
                                     </button>
                                 </div>
                             </form>
-                            <div class="mt-2 row">
-                                <form wire:submit.prevent="transferStock">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="destination_warehouse_id">Destination
-                                            Warehouse</label>
-                                        <select wire:model="destination_warehouse_id" id="destination_warehouse_id"
-                                            class="form-select" required>
-                                            <option value="">-- Select Warehouse --</option>
-                                            @foreach ($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}">{{ $warehouse->warehouse_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('destination_warehouse_id')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                            @if ($isEditMode)
+                                    <div class="mt-2 row">
+                                        <form wire:submit.prevent="transferStock">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="destination_warehouse_id">Destination
+                                                    Warehouse</label>
+                                                <select wire:model="destination_warehouse_id" id="destination_warehouse_id"
+                                                    class="form-select" required>
+                                                    <option value="">-- Select Warehouse --</option>
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}">{{ $warehouse->warehouse_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('destination_warehouse_id')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label" for="transfer_quantity">Quantity to Transfer</label>
-                                        <input type="number" wire:model="transfer_quantity" id="transfer_quantity"
-                                            class="form-control" placeholder="Enter quantity" required>
-                                        @error('transfer_quantity')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="transfer_quantity">Quantity to Transfer</label>
+                                                <input type="number" wire:model="transfer_quantity" id="transfer_quantity"
+                                                    class="form-control" placeholder="Enter quantity" required>
+                                                @error('transfer_quantity')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label" for="transfer_reason">Reason</label>
-                                        <input type="text" wire:model="transfer_reason" id="transfer_reason"
-                                            class="form-control" placeholder="Enter reason" required>
-                                        @error('transfer_reason')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                            <div class="mb-3">
+                                                <label class="form-label" for="transfer_reason">Reason</label>
+                                                <input type="text" wire:model="transfer_reason" id="transfer_reason"
+                                                    class="form-control" placeholder="Enter reason" required>
+                                                @error('transfer_reason')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="mt-4 col-12">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Transfer Stock
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="mt-4 col-12">
-                                        <button type="submit" class="btn btn-primary">
-                                            Transfer Stock
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        @if ($isEditMode)
-                            <div class="mt-5">
-                                <h5 class="mb-2 fw-bold text-primary">📦 Inventory History</h5>
-                                <div
-                                    class="p-3 mb-3 border rounded bg-light d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold text-dark">🛒 Remaining Inventory:</span>
-                                    <span class="fs-5 fw-bold text-success">{{ number_format($remaining) }}</span>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th wire:click="sortBy('previous_quantity')" style="cursor: pointer;">
-                                                    Previous Quantity</th>
-                                                <th class="text-center" wire:click="sortBy('quantity_change')"
-                                                    style="cursor: pointer;">Quantity Change</th>
-                                                <th class="text-center" wire:click="sortBy('new_quantity')"
-                                                    style="cursor: pointer;">New Quantity</th>
-                                                <th class="text-center" wire:click="sortBy('reason')"
-                                                    style="cursor: pointer;">Reason</th>
-                                                <th class="text-center" wire:click="sortBy('created_by')"
-                                                    style="cursor: pointer;">Created By</th>
-                                                <th class="text-center" wire:click="sortBy('updated_at')"
-                                                    style="cursor: pointer;">Updated At</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if ($stockHistory->isEmpty())
+
+                                <div class="mt-5">
+                                    <h5 class="mb-2 fw-bold text-primary">📦 Inventory History</h5>
+                                    <div
+                                        class="p-3 mb-3 border rounded bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold text-dark">🛒 Remaining Inventory:</span>
+                                        <span class="fs-5 fw-bold text-success">{{ number_format($remaining) }}</span>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td colspan="6" class="py-3 text-center text-muted">
-                                                        🚫 No history records found.
-                                                    </td>
+                                                    <th wire:click="sortBy('previous_quantity')" style="cursor: pointer;">
+                                                        Previous Quantity</th>
+                                                    <th class="text-center" wire:click="sortBy('quantity_change')"
+                                                        style="cursor: pointer;">Quantity Change</th>
+                                                    <th class="text-center" wire:click="sortBy('new_quantity')"
+                                                        style="cursor: pointer;">New Quantity</th>
+                                                    <th class="text-center" wire:click="sortBy('reason')"
+                                                        style="cursor: pointer;">Reason</th>
+                                                    <th class="text-center" wire:click="sortBy('created_by')"
+                                                        style="cursor: pointer;">Created By</th>
+                                                    <th class="text-center" wire:click="sortBy('updated_at')"
+                                                        style="cursor: pointer;">Updated At</th>
                                                 </tr>
-                                            @else
-                                                @foreach ($stockHistory as $history)
+                                            </thead>
+                                            <tbody>
+                                                @if ($stockHistory->isEmpty())
                                                     <tr>
-                                                        <td class="fw-semibold">
-                                                            {{ number_format($history->previous_quantity) }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span
-                                                                class="badge bg-{{ $history->quantity_change > 0 ? 'success' : 'danger' }}">
-                                                                {{ $history->quantity_change > 0 ? '+' : '-' }}{{ number_format(abs($history->quantity_change)) }}
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-center fw-bold">
-                                                            {{ number_format($history->new_quantity) }}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="badge bg-info">{{ $history->reason }}</span>
-                                                        </td>
-                                                        <td class="text-center text-primary fw-semibold">
-                                                            {{ $history->creator->name }}
-                                                        </td>
-                                                        <td class="text-center text-muted">
-                                                            <small>{{ $history->created_at->format('Y-m-d H:i:s') }}</small>
+                                                        <td colspan="6" class="py-3 text-center text-muted">
+                                                            🚫 No history records found.
                                                         </td>
                                                     </tr>
-                                                @endforeach
-                                            @endif
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                @if ($stockHistory->hasPages())
-                                    <div class="mt-3">
-                                        {{ $stockHistory->links() }}
+                                                @else
+                                                    @foreach ($stockHistory as $history)
+                                                        <tr>
+                                                            <td class="fw-semibold">
+                                                                {{ number_format($history->previous_quantity) }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span
+                                                                    class="badge bg-{{ $history->quantity_change > 0 ? 'success' : 'danger' }}">
+                                                                    {{ $history->quantity_change > 0 ? '+' : '-' }}{{ number_format(abs($history->quantity_change)) }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-center fw-bold">
+                                                                {{ number_format($history->new_quantity) }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span class="badge bg-info">{{ $history->reason }}</span>
+                                                            </td>
+                                                            <td class="text-center text-primary fw-semibold">
+                                                                {{ $history->creator->name }}
+                                                            </td>
+                                                            <td class="text-center text-muted">
+                                                                <small>{{ $history->created_at->format('Y-m-d H:i:s') }}</small>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
                                     </div>
-                                @endif
-                            </div>
-                        @endif
+
+                                    @if ($stockHistory->hasPages())
+                                        <div class="mt-3">
+                                            {{ $stockHistory->links() }}
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                     </div>
                 </div>
             </div>
