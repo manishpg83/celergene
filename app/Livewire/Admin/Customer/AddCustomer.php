@@ -140,7 +140,7 @@ class AddCustomer extends Component
     public function rules()
     {
         $rules = $this->rules;
-      
+
         if (!$this->sameAsBilling) {
             $rules['shipping_address_receiver_name_1'] = 'required|string';
             $rules['shipping_address_1'] = 'required|string';
@@ -149,7 +149,7 @@ class AddCustomer extends Component
 
         return $rules;
     }
-    
+
     public function save()
     {
         $rules = $this->rules();
@@ -166,12 +166,14 @@ class AddCustomer extends Component
             $customer = Customer::findOrFail($this->customer_id);
             $customer->update($data);
             notyf()->success('Customer updated successfully.');
+
+            $this->fillCustomerData($customer);
         } else {
             $customer = Customer::create($data);
             notyf()->success('Customer created successfully.');
-        }
 
-        return redirect()->route('admin.customer.index');
+            return redirect()->route('admin.customer.index');
+        }
     }
 
     public function updatedImage()
