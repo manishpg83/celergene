@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
-
+    protected $table = 'country';
     protected $fillable = [
         'name',
         'currency_code',
         'currency_name',
         'currency_symbol',
+        'phonecode',
     ];
 
     public function currencyRates()
