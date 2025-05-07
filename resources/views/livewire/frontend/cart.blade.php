@@ -18,7 +18,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
                         <div class="flag">
                             <a href="http://www.celergenus.com" target="_blank">
-                                <img src="https://store.celergenswiss.com/images/asset-1.png" style="height: 60px">
+                                <img src="{{ asset('frontend/images/asset-1.png') }}" style="height: 60px">
                                 <div class="myText">UNITED STATES CUSTOMERS</div>
                             </a>
                         </div>
@@ -26,7 +26,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
                         <div class="flag">
                             <a href="http://www.celergen.co.uk" target="_blank">
-                                <img src="https://store.celergenswiss.com/images/asset-2.png" style="height: 60px">
+                                <img src="{{ asset('frontend/images/asset-2.png') }}" style="height: 60px">
                                 <div class="myText">UNITED KINGDOM CUSTOMERS</div>
                             </a>
                         </div>
