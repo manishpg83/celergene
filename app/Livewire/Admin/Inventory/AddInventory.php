@@ -94,11 +94,12 @@ class AddInventory extends Component
         DB::transaction(function () {
             $oldInventory = $this->inventory_id ? Inventory::find($this->inventory_id) : null;
 
-            $oldQuantity = $oldInventory ? $oldInventory->remaining : 0;
+            $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
+            $oldRemaining = $oldInventory ? $oldInventory->remaining : 0;
             $oldConsumed = $oldInventory ? $oldInventory->consumed : 0;
 
             $newQuantity = $oldQuantity + $this->quantity;
-            $this->remaining = $newQuantity - $oldConsumed;
+            $newRemaining = $oldRemaining + $this->quantity;
 
             if (!$this->expiry) {
                 $this->expiry = (date('Y') + 1) . '-12';
@@ -114,7 +115,7 @@ class AddInventory extends Component
                     'expiry' => $formattedExpireDate,
                     'quantity' => $newQuantity,
                     'consumed' => $oldConsumed,
-                    'remaining' => $this->remaining,
+                    'remaining' => $newRemaining,
                     'created_by' => $this->inventory_id ? $oldInventory->created_by : Auth::id(),
                     'modified_by' => Auth::id(),
                 ]
@@ -132,7 +133,25 @@ class AddInventory extends Component
         });
 
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
-        return redirect()->route('admin.inventory.index');
+        $this->dispatch('$refresh');
+        $this->refreshLatestStockData();
+
+    }
+    public function refreshLatestStockData()
+    {
+        if (!$this->inventory_id)
+            return;
+
+        $latestStock = Stock::where('inventory_id', $this->inventory_id)
+            ->latest('created_at')
+            ->first();
+
+        if ($latestStock) {
+            $this->quantity = $latestStock->new_quantity;
+            $this->reason = $latestStock->reason;
+        }
+
+        $this->remaining = Inventory::find($this->inventory_id)?->remaining;
     }
 
     public function initiateTransfer()
@@ -203,6 +222,8 @@ class AddInventory extends Component
         });
 
         notyf()->success('Stock transferred successfully.');
+        $this->dispatch('$refresh');
+        $this->refreshLatestStockData();
     }
 
 
