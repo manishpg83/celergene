@@ -34,7 +34,7 @@
                         <section class="col-xl-9 account-wrapper">
                             <div class="account-card">
                                 <div class="m-b30">
-                                    <p>Hello <strong
+                                    <p class="account-username">Hello <strong
                                             class="text-black">{{ $customer->first_name . ' ' . $customer->last_name }}</strong>
                                         (not <strong
                                             class="text-black">{{ $customer->first_name . ' ' . $customer->last_name }}</strong>?

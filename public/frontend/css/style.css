@@ -61652,7 +61652,7 @@ a {
 
 .dz-bnr-inr h1,
 .dz-bnr-inr .h1 {
-  font-size: 75px;
+  font-size: 50px;
   margin-bottom: 10px;
   font-family: var(--font-family-title);
   line-height: 1.2;
@@ -61744,6 +61744,15 @@ a {
 @media only screen and (max-width: 767px) {
   .dz-bnr-inr.dz-bnr-inr-sm {
     --dz-banner-height: 200px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .account-username{
+    margin-top: 60px;
+  }
+}@media only screen and (max-width: 575px) {
+  .account-username{
+    margin-top: 55px;
   }
 }
 
