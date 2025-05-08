@@ -21,7 +21,6 @@
                             @endif
 
                             <form wire:submit.prevent="saveInventory" class="mt-2 row g-3">
-
                                 <div class="col-md-6">
                                     <label class="form-label" for="product_code">Product</label>
                                     <select wire:model="product_code" id="product_code" class="form-select" required>
@@ -90,10 +89,23 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="col-md-12 d-flex align-items-center justify-content-between">
-                                    <label class="mb-0 form-label">Available Quantity</label>
-                                    <p class="mb-0 form-control-plaintext fw-bold">{{ $remaining }}</p>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Available Quantity</label>
+                                            <p class="form-control-plaintext fw-bold">{{ $remaining }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Consumed Quantity</label>
+                                            <p class="form-control-plaintext fw-bold">{{ $consumed }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Total Quantity</label>
+                                            <p class="form-control-plaintext fw-bold">{{ $remaining + $consumed }}</p>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="mt-4 col-12">
                                     <button type="submit" class="btn btn-primary">
                                         {{ $isEditMode ? 'Update Inventory' : 'Add Inventory' }}
@@ -150,14 +162,17 @@
                                     <div
                                         class="p-3 mb-3 border rounded bg-light d-flex justify-content-between align-items-center">
                                         <span class="fw-bold text-dark">🛒 Remaining Inventory:</span>
-                                        <span class="fs-5 fw-bold text-success">{{ number_format($remaining) }}</span>
+                                        <span class="fs-5 fw-bold text-primary">Consumed:
+                                            {{ number_format($consumed) }}</span><br>
+                                        <span class="fs-5 fw-bold text-success">Remaining:
+                                            {{ number_format($remaining) }}</span><br>
+                                        <span class="fs-5 fw-bold text-dark">Total:
+                                            {{ number_format($consumed + $remaining) }}</span>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th wire:click="sortBy('previous_quantity')" style="cursor: pointer;">
-                                                        Previous Quantity</th>
                                                     <th class="text-center" wire:click="sortBy('quantity_change')"
                                                         style="cursor: pointer;">Quantity Change</th>
                                                     <th class="text-center" wire:click="sortBy('new_quantity')"
@@ -180,9 +195,6 @@
                                                 @else
                                                     @foreach ($stockHistory as $history)
                                                         <tr>
-                                                            <td class="fw-semibold">
-                                                                {{ number_format($history->previous_quantity) }}
-                                                            </td>
                                                             <td class="text-center">
                                                                 <span
                                                                     class="badge bg-{{ $history->quantity_change > 0 ? 'success' : 'danger' }}">

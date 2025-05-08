@@ -130,8 +130,9 @@ class AddInventory extends Component
                 'reason' => $this->reason,
                 'created_by' => Auth::id()
             ]);
+            $this->quantity = $newRemaining;
         });
-
+       
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         $this->dispatch('$refresh');
         $this->refreshLatestStockData();
@@ -147,7 +148,7 @@ class AddInventory extends Component
             ->first();
 
         if ($latestStock) {
-            $this->quantity = $latestStock->new_quantity;
+            // $this->quantity = $latestStock->new_quantity;
             $this->reason = $latestStock->reason;
         }
 
