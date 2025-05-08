@@ -82,9 +82,9 @@ class OrderList extends Component
                 $order->order_status = $newStatus;
                 $order->modified_by = $currentUserId;
                 $order->save();
-
+                $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
                 if ($order->customer && $order->customer->email) {
-                    Mail::to($order->customer->email)
+                    Mail::to($adminEmail)
                         ->send(new OrderStatusChanged($order, $oldStatus, $newStatus));
                 }
 

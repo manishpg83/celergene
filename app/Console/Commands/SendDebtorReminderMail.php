@@ -30,9 +30,9 @@ class SendDebtorReminderMail extends Command
         $debtors->each(function ($invoice) {
             $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
         });
-
+        $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
         if ($debtors->count() > 0) {
-            Mail::to('developer@predsolutions.com')->send(new DebtorReminderMail($debtors));
+            Mail::to($adminEmail)->send(new DebtorReminderMail($debtors));
             //Mail::to('developer@predsolutions.com')->send(new DebtorReminderMail($debtors));
             $this->info('Reminder email sent successfully.');
         } else {
