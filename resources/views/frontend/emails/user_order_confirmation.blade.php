@@ -9,8 +9,10 @@
 <body style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
     <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
 
-        <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+        <img src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
             alt="Celergen Swiss Logo" style="display: block; margin: 0 auto; max-width: 250px; margin-bottom: 50px;">
+        <!-- <img src="https://cdn2-bread6hkcwg3dyar.z01.azurefd.net/celergenswiss/images/common/cropped-celergen-logo.png"
+            alt="Celergen Swiss Logo" style="display: block; margin: 0 auto; max-width: 250px; margin-bottom: 50px;"> -->
 
         <div class="header" style="text-align: left; margin-bottom: 40px;">
             <p>Dear {{ $user->first_name }} {{ $user->last_name }},</p>
