@@ -119,14 +119,14 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <label class="form-label" for="expire_date">Expiry Date (Scroll down to change year)</label>
                                     <input type="month" min="{{ date('Y-m') }}" class="form-control" id="expire_date"
                                         wire:model="expire_date">
                                     @error('expire_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="unit_price">Unit price</label>
