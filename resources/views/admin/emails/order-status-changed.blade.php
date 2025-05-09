@@ -5,11 +5,11 @@
 </head>
 <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; margin: 0; padding: 20px; line-height: 1.6;">
     <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        <h2 style="color: #4CAF50; text-align: center;">Payment Update</h2>
         <div class="logo" style="text-align: center; margin-bottom: 30px;">
             <img src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
                 alt="Celergen Logo" style="max-height: 60px; width: auto;">
         </div>
+        <h2 style="color: #4CAF50; text-align: center;">Payment Update</h2>
         <p style="font-size: 16px;">Dear <strong>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</strong>,</p>
         
         <p style="font-size: 16px;">Your order <strong>#{{ $order->order_id }}</strong> status has been updated.</p>
