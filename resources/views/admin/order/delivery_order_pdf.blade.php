@@ -113,11 +113,11 @@
             <div class="flex-item">
                 <div class="box">
                     <p><strong>Ship To:</strong></p>
-                    <p>{{ $customer->first_name ?? 'Customer Name' }} {{ $customer->last_name ?? '' }}</p>
-                    <p>{{ $customer->shipping_address_1 ?? 'Shipping Address' }}</p>
-                    <p>{{ $customer->shipping_postal_code_1 ?? 'Postal Code' }}</p>
-                    <p>{{ $customer->shipping_country_1 ?? 'Country' }}</p>
-                    <p>{{ $customer->shipping_company_name_1 ?? 'shipping company name' }}</p>
+                    <p>{{ $customer->first_name }} {{ $customer->last_name ?? '' }}</p>
+                    <p>{{ $customer->shipping_address_1 }}</p>
+                    <p>{{ $customer->shipping_postal_code_1 }}</p>
+                    <p>{{ $customer->shipping_country_1 }}</p>
+                    <p>{{ $customer->shipping_company_name_1 }}</p>
                     <p>Phone : {{ $customer->mobile_number ?? 'Phone Number' }}</p>
                 </div>
             </div>

@@ -218,7 +218,9 @@
                                             <div class="col-7 mb-1">Price</div>
                                             <input type="number"
                                                 wire:model.lazy="orderDetails.{{ $index }}.unit_price"
-                                                placeholder="Price" class="form-control">
+                                                step="any"
+                                                placeholder="Price" 
+                                                class="form-control">
                                         </div>
 
                                         <div class="col-md-1 mb-1">
