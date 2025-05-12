@@ -230,4 +230,16 @@ class HomeController extends Controller
     {
         return view('frontend.profile.checkout');
     }
+    public function privacypolicy()
+    {
+        return view('frontend.pages.privacy-policy');
+    }
+    public function authenticity()
+    {
+        return view('frontend.pages.authenticity');
+    }
+    public function termsandcondition()
+    {
+        return view('frontend.pages.terms-and-condition');
+    }
 }

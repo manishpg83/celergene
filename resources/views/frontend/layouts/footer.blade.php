@@ -51,9 +51,9 @@
             </div>
             <div class="col-xl-5 col-lg-6 text-lg-end text-center order-1 order-lg-2">
                <div class="row">
-                  <div class="col-lg-4"><a href="privacy-policy.php" class="py-1 text-dark footer-link">PRIVACY POLICY</a></div>
-                  <div class="col-lg-3"><a href="authenticity.php" class="py-1 text-dark footer-link">AUTHENTICITY</a></div>
-                  <div class="col-lg-5"><a href="terms-and-condition.php" class="py-1 text-dark footer-link">TERMS AND CONDITIONS</a></div>
+                  <div class="col-lg-4"><a href="{{ route('privacypolicy') }}" class="py-1 text-dark footer-link">PRIVACY POLICY</a></div>
+                  <div class="col-lg-3"><a href="{{ route('authenticity') }}" class="py-1 text-dark footer-link">AUTHENTICITY</a></div>
+                  <div class="col-lg-5"><a href="{{ route('termsandcondition') }}" class="py-1 text-dark footer-link">TERMS AND CONDITIONS</a></div>
                </div>
             </div>
          </div>

@@ -71,6 +71,10 @@ Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 Route::post('/paypal-webhook', [PayPalWebhookController::class, 'handle'])->name('paypal.webhook');
 Route::get('/paypal/success', [PayPalWebhookController::class, 'success'])->name('paypal.success');
 Route::get('/paypal/cancel', [PayPalWebhookController::class, 'cancel'])->name('paypal.cancel');
+Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacypolicy');
+Route::get('/authenticity', [HomeController::class, 'authenticity'])->name('authenticity');
+Route::get('/terms-and-condition', [HomeController::class, 'termsandcondition'])->name('termsandcondition');
+
 Route::get('/order/success', function () {
     return view('frontend.order.success');
 })->name('order.success');
