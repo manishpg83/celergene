@@ -1,31 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Payment Update</title>
+    <title>Payment Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section {
+            margin-bottom: 12px;
+        }
+        p {
+            margin: 2px 0;
+        }
+        .billing-address {
+            margin-top: 10px;
+        }
+        .billing-address strong {
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        table thead th {
+            padding: 8px 4px;
+            border-bottom: 1px solid #000;
+            text-align: left;
+        }
+        table tbody td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #000;
+        }
+        .totals {
+            width: 250px;
+            float: right;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .totals td {
+            padding: 6px 4px;
+        }
+        .totals tr:last-child td {
+            font-weight: bold;
+        }
+        .text-right {
+            text-align: right;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; margin: 0; padding: 20px; line-height: 1.6;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        <div class="logo" style="text-align: center; margin-bottom: 30px;">
-            <img src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
-                alt="Celergen Logo" style="max-height: 60px; width: auto;">
-        </div>
-        <h2 style="color: #4CAF50; text-align: center;">Payment Update</h2>
-        <p style="font-size: 16px;">Dear <strong>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</strong>,</p>
-        
-        <p style="font-size: 16px;">Your order <strong>#{{ $order->order_id }}</strong> status has been updated.</p>
-        
-        <p style="font-size: 16px;"><strong>New Status:</strong> <span style="color: #ff5722;">{{ $newStatus }}</span></p>
-        
-        <h3 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Order Details:</h3>
-        <ul style="list-style: none; padding: 0; font-size: 16px;">
-            <li style="margin-bottom: 8px;"><strong>Order Date:</strong> {{ date('M d, Y', strtotime($order->order_date)) }}</li>
-            <li style="margin-bottom: 8px;"><strong>Total Amount:</strong> ${{ number_format($order->total, 2) }}</li>
-            <li style="margin-bottom: 8px;"><strong>Payment Mode:</strong> {{ $order->payment_mode }}</li>
-        </ul>
-        
-        <p style="font-size: 16px;">Thank you for your business!</p>
-        
-        <p style="font-size: 16px; color: #666;">Best regards,<br><strong>Celergen</strong></p>
+<body>
+<div class="container">
+
+    <div class="section">
+        <p>Payment Received : USD{{ number_format($order->total, 2) }}</p>
+        <p>Received Date: {{ date('d-m-Y', strtotime($payment->payment_date ?? now())) }}</p>
+        <p>Reference : {{ $payment->payment_reference ?? 'N/A' }}</p>
+        <p>From : {{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
+        <p>Updated by : {{ $order->modifier->name ?? 'SYSTEM' }}</p>
     </div>
+
+    <div class="billing-address">
+        <p><strong>Billing Address:</strong></p>
+        <p>Celergen Inc</p>
+        <p>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
+        <p>{{ $order->customer->billing_address }}</p>
+        <p>{{ $order->customer->billing_city }}, {{ $order->customer->billing_state }}, {{ $order->customer->billing_postal_code }}</p>
+        <p>{{ $order->customer->billing_country }}</p>
+        <p>Phone : {{ $order->customer->billing_phone ?? $order->customer->mobile_number ?? 'N/A' }}</p>
+    </div>
+
+    <div class="section">
+        <p>Order Date : {{ date('F d, Y', strtotime($order->order_date)) }}</p>
+        <p>Order No : {{ $order->order_number }}</p>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Total Quantity</th>
+            <th>Price (USD)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($order->orderDetails as $detail)
+            <tr>
+                <td>{{ $detail->product->product_name ?? $detail->manual_product_name }}</td>
+                <td>{{ $detail->quantity }}</td>
+                <td>{{ number_format($detail->unit_price * $detail->quantity, 2) }}</td>
+            </tr>
+        @endforeach
+        @if($order->discount > 0)
+            <tr>
+                <td>Others</td>
+                <td>1</td>
+                <td>-{{ number_format($order->discount, 2) }}</td>
+            </tr>
+        @endif
+        </tbody>
+    </table>
+
+    <table class="totals">
+        <tr>
+            <td>Sub Total</td>
+            <td class="text-right">{{ number_format($order->subtotal, 2) }}</td>
+        </tr>
+        <tr>
+            <td>Freight</td>
+            <td class="text-right">{{ $order->freight > 0 ? number_format($order->freight, 2) : 'Free' }}</td>
+        </tr>
+        <tr>
+            <td>Net Total</td>
+            <td class="text-right">{{ number_format($order->total, 2) }}</td>
+        </tr>
+    </table>
+
+</div>
 </body>
 </html>

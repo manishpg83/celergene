@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Payment;
 
 class OrderStatusChanged extends Mailable
 {
@@ -13,17 +14,23 @@ class OrderStatusChanged extends Mailable
     public $order;
     public $oldStatus;
     public $newStatus;
+    public $payment;
 
-    public function __construct($order, $oldStatus, $newStatus)
+    public function __construct($order, $oldStatus, $newStatus, $payment = null)
     {
-        $this->order = $order;
+        $this->order = $order->load([
+            'customer',
+            'orderDetails.product',
+            'modifier'
+        ]);
         $this->oldStatus = $oldStatus;
         $this->newStatus = $newStatus;
+        $this->payment = $payment ?? $order->payments()->latest()->first();
     }
 
     public function build()
     {
-        return $this->subject('Payment Update - #' . $this->order->order_id)
+        return $this->subject('Payment Received - Order #' . $this->order->order_number)
                     ->view('admin.emails.order-status-changed');
     }
 }

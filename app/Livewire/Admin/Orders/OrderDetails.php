@@ -109,7 +109,7 @@ class OrderDetails extends Component
 
             notyf()->success('Order details updated successfully.');
 
-            $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
+            $adminEmail = env('ADMIN_EMAIL', 'devanshu.briskbrain@gmail.com');
 
             if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
                 try {
