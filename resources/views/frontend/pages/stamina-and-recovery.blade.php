@@ -292,7 +292,7 @@
                     THERE’S NO REASON TO FACE AN ENERGY SHORTAGE!
                 </h1>
                 <div class="pt-2 pb-4 text-center">
-                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred blinking">
+                    <a href="{{ route('cart') }}" class="text-white ordernow-btn AdelleSansBold bg-darkred blinking">
                         ORDER CELERGEN NOW
                     </a>
                 </div>

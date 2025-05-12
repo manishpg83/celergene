@@ -5,7 +5,7 @@
             <div class="header-text" style="background-color:silver;">CART</div>
         </div>
     </div>
-    <form method="post" action="checkout.php" style="font-family: 'AdelleSansW01-Regular';">
+    <form method="post" action="" style="font-family: 'AdelleSansW01-Regular';">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="container" style="margin-bottom: 50px;">
                 <div class="row cart-row hidden-xs">
@@ -189,7 +189,7 @@
                         </div>
 
 
-                        <a href="https://celergenswiss.com/order-here">
+                        <a href="{{ route('cart') }}">
                             <div class="myText-left"><strong>CONTINUE SHOPPING</strong></div>
                         </a>
                     </div>

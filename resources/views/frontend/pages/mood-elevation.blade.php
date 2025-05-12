@@ -94,7 +94,7 @@
             padding-right: calc(var(--bs-gutter-x)* .5);
             padding-left: calc(var(--bs-gutter-x)* .5);
             margin-top: var(--bs-gutter-y);
-        } 
+        }
     </style>
 
     <section>
@@ -377,7 +377,7 @@
                     </h1>
                 </div>
                 <div class="pt-4 pb-4 text-center">
-                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred blink">
+                    <a href="{{ route('cart') }}" class="text-white ordernow-btn AdelleSansBold bg-darkred blink">
                         ORDER CELERGEN NOW
                     </a>
                 </div>

@@ -532,7 +532,7 @@
                     </h1>
                 </div>
                 <div class="pt-4 pb-4 text-center">
-                    <a href="order-here.php" class="text-white ordernow-btn AdelleSansBold bg-darkred">ORDER CELERGEN
+                    <a href="{{ route('cart') }}" class="text-white ordernow-btn AdelleSansBold bg-darkred">ORDER CELERGEN
                         NOW</a>
                 </div>
                 <div class="container padding-x">

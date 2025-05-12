@@ -215,7 +215,7 @@
         <div class="container-fluid">
             <div class="container pt-5">
                 <div class="pt-2 pb-4 text-center">
-                    <a href="order-here.php" class="ordernow-btn AdelleSansBold bg-darkred text-white blinking">
+                    <a href="{{ route('cart') }}" class="ordernow-btn AdelleSansBold bg-darkred text-white blinking">
                         ORDER CELERGEN NOW
                     </a>
                 </div>

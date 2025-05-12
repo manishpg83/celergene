@@ -1,7 +1,7 @@
 <section>
     <header class="site-header mo-left header style-1 header-transparent">
         <div id="header" class="header container-fluid expand-header">
-            <a class="logo d-none d-lg-block" href="https://celergenswiss.azurewebsites.net"><img id="headerlogo"
+            <a class="logo d-none d-lg-block" href="{{ route('home') }}"><img id="headerlogo"
                     class="expand-logo"
                     src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
                     alt="logo" width="240" /></a>
@@ -13,7 +13,7 @@
                         <ul class="navbar-nav align-items-center">
                             <li class="nav-item pe-4">
                                 <a class="nav-link bg-blue align-self-center text-white rounded-5 py-1 px-lg-3"
-                                    aria-current="page" href="blog.php" style="background-color: #002d59;">
+                                    aria-current="page" href="#" style="background-color: #002d59;">
                                     Celergen's Blog
                                 </a>
                             </li>
@@ -47,10 +47,7 @@
                             </li>
 
 
-                            <!-- to be removed
-      <li class="nav-item pe-4">
-      <a class="nav-link" aria-current="page" href="admin/blog-list.php">admin</a>
-      </li> -->
+
                             <!-- to be removed -->
                             <li class="nav-item pe-3">
                                 <a class="nav-link" aria-current="page" href="https://www.facebook.com/CelergenSwiss"
@@ -76,13 +73,13 @@
                                 </a>
                             </li>
                             <li class="nav-item pe-3">
-                                <a class="nav-link" aria-current="page" href="index.php">
+                                <a class="nav-link" aria-current="page" href="{{ route('home') }}">
                                     <img src="{{ asset('/frontend/images/common/download.png') }}"
                                         alt="" /></a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link pe-0" aria-current="page" href="https://celergenswiss.com/th/"
+                                <a class="nav-link pe-0" aria-current="page" href="#"
                                     target="_blank">
                                     <img src="{{ asset('/frontend/images/common/Thai.png') }}"
                                         alt="" class="" />
@@ -99,7 +96,7 @@
                         <div class="container-fluid pe-0 pt-1 justify-content-between d-block d-lg-none">
                             <div class="navbar nav py-0">
                                 <div>
-                                    <a href="https://celergenswiss.azurewebsites.net/"><img id="headerlogo1"
+                                    <a href="{{ route('home') }}"><img id="headerlogo1"
                                             class="expand-logo"
                                             src="{{ asset('/frontend/images/common/cropped-celergen-logo.png') }}"
                                             alt="logo" width="200" /></a>
@@ -347,7 +344,7 @@
 
                                     <li
                                         class="nav-item mx-xl-2 mx-lg-0 py-xl-2 dropdown d-lg-none d-md-block dropdown">
-                                        <a class="nav-link px-xl-3 px-lg-2 dropdown" href="blog.php">
+                                        <a class="nav-link px-xl-3 px-lg-2 dropdown" href="#">
                                             CELERGEN'S BLOG</a>
                                     </li>
                                 </ul>
