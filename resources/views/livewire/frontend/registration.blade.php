@@ -114,13 +114,13 @@
                             <hr>
                         </div>
 
-                        
+
                         <div class="text" style="margin-top: 42px;">
                             <button type="submit" class="join">JOIN CELERGEN</button>
                         </div>
                         <div class="text">
                             <div class="ext">
-                                When you click JOIN CELERGEN you are agreeing to our <a href="https://celergenswiss.com/privacy-policy" title="">Privacy Policy</a>
+                                When you click JOIN CELERGEN you are agreeing to our <a href="{{ route('privacypolicy') }}" title="">Privacy Policy</a>
                             </div>
                         </div>
                     </div>
