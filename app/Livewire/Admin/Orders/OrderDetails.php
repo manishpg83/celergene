@@ -109,7 +109,7 @@ class OrderDetails extends Component
 
             notyf()->success('Order details updated successfully.');
 
-            $adminEmail = env('ADMIN_EMAIL', 'devanshu.briskbrain@gmail.com');
+            $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
             if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
                 try {
@@ -424,7 +424,7 @@ class OrderDetails extends Component
     }
     public function downloadShippingInvoice($invoiceDetailId, $order_id)
     {
-        try {           
+        try {
             $invoiceDetail = OrderInvoiceDetail::findOrFail($invoiceDetailId);
             $invoice = OrderInvoice::findOrFail($invoiceDetail->order_invoice_id);
             $customer = Customer::findOrFail($invoice->customer_id);
