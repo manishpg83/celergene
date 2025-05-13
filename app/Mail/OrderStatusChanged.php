@@ -30,7 +30,7 @@ class OrderStatusChanged extends Mailable
 
     public function build()
     {
-        return $this->subject('Payment Received - Order #' . $this->order->order_number)
+        return $this->subject('Payment Notification for Order No: #' . $this->order->order_number)
                     ->view('admin.emails.order-status-changed');
     }
 }

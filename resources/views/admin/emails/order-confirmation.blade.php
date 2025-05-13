@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Order Confirmation #{{ $order->order_id }}</title>
+    <title>Payment Confirmation for Order No: #{{ $order->order_id }}</title>
 </head>
 
 <body
@@ -63,7 +63,7 @@
                     <p>No shipping address provided.</p>
                 @endif
             </div>
-            
+
         </div>
 
         <div>

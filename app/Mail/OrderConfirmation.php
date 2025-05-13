@@ -29,7 +29,7 @@ class OrderConfirmation extends Mailable
                 $this->order->load(['orderDetails.product', 'currency']);
             }
 
-            return $this->subject('Order Confirmation #' . $this->order_id)
+            return $this->subject('Payment Confirmation for Order No: #' . $this->order_id)
                 ->view('admin.emails.order-confirmation')
                 ->with([
                     'order' => $this->order,

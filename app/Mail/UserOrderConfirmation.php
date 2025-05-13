@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels; 
+use Illuminate\Queue\SerializesModels;
 
 class UserOrderConfirmation extends Mailable
 {
@@ -29,8 +29,8 @@ class UserOrderConfirmation extends Mailable
     public function build()
     {
         $orderMaster = \App\Models\OrderMaster::where('order_id', $this->orderId)->first();
-        
-        return $this->subject('Order Confirmation #' . $this->orderNumber)
+
+        return $this->subject('Payment Confirmation for Order No: #' . $this->orderNumber)
                     ->view('frontend.emails.user_order_confirmation')
                     ->with([
                         'orderNumber' => $this->orderNumber,
@@ -41,5 +41,5 @@ class UserOrderConfirmation extends Mailable
                         'orderMaster' => $orderMaster
                     ]);
     }
-    
+
 }
