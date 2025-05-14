@@ -7,38 +7,14 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="container" style="margin-bottom: 50px;">
-            <div class="row cart-row hidden-xs">
+            <!-- International customers text with minimal margin -->
+            <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div style="color: #333333; margin-bottom: 20px;">Buy Celergen from the following web sites
-                        if
-                        you reside in
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                    <div class="flag">
-                        <a href="http://www.celergenus.com" target="_blank">
-                            <img src="{{ asset('frontend/images/asset-1.png') }}" style="height: 60px">
-                            <div class="myText">UNITED STATES CUSTOMERS</div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding">
-                    <div class="flag">
-                        <a href="http://www.celergen.co.uk" target="_blank">
-                            <img src="{{ asset('frontend/images/asset-2.png') }}" style="height: 60px">
-                            <div class="myText">UNITED KINGDOM CUSTOMERS</div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 nopadding" style="visibility:hidden;">
-                    <div class="flag">
-                        <a href="http://www.celergen.fr" target="_blank">
-                            <img src="images/asset-3.png" style="height: 60px">
-                            <div class="myText">FRENCH CUSTOMERS</div>
-                        </a>
-                    </div>
+                    <p style="color: #333333; margin-bottom: 0;">International customers please order below:</p>
                 </div>
             </div>
+            
+            <!-- Cart items and order summary -->
             <div class="row cart-row">
                 <div class="col-lg-8 col-md-8 col-xs-12">
                     <div class="myBox-left">
@@ -54,7 +30,6 @@
                                             @endphp
 
                                             <td rowspan="2" class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                <!-- Dynamic product image -->
                                                 <img class="imgPrdctN" src="{{ $image }}"
                                                     alt="{{ $product->product_name }}"
                                                     style="max-width:150px; width:100px;">
@@ -106,9 +81,7 @@
                                 </table>
                             @endif
                         @endforeach
-
                     </div>
-
                 </div>
 
                 <div class="col-xs-12 col-md-4 col-lg-4">
@@ -116,11 +89,27 @@
                 </div>
             </div>
 
-
-            <div class="row visible-xs">
-                <div class="">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+            <!-- US/UK customers section -->
+            <div class="row cart-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div style="color: #333333; margin: 20px 0;">
+                        <p>For US and UK customers please click below:</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 nopadding">
+                    <div class="flag">
+                        <a href="http://www.celergenus.com" target="_blank">
+                            <img src="{{ asset('frontend/images/asset-1.png') }}" style="height: 60px">
+                            <div class="myText">UNITED STATES CUSTOMERS</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 nopadding">
+                    <div class="flag">
+                        <a href="http://www.celergen.co.uk" target="_blank">
+                            <img src="{{ asset('frontend/images/asset-2.png') }}" style="height: 60px">
+                            <div class="myText">UNITED KINGDOM CUSTOMERS</div>
+                        </a>
                     </div>
                 </div>
             </div>

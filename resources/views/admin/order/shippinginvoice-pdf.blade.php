@@ -263,7 +263,7 @@
         </thead>
         <tbody>
             @php
-                $totalRows = 18;
+                $totalRows = 16;
                 $productCount = count($orderInvoiceDetails);
                 $blankRows = max($totalRows - $productCount, 0);
             @endphp

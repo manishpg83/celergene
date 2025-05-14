@@ -14,12 +14,21 @@ class ManagePayment extends Component
     public $order;
     public $editedPaymentId, $editedAmount, $editedPaymentDate, $editedPaymentMethod;
     public $editedStatus, $editedBankCharge, $editedPaymentDetails;
-
+    public $payments = [], $totalPaid = 0, $pendingAmount = 0;
 
     public function mount($order_id)
     {
         $this->order_id = $order_id;
         $this->order = OrderMaster::findOrFail($order_id);
+
+        $this->refreshPayments();
+    }
+
+    public function refreshPayments()
+    {
+        $this->payments = Payment::where('order_id', $this->order_id)->get();
+        $this->totalPaid = $this->payments->sum('amount');
+        $this->pendingAmount = max(0, $this->order->total - $this->totalPaid);
     }
 
     public function savePayment()
@@ -33,10 +42,8 @@ class ManagePayment extends Component
             'transaction_id' => 'nullable|string',
             'bank_charge' => 'nullable|numeric|min:0'
         ]);
-        if(empty($this->bank_charge))
-            $bank_charge = 0;
-        else
-            $bank_charge = $this->bank_charge;
+
+        $bank_charge = $this->bank_charge ?? 0;
 
         Payment::create([
             'order_id' => $this->order_id,
@@ -52,6 +59,8 @@ class ManagePayment extends Component
 
         notyf()->success('Payment recorded successfully!');
         $this->reset(['payment_method', 'amount', 'payment_date', 'status', 'payment_details', 'transaction_id', 'bank_charge']);
+
+        $this->refreshPayments();
     }
 
     public function editPayment($paymentId)
@@ -77,10 +86,8 @@ class ManagePayment extends Component
                 'editedBankCharge' => 'nullable|numeric|min:0',
                 'editedPaymentDetails' => 'nullable|string',
             ]);
-            if(empty($this->editedBankCharge))
-                $bank_charge = 0;
-            else
-                $bank_charge = $this->editedBankCharge;
+
+            $bank_charge = $this->editedBankCharge ?? 0;
 
             $payment = Payment::findOrFail($this->editedPaymentId);
             $payment->update([
@@ -104,6 +111,7 @@ class ManagePayment extends Component
 
             $this->dispatch('closeModal');
             notyf()->success('Payment updated successfully!');
+            $this->refreshPayments();
 
             return redirect(request()->header('Referer'));
         } catch (\Exception $e) {
@@ -118,8 +126,10 @@ class ManagePayment extends Component
             ->value('symbol');
 
         return view('livewire.admin.payment.manage-payment', [
-            'payments' => Payment::where('order_id', $this->order_id)->latest()->get(),
+            'payments' => $this->payments,
             'currencySymbol' => $currencySymbol,
+            'pendingAmount' => $this->pendingAmount,
+            'totalPaid' => $this->totalPaid,
         ]);
     }
 }

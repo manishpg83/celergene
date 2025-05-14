@@ -102,6 +102,12 @@
             </tbody>
         </table>
     </div>
+    <!-- Pending Amount -->
+    <div class="text-end mt-3">
+        <p><strong>Total Paid:</strong> {{ $currencySymbol }}{{ number_format($totalPaid, 2) }}</p>
+        <p class="text-danger"><strong>Pending Amount:</strong>
+            {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</p>
+    </div>
     <!-- Payment Edit Modal -->
     <!-- Payment Edit Modal -->
     <div class="modal fade" id="editPaymentModal" wire:ignore.self tabindex="-1"

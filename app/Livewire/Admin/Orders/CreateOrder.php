@@ -108,7 +108,7 @@ class CreateOrder extends Component
 
     public function mount()
     {
-        $this->customers = Customer::all();
+        $this->customers = Customer::orderBy('first_name')->get();
         $this->entities = Entity::active()->get();
         $this->products = Product::all();
         $this->created_by = Auth::id();

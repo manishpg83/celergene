@@ -21,29 +21,37 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                <div class="d-flex flex-wrap gap-2">
+                <div class="d-flex flex-nowrap gap-2 filter-container">
                     <!-- Per Page Select -->
-                    <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto; cursor: pointer;">
+                    <select wire:model.live="perPage" class="form-select form-select-sm"
+                        style="width: auto; cursor: pointer;">
                         @foreach ($perpagerecords as $pagekey => $pagevalue)
                             <option value="{{ $pagekey }}">{{ $pagevalue }}</option>
                         @endforeach
                     </select>
-            
-                    <!-- Status Filter -->
-                    <select wire:model.live="statusFilter" class="form-select form-select-sm" style="width: auto; min-width: 130px;">
+
+                    <!-- Status Filter - remove Cancelled option -->
+                    <select wire:model.live="statusFilter" class="form-select form-select-sm"
+                        style="width: auto; min-width: 130px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <!-- Removed Cancelled option -->
                     </select>
-            
+
+                    <!-- Show/Hide Cancelled toggle -->
+                    <select wire:model.live="showCancelled" class="form-select form-select-sm" style="width: auto;">
+                        <option value="0">Hide Cancelled</option>
+                        <option value="1">Show Cancelled</option>
+                    </select>
+
                     <!-- Order Type Filter -->
                     <select wire:model.live="orderTypeFilter" class="form-select form-select-sm" style="width: auto;">
                         <option value="">All Order Types</option>
                         <option value="Online">🌐 Online</option>
                         <option value="Offline">🏬 Offline</option>
                     </select>
-            
+
                     <!-- Payment Mode Filter -->
                     <select wire:model.live="paymentModeFilter" class="form-select form-select-sm" style="width: auto;">
                         <option value="">All Payment Modes</option>
@@ -51,7 +59,7 @@
                         <option value="Bank Transfer">🏦 Bank Transfer</option>
                         <option value="Cash">💵 Cash</option>
                     </select>
-            
+
                     <!-- Date Range Picker -->
                     <div class="d-flex gap-2">
                         <div id="reportrange"
@@ -67,13 +75,14 @@
                         </button>
                     </div>
                 </div>
-            
+
                 <!-- Search Box -->
                 <div>
-                    <input type="text" wire:model.live="search" class="form-control form-control-sm" placeholder="Search Orders..." style="width: 150px;">
+                    <input type="text" wire:model.live="search" class="form-control form-control-sm"
+                        placeholder="Search Orders..." style="width: 150px;">
                 </div>
             </div>
-            
+
 
             @if (session()->has('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
@@ -149,10 +158,11 @@
                                                     {{ $order->order_type }}
                                                 </span>
                                             @endif
-                                        </td>                                        
+                                        </td>
                                         <td>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('M d, Y') }}</td>
-                                        <td>{{ $order->currency->symbol ?? '$' }} {{ number_format($order->total, 2) }}</td>
+                                        <td>{{ $order->currency->symbol ?? '$' }}
+                                            {{ number_format($order->total, 2) }}</td>
                                         <td
                                             class="
                                         text-sm 
@@ -197,12 +207,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class="badge 
+                                            <span
+                                                class="badge 
                                                 @if ($order->order_status === 'Paid') bg-success 
                                                 @elseif ($order->order_status === 'Pending') bg-warning 
                                                 @elseif ($order->order_status === 'Cancelled') bg-danger 
-                                                @elseif ($order->order_status === 'Sales Transfered to US') bg-info
-                                                @endif">
+                                                @elseif ($order->order_status === 'Sales Transfered to US') bg-info @endif">
                                                 {{ $order->order_status }}
                                             </span>
                                         </td>

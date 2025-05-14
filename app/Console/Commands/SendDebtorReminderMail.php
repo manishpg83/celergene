@@ -18,17 +18,30 @@ class SendDebtorReminderMail extends Command
     {
         $oneWeekAgo = Carbon::now()->subWeek();
 
-        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])
-            ->whereHas('order', function ($query) {
-                $query->whereHas('payments', function ($q) {
-                    $q->where('status', 'pending');
-                })->orWhereDoesntHave('payments');
-            })
+        $invoices = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
             ->where('created_at', '<=', $oneWeekAgo)
             ->get();
 
-        $debtors->each(function ($invoice) {
-            $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
+        $debtors = $invoices->filter(function ($invoice) {
+            $order = $invoice->order;
+
+            if (!$order) {
+                return false;
+            }
+
+            $totalOrderAmount = $order->total_amount;
+            $totalPaid = $order->payments->sum('amount');
+            $latestStatus = $order->payments->sortByDesc('payment_date')->first()?->status;
+
+            if (
+                $totalPaid < $totalOrderAmount ||
+                !in_array($latestStatus, ['fully paid with bank charges', 'fully paid without bank charges'])
+            ) {
+                $invoice->overdue_days = Carbon::parse($invoice->created_at)->diffInDays(now());
+                return true;
+            }
+
+            return false;
         });
 
         $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
