@@ -16,24 +16,25 @@ class SendDebtorReminderMail extends Command
 
     public function handle()
     {
-        $threeWeeksAgo = Carbon::now()->subWeeks(3);
+        $oneWeekAgo = Carbon::now()->subWeek();
 
         $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])
-            ->whereHas('order', function($query) {
-                $query->whereHas('payments', function($q) {
+            ->whereHas('order', function ($query) {
+                $query->whereHas('payments', function ($q) {
                     $q->where('status', 'pending');
                 })->orWhereDoesntHave('payments');
             })
-            ->where('created_at', '<=', $threeWeeksAgo)
+            ->where('created_at', '<=', $oneWeekAgo)
             ->get();
 
         $debtors->each(function ($invoice) {
             $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
         });
+
         $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
+
         if ($debtors->count() > 0) {
             Mail::to($adminEmail)->send(new DebtorReminderMail($debtors));
-            //Mail::to('developer@predsolutions.com')->send(new DebtorReminderMail($debtors));
             $this->info('Reminder email sent successfully.');
         } else {
             $this->info('No overdue invoices found.');
