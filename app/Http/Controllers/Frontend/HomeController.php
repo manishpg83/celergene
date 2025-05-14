@@ -37,10 +37,14 @@ class HomeController extends Controller
         if ($customer) {
             $customerId = $customer->id;
 
-            $totalOrders = OrderMaster::where('customer_id', $customerId)->count();
+            $totalOrders = OrderMaster::where('customer_id', $customerId)
+                            ->where('order_type', 'online')
+                            ->count();
+                            
             $totalPendingOrders = OrderMaster::where('customer_id', $customerId)
-                ->where('order_status', 'pending')
-                ->count();
+                                ->where('order_status', 'pending')
+                                ->where('order_type', 'online')
+                                ->count();
         } else {
             $totalOrders = 0;
             $totalPendingOrders = 0;
