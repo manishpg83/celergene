@@ -62,6 +62,12 @@ class Checkout extends Component
 
     public function mount()
     {
+
+        if (Auth::check() && Auth::user()->type === 'super-admin') {
+            notyf()->error('Please logout. You are not able to place a order. You are login as a super admin.');
+            return redirect()->route('home');
+        }
+
         $this->user = Auth::user();
         $this->loadBillingAddress();
         $this->loadShippingAddresses();
@@ -255,6 +261,12 @@ class Checkout extends Component
 
     public function processOrder()
     {
+
+        if (Auth::check() && Auth::user()->type === 'super-admin') {
+            notyf()->error('Please logout. You are not able to place a order. You are login as a super admin.');
+            return false;
+        }
+
         $this->validate([
             'billing_fname' => 'required',
             'billing_lname' => 'required',

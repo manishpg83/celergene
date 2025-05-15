@@ -56,12 +56,14 @@
     <table>
         <thead>
             <tr>
+                <th>Order ID</th>
                 <th>Invoice ID</th>
                 <th>Invoice Date</th>
                 <th>Name</th>
                 <th>Company Name</th>
                 <th>Country</th>
                 <th>Net Amount</th>
+                <th>Paid Amount</th>
                 <th>Balance</th>
                 <th>Over due by (Days)</th>
                 <th>Created By</th>
@@ -70,6 +72,7 @@
         <tbody>
             @forelse ($debtors as $debtor)
                 <tr>
+                    <td>{{ $debtor->order_id }}</td>
                     <td>{{ $debtor->invoice_number }}</td>
                     <td>{{ $debtor->invoice_date ?? $debtor->created_at->format('Y-m-d') }}</td>
                     <td>{{ $debtor->customer->first_name }} {{ $debtor->customer->last_name }}</td>
@@ -78,6 +81,7 @@
                     <td class="amount">
                         {{ number_format($debtor->order->total ?? 0, 2) }}
                     </td class="amount">
+                    <td>{{ $debtor->currencySymbol }}{{ number_format($debtor->totalPaid, 2) }}</td>
                     <td> {{ number_format($debtor->total, 2) }}<br>
                     </td>
                     <td class="center">{{ $debtor->overdue_days }}</td>

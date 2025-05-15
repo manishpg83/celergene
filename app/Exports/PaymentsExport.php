@@ -23,12 +23,14 @@ class PaymentsExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'Order ID',
             'Invoice ID',
             'Invoice Date',
             'Name',
             'Company Name',
             'Country',
             'Invoice Amount',
+            'Paid Amount',
             'Order Amount',
             'Overdue by (Days)',
             'Created By',
@@ -38,12 +40,14 @@ class PaymentsExport implements FromCollection, WithHeadings, WithMapping
     public function map($debtor): array
     {
         return [
+            $debtor->order_id,
             $debtor->invoice_number,
             $debtor->invoice_date,
             $debtor->customer->first_name . ' ' . $debtor->customer->last_name,
             $debtor->customer->company_name,
             $debtor->customer->billing_country,
             number_format($debtor->total, 2),
+            number_format($debtor->totalPaid, 2),
             number_format($debtor->order->total ?? 0, 2),
             $debtor->overdue_days,
             $debtor->createdBy->name,

@@ -46,12 +46,14 @@
                     <thead>
                         <tr>
                             <th>Sr No</th>
+                            <th>Order ID</th>
                             <th>Invoice ID</th>
                             <th>Invoice Date</th>
                             <th>Name</th>
                             <th>Company Name</th>
                             <th>Country</th>
                             <th>Net Amount</th>
+                            <th>Paid Amount</th>
                             <th>Balance</th>
                             <th>Overdue by (Days)</th>
                         </tr>
@@ -60,15 +62,17 @@
                         @forelse ($debtors as $index => $debtor)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $debtor->order_id }}</td>
                                 <td>{{ $debtor->invoice_number }}</td>
                                 <td>{{ $debtor->invoice_date ?? $debtor->created_at->format('Y-m-d') }}</td>
                                 <td>{{ $debtor->customer->first_name }} {{ $debtor->customer->last_name }}</td>
                                 <td>{{ $debtor->customer->company_name }}</td>
                                 <td>{{ $debtor->customer->billing_country }}</td>
                                 <td>
-                                    {{ number_format($debtor->order->total ?? 0, 2) }}
+                                    {{ $debtor->currencySymbol }}{{ number_format($debtor->order->total ?? 0, 2) }}
                                 </td>
-                                <td>{{ number_format($debtor->total, 2) }}</td>
+                                <td>{{ $debtor->currencySymbol }}{{ number_format($debtor->totalPaid, 2) }}</td>
+                                <td>{{ $debtor->currencySymbol }}{{ number_format($debtor->pendingAmount, 2) }}</td>
                                 <td>{{ $debtor->overdue_days }}</td>
                             </tr>
                         @empty

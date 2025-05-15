@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PaymentsExport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DebtorsList extends Component
 {
@@ -31,11 +32,7 @@ class DebtorsList extends Component
 
     public function downloadPdf()
     {
-        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])->latest()->get();
-
-        $debtors->each(function ($invoice) {
-            $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
-        });
+        $debtors = $this->getDebtors(false);
 
         $pdf = Pdf::loadView('livewire.admin.debtors.pdf-template', [
             'debtors' => $debtors,
@@ -48,11 +45,7 @@ class DebtorsList extends Component
 
     public function downloadCsv()
     {
-        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])->latest()->get();
-
-        $debtors->each(function ($invoice) {
-            $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
-        });
+        $debtors = $this->getDebtors(false);
 
         $headers = [
             "Content-type" => "text/csv",
@@ -66,24 +59,34 @@ class DebtorsList extends Component
             $file = fopen('php://output', 'w');
 
             fputcsv($file, [
+                'Order ID',
                 'Invoice ID',
                 'Invoice Date',
                 'Name',
                 'Company Name',
                 'Country',
-                'Net Amount Balance',
+                'Net Amount',
+                'Paid Amount',
+                'Balance',
                 'Overdue by (Days)',
                 'Created By',
             ]);
 
             foreach ($debtors as $debtor) {
+                $currencySymbol = DB::table('currency')
+                    ->where('id', $debtor->order->currency_id)
+                    ->value('symbol') ?? '';
+                    
                 fputcsv($file, [
+                    $debtor->order_id,
                     $debtor->invoice_number,
                     $debtor->invoice_date ?? $debtor->created_at->format('Y-m-d'),
                     $debtor->customer->first_name . ' ' . $debtor->customer->last_name,
                     $debtor->customer->company_name,
                     $debtor->customer->billing_country,
-                    number_format($debtor->total, 2) . ' ' . number_format($debtor->order->total ?? 0, 2),
+                    $currencySymbol . number_format($debtor->order->total ?? 0, 2),
+                    $currencySymbol . number_format($debtor->totalPaid, 2),
+                    $currencySymbol . number_format($debtor->pendingAmount, 2),
                     $debtor->overdue_days,
                     $debtor->createdBy->name,
                 ]);
@@ -97,22 +100,16 @@ class DebtorsList extends Component
 
     public function downloadExcel()
     {
-        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])->latest()->get();
-
-        $debtors->each(function ($invoice) {
-            $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
-        });
-
+        $debtors = $this->getDebtors(false);
         return Excel::download(new PaymentsExport($debtors), 'debtors-list.xlsx');
     }
 
-    public function render()
+    protected function getDebtors($paginate = true)
     {
-        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order'])
+        $query = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
+            ->where('invoice_category', '!=', 'shipping')
             ->whereHas('order', function($query) {
-                $query->whereHas('payments', function($q) {
-                    $q->where('status', 'pending');
-                })->orWhereDoesntHave('payments');
+                $query->whereRaw('(SELECT COALESCE(SUM(amount), 0) FROM payments WHERE payments.order_id = order_master.order_id) < order_master.total');
             })
             ->when($this->search, function ($query) {
                 $query->where('invoice_number', 'like', '%' . $this->search . '%')
@@ -128,13 +125,33 @@ class DebtorsList extends Component
                     ->orWhereHas('createdBy', function ($q) {
                         $q->where('name', 'like', '%' . $this->search . '%');
                     });
-            })
-            ->paginate($this->perPage);
-
-        $debtors->each(function ($invoice) {
+            });
+            
+        if ($this->sortField) {
+            $query->orderBy($this->sortField, $this->sortDirection);
+        }
+        
+        $debtors = $paginate ? $query->paginate($this->perPage) : $query->get();
+        
+        foreach ($debtors as $invoice) {
             $invoice->overdue_days = (int)Carbon::parse($invoice->created_at)->diffInDays(now());
-        });
+            
+            $invoice->totalPaid = $invoice->order->payments->sum('amount');
+            
+            $invoice->pendingAmount = max(0, $invoice->order->total - $invoice->totalPaid);
+            
+            $invoice->currencySymbol = DB::table('currency')
+                ->where('id', $invoice->order->currency_id)
+                ->value('symbol') ?? '';
+        }
+        
+        return $debtors;
+    }
 
+    public function render()
+    {
+        $debtors = $this->getDebtors();
+        
         return view('livewire.admin.debtors.debtors-list', [
             'debtors' => $debtors,
         ]);
