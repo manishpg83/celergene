@@ -60,7 +60,6 @@
 
         <div class="footer"
             style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
-            <p>Thank you for your business!</p>
             <p>If you have any queries, please feel free to contact us at <a href="mailto:marketing@celergenswiss.com"
                     style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
         </div>
