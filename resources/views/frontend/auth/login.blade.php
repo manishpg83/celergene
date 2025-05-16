@@ -7,9 +7,9 @@
 <div class="wrapper-fixed">
     <div class="banner">
        <div class="table-cell">
-          <div class="v-align">
+          {{-- <div class="v-align">
              Experience Swiss Cell Therapy
-          </div>
+          </div> --}}
        </div>
     </div>
     <form method="POST" id="registration" action="{{ route('login') }}">

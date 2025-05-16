@@ -405,8 +405,9 @@ class Checkout extends Component
             $orderNumber = OrderMaster::generateOrderNumber();
 
             $shippingAddress = $this->useBillingAddress
-                ? ($this->billing_address ?? 'N/A')
-                : ($this->shipping_address1 ?? 'N/A');
+            ? "{$this->billing_address}, {$this->billing_city}, {$this->billing_state}, {$this->billing_postal_code}, {$this->billing_country}"
+            : "{$this->shipping_address1}, {$this->shipping_city}, {$this->shipping_state}, {$this->shipping_zip}, {$this->shipping_country}";        
+        
 
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,

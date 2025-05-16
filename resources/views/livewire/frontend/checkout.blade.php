@@ -30,6 +30,16 @@
                 <div class="col-xs-12 col-md-8">
                     <!-- Billing Address -->
                     <div class="row form-item-ck">
+                        @unless (Auth::check())
+                            <div class="col-xs-12 mt-4">
+                                <div class="alert alert-info"
+                                    style="background-color: #e6f7ff; color: #005580; border-left: 4px solid #0099cc; padding: 10px;">
+                                    <strong>Note:</strong> You are continuing as a guest. Please ensure all billing details
+                                    are accurate.
+                                </div>
+                            </div>
+                        @endunless
+
                         <div class="col-xs-12" style="margin-top: 20px;margin-bottom: 20px;">
                             <div class="icons-number pull-left">1</div>
                             <div style="padding-left:10px;float: left;font-weight: bold;">Billing Address</div>
@@ -148,7 +158,7 @@
                             <div class="pull-right remember-rev" style="margin-right: 0px;">
                                 <input type="checkbox" name="add_same" id="add_same" value="on"
                                     wire:model="useBillingAddress" onclick="SwitchAddress(this);" class="filled">
-                                <label for="add_same" class="pull-right">Same as Billing Address?</label>
+                                <label for="add_same" class="pull-right">Same as Billing Address</label>
                             </div>
                         </div>
 

@@ -3,9 +3,9 @@
 /* CSS Document */
 
 .banner {
-    background: url("../images/bg_02.jpg") center center no-repeat;
     background-size: cover;
-    height: 340px;
+    background: #e7eaec;
+    height: 200px;
     width: 100%;
     text-align: center;
     font-family: 'Calluna-Light' !important;
