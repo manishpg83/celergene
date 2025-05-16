@@ -11,8 +11,8 @@
     <div class="container" style="max-width: 600px; margin: 0 auto; padding: 15px;">
 
         <div style="text-align: center; margin-bottom: 30px;">
-            <img src="{{ asset('admin/assets/img/caviarlieri-logo.png') }}"
-                alt="Caviarlieri Logo" style="display: block; margin: 0 auto; max-width: 200px; width: 80%;">
+            <img src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
+                alt="Celergen Swiss Logo" style="display: block; margin: 0 auto; max-width: 200px; width: 80%;">
         </div>
 
         <div class="header" style="text-align: left; margin-bottom: 30px;">
@@ -21,14 +21,14 @@
             <p>Your order details are attached below.</p>
         </div>
 
-        <div class="address-section" style="margin-bottom: 25px;">
-            <div class="address-block" style="width: 100%; margin-bottom: 15px;">
+        <div class="address-section" style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 25px;">
+            <div class="address-block" style="width: 48%; min-width: 250px; margin-bottom: 15px;">
                 <p style="margin: 0; white-space: pre-line;">
                     <strong>Billing Address:</strong><br>
                     {!! nl2br(implode('<br>', array_map('trim', explode(',', $billingAddress)))) !!}<br>
                 </p>                
             </div>
-            <div class="address-block" style="width: 100%;">
+            <div class="address-block" style="width: 48%; min-width: 250px;">
                 <p style="margin: 0; white-space: pre-line;">
                     <strong>Shipping Address:</strong><br>
                     {!! nl2br(implode('<br>', array_map('trim', explode(',', $shippingAddress)))) !!}<br>
@@ -78,7 +78,7 @@
 
         <div class="footer" style="margin-top: 25px; text-align: left; font-size: 0.9em; color: #666;">
             <p>If you have any queries, please feel free to contact us at
-                <a href="mailto:marketing@swisscaviarlieri.com" style="color: #666; word-break: break-all;">marketing@swisscaviarlieri.com</a>
+                <a href="mailto:marketing@celergenswiss.com" style="color: #666; word-break: break-all;">marketing@celergenswiss.com</a>
             </p>
         </div>
 
@@ -90,7 +90,7 @@
         </div>
 
         <div style="margin-top: 30px; text-align: center; width: 100%;">
-            <img src="{{ asset('frontend/images/email_banner.png') }}" alt="Caviarlieri Banner"
+            <img src="http://13.49.251.219/frontend/images/email_banner.png" alt="Celergen Banner"
                 style="max-width: 100%; width: 100%; height: auto; display: block;">
         </div>
     </div>
