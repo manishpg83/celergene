@@ -69,6 +69,7 @@ class Checkout extends Component
         }
 
         $this->user = Auth::user();
+        $this->useBillingAddress = false;
         $this->loadBillingAddress();
         $this->loadShippingAddresses();
         $this->updateCart();

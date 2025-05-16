@@ -36,12 +36,12 @@
         <p><strong>Order Date:</strong> {{ date('F d, Y') }}</p>
         <p><strong>Order No:</strong> #{{ $orderNumber }}</p>
 
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; border: 1px solid #ddd;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; border: 1px solid #ddd; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
             <thead>
-                <tr style="background-color: silver;">
-                    <th style="padding: 12px; text-align: right; border: 1px solid #000000; font-weight: bold;">Item Name</th>
-                    <th style="padding: 12px; text-align: right; border: 1px solid #000000; font-weight: bold;">Total Quantity</th>
-                    <th style="padding: 12px; text-align: right; border: 1px solid #000000; font-weight: bold;">Price (USD)</th>
+                <tr style="background-color: #2c3e50; color: white;">
+                    <th style="padding: 15px; text-align: left; border: 1px solid #1a2836; font-weight: bold;">Item Name</th>
+                    <th style="padding: 15px; text-align: center; border: 1px solid #1a2836; font-weight: bold;">Total Quantity</th>
+                    <th style="padding: 15px; text-align: right; border: 1px solid #1a2836; font-weight: bold;">Price (USD)</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,24 +49,24 @@
                     $orderDetails = \App\Models\OrderDetails::where('order_id', $orderId)->get();
                     $orderMaster = \App\Models\OrderMaster::where('order_id', $orderId)->first();
                 @endphp
-                @foreach ($orderDetails as $detail)
-                    <tr>
-                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">{{ $detail->product->product_name ?? 'Unnamed Product' }}</td>
-                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">{{ $detail->quantity }}</td>
-                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">{{ number_format($detail->unit_price, 2) }}</td>
+                @foreach ($orderDetails as $index => $detail)
+                    <tr style="background-color: {{ $index % 2 == 0 ? '#ffffff' : '#f9f9f9' }};">
+                        <td style="padding: 12px; text-align: left; border: 1px solid #eee;">{{ $detail->product->product_name ?? 'Unnamed Product' }}</td>
+                        <td style="padding: 12px; text-align: center; border: 1px solid #eee;">{{ $detail->quantity }}</td>
+                        <td style="padding: 12px; text-align: right; border: 1px solid #eee;">${{ number_format($detail->unit_price, 2) }}</td>
                     </tr>
                 @endforeach
-                <tr style="background-color: #f2f2f2; border: 1px solid #7c7979;">
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;" colspan="2"><strong>Sub Total</strong></td>
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">{{ number_format($orderMaster->subtotal, 2) }}</td>
+                <tr style="background-color: #f8f9fa; border-top: 2px solid #dee2e6;">
+                    <td style="padding: 12px; text-align: right; border: 1px solid #eee;" colspan="2"><strong>Sub Total</strong></td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #eee;">${{ number_format($orderMaster->subtotal, 2) }}</td>
                 </tr>
-                <tr style="background-color: #f2f2f2; border: 1px solid #7c7979;">
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;" colspan="2"><strong>Freight</strong></td>
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">{{ $orderMaster->freight == 0 ? 'Free' : number_format($orderMaster->freight, 2) }}</td>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; text-align: right; border: 1px solid #eee;" colspan="2"><strong>Freight</strong></td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #eee;">{{ $orderMaster->freight == 0 ? 'Free' : '$'.number_format($orderMaster->freight, 2) }}</td>
                 </tr>
-                <tr style="background-color: #f2f2f2; border: 1px solid #7c7979;">
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;" colspan="2"><strong>Net Total</strong></td>
-                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;"><strong>{{ number_format($orderMaster->total, 2) }}</strong></td>
+                <tr style="background-color: #e9f0f8; font-weight: bold;">
+                    <td style="padding: 15px; text-align: right; border: 1px solid #d0e0f3;" colspan="2"><strong>Net Total</strong></td>
+                    <td style="padding: 15px; text-align: right; border: 1px solid #d0e0f3; font-size: 16px; color: #2c3e50;"><strong>${{ number_format($orderMaster->total, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>

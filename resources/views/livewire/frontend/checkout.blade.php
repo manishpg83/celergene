@@ -32,7 +32,7 @@
                     <div class="row form-item-ck">
                         <div class="col-xs-12" style="margin-top: 20px;margin-bottom: 20px;">
                             <div class="icons-number pull-left">1</div>
-                            <div style="padding-left:10px;float: left;">Billing Address</div>
+                            <div style="padding-left:10px;float: left;font-weight: bold;">Billing Address</div>
                         </div>
                         <br><br>
 
@@ -144,28 +144,37 @@
                         <br><br>
                         <div class="col-xs-12" style="margin-bottom: 20px;">
                             <div class="icons-number pull-left">2</div>
-                            <div style="padding-left:10px;float: left;">Shipping Address</div>
+                            <div style="padding-left:10px;float: left;font-weight: bold;">Shipping Address</div>
                             <div class="pull-right remember-rev" style="margin-right: 0px;">
                                 <input type="checkbox" name="add_same" id="add_same" value="on"
                                     wire:model="useBillingAddress" onclick="SwitchAddress(this);" class="filled">
-                                <label for="add_same" class="pull-right">Ship to same address?</label>
+                                <label for="add_same" class="pull-right">Same as Billing Address?</label>
                             </div>
                         </div>
 
                         <div id="ship_address">
                             <div class="row form-item-ck">
-                                @if(Auth::check())
-                                <div class="col-xs-12 select-address-wrapper">
-                                    <select wire:model="selectedShippingAddress" wire:change="handleAddressChange">
-                                        @foreach ($shippingAddresses as $address)
-                                            <option value="{{ $address['address'] }}">{{ $address['address'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="select-dropdown-icon glyphicon glyphicon-chevron-down">&nbsp;</span>
-                                </div>
+                                @if (Auth::check())
+                                    <div class="col-xs-12 select-address-wrapper">
+                                        <label for="shipping-address" class="shipping-label text-primary mb-2"
+                                            style="font-weight: bold;">
+                                            Please select shipping address
+                                        </label>
+                                        <div class="custom-select-wrapper">
+                                            <select id="shipping-address" wire:model="selectedShippingAddress"
+                                                wire:change="handleAddressChange"
+                                                class="form-control shipping-select">
+                                                <option value="">-- Select Address --</option>
+                                                @foreach ($shippingAddresses as $address)
+                                                    <option value="{{ $address['address'] }}">
+                                                        {{ $address['address'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                class="select-dropdown-icon glyphicon glyphicon-chevron-down text-primary"></span>
+                                        </div>
+                                    </div>
                                 @endif
-
                                 <div class="col-xs-12 col-md-6">
                                     <input type="text" maxlength="100" name="firstname" id="firstname"
                                         class="form-control" placeholder="First Name" data-validation="required"
@@ -281,7 +290,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                   <livewire:order-summary-component />
+                    <livewire:order-summary-component />
 
 
                     {{--  @if ($billingAddress && count($cartItems) > 0)

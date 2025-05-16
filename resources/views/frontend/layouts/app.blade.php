@@ -97,7 +97,7 @@
             alert(message); // Or use a more sophisticated notification system
         });
     </script>
-    <script src="{{ asset('/frontend/js/header.js') }}"></script> 
+    <script src="{{ asset('/frontend/js/header.js') }}"></script>
     <script>
         function toggleClass1() {
             var screensize = screen.width;
@@ -253,19 +253,17 @@
         ];
 
         function SwitchAddress(ID) {
-            var CurControl = $('#ship_address');
+            var shippingSection = $('#ship_address');
             if (ID.checked) {
-                CurControl.hide();
+                shippingSection.hide();
             } else {
-                CurControl.show();
+                shippingSection.show();
             }
         }
 
         $(document).ready(function() {
             var checkbox = $('#add_same')[0];
-            if (checkbox != undefined) {
-                SwitchAddress(checkbox);
-            }
+            if (checkbox != undefined) {}
 
         });
 
