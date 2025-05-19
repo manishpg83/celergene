@@ -33,14 +33,23 @@ class ManagePayment extends Component
 
     public function savePayment()
     {
+        $maxAllowedAmount = max(0, $this->order->total - $this->totalPaid);
+
         $this->validate([
             'payment_method' => 'required',
-            'amount' => 'required|numeric|min:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:0.01',
+                "max:$maxAllowedAmount"
+            ],
             'payment_date' => 'required|date',
             'status' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
             'payment_details' => 'nullable|string',
             'transaction_id' => 'nullable|string',
             'bank_charge' => 'nullable|numeric|min:0'
+        ], [
+            'amount.max' => "Payment amount cannot exceed the pending amount of {$this->order->currency_symbol}" . number_format($maxAllowedAmount, 2)
         ]);
 
         $bank_charge = $this->bank_charge ?? 0;
@@ -78,15 +87,29 @@ class ManagePayment extends Component
     public function updatePayment()
     {
         try {
+            // Get the current payment being edited
+            $currentPayment = Payment::findOrFail($this->editedPaymentId);
+            
+            // Calculate max allowed amount (excluding the current payment being edited)
+            $otherPaymentsTotal = $this->payments->where('id', '!=', $this->editedPaymentId)->sum('amount');
+            $maxAllowedAmount = max(0, $this->order->total - $otherPaymentsTotal);
+            
             $this->validate([
-                'editedAmount' => 'required|numeric|min:0',
+                'editedAmount' => [
+                    'required',
+                    'numeric',
+                    'min:0.01',
+                    "max:$maxAllowedAmount"
+                ],
                 'editedPaymentDate' => 'required|date',
                 'editedPaymentMethod' => 'required',
                 'editedStatus' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
                 'editedBankCharge' => 'nullable|numeric|min:0',
                 'editedPaymentDetails' => 'nullable|string',
+            ], [
+                'editedAmount.max' => "Payment amount cannot exceed the pending amount of {$this->order->currency_symbol}" . number_format($maxAllowedAmount, 2)
             ]);
-
+            
             $bank_charge = $this->editedBankCharge ?? 0;
 
             $payment = Payment::findOrFail($this->editedPaymentId);

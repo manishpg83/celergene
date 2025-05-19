@@ -19,12 +19,14 @@
 
         <div class="col-md-6">
             <label class="form-label">Amount</label>
-            <input type="number" wire:model="amount" class="form-control" step="0.01">
+            <input type="number" wire:model="amount" class="form-control" step="0.01" 
+                   max="{{ $pendingAmount }}" 
+                   oninput="validateAmount(this)">
             @error('amount')
                 <div class="text-danger small">{{ $message }}</div>
             @enderror
+            <small class="text-muted">Maximum allowed: {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</small>
         </div>
-
 
         <div class="col-md-6">
             <label class="form-label">Payment Date</label>
@@ -184,4 +186,18 @@
             });
         });
     </script>
+    <script>
+        function validateAmount(input) {
+            const maxAmount = {{ $pendingAmount }};
+            const currentValue = parseFloat(input.value);
+            
+            if (currentValue > maxAmount) {
+                input.setCustomValidity(`Amount cannot exceed ${maxAmount}`);
+                input.style.borderColor = 'red';
+            } else {
+                input.setCustomValidity('');
+                input.style.borderColor = '';
+            }
+        }
+        </script>
 </div>
