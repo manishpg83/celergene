@@ -17,7 +17,7 @@
         <div class="header" style="text-align: left; font-size: 14px; line-height: 1.8;">
             <span>Dear Customer,</span><br>
             <span style="display: inline-block; margin-top: 6px;">
-                You are receiving this email because we received a password reset request for your account.<br><br>
+                You are receiving this email because we received a password reset request for your account.
                 
                 Please click the button below to reset your password:
             </span>

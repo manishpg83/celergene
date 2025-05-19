@@ -37,7 +37,7 @@
 
         <div style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; margin-bottom: 10px;">
             <strong>Order Date:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}<br>
-            <strong>Order No:</strong> #{{ $order->order_id }}
+            <strong>Order No:</strong> {{ $order->order_id }}
         </div>
 
         <table style="font-family: Helvetica, Arial, sans-serif; width: 100%; border-collapse: collapse; margin-bottom: 30px;">

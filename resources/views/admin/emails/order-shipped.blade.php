@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Order Update #{{ $deliveryOrder->id }}</title>
+    <title>Order Update {{ $deliveryOrder->id }}</title>
 </head>
 
 <body
@@ -31,8 +31,8 @@
 
         <div style="font-size: 14px; margin-bottom: 10px;">
             <strong>Order Date:</strong> {{ $deliveryOrder->created_at->format('F d, Y') }}<br>
-            <strong>Order No:</strong> #{{ $deliveryOrder->orderMaster->order_id }}<br>
-            <strong>Invoice No:</strong> #{{ $deliveryOrder->orderInvoice->invoice_number ?? '-' }}<br>
+            <strong>Order No:</strong> {{ $deliveryOrder->orderMaster->order_id }}<br>
+            <strong>Invoice No:</strong> {{ $deliveryOrder->orderInvoice->invoice_number ?? '-' }}<br>
             <strong>Tracking Number:</strong> {{ $deliveryOrder->tracking_number }}<br>
             <strong>Tracking URL:</strong> <a href="{{ $deliveryOrder->tracking_url }}" target="_blank" style="color: #222; word-break: break-all;">{{ $deliveryOrder->tracking_url }}</a>
         </div>
@@ -61,8 +61,8 @@
         </table>
 
         <div class="footer" style="margin-top: 25px; text-align: left; font-size: 0.9em; color: #666;">
-            <p>Please be informed that delivery of your package via courier service will take approximately 3 to 5 working days</p>
-            <p>If you have any queries, please feel free to contact us at
+            <p>Please be informed that delivery of your package via courier service will take approximately 3 to 5 working days.</p>
+            <p>If you have any queries, please feel free to contact us. at
                 <a href="mailto:marketing@celergenswiss.com"
                     style="color: #666; word-break: break-all;">marketing@celergenswiss.com</a>
             </p>

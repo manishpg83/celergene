@@ -45,7 +45,7 @@
 
         <div style="font-size: 14px; margin-bottom: 10px;">
             <strong>Order Date:</strong> {{ date('F d, Y') }}<br>
-            <strong>Order No:</strong> #{{ $orderNumber }}
+            <strong>Order No:</strong> {{ $orderNumber }}
         </div>
 
         <div style="overflow-x: auto; margin-bottom: 25px;">
