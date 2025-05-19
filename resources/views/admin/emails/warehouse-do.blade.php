@@ -6,7 +6,8 @@
     <title>Order Update Notification</title>
 </head>
 
-<body style="font-family: Arial, sans-serif; font-size: 14px; color: #333; margin: 0; padding: 40px; background-color: #fff; line-height: 1.6;">
+<body
+    style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #222; margin: 0; padding: 20px; background-color: #fff; line-height: 1.6;">
     <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px; width: 100%; display: block;">
             <img src="{{ asset('admin/assets/img/branding/cropped-celergen-logo.png') }}"
@@ -19,16 +20,20 @@
 
             <p style="font-weight: bold; margin-top: 20px;">Shipping Details:</p>
 
-            <p>
-                <strong>Address:</strong><br>
-                {!! nl2br(implode('<br>', array_map('trim', explode(',', $shippingAddress)))) !!}<br>
-                <strong>Phone:</strong> {{ $customerMobile ?? 'N/A' }}
-            </p>
+            <div class="address-container" style="margin-bottom: 15px;">
+                <div style="margin-bottom: 10px;">
+                    <strong>Address:</strong><br>
+                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
+                </div>
+                <div>
+                    <strong>Phone:</strong> {{ $customerMobile ?? 'N/A' }}
+                </div>
+            </div>
         </div>
 
-        <div>
-            <p><strong>Order Date :</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}</p>
-            <p><strong>Order No :</strong> #{{ $order->order_id }}</p>
+        <div style="font-size: 14px; margin-bottom: 10px;">
+            <strong>Order Date:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}<br>
+            <strong>Order No:</strong> #{{ $order->order_id }}
         </div>
 
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
@@ -54,6 +59,11 @@
         </p>
         <div class="footer" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
             <p>If you have any queries, please feel free to contact us at <a href="mailto:marketing@celergenswiss.com" style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center; width: 100%;">
+            <img src="http://13.49.251.219/frontend/images/email_banner.png" alt="Celergen Banner"
+                style="max-width: 100%; width: 100%; height: auto; display: block;">
         </div>
     </div>
 </body>

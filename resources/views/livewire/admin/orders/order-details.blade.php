@@ -87,19 +87,16 @@
                                         <div class="col-md-4">
                                             <h6>Billing Address:</h6>
                                             <p class="mb-1">
-                                                @foreach (explode(',', $order->customer->billing_address) as $line)
-                                                    {{ trim($line) }}<br>
-                                                @endforeach
+                                                {!! implode('<br>', array_filter(array_map('trim', explode(',', $this->formattedBillingAddress)))) !!}
                                             </p>
                                         </div>
+                                        
                                         <div class="col-md-4">
                                             <h6>Shipping Address:</h6>
                                             <p class="mb-1">
-                                                @foreach (explode(',', $order->shipping_address) as $line)
-                                                    {{ trim($line) }}<br>
-                                                @endforeach
+                                                {!! implode('<br>', array_filter(array_map('trim', explode(',', $order->shipping_address)))) !!}
                                             </p>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>

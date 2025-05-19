@@ -79,9 +79,9 @@
         <p>Phone : {{ $order->customer->billing_phone ?? $order->customer->mobile_number ?? 'N/A' }}</p>
     </div>
 
-    <div class="section">
+    <div class="section"> 
         <p>Order Date : {{ date('F d, Y', strtotime($order->order_date)) }}</p>
-        <p>Order No : {{ $order->order_number }}</p>
+        <p>Order No : {{ $order->order_id }}</p>
     </div>
 
     <table>

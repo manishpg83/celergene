@@ -471,6 +471,57 @@ class OrderDetails extends Component
         }
     }
 
+    public function getFormattedBillingAddressProperty()
+    {
+        $customer = $this->order->customer;
+        $parts = [];
+
+        if ($customer->billing_fname || $customer->billing_lname) {
+            $parts[] = trim($customer->billing_fname . ' ' . $customer->billing_lname);
+        }
+
+        if ($customer->billing_company_name) {
+            $parts[] = $customer->billing_company_name;
+        }
+
+        if ($customer->billing_address) {
+            $parts[] = $customer->billing_address;
+        }
+
+        if ($customer->billing_address_2) {
+            $parts[] = $customer->billing_address_2;
+        }
+
+        $cityStatePostal = [];
+        if ($customer->billing_city) {
+            $cityStatePostal[] = $customer->billing_city;
+        }
+        if ($customer->billing_state) {
+            $cityStatePostal[] = $customer->billing_state;
+        }
+        if ($customer->billing_postal_code) {
+            $cityStatePostal[] = $customer->billing_postal_code;
+        }
+
+        if (!empty($cityStatePostal)) {
+            $parts[] = implode(' ', $cityStatePostal);
+        }
+
+        if ($customer->billing_country) {
+            $parts[] = $customer->billing_country;
+        }
+
+        if ($customer->billing_phone) {
+            $parts[] = 'Phone: ' . $customer->billing_phone;
+        }
+
+        if ($customer->billing_email) {
+            $parts[] = 'Email: ' . $customer->billing_email;
+        }
+
+        return implode(',', $parts);
+    }
+
     public function downloadDeliveryOrder($deliveryOrderId)
     {
         try {
