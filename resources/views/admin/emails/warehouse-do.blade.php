@@ -27,10 +27,28 @@
             <div class="address-container" style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 15px;">
                 <div style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 10px;">
                     <strong>Address:</strong><br>
-                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
+                    @php
+                        $addressParts = array_map('trim', explode(',', $shippingAddress));
+                        
+                        // Get street parts (positions 2,3,4)
+                        $streetParts = array_filter([
+                            $addressParts[2] ?? '', 
+                            $addressParts[3] ?? '', 
+                            $addressParts[4] ?? ''
+                        ]);
+                        
+                        // Get individual parts for separate lines
+                        $state = $addressParts[5] ?? ''; // Wyoming
+                        $country = $addressParts[7] ?? ''; // Samoa  
+                        $postal = $addressParts[8] ?? ''; // 975254
+                    @endphp
+                    {!! implode(' ', $streetParts) !!}<br>
+                    @if($state) {{ $state }}<br> @endif
+                    @if($country) {{ $country }}<br> @endif
+                    @if($postal) {{ $postal }} @endif
                 </div>
                 <div style="font-family: Helvetica, Arial, sans-serif;">
-                    <strong>Phone:</strong> {{ $customerMobile ?? 'N/A' }}
+                    <strong>Phone:</strong> {{ $customerMobile ?? ($addressParts[9] ?? 'N/A') }}
                 </div>
             </div>
         </div>
@@ -43,8 +61,8 @@
         <table style="font-family: Helvetica, Arial, sans-serif; width: 100%; border-collapse: collapse; margin-bottom: 30px;">
             <thead>
                 <tr>
-                    <th style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: left; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">Item Name</th>
-                    <th style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">Total Quantity</th>
+                    <th style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: left; border-bottom: 1px solid #eee; background-color: #e2e2e2; font-weight: bold; color: #333;">Item Name</th>
+                    <th style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #e2e2e2; font-weight: bold; color: #333;">Total Quantity</th>
                 </tr>
             </thead>
             <tbody>
