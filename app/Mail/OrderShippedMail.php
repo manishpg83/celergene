@@ -21,7 +21,9 @@ class OrderShippedMail extends Mailable
 
     public function build()
     {
-        return $this->subject("Your Order Has Been Shipped")
+        $orderId = $this->deliveryOrder->orderMaster->order_id;
+
+        return $this->subject("Your Order Has Been Shipped - Order #{$orderId}")
                     ->view('admin.emails.order-shipped');
     }
 }
