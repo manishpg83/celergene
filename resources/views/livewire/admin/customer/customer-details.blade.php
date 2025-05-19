@@ -57,7 +57,7 @@
                         alt="Profile" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;" />
                     <h5 class="mb-1">{{ $customer->first_name }} {{ $customer->last_name }}</h5>
                     <p class="text-muted">Customer ID #{{ $customer->id }}</p>
-                </div>                
+                </div>
                 <div class="d-flex justify-content-around mb-5 mt-7">
                     <div class="text-center">
                         <i class="fas fa-shopping-cart fa-lg text-primary"></i>
@@ -67,7 +67,7 @@
                     <div class="text-center">
                         <i class="fas fa-dollar-sign fa-lg text-primary"></i>
                         <p class="fw-bold mt-1">${{ number_format($customer->orders_sum_total, 2) }}</p>
-                        <p class="text-muted">Spent</p>
+                        <p class="text-muted">Total</p>
                     </div>
                 </div>
                 <hr>

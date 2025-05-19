@@ -208,7 +208,6 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="text-center" width="60">#</th>
-                                <th>Date</th>
                                 <th>Document</th>
                                 <th class="text-end" width="120">Actions</th>
                             </tr>
@@ -217,13 +216,6 @@
                             @forelse ($invoices as $invoice)
                                 <tr>
                                     <td class="text-center">{{ $invoice->serial }}</td>
-                                    <td>
-                                        @if ($invoice->invoice_date)
-                                            {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('M d, Y') }}
-                                        @else
-                                            <span class="text-muted">N/A</span>
-                                        @endif
-                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-file-pdf text-danger me-2 fs-5"></i>
@@ -234,38 +226,38 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="gap-2 d-flex align-items-center justify-content-center">
-                                    
+
                                             <div class="dropdown">
                                                 <button class="text-black btn btn-link" type="button" id="actionMenu{{ $invoice->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fa fa-ellipsis-v" style="font-size: 20px;"></i>
                                                 </button>
-                                    
+
                                                 <ul class="dropdown-menu" aria-labelledby="actionMenu{{ $invoice->id }}">
                                                     <li>
                                                         <a class="dropdown-item" href="{{ url('storage/' . $invoice->file_path) }}" target="_blank" style="cursor: pointer;">
                                                             <i class="fas fa-eye text-info me-2"></i> View PDF
                                                         </a>
                                                     </li>
-                                    
+
                                                     <li>
                                                         <a class="dropdown-item" wire:click="downloadInvoice({{ $invoice->id }})" style="cursor: pointer;">
                                                             <i class="fas fa-download text-primary me-2"></i> Download
                                                         </a>
-                                                    </li>                                                    
-                                    
+                                                    </li>
+
                                                     <li>
                                                         <a class="dropdown-item text-danger" href="#" onclick="confirmDelete({{ $invoice->id }})" style="cursor: pointer;">
                                                             <i class="fas fa-trash-alt me-2"></i> Delete
                                                         </a>
-                                                    </li>                                                    
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                    </td>                                                                      
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="py-4 text-center">
+                                    <td colspan="3" class="py-4 text-center">
                                         <div class="text-muted">
                                             <i class="mb-3 fas fa-file-alt fa-2x"></i>
                                             <p class="mb-0">No invoices found</p>
@@ -311,5 +303,5 @@
                 }
             });
         }
-    </script>  
+    </script>
 </div>
