@@ -32,7 +32,7 @@ class FrontResetPasswordNotification extends Notification
 
         return (new MailMessage)
             ->subject(Lang::get('Reset Password Notification'))
-            ->view('emails.password-reset', [
+            ->view('frontend.emails.password-reset', [
                 'url' => $url,
                 'user' => $notifiable,
                 'token' => $this->token
