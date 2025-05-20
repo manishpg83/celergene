@@ -41,7 +41,7 @@
         <div class="footer" style="margin-top: 10px; text-align: left; font-size: 0.9em; color: #666;">
             <p>If you have any queries, please feel free to contact us at
                 <a href="mailto:marketing@celergenswiss.com"
-                    style="color: #666; word-break: break-all;">marketing@celergenswiss.com</a>
+                    style="color: #666; word-break: break-all;">marketing@celergenswiss.com</a>.
             </p>
         </div>
 
