@@ -46,8 +46,8 @@
         </div>
 
         <div class="signature" style="margin-top: 30px; font-weight: bold;">
-            Your sincerely,<br>
-            <strong>Celergen Team</strong>
+            Yours sincerely,<br>
+            Celergen Team
         </div>
 
         <div style="margin-top: 30px; text-align: center; width: 100%;">

@@ -19,36 +19,34 @@
                  style="max-height: 60px; width: auto; display: inline-block; margin: 0 auto;">
         </div>
 
-        <div class="greeting" style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 30px; line-height: 1.6;">
+        <div class="greeting" style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 20px; line-height: 1.6;">
             <p style="font-family: Helvetica, Arial, sans-serif;">Dear {{ $warehouseName }} team,</p>
 
             <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; margin-top: 20px;">Shipping Details:</p>
 
-            <div class="address-container" style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 15px;">
-                <div style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 10px;">
+            <div class="address-container" style="font-family: Helvetica, Arial, sans-serif;">
+                <div style="font-family: Helvetica, Arial, sans-serif; margin-bottom: 3px;">
                     <strong>Address:</strong><br>
                     @php
                         $addressParts = array_map('trim', explode(',', $shippingAddress));
                         
-                        // Get street parts (positions 2,3,4)
-                        $streetParts = array_filter([
-                            $addressParts[2] ?? '', 
-                            $addressParts[3] ?? '', 
-                            $addressParts[4] ?? ''
-                        ]);
-                        
-                        // Get individual parts for separate lines
-                        $state = $addressParts[5] ?? ''; // Wyoming
-                        $country = $addressParts[7] ?? ''; // Samoa  
-                        $postal = $addressParts[8] ?? ''; // 975254
+                        $apartment = $addressParts[1] ?? '';
+                        $building = $addressParts[2] ?? '';
+                        $street = $addressParts[3] ?? '';
+                        $area = $addressParts[4] ?? '';
+                        $country = $addressParts[6] ?? '';
+                        $postalCode = $addressParts[7] ?? '';
+                        $phone = $addressParts[8] ?? '';
                     @endphp
-                    {!! implode(' ', $streetParts) !!}<br>
-                    @if($state) {{ $state }}<br> @endif
-                    @if($country) {{ $country }}<br> @endif
-                    @if($postal) {{ $postal }} @endif
+                    
+                    @if($apartment) {{ $apartment }},<br> @endif
+                    @if($building) {{ $building }},<br> @endif
+                    @if($street) {{ $street }},<br> @endif
+                    @if($area) {{ $area }},<br> @endif
+                    @if($country && $postalCode) {{ $country }} - {{ $postalCode }} @endif
                 </div>
                 <div style="font-family: Helvetica, Arial, sans-serif;">
-                    <strong>Phone:</strong> {{ $customerMobile ?? ($addressParts[9] ?? 'N/A') }}
+                    <strong>Phone:</strong> {{ $customerMobile ?? ($phone ?: 'N/A') }}
                 </div>
             </div>
         </div>
@@ -82,11 +80,11 @@
         </p>
         
         <div class="footer" style="font-family: Helvetica, Arial, sans-serif; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
-            <p style="font-family: Helvetica, Arial, sans-serif;">If you have any queries, please feel free to contact us at <a href="mailto:marketing@celergenswiss.com" style="font-family: Helvetica, Arial, sans-serif; color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
+            <p style="font-family: Helvetica, Arial, sans-serif;">If you have any queries, please feel free to contact us at. <a href="mailto:marketing@celergenswiss.com" style="font-family: Helvetica, Arial, sans-serif; color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p>
         </div>
 
         <div style="margin-top: 30px; text-align: center; width: 100%;">
-            <img src="http://13.49.251.219/frontend/images/email_banner.png" alt="Celergen Banner"
+            <img src="{{ asset('frontend/images/email_banner.png') }}" alt="Celergen Banner"
                 style="max-width: 100%; width: 100%; height: auto; display: block;">
         </div>
     </div>

@@ -70,15 +70,18 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;" colspan="2"><strong>Sub Total</strong></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;"><strong>Sub Total</strong></td>
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${{ number_format($orderMaster->subtotal, 2) }}</td>
                     </tr>
                     <tr>
-                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;" colspan="2"><strong>Freight</strong></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;"><strong>Freight</strong></td>
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">{{ $orderMaster->freight == 0 ? 'Free' : '$' . number_format($orderMaster->freight, 2) }}</td>
                     </tr>
                     <tr>
-                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;" colspan="2"><strong>Net Total</strong></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
+                        <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;"><strong>Net Total</strong></td>
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee; font-weight: bold; font-size: 16px;">${{ number_format($orderMaster->total, 2) }}</td>
                     </tr>
                 </tbody>
@@ -100,7 +103,7 @@
         </div>
 
         <div style="margin-top: 30px; text-align: center; width: 100%;">
-            <img src="http://13.49.251.219/frontend/images/email_banner.png" alt="Celergen Banner"
+            <img src="{{ asset('frontend/images/email_banner.png') }}" alt="Celergen Banner"
                 style="max-width: 100%; width: 100%; height: auto; display: block;">
         </div>
     </div>

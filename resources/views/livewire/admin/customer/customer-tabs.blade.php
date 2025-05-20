@@ -208,7 +208,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="text-center" width="60">#</th>
-                                <th>Document</th>
+                                <th>Invoices</th>
                                 <th class="text-end" width="120">Actions</th>
                             </tr>
                         </thead>

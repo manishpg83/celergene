@@ -41,10 +41,10 @@
             <thead>
                 <tr>
                     <th
-                        style="padding: 12px; text-align: left; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        style="padding: 12px; text-align: left; border-bottom: 1px solid #eee; background-color: #e2e2e2; font-weight: bold; color: #333;">
                         Item Name</th>
                     <th
-                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #f8f9fa; font-weight: bold; color: #333;">
+                        style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; background-color: #e2e2e2; font-weight: bold; color: #333;">
                         Total Quantity</th>
                 </tr>
             </thead>
@@ -76,7 +76,7 @@
         </div>
 
         <div style="margin-top: 30px; text-align: center; width: 100%;">
-            <img src="http://13.49.251.219/frontend/images/email_banner.png" alt="Celergen Banner"
+            <img src="{{ asset('frontend/images/email_banner.png') }}" alt="Celergen Banner"
                 style="max-width: 100%; width: 100%; height: auto; display: block;">
         </div>
     </div>
