@@ -32,7 +32,7 @@
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <select wire:model.live="status" class="form-select" style="width: auto;">
-                            <option value="">All Statuses</option>
+                            <option value="all">All Statuses</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
