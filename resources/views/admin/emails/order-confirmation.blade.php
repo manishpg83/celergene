@@ -147,9 +147,9 @@
         </table>
 
         <div class="footer"
-            style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
+            style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #222;">
             <p>If you have any queries, please feel free to contact us at <a href="mailto:marketing@celergenswiss.com"
-                style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a></p> </p>
+                style="color: #007bff; text-decoration: none;">marketing@celergenswiss.com</a>.</p> </p>
         </div>
 
     </div>

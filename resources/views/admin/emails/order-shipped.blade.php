@@ -60,7 +60,7 @@
             </tbody>
         </table>
 
-        <div class="footer" style="margin-top: 25px; text-align: left; font-size: 0.9em; color: #666;">
+        <div class="footer" style="margin-top: 25px; text-align: left; font-size: 14px; color: #222;">
             <p>Please be informed that delivery of your package via courier service will take approximately 3 to 5 working days.</p>
             <p>If you have any queries, please feel free to contact us at
                 <a href="mailto:marketing@celergenswiss.com"
