@@ -38,6 +38,8 @@ class UserOrderConfirmation extends Mailable
 
         $shippingName = trim($customer->shipping_address_receiver_name_1 . ' ' . $customer->shipping_address_receiver_lname_1);
         $shippingCompany = $customer->shipping_company_name_1;
+        $shippingPhone = $customer->shipping_phone_1;
+
 
         return $this->subject('Payment Confirmation for Order No: ' . $this->orderNumber)
             ->view('frontend.emails.user_order_confirmation')
@@ -51,6 +53,7 @@ class UserOrderConfirmation extends Mailable
                 'billingCompany' => $billingCompany,
                 'shippingName' => $shippingName,
                 'shippingCompany' => $shippingCompany,
+                'shippingPhone' => $shippingPhone,
             ]);
     }
 }

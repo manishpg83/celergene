@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Frontend;
 
-use App\Models\User;
-use Livewire\Component;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Component;
 
 class Registration extends Component
 {
@@ -137,7 +138,7 @@ class Registration extends Component
             ]);
 
             DB::commit();
-
+            Mail::to($user->email)->send(new \App\Mail\WelcomeMail($user));
             notyf()->success(' Registration completed successfully!');
             return redirect()->route('login');
         } catch (\Exception $e) {

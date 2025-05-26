@@ -39,8 +39,9 @@
                     {{ $shippingName }}
                     {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
                     {{ $shippingCompany }}
+                    {{ $shippingPhone }}
                 </div>
-            </div>            
+            </div>       
         </div>
 
         <div style="font-size: 14px; margin-bottom: 10px;">
