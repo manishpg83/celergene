@@ -33,6 +33,11 @@
             Yours sincerely,<br>
             Celergen Team
         </div>
+
+        <div style="margin-top: 30px; text-align: center; width: 100%;">
+            <img src="{{ asset('frontend/images/email_banner.png') }}" alt="Celergen Banner"
+                style="max-width: 100%; width: 100%; height: auto; display: block;">
+        </div>
     </div>
 </body>
 </html>
