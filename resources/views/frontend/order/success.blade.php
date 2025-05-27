@@ -19,9 +19,6 @@
                 Your order confirmation has been sent to your email.
             </p>
             <p class="text-gray-600 mb-4">
-                Please take a moment to verify that your shipping address is accurate and that a mobile number has been provided, as it is required for delivery by UPS/DHL.
-            </p>
-            <p class="text-gray-600 mb-4">
                 If you have any questions or need assistance, feel free to contact us at <a href="mailto:marketing@celergenswiss.com" class="text-blue-600 underline">marketing@celergenswiss.com</a>.
             </p>
             <p class="text-gray-600 mb-4">
