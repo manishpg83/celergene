@@ -14,16 +14,22 @@
                                 <!-- First Name -->
                                 <div class="col-4 form-group">
                                     <div class="input">
-                                        <input type="text" maxlength="25" wire:model="firstname" placeholder="First name">
-                                        @error('firstname') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" maxlength="25" wire:model="firstname"
+                                            placeholder="First name">
+                                        @error('firstname')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <!-- Last Name -->
                                 <div class="col-4 form-group">
                                     <div class="input">
-                                        <input type="text" maxlength="50" wire:model="lastname" placeholder="Last name">
-                                        @error('lastname') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" maxlength="50" wire:model="lastname"
+                                            placeholder="Last name">
+                                        @error('lastname')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -34,35 +40,44 @@
 
                                 <!-- Date -->
                                 <div class="col-auto form-group">
-                                    <select wire:model="dob_day" name="dob_day" id="dob_day" class="form-select input border-0" style="min-width: 90px;">
+                                    <select wire:model="dob_day" name="dob_day" id="dob_day"
+                                        class="form-select input border-0" style="min-width: 90px;">
                                         <option value="">Date</option>
-                                        @foreach(range(1, 31) as $day)
+                                        @foreach (range(1, 31) as $day)
                                             <option value="{{ $day }}">{{ $day }}</option>
                                         @endforeach
                                     </select>
-                                    @error('dob_day') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('dob_day')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Month -->
                                 <div class="col-auto ps-1 form-group">
-                                    <select wire:model="dob_month" name="dob_month" id="dob_month" class="form-select border-0 input" style="min-width: 90px;">
+                                    <select wire:model="dob_month" name="dob_month" id="dob_month"
+                                        class="form-select border-0 input" style="min-width: 90px;">
                                         <option value="">Month</option>
-                                        @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $key => $month)
+                                        @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $key => $month)
                                             <option value="{{ $key + 1 }}">{{ $month }}</option>
                                         @endforeach
                                     </select>
-                                    @error('dob_month') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('dob_month')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Year -->
                                 <div class="col-auto ps-1 form-group">
-                                    <select wire:model="dob_year" name="dob_year" id="dob_year" class="form-select input border-0" style="min-width: 90px;">
+                                    <select wire:model="dob_year" name="dob_year" id="dob_year"
+                                        class="form-select input border-0" style="min-width: 90px;">
                                         <option value="">Year</option>
-                                        @foreach(range(date('Y'), 1900) as $year)
+                                        @foreach (range(date('Y'), 1900) as $year)
                                             <option value="{{ $year }}">{{ $year }}</option>
                                         @endforeach
                                     </select>
-                                    @error('dob_year') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('dob_year')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -70,14 +85,20 @@
                             <div class="row">
                                 <div class="col-sm-8 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="text" maxlength="100" wire:model="company" placeholder="Company Name (optional)">
-                                        @error('company') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" maxlength="100" wire:model="company"
+                                            placeholder="Company Name (optional)">
+                                        @error('company')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="text" maxlength="20" wire:model="phone" placeholder="Phone Number">
-                                        @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" maxlength="20" wire:model="phone"
+                                            placeholder="Phone Number">
+                                        @error('phone')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -92,20 +113,28 @@
                             <div class="row">
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="email" maxlength="50" wire:model="email" placeholder="Email address">
-                                        @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="email" maxlength="50" wire:model="email"
+                                            placeholder="Email address">
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
                                         <input type="password" wire:model="pass" placeholder="Password">
-                                        @error('pass') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @error('pass')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4 col-xs-12 form-group">
                                     <div class="input">
-                                        <input type="password" wire:model="pass_confirmation" placeholder="Re-enter Password">
-                                        @error('pass_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="password" wire:model="pass_confirmation"
+                                            placeholder="Re-enter Password">
+                                        @error('pass_confirmation')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -114,13 +143,17 @@
                             <hr>
                         </div>
 
-
                         <div class="text" style="margin-top: 42px;">
-                            <button type="submit" class="join">JOIN CELERGEN</button>
+                            <button type="submit" class="join" wire:loading.remove wire:target="register">JOIN
+                                CELERGEN</button>
+                            <button type="button" class="join" disabled wire:loading
+                                wire:target="register">Processing...</button>
                         </div>
+
                         <div class="text">
-                            <div class="ext">
-                                When you click JOIN CELERGEN you are agreeing to our <a href="{{ route('privacypolicy') }}" title="">Privacy Policy</a>
+                            <div class="text">
+                                When you click JOIN CELERGEN you are agreeing to our <a
+                                    href="{{ route('privacypolicy') }}" title="">Privacy Policy</a>
                             </div>
                         </div>
                     </div>

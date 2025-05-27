@@ -10,7 +10,7 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user; // to pass data
+    public $user;
 
     public function __construct($user)
     {
@@ -19,7 +19,7 @@ class WelcomeMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Welcome to Celergen')
+        return $this->subject('Your Celergen Login Registration')
                     ->view('frontend.emails.welcome');
     }
 }

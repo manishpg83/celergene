@@ -641,7 +641,9 @@ div#dob-text {
     text-align: center;
 }
 
-
+.bg-guest-banner {
+    background-color: #b0122f;
+}
 /* Button */
 
 .myButton {

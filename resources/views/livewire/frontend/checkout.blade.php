@@ -31,11 +31,12 @@
                     <!-- Billing Address -->
                     <div class="row form-item-ck">
                         @unless (Auth::check())
-                            <div class="col-xs-12 mt-4">
-                                <div
-                                    style="background-color: #b0122f; border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
-                                    <div style="color: white; text-align: left;">Continue as Guest.
-                                        Please enter the information below</div>
+                            <div class="row mt-3 ms-0 ps-0">
+                                <div class="col-md-12 offset-md-0 px-0">
+                                    <div class="bg-guest-banner border border-secondary px-3 py-1 text-start">
+                                        <span class="text-white">Continue as Guest. Please enter the information
+                                            below</span>
+                                    </div>
                                 </div>
                             </div>
                         @endunless
