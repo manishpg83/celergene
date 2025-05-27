@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- FAVICONS ICON -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon/favicon.ico') }}" />
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
