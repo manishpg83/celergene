@@ -19,13 +19,13 @@
 
         <div class="col-md-6">
             <label class="form-label">Amount</label>
-            <input type="number" wire:model="amount" class="form-control" step="0.01" 
-                   max="{{ $pendingAmount }}" 
-                   oninput="validateAmount(this)">
+            <input type="number" wire:model="amount" class="form-control" step="0.01" max="{{ $pendingAmount }}"
+                oninput="validateAmount(this)">
             @error('amount')
                 <div class="text-danger small">{{ $message }}</div>
             @enderror
-            <small class="text-muted">Maximum allowed: {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</small>
+            <small class="text-muted">Maximum allowed:
+                {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</small>
         </div>
 
         <div class="col-md-6">
@@ -78,6 +78,7 @@
                     <th>Method</th>
                     <th>Amount</th>
                     <th>Date</th>
+                    <th>TransactionId</th>
                     <th>Payment Details</th>
                     <th>Bank Charges</th>
                     <th>Status</th>
@@ -90,13 +91,14 @@
                         <td>{{ $payment->payment_method }}</td>
                         <td>{{ $currencySymbol }} {{ number_format($payment->amount, 2) }}</td>
                         <td>{{ $payment->payment_date }}</td>
+                        <td>{{ $payment->transaction_id ?? '' }}</td>
                         <td>{{ $payment->payment_details }}</td>
                         <td>{{ $payment->bank_charge }}</td>
                         <td>{{ ucfirst($payment->status) }}</td>
                         <td>
                             <button class="btn btn-primary btn-sm" wire:click="editPayment('{{ $payment->id }}')"
                                 data-bs-toggle="modal" data-bs-target="#editPaymentModal">
-                                <i class="fas fa-edit mr-2"></i> Edit
+                                <i class="mr-2 fas fa-edit"></i> Edit
                             </button>
                         </td>
                     </tr>
@@ -105,7 +107,7 @@
         </table>
     </div>
     <!-- Pending Amount -->
-    <div class="text-end mt-3">
+    <div class="mt-3 text-end">
         <p><strong>Total Paid:</strong> {{ $currencySymbol }}{{ number_format($totalPaid, 2) }}</p>
         <p class="text-danger"><strong>Pending Amount:</strong>
             {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</p>
@@ -157,8 +159,7 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Bank Charges</label>
-                            <input type="number" wire:model.defer="editedBankCharge" class="form-control"
-                                step="0.01">
+                            <input type="number" wire:model.defer="editedBankCharge" class="form-control" step="0.01">
                         </div>
 
                         <div class="col-12">
@@ -175,7 +176,7 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             Livewire.on('closeModal', () => {
                 let editModal = new bootstrap.Modal(document.getElementById('editPaymentModal'));
                 editModal.hide();
@@ -190,7 +191,7 @@
         function validateAmount(input) {
             const maxAmount = {{ $pendingAmount }};
             const currentValue = parseFloat(input.value);
-            
+
             if (currentValue > maxAmount) {
                 input.setCustomValidity(`Amount cannot exceed ${maxAmount}`);
                 input.style.borderColor = 'red';
@@ -199,5 +200,5 @@
                 input.style.borderColor = '';
             }
         }
-        </script>
+    </script>
 </div>
