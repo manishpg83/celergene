@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('transaction_id')->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
-            $table->date('payment_date')->nullable();
+            $table->timestamp('payment_date')->nullable();
             $table->text('payment_details')->nullable();
             $table->decimal('bank_charge', 10, 2)->default(0);
             $table->timestamps();
