@@ -106,20 +106,43 @@ class OrderDetails extends Component
             $this->order->remarks = $this->remarks;
             $this->order->modified_by = Auth::id();
             $this->order->save();
+            if($this->orderStatus == 'Cancelled'){
+                // Need to add logic By Manish Bhuva
+                /*$inventory = Inventory::findOrFail($inventoryIds);
+                $warehouseId = $inventory->warehouse_id;
+                $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
+                $totalQty = $quantity + $sampleQty;
+
+                if ($totalQty > $inventory->remaining) {
+                    throw new \Exception("Insufficient inventory for inventory ID {$inventoryId}.");
+                }
+
+                if (!$warehouseId) {
+                    throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
+                }
+
+                $inventory->decrement('remaining', $totalQty);
+                $inventory->increment('consumed', $totalQty);
+                $inventory->modified_by = Auth::id();
+                $inventory->save();*/
+            }
 
             notyf()->success('Order details updated successfully.');
 
-            $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
+            //$adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
             if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
-                try {
-                    Mail::to($adminEmail)
-                        ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
-                    notyf()->success('Notification email sent.');
-                } catch (\Exception $e) {
-                    Log::error('Email notification failed: ' . $e->getMessage());
-                    notyf()->error('Order updated but email notification failed.');
+                if($this->orderStatus == 'Paid'){
+                    try {
+                        Mail::to($this->order->customer->email)
+                            ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
+                        notyf()->success('Notification email sent.');
+                    } catch (\Exception $e) {
+                        Log::error('Email notification failed: ' . $e->getMessage());
+                        notyf()->error('Order updated but email notification failed.');
+                    }
                 }
+
             }
         } catch (\Exception $e) {
             Log::error('Order details update failed: ' . $e->getMessage());

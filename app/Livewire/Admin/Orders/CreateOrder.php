@@ -168,7 +168,7 @@ class CreateOrder extends Component
         $company = $customer["shipping_company_name_{$index}"];
 
         if ($receiver || $address || $country || $postalCode || $phone || $company) {
-            return implode(", ", array_filter([$receiver, $address, $country, $postalCode, $phone, $company]));
+            return implode(", ", array_filter([$company, $receiver, $address, $country, $postalCode, $phone]));
         }
 
         return null;
