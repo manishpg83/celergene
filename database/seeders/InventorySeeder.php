@@ -22,6 +22,7 @@ class InventorySeeder extends Seeder
         foreach ($products as $product) {
             foreach ($warehouses as $warehouse) {              
                 $batchNumber = $batchNumbers->random();
+                $randomQuantity = rand(10, 100);
                 Inventory::updateOrCreate(
                     [
                         'product_code' => $product->id, 
@@ -30,9 +31,9 @@ class InventorySeeder extends Seeder
                     ],
                     [
                         'expiry' => Carbon::now()->addYear()->format('Y-m-d'), 
-                        'quantity' => rand(10, 100),  
+                        'quantity' => $randomQuantity,  
                         'consumed' => 0,
-                        'remaining' => rand(10, 100), 
+                        'remaining' => $randomQuantity, 
                         'created_by' => 1,  
                         'modified_by' => 1,
                         'created_at' => now(),

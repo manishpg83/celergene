@@ -12,6 +12,7 @@ use App\Models\OrderDetails as NewOrderDetails;
 use App\Models\OrderInvoice;
 use App\Models\OrderInvoiceDetail;
 use App\Models\OrderMaster;
+use App\Models\Inventory;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -106,35 +107,35 @@ class OrderDetails extends Component
             $this->order->remarks = $this->remarks;
             $this->order->modified_by = Auth::id();
             $this->order->save();
+
             if($this->orderStatus == 'Cancelled'){
-                // Need to add logic By Manish Bhuva
-                /*$inventory = Inventory::findOrFail($inventoryIds);
-                $warehouseId = $inventory->warehouse_id;
-                $sampleQty = $this->inventorySampleQuantities[$inventoryId] ?? 0;
-                $totalQty = $quantity + $sampleQty;
-
-                if ($totalQty > $inventory->remaining) {
-                    throw new \Exception("Insufficient inventory for inventory ID {$inventoryId}.");
+                $deliveryOrders = DeliveryOrder::where('order_id', $this->order_id)->get();
+                
+                foreach($deliveryOrders as $deliveryOrder) {
+                    $deliveryDetails = DeliveryOrderDetail::where('delivery_order_id', $deliveryOrder->id)->get();
+                   
+                    foreach($deliveryDetails as $detail) {
+                        $inventory = Inventory::find($detail->inventory_id);
+                        
+                        if($inventory) {
+                            $totalQuantity = $detail->quantity + $detail->sample_quantity;
+                            $inventory->increment('remaining', $totalQuantity);
+                            $inventory->decrement('consumed', $totalQuantity);
+                            $inventory->modified_by = Auth::id();
+                            $inventory->save();
+                        }
+                    }
                 }
-
-                if (!$warehouseId) {
-                    throw new \Exception("Warehouse ID not found for inventory_id: {$inventoryId}");
-                }
-
-                $inventory->decrement('remaining', $totalQty);
-                $inventory->increment('consumed', $totalQty);
-                $inventory->modified_by = Auth::id();
-                $inventory->save();*/
             }
 
             notyf()->success('Order details updated successfully.');
 
-            //$adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
+            $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
             if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
                 if($this->orderStatus == 'Paid'){
                     try {
-                        Mail::to($this->order->customer->email)
+                        Mail::to($adminEmail)
                             ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
                         notyf()->success('Notification email sent.');
                     } catch (\Exception $e) {
