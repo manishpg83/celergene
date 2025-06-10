@@ -116,33 +116,55 @@ class PayPalWebhookController extends Controller
                     $order = DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->first();
-
-                    DB::table('order_master')
-                        ->where('order_id', $payment->order_id)
-                        ->update([
-                            'order_status' => 'Paid',
-                            'updated_at' => now(),
-                        ]);
-
-                    $customer = DB::table('customers')
+                        $customer = DB::table('customers')
                         ->where('id', $order->customer_id)
                         ->first();
+
+
 
                     $user = User::find($customer->user_id);
 
                     $billingAddress = implode(', ', array_filter([
                         $customer->billing_address,
-                        $customer->billing_address_2,
                         $customer->billing_city,
                         $customer->billing_state,
                         $customer->billing_postal_code,
                         $customer->billing_country
                     ]));
 
+                    if ($order->use_billing_as_shipping) {
+                        $shippingName = trim($customer->billing_fname . ' ' . $customer->billing_lname);
+                        $shippingCompany = $customer->billing_company_name;
+                        $shippingPhone = $customer->billing_phone;
+                    } else {
+                        $addressIndex = 1;
+                        $shippingAddress1 = implode(', ', array_filter([
+                            $customer->shipping_address_1,
+                            $customer->shipping_city_1,
+                            $customer->shipping_state_1,
+                            $customer->shipping_postal_code_1,
+                            $customer->shipping_country_1
+                        ]));
+                        
+                        $shippingAddress2 = implode(', ', array_filter([
+                            $customer->shipping_address_2,
+                            $customer->shipping_city_2,
+                            $customer->shipping_state_2,
+                            $customer->shipping_postal_code_2,
+                            $customer->shipping_country_2
+                        ]));                      
+
+                        if ($order->shipping_address === $shippingAddress2) {
+                            $addressIndex = 2;
+                        }
+                        
+                        $shippingName = trim($customer->{"shipping_address_receiver_name_{$addressIndex}"} . ' ' . $customer->{"shipping_address_receiver_lname_{$addressIndex}"});
+                        $shippingCompany = $customer->{"shipping_company_name_{$addressIndex}"};
+                        $shippingPhone = $customer->{"shipping_phone_{$addressIndex}"};
+                    }
+                   
                     $shippingAddress = $order->shipping_address;
-
                     $orderNumber = $order->order_id;
-
                     $orderId = $order->order_id;
 
                     Mail::to($user->email)->send(new UserOrderConfirmation(
@@ -150,7 +172,10 @@ class PayPalWebhookController extends Controller
                         $user,
                         $billingAddress,
                         $shippingAddress,
-                        $orderId
+                        $orderId,
+                        $shippingName,
+                        $shippingCompany,
+                        $shippingPhone
                     ));
 
                     session()->forget('cart');

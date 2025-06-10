@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('entity_id')->constrained('entities')->onDelete('restrict');
             $table->foreignId('currency_id')->constrained('currency')->onDelete('restrict');
             $table->string('shipping_address');
+            $table->boolean('use_billing_as_shipping')->default(false);
             $table->decimal('subtotal', 10, 2);
             $table->decimal('discount', 10, 2)->default(0.00);
             $table->decimal('freight', 10, 2)->default(0.00);

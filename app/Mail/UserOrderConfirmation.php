@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class UserOrderConfirmation extends Mailable
 {
@@ -18,27 +19,31 @@ class UserOrderConfirmation extends Mailable
     public $billingAddress;
     public $shippingAddress;
     public $orderId;
+    public $shippingName;
+    public $shippingCompany;
+    public $shippingPhone;
 
-    public function __construct($orderNumber, $user, $billingAddress, $shippingAddress, $orderId)
+    public function __construct($orderNumber, $user, $billingAddress, $shippingAddress, $orderId, $shippingName, $shippingCompany, $shippingPhone)
     {
         $this->orderNumber = $orderNumber;
         $this->user = $user;
         $this->billingAddress = $billingAddress;
         $this->shippingAddress = $shippingAddress;
         $this->orderId = $orderId;
+        $this->shippingName = $shippingName;
+        $this->shippingCompany = $shippingCompany;
+        $this->shippingPhone = $shippingPhone;
     }
 
     public function build()
     {
+
         $orderMaster = \App\Models\OrderMaster::where('order_id', $this->orderId)->first();
         $customer = \App\Models\Customer::find($orderMaster->customer_id);
 
         $billingName = trim($customer->billing_fname . ' ' . $customer->billing_lname);
         $billingCompany = $customer->billing_company_name;
 
-        $shippingName = trim($customer->shipping_address_receiver_name_1 . ' ' . $customer->shipping_address_receiver_lname_1);
-        $shippingCompany = $customer->shipping_company_name_1;
-        $shippingPhone = $customer->shipping_phone_1;
 
 
         return $this->subject('Payment Confirmation for Order No: ' . $this->orderNumber)
@@ -51,9 +56,9 @@ class UserOrderConfirmation extends Mailable
                 'orderMaster' => $orderMaster,
                 'billingName' => $billingName,
                 'billingCompany' => $billingCompany,
-                'shippingName' => $shippingName,
-                'shippingCompany' => $shippingCompany,
-                'shippingPhone' => $shippingPhone,
+                'shippingName' => $this->shippingName,
+                'shippingCompany' => $this->shippingCompany,
+                'shippingPhone' => $this->shippingPhone,
             ]);
     }
 }

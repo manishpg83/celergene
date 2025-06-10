@@ -20,6 +20,7 @@ class OrderMaster extends Model
         'entity_id',
         'currency_id',
         'shipping_address',
+        'use_billing_as_shipping',
         'subtotal',
         'discount',
         'freight',
@@ -52,7 +53,8 @@ class OrderMaster extends Model
         'is_initial_consignment' => 'boolean',
         'total_order_quantity' => 'decimal:2',
         'remaining_quantity' => 'decimal:2',
-        'order_type' => 'string', 
+        'order_type' => 'string',
+        'use_billing_as_shipping' => 'boolean',
     ];
 
     public function payments()

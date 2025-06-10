@@ -409,6 +409,7 @@ class Checkout extends Component
             : "{$this->shipping_address1}, {$this->shipping_city}, {$this->shipping_state}, {$this->shipping_zip}, {$this->shipping_country}";        
         
 
+
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
                 'customer_id' => $customer->id,
@@ -421,6 +422,7 @@ class Checkout extends Component
                 'order_type' => 'Online',
                 'payment_mode' => 'Credit Card',
                 'shipping_address' => $shippingAddress,
+                'use_billing_as_shipping' => $this->useBillingAddress ? 1 : 0,
                 'created_by' => $this->user->id,
                 'created_at' => now(),
                 'updated_at' => now()
