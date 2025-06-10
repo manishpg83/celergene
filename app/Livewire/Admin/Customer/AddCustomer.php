@@ -27,7 +27,7 @@ class AddCustomer extends Component
     public $company_name, $business_reg_number, $vat_number, $payment_term_display;
     public $payment_term_actual, $credit_rating, $allow_consignment = false;
     public $must_receive_payment_before_delivery = false;
-    public $billing_address, $billing_country, $billing_postal_code;
+    public $billing_address, $billing_email, $billing_country, $billing_postal_code;
     public $shipping_phone_1, $shipping_phone_2, $shipping_phone_3;
     public $shipping_address_receiver_name_1, $shipping_address_1, $shipping_country_1, $shipping_postal_code_1;
     public $shipping_address_receiver_name_2, $shipping_address_2, $shipping_country_2, $shipping_postal_code_2;
@@ -45,6 +45,7 @@ class AddCustomer extends Component
         'payment_term_display' => 'required|string',
         'payment_term_actual' => 'nullable|in:IMMEDIATE,7D,14D,30D',
         'billing_address' => 'required|string',
+        'billing_email' => 'required|email',
         'billing_country' => 'required|string',
     ];
 
@@ -88,6 +89,7 @@ class AddCustomer extends Component
         $this->allow_consignment = $customer->allow_consignment;
         $this->must_receive_payment_before_delivery = $customer->must_receive_payment_before_delivery;
         $this->billing_address = $customer->billing_address;
+        $this->billing_email = $customer->billing_email;
         $this->billing_country = $customer->billing_country;
         $this->billing_postal_code = $customer->billing_postal_code;
         $this->shipping_address_receiver_name_1 = $customer->shipping_address_receiver_name_1;
@@ -226,6 +228,7 @@ class AddCustomer extends Component
         $this->allow_consignment = false;
         $this->must_receive_payment_before_delivery = false;
         $this->billing_address = '';
+        $this->billing_email = '';
         $this->billing_country = '';
         $this->billing_postal_code = '';
         $this->resetShippingFields();
@@ -249,6 +252,7 @@ class AddCustomer extends Component
             'allow_consignment' => $this->allow_consignment,
             'must_receive_payment_before_delivery' => $this->must_receive_payment_before_delivery,
             'billing_address' => $this->billing_address,
+            'billing_email' => $this->billing_email,
             'billing_country' => $this->billing_country,
             'billing_postal_code' => $this->billing_postal_code,
             'shipping_address_receiver_name_1' => $this->shipping_address_receiver_name_1,

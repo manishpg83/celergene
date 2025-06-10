@@ -4,7 +4,7 @@
             <div class="card">
                 <div
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">Add New Customer</h5>
+                    <h5 class="card-title mb-sm-0 me-2">{{ $isEditing ? 'Edit Customer' : 'Add New Customer' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle">Back</span>
@@ -219,6 +219,12 @@
                                                     Code</label>
                                                 <input type="text" wire:model="billing_postal_code"
                                                     class="form-control" id="billing_postal_code">
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="billing_email">Billing Email</label>
+                                                <input type="email" wire:model="billing_email"
+                                                    class="form-control" id="billing_email">
                                             </div>
                                         </div>
 
