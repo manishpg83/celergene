@@ -23,11 +23,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(MessageSending::class, function ($event) {
-            $event->message->getHeaders()->addMailboxListHeader('Cc', [
-                new Address('ong.suying@gmail.com', 'Su Ying Ong'),
-                new Address('admin@silapple.com', 'Margaret Lim'),
-                new Address('marketing@celergenswiss.com', 'Celergen'),
-            ]);
+            if (env('SERVER_MOD') !== 'local') {
+                $event->message->getHeaders()->addMailboxListHeader('Cc', [
+                    new Address('ong.suying@gmail.com', 'Su Ying Ong'),
+                    new Address('admin@silapple.com', 'Margaret Lim'),
+                    new Address('marketing@celergenswiss.com', 'Celergen'),
+                ]);
+            }
         });
     }
 }
