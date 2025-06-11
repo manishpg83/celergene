@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(MessageSending::class, function ($event) {
-            if (env('SERVER_MOD') !== 'local') {
+            if (env('APP_ENVIRONMENT') !== 'local') {
                 $event->message->getHeaders()->addMailboxListHeader('Cc', [
                     new Address('ong.suying@gmail.com', 'Su Ying Ong'),
                     new Address('admin@silapple.com', 'Margaret Lim'),
