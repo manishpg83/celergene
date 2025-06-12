@@ -217,9 +217,9 @@
                                             <option value="Pending" class="text-warning fw-bold">⏳ Pending</option>
                                             <option value="Cancelled" class="text-danger fw-bold">❌ Cancelled</option>
                                             <option value="Sales Transfered to US" class="text-info fw-bold">🌍 Sales Transferred to US</option>
+                                            <option value="FOC" class="text-info fw-bold">🎁 FOC</option>
                                         </select>
-                                    </div>
-                    
+                                    </div>                    
                                     <!-- Remarks -->
                                     <div class="col-md-6">
                                         <label for="remarks" class="form-label">Remarks</label>

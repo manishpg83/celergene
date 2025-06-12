@@ -29,24 +29,13 @@
                     <strong>Address:</strong><br>
                     @php
                         $addressParts = array_map('trim', explode(',', $shippingAddress));
-                        
-                        $apartment = $addressParts[1] ?? '';
-                        $building = $addressParts[2] ?? '';
-                        $street = $addressParts[3] ?? '';
-                        $area = $addressParts[4] ?? '';
-                        $country = $addressParts[6] ?? '';
-                        $postalCode = $addressParts[7] ?? '';
-                        $phone = $addressParts[8] ?? '';
+                        $phone = end($addressParts);
+                        array_pop($addressParts);
                     @endphp
-                    
-                    @if($apartment) {{ $apartment }},<br> @endif
-                    @if($building) {{ $building }},<br> @endif
-                    @if($street) {{ $street }},<br> @endif
-                    @if($area) {{ $area }},<br> @endif
-                    @if($country && $postalCode) {{ $country }} - {{ $postalCode }} @endif
+                    {!! implode('<br>', array_filter($addressParts)) !!}
                 </div>
                 <div style="font-family: Helvetica, Arial, sans-serif;">
-                    <strong>Phone:</strong> {{ $customerMobile ?? ($phone ?: 'N/A') }}
+                    <strong>Phone:</strong> {{ $phone ?? 'N/A' }}
                 </div>
             </div>
         </div>
