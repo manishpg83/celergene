@@ -29,16 +29,16 @@
                 <div style="white-space: pre-line;">
                     <strong>Billing Address:</strong><br>
                     {{ $billingName }}
-                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $billingAddress)))) !!}
                     {{ $billingCompany }}
+                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $billingAddress)))) !!}
                 </div>
             </div>
             <div style="width: 48%; min-width: 250px;">
                 <div style="margin: 0; white-space: pre-line;">
                     <strong>Shipping Address:</strong><br>
                     {{ $shippingName }}
-                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
                     {{ $shippingCompany }}
+                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
                     {{ $shippingPhone }}
                 </div>
             </div>       
