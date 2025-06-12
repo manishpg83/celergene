@@ -70,8 +70,6 @@ class AddInventory extends Component
                 $latestStock = Stock::where('inventory_id', $this->inventory_id)
                     ->latest('created_at')
                     ->first();
-
-                $this->reason = $latestStock ? $latestStock->reason : '';
             }
         }
     }

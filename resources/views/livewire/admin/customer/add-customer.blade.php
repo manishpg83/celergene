@@ -80,10 +80,14 @@
 
                                     <div class="col-md-6">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="email" wire:model="email"
-                                            class="form-control @error('email') is-invalid @enderror" id="email">
+                                        <input type="email" wire:model.live.debounce.500ms="email"
+                                            class="form-control @error('email') is-invalid @enderror" 
+                                            id="email"
+                                            placeholder="Enter valid email address">
                                         @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
@@ -223,8 +227,15 @@
                                             
                                             <div class="col-md-6">
                                                 <label class="form-label" for="billing_email">Billing Email</label>
-                                                <input type="email" wire:model="billing_email"
-                                                    class="form-control" id="billing_email">
+                                                <input type="email" wire:model.live.debounce.500ms="billing_email"
+                                                    class="form-control @error('billing_email') is-invalid @enderror" 
+                                                    id="billing_email"
+                                                    placeholder="Enter valid billing email address">
+                                                @error('billing_email')
+                                                    <div class="invalid-feedback d-block">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
 

@@ -49,6 +49,13 @@ class AddCustomer extends Component
         'billing_country' => 'required|string',
     ];
 
+    protected $messages = [
+        'email.required' => 'The email field is required.',
+        'email.email' => 'Please enter a valid email address.',
+        'billing_email.required' => 'The billing email field is required.',
+        'billing_email.email' => 'Please enter a valid billing email address.',
+    ];
+
     public function mount()
     {
         $this->customerTypes = CustomerType::where('status', 'active')->get();
@@ -154,27 +161,31 @@ class AddCustomer extends Component
 
     public function save()
     {
-        $rules = $this->rules();
+        try {
+            $rules = $this->rules();
 
-        if ($this->image && !is_string($this->image)) {
-            $rules['image'] = 'required|image|max:1024|mimes:jpg,jpeg,png';
-        }
+            if ($this->image && !is_string($this->image)) {
+                $rules['image'] = 'required|image|max:1024|mimes:jpg,jpeg,png';
+            }
 
-        $this->validate($rules);
+            $this->validate($rules);
 
-        $data = $this->customerData();
+            $data = $this->customerData();
 
-        if ($this->isEditing) {
-            $customer = Customer::findOrFail($this->customer_id);
-            $customer->update($data);
-            notyf()->success('Customer updated successfully.');
-
-            $this->fillCustomerData($customer);
-        } else {
-            $customer = Customer::create($data);
-            notyf()->success('Customer created successfully.');
-
-            return redirect()->route('admin.customer.index');
+            if ($this->isEditing) {
+                $customer = Customer::findOrFail($this->customer_id);
+                $customer->update($data);
+                notyf()->success('Customer updated successfully.');
+            } else {
+                $customer = Customer::create($data);
+                notyf()->success('Customer created successfully.');
+                return redirect()->route('admin.customer.index');
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while saving the customer.');
+            throw $e;
         }
     }
 
@@ -290,6 +301,20 @@ class AddCustomer extends Component
     {
         return view('livewire.admin.customer.add-customer', [
             'customerTypes' => $this->customerTypes
+        ]);
+    }
+
+    public function updatedEmail($value)
+    {
+        $this->validateOnly('email', [
+            'email' => 'required|email'
+        ]);
+    }
+
+    public function updatedBillingEmail($value)
+    {
+        $this->validateOnly('billing_email', [
+            'billing_email' => 'required|email'
         ]);
     }
 }

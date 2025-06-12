@@ -2,10 +2,11 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 row-gap-4">
         <div class="d-flex flex-column justify-content-center">
             <h4 class="mb-1 text-2xl ml-2">Inventory List</h4>
+            <p class="ml-2 text-base">📝 Note: To add inventory to existing warehouse - Use "Edit" option.</p>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-4">
             <a href="{{ route('admin.inventory.add') }}" class="btn btn-primary">
-                <i class="ti ti-plus ti-xs me-md-2"></i>Add Inventory
+                <i class="ti ti-plus ti-xs me-md-2"></i>Add Inventory for New Batch
             </a>
         </div>
     </div>
