@@ -43,6 +43,7 @@
                 <option value="partially paid">Partially Paid</option>
                 <option value="fully paid with bank charges">Fully paid with Bank Charges</option>
                 <option value="fully paid without bank charges">Fully paid without Bank Charges</option>
+                <option value="Paid and waive bank charges">Paid and waive bank charges</option>
             </select>
             @error('status')
                 <div class="text-danger small">{{ $message }}</div>
@@ -154,6 +155,7 @@
                                 <option value="fully paid with bank charges">Fully paid with Bank Charges</option>
                                 <option value="fully paid without bank charges">Fully paid without Bank Charges
                                 </option>
+                                <option value="Paid and waive bank charges">Paid and waive bank charges</option>
                             </select>
                         </div>
 

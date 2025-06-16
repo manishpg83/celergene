@@ -45,7 +45,7 @@ class ManagePayment extends Component
                 "max:$maxAllowedAmount"
             ],
             'payment_date' => 'required|date',
-            'status' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
+            'status' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges,Paid and waive bank charges',
             'payment_details' => 'nullable|string',
             'transaction_id' => 'nullable|string',
             'bank_charge' => 'nullable|numeric|min:0'
@@ -101,7 +101,7 @@ class ManagePayment extends Component
                 ],
                 'editedPaymentDate' => 'required|date',
                 'editedPaymentMethod' => 'required',
-                'editedStatus' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges',
+                'editedStatus' => 'required|in:pending,partially paid,fully paid with bank charges,fully paid without bank charges,Paid and waive bank charges',
                 'editedBankCharge' => 'nullable|numeric|min:0',
                 'editedPaymentDetails' => 'nullable|string',
             ], [
