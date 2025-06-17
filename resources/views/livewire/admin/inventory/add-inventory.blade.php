@@ -175,14 +175,10 @@
                                                 <tr>
                                                     <th class="text-center" wire:click="sortBy('quantity_change')"
                                                         style="cursor: pointer;">Quantity Change</th>
-                                                    <th class="text-center" wire:click="sortBy('new_quantity')"
-                                                        style="cursor: pointer;">New Quantity</th>
-                                                    <th class="text-center" wire:click="sortBy('reason')"
-                                                        style="cursor: pointer;">Reason</th>
-                                                    <th class="text-center" wire:click="sortBy('created_by')"
-                                                        style="cursor: pointer;">Created By</th>
-                                                    <th class="text-center" wire:click="sortBy('updated_at')"
-                                                        style="cursor: pointer;">Updated At</th>
+                                                    <th class="text-center" style="cursor: pointer;">New Quantity</th>
+                                                    <th class="text-center" style="cursor: pointer;">Reason</th>
+                                                    <th class="text-center" style="cursor: pointer;">Created By</th>
+                                                    <th class="text-center" style="cursor: pointer;">Updated At</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
