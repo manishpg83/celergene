@@ -173,8 +173,7 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" wire:click="sortBy('quantity_change')"
-                                                        style="cursor: pointer;">Quantity Change</th>
+                                                    <th class="text-center" style="cursor: pointer;">Quantity Change</th>
                                                     <th class="text-center" style="cursor: pointer;">New Quantity</th>
                                                     <th class="text-center" style="cursor: pointer;">Reason</th>
                                                     <th class="text-center" style="cursor: pointer;">Created By</th>
