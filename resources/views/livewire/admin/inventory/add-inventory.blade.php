@@ -173,11 +173,11 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" style="cursor: pointer;">Quantity Change</th>
-                                                    <th class="text-center" style="cursor: pointer;">New Quantity</th>
-                                                    <th class="text-center" style="cursor: pointer;">Reason</th>
-                                                    <th class="text-center" style="cursor: pointer;">Created By</th>
-                                                    <th class="text-center" style="cursor: pointer;">Updated At</th>
+                                                    <th class="text-center">Quantity Change</th>
+                                                    <th class="text-center">New Quantity</th>
+                                                    <th class="text-center">Reason</th>
+                                                    <th class="text-center">Created By</th>
+                                                    <th class="text-center">Updated At</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
