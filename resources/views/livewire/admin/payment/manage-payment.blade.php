@@ -103,6 +103,9 @@
                             </button>
                         </td>
                     </tr>
+                    @php
+                        $showPending = $payment->status !== 'Paid and waive bank charges';
+                    @endphp
                 @endforeach
             </tbody>
         </table>
@@ -110,8 +113,10 @@
     <!-- Pending Amount -->
     <div class="mt-3 text-end">
         <p><strong>Total Paid:</strong> {{ $currencySymbol }}{{ number_format($totalPaid, 2) }}</p>
+        @if($showPending)
         <p class="text-danger"><strong>Pending Amount:</strong>
             {{ $currencySymbol }}{{ number_format($pendingAmount, 2) }}</p>
+        @endif
     </div>
     <!-- Payment Edit Modal -->
     <!-- Payment Edit Modal -->
