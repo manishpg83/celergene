@@ -87,6 +87,9 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $showPending = true;
+                @endphp
                 @foreach ($payments as $payment)
                     <tr class="text-center">
                         <td>{{ $payment->payment_method }}</td>
@@ -110,6 +113,7 @@
             </tbody>
         </table>
     </div>
+    
     <!-- Pending Amount -->
     <div class="mt-3 text-end">
         <p><strong>Total Paid:</strong> {{ $currencySymbol }}{{ number_format($totalPaid, 2) }}</p>
