@@ -6,14 +6,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
         @if (session()->has('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
         <div class="mt-3 col-md-12">
             <div class="alert alert-info">
                 <div class="d-flex align-items-center">
@@ -37,7 +35,6 @@
                 </div>
             </div>
         </div>
-
         <div class="mb-4 bg-white rounded table-responsive">
             <table class="table align-middle table-bordered">
                 <thead class="border-2 bg-light border-bottom">
@@ -79,7 +76,6 @@
                                                 Available: {{ (float) $inventory->remaining }} |
                                                 Warehouse: {{ $inventory->warehouse->warehouse_name }}
                                             </div>
-
                                             <div class="row g-2">
                                                 <div class="col-md-6">
                                                     <label class="form-label">Regular Quantity</label>
@@ -92,7 +88,6 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-
                                                 <div class="col-md-6">
                                                     <label class="form-label">Sample Quantity</label>
                                                     <input type="number"
@@ -140,7 +135,22 @@
         </div>
         <div class="mb-4 row">
             <div class="col-md-12 ms-auto">
-                @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || $remainingQuantity === 0)
+                @php
+                    $hasRemainingQuantity = false;
+                    $hasRemainingSampleQuantity = false;
+                    
+                    foreach ($order->orderDetails as $detail) {
+                        if ($detail->product_id != 1) {
+                            if ($this->calculateRemainingQuantity($detail) > 0) {
+                                $hasRemainingQuantity = true;
+                            }
+                            if ($this->calculateRemainingSampleQuantity($detail) > 0) {
+                                $hasRemainingSampleQuantity = true;
+                            }
+                        }
+                    }
+                @endphp                
+                @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || (!$hasRemainingQuantity && !$hasRemainingSampleQuantity))
                     <div class="mb-3 col-md-6">
                         <label for="deliveryStatus" class="form-label">Update Delivery Status:</label>
                         <select wire:model="deliveryStatus" id="deliveryStatus" class="form-select">
@@ -149,16 +159,23 @@
                             <option value="Delivered">Delivered</option>
                             <option value="Cancelled">Cancelled</option>
                         </select>
-                    </div>
+                    </div>                    
                 @endif
                 <div class="col-md-6">
                     <label for="remarks">Remarks</label>
                     <textarea id="remarks" wire:model.defer="remarks" class="form-control"></textarea>
+                    @if ($order->workflow_type !== \App\Enums\OrderWorkflowType::MULTI_DELIVERY || (!$hasRemainingQuantity && !$hasRemainingSampleQuantity))
+                        <button wire:click="updateDeliveryStatus" class="btn btn-success mt-3" wire:loading.attr="disabled">
+                            <span wire:loading.remove wire:target="updateDeliveryStatus">
+                                Update Delivery Status
+                            </span>
+                            <span wire:loading wire:target="updateDeliveryStatus">Updating Status...</span>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
-
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end gap-2">
             <button wire:click="updateDelivery" class="btn btn-success" wire:loading.attr="disabled"
                 @if ($disableButton) disabled @endif>
                 <span wire:loading.remove wire:target="updateDelivery">

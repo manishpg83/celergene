@@ -391,6 +391,24 @@ class OrderDelivery extends Component
         }
     }
 
+    public function updateDeliveryStatus()
+    {
+        $this->validate([
+            'deliveryStatus' => 'required|in:Pending,Shipped,Delivered,Cancelled'
+        ]);
+
+        try {
+            $this->order->update([
+                'delivery_status' => $this->deliveryStatus
+            ]);
+            notyf()->success('Delivery status updated successfully.');
+            return redirect("/admin/orders/{$this->order_id}");            
+        } catch (\Exception $e) {
+            Log::error('Delivery status update error.', ['error' => $e->getMessage(), 'order_id' => $this->order->order_id ?? 'N/A']);
+            notyf()->error('Error updating delivery status: ' . $e->getMessage());
+        }
+    }
+
     public function render()
     {
         return view('livewire.admin.orders.order-delivery');
