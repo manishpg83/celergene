@@ -76,8 +76,9 @@
                                     <h6 class="mb-2">Customer Details:</h6>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <p class="mb-1">Name: {{ $order->customer->salutation ? $order->customer->salutation : '' }} {{ $order->customer->first_name }}
-                                                {{ $order->customer->last_name }}
+                                            <p class="mb-1">
+                                                Name:
+                                                {{ $order->customer->salutation ? $order->customer->salutation : '' }}. {{ $order->customer->first_name }} {{ $order->customer->last_name }}
                                             </p>
                                             <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}
                                             </p>
