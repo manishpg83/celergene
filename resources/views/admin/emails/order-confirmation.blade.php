@@ -23,8 +23,11 @@
             <div class="billing-address" style="float: left; width: 48%;">
                 <div class="address-title"
                     style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Billing Address:</div>
-                <p>{{ $customer->first_name }} {{ $customer->last_name }}</p>
-                @if ($customer->billing_address)
+                <p>
+                    {{ $customer->salutation ? $customer->salutation  : '' }}{{ $customer->first_name }} {{ $customer->last_name }}
+                </p>
+                @if ($customer->billing_address)           
+
                     <p>{{ $customer->billing_address }}</p>
                 @endif
                 @if ($customer->mobile_number)
