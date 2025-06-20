@@ -118,7 +118,7 @@ class OrderDelivery extends Component
         $this->disableButton = $this->shouldDisableButton();
 
     }
-    
+
     public function back()
     {
         return redirect()->route('admin.orders.index');
@@ -402,7 +402,7 @@ class OrderDelivery extends Component
                 'delivery_status' => $this->deliveryStatus
             ]);
             notyf()->success('Delivery status updated successfully.');
-            return redirect("/admin/orders/{$this->order_id}");            
+            return redirect("/admin/orders/{$this->order_id}");
         } catch (\Exception $e) {
             Log::error('Delivery status update error.', ['error' => $e->getMessage(), 'order_id' => $this->order->order_id ?? 'N/A']);
             notyf()->error('Error updating delivery status: ' . $e->getMessage());

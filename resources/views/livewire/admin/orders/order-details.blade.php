@@ -78,7 +78,7 @@
                                         <div class="col-md-4">
                                             <p class="mb-1">
                                                 Name:
-                                                {{ $order->customer->salutation ? $order->customer->salutation : '' }}. {{ $order->customer->first_name }} {{ $order->customer->last_name }}
+                                                {{ $order->customer->salutation ? $order->customer->salutation : '' }} {{ $order->customer->first_name }} {{ $order->customer->last_name }}
                                             </p>
                                             <p class="mb-1">Type: {{ $order->customer->customerType->customer_type }}
                                             </p>
@@ -91,13 +91,13 @@
                                                 {!! implode('<br>', array_filter(array_map('trim', explode(',', $this->formattedBillingAddress)))) !!}
                                             </p>
                                         </div>
-                                        
+
                                         <div class="col-md-4">
                                             <h6>Shipping Address:</h6>
                                             <p class="mb-1">
                                                 {!! implode('<br>', array_filter(array_map('trim', explode(',', $order->shipping_address)))) !!}
                                             </p>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title mb-4 fw-bold text-primary">Order Details</h5>
-                                
+
                                 <div class="row g-4">
                                     <!-- Order Status -->
                                     <div class="col-md-6">
@@ -220,14 +220,14 @@
                                             <option value="Sales Transfered to US" class="text-info fw-bold">🌍 Sales Transferred to US</option>
                                             <option value="FOC" class="text-info fw-bold">🎁 FOC</option>
                                         </select>
-                                    </div>                    
+                                    </div>
                                     <!-- Remarks -->
                                     <div class="col-md-6">
                                         <label for="remarks" class="form-label">Remarks</label>
                                         <textarea wire:model="remarks" id="remarks" class="form-control" rows="2" placeholder="Enter remarks"></textarea>
                                     </div>
                                 </div>
-                    
+
                                 <div class="d-flex justify-content-end mt-4">
                                     <button wire:click="updateOrderDetails" wire:loading.attr="disabled" class="btn btn-primary">
                                         <span wire:loading wire:target="updateOrderDetails" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
@@ -238,7 +238,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
                     @livewire('admin.orders.order-delivery', ['order_id' => $order_id])
                     @php
