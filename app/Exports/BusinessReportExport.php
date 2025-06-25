@@ -151,8 +151,10 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
                 ]);
 
                 // Auto-size columns
-                foreach(range('A','AC') as $columnID) {
+                $columnID = 'A';
+                for ($i = 0; $i < 29; $i++) {
                     $sheet->getColumnDimension($columnID)->setAutoSize(true);
+                    $columnID++;
                 }
             },
         ];
