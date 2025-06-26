@@ -13,48 +13,54 @@ class DashboardController extends Controller
     public function index()
     {
         $currentYear = now()->year;
-
-        $baseOrderQuery = OrderMaster::whereYear('order_date', $currentYear)
-            ->where('order_status', '!=', 'Cancelled');
-
-        $totalOrders = $baseOrderQuery->count();
-        $totalRevenue = $baseOrderQuery->sum('total');
-        $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
+        $totalOrders = OrderMaster::whereYear('order_date', $currentYear)->count();
+        $averageOrder = OrderMaster::whereYear('order_date', $currentYear)->sum('total');
         $totalCustomers = Customer::whereYear('created_at', $currentYear)->count();
+        $totalRevenue = OrderMaster::whereYear('order_date', $currentYear)->sum('total');
+        $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
 
         $products = Product::latest()->take(5)->get();
+        $orders = OrderMaster::with('customer')
+            ->whereYear('order_date', $currentYear)
+            ->where('order_type', '=', 'offline')
+            ->latest()->take(5)->get();
 
-        $orders = (clone $baseOrderQuery)
-            ->with('customer')
-            ->where('order_type', 'offline')
-            ->latest()
-            ->take(5)
-            ->get();
-
-        $onlineorders = (clone $baseOrderQuery)
-            ->with('customer')
-            ->where('order_type', 'online')
-            ->latest()
-            ->take(5)
-            ->get();
-
+        $onlineorders = OrderMaster::with('customer')
+            ->whereYear('order_date', $currentYear)
+            ->where('order_type', '=', 'online')
+            ->latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
-        $orderStats = (clone $baseOrderQuery)
-            ->selectRaw('MONTH(order_date) as month, COUNT(*) as order_count')
+        $orderStats = OrderMaster::selectRaw('MONTH(order_date) as month, COUNT(*) as order_count')
+            ->whereYear('order_date', $currentYear)
             ->groupBy(DB::raw('MONTH(order_date)'))
             ->orderBy('month')
             ->get();
 
-        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ];
+
         $monthlyOrderCounts = array_fill(0, 12, 0);
+
         foreach ($orderStats as $stat) {
             $monthlyOrderCounts[$stat->month - 1] = $stat->order_count;
         }
 
         return view('admin.dashboard', compact(
             'totalOrders',
-            'totalRevenue',
+            'averageOrder',
             'totalCustomers',
             'averagePurchase',
             'products',
@@ -65,5 +71,4 @@ class DashboardController extends Controller
             'monthlyOrderCounts'
         ));
     }
-
 }
