@@ -57,6 +57,7 @@ class ReportComponent extends Component
         } else {
             $invoicesQuery = OrderInvoice::query()
                 ->join('customers', 'order_invoice.customer_id', '=', 'customers.id')
+                ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
                 ->join('order_invoice_details', 'order_invoice.id', '=', 'order_invoice_details.order_invoice_id')
                 ->select(
                     'order_invoice.id',
@@ -69,6 +70,7 @@ class ReportComponent extends Component
                     DB::raw('SUM(order_invoice_details.quantity) as box_count'),
                 )
                 ->whereRaw("order_invoice.invoice_number NOT LIKE 'ship%'")
+                ->where('order_master.order_status', '!=', 'Cancelled')
                 ->groupBy(
                     'order_invoice.id',
                     'order_invoice.invoice_number',
@@ -906,6 +908,7 @@ class ReportComponent extends Component
         try {
             $query = DB::table('order_invoice')
                 ->join('customers', 'order_invoice.customer_id', '=', 'customers.id')
+                ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
                 ->select(
                     'order_invoice.id',
                     'order_invoice.created_at as date',
@@ -916,7 +919,9 @@ class ReportComponent extends Component
                     'customers.billing_country as country',
                     'order_invoice.total as amount_chf'
                 )
-                ->whereRaw("order_invoice.invoice_number NOT LIKE 'ship%'");
+                ->whereRaw("order_invoice.invoice_number NOT LIKE 'ship%'")
+                ->where('order_master.order_status', '!=', 'Cancelled');
+                
 
             // Apply date range filter if set
             if ($this->startDate && $this->endDate) {
@@ -1065,12 +1070,15 @@ class ReportComponent extends Component
     {
         $invoicesQuery = OrderInvoice::query()
             ->join('customers', 'order_invoice.customer_id', '=', 'customers.id')
+            ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
             ->select(
                 'customers.billing_country as country',
                 'order_invoice.id'
             )
             ->with(['invoiceDetails'])
-            ->whereRaw("order_invoice.invoice_number NOT LIKE 'ship%'");
+            ->whereRaw("order_invoice.invoice_number NOT LIKE 'ship%'")
+            ->where('order_master.order_status', '!=', 'Cancelled');
+
 
 
         // Apply filters

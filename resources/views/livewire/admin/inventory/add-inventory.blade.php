@@ -4,7 +4,8 @@
             <div class="card">
                 <div
                     class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-                    <h5 class="card-title mb-sm-0 me-2">{{ $isEditMode ? 'Edit Inventory' : 'Add Inventory for New Batch' }}</h5>
+                    <h5 class="card-title mb-sm-0 me-2">
+                        {{ $isEditMode ? 'Edit Inventory' : 'Add Inventory for New Batch' }}</h5>
                     <div class="action-btns">
                         <button wire:click="back" class="btn btn-label-primary me-4">
                             <span class="align-middle"> Back</span>
@@ -75,7 +76,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="quantity">Quantity</label>
                                     <input type="number" wire:model="quantity" id="quantity" class="form-control"
-                                        placeholder="Enter quantity" required>
+                                        placeholder="Enter quantity" required value="{{ $quantity ?? 0 }}">
                                     @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

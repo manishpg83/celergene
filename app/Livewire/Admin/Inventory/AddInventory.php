@@ -42,7 +42,7 @@ class AddInventory extends Component
             'warehouse_id' => 'required|exists:warehouses,id',
             'batch_number' => 'required|string|max:255',
             'expiry' => 'nullable|date_format:Y-m|after_or_equal:' . date('Y-m'),
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:0',
             'remaining' => 'required|integer|min:1',
             'reason' => 'required|string|max:255',
             'destination_warehouse_id' => 'required|exists:warehouses,id',
@@ -55,9 +55,9 @@ class AddInventory extends Component
     {
         $this->inventory_id = request()->query('id');
         $this->minExpireDate = date('Y-m');
+        
 
         $this->batchNumbers = BatchNumber::pluck('batch_number', 'id')->toArray();
-
         if ($this->inventory_id) {
             $inventory = Inventory::find($this->inventory_id);
             if ($inventory) {
@@ -65,7 +65,7 @@ class AddInventory extends Component
                 $this->expiry = $inventory->expiry ? date('Y-m', strtotime($inventory->expiry)) : $this->expiry;
                 $this->isEditMode = true;
 
-                $this->quantity = $inventory->remaining;
+                $this->quantity = 0;
                 $this->remaining = $inventory->remaining;
                 $latestStock = Stock::where('inventory_id', $this->inventory_id)
                     ->latest('created_at')
@@ -85,8 +85,7 @@ class AddInventory extends Component
             ->where('product_id', $this->product_code)
             ->orderBy('created_at', 'desc')
             ->paginate(25);
-    }
-
+    }   
     public function saveInventory()
     {
         DB::transaction(function () {
@@ -128,7 +127,7 @@ class AddInventory extends Component
                 'reason' => $this->reason,
                 'created_by' => Auth::id()
             ]);
-            $this->quantity = $newRemaining;
+            $this->quantity = 0;
         });
 
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
