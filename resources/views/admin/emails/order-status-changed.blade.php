@@ -71,7 +71,7 @@
 
     <div class="billing-address">
         <p><strong>Billing Address:</strong></p>
-        <p>{{ env('APP_NAME', 'Celergen') }} Inc</p>
+        <p>{{ $order->entity->company_name }}</p>
         <p>{{ $order->customer->first_name }} {{ $order->customer->last_name }}</p>
         <p>{{ $order->customer->billing_address }}</p>
         <p>{{ $order->customer->billing_city }}, {{ $order->customer->billing_state }}, {{ $order->customer->billing_postal_code }}</p>
@@ -79,7 +79,7 @@
         <p>Phone : {{ $order->customer->billing_phone ?? $order->customer->mobile_number ?? 'N/A' }}</p>
     </div>
 
-    <div class="section"> 
+    <div class="section">
         <p>Order Date : {{ date('F d, Y', strtotime($order->order_date)) }}</p>
         <p>Order No : {{ $order->order_id }}</p>
     </div>
