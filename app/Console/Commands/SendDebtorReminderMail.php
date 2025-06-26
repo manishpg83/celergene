@@ -7,7 +7,10 @@ use App\Models\OrderInvoice;
 use Carbon\Carbon;
 use App\Mail\DebtorReminderMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Scheduling\Attributes\AsScheduled;
 
+
+#[AsScheduled('weeklyOn(3, "08:00", timezone: "Asia/Singapore")')]
 class SendDebtorReminderMail extends Command
 {
     protected $signature = 'debtors:remind';
