@@ -50,6 +50,7 @@ class SendDebtorReminderMail extends Command
 
         if ($debtors->count() > 0) {
             Mail::to($adminEmail)->send(new DebtorReminderMail($debtors));
+            Mail::to('manish.bhuvait@gmail.com')->send(new DebtorReminderMail($debtors));
             $this->info('Reminder email sent successfully.');
         } else {
             $this->info('No overdue invoices found.');
