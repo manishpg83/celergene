@@ -49,7 +49,9 @@ class CountryReportSheet implements FromCollection, WithHeadings, WithTitle
 
         $totalBoxes = 0;
         $totalAmount = 0;
-
+        $rows[] = [env('APP_NAME_DISPLAY')." - Country Sales Report", "", ""];
+        $rows[] = ["", "", ""];
+        $rows[] = [ 'Month', 'Number of Boxes', 'Total Amount (USD)'];
         foreach ($this->data as $row) {
             $rows[] = [
                 $row['month'],
@@ -73,11 +75,12 @@ class CountryReportSheet implements FromCollection, WithHeadings, WithTitle
 
     public function headings(): array
     {
-        return [
+         return [];
+        /* return [
             'Month',
             'Number of Boxes',
             'Total Amount (USD)',
-        ];
+        ]; */
     }
 
     public function title(): string

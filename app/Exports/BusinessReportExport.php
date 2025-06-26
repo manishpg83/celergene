@@ -27,7 +27,6 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
     public function array(): array
     {
         $rows = [];
-
         // Add header row
         $headers = [
             'Country', 'Full Name', 'Currency Code',
@@ -45,7 +44,8 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
             'Dec Qty', 'Dec ' . $this->currency,
             'Total Qty', 'Total ' . $this->currency
         ];
-
+        $rows[] = [env('APP_NAME_DISPLAY')." - Business", "", ""];
+        $rows[] = array_fill(0, count($headers), '');
         $rows[] = $headers;
 
         // Add data rows
@@ -109,10 +109,18 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet;
-                $lastRow = count($this->data) + 3; // +3 because we added a blank line (header row + data rows + blank line + totals row)
+                $lastRow = count($this->data) + 5; // +3 because we added a blank line (header row + data rows + blank line + totals row)
 
                 // Style the header row
                 $sheet->getStyle('A1:AC1')->applyFromArray([
+                    'font' => ['bold' => true],
+                    'fill' => [
+                        'fillType' => Fill::FILL_SOLID,
+                        'startColor' => ['argb' => 'FFD9D9D9'],
+                    ],
+                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                ]);
+                $sheet->getStyle('A3:AC3')->applyFromArray([
                     'font' => ['bold' => true],
                     'fill' => [
                         'fillType' => Fill::FILL_SOLID,
@@ -139,7 +147,7 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
                         ],
                     ],
                 ]);
-                
+
                 // Add borders to totals row
                 $sheet->getStyle("A{$lastRow}:AC{$lastRow}")->applyFromArray([
                     'borders' => [

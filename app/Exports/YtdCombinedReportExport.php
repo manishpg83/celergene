@@ -26,7 +26,8 @@ class YtdCombinedReportExport implements FromArray, WithTitle, WithHeadings, Sho
     public function array(): array
     {
         $rows = [];
-
+        $rows[] = [env('APP_NAME_DISPLAY')." - YTD - {$this->year}", "", ""];
+        $rows[] = ["", "", ""];
         // Section 1: Customer Type Sales
         $rows[] = ["YTD SALES BY CUSTOMER TYPE - {$this->year}", "", ""];
         $rows[] = ['Customer Type', 'No. of Boxes', 'Total Amount (USD)'];
@@ -82,8 +83,17 @@ class YtdCombinedReportExport implements FromArray, WithTitle, WithHeadings, Sho
                 $currentRow = 1;
 
                 foreach ($rows as $row) {
+                    $isMainHeader = isset($row[0]) && str_starts_with($row[0], env('APP_NAME_DISPLAY')." - YTD");
                     $isSectionHeader = isset($row[0]) && str_starts_with($row[0], 'YTD SALES');
                     $isGrandTotal = isset($row[0]) && $row[0] === 'Grand Total';
+
+                    if ($isMainHeader) {
+                        $sheet->mergeCells("A{$currentRow}:C{$currentRow}");
+                        $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
+                            'font' => ['bold' => true, 'size' => 14],
+                            'alignment' => ['horizontal' => 'center'],
+                        ]);
+                    }
 
                     if ($isSectionHeader) {
                         // Merge and bold the header

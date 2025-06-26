@@ -162,9 +162,9 @@
                                     <div
                                         class="p-3 mb-3 border rounded bg-light d-flex justify-content-between align-items-center">
                                         <span class="fw-bold text-dark">🛒 Remaining Inventory:</span>
-                                        <span class="fs-5 fw-bold text-primary">Consumed (DO):
+                                        <span class="fs-5 fw-bold text-primary">Delivery Order:
                                             {{ number_format($consumed) }}</span><br>
-                                        <span class="fs-5 fw-bold text-success">Remaining:
+                                        <span class="fs-5 fw-bold text-success">Remaining Inventory:
                                             {{ number_format($remaining) }}</span><br>
                                         <span class="fs-5 fw-bold text-dark">Total:
                                             {{ number_format($consumed + $remaining) }}</span>

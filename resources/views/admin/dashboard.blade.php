@@ -44,7 +44,7 @@
                         <div class="text-center mb-2">
                             <i class="fas fa-shopping-cart fa-2x text-primary"></i>
                         </div>
-                        <h6 class="text-secondary">Avg Purchase</h6>
+                        <h6 class="text-secondary">Month To Date Sales</h6>
                         <p class="h4 font-weight-bold mb-0">${{ number_format($averagePurchase, 2) }}</p>
                     </div>
                 </div>

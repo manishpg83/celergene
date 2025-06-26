@@ -172,7 +172,7 @@ class ReportComponent extends Component
     private function writeHeaderToFile($file, $title = '')
     {
         // Company header section
-        fputcsv($file, ['CELERGENE BIOTECH']);
+        fputcsv($file, [strtoupper(env('APP_NAME_DISPLAY')).' BIOTECH']);
         fputcsv($file, ['━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━']);
         fputcsv($file, ['SALES REPORT']);
 
@@ -229,7 +229,7 @@ class ReportComponent extends Component
                 fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF)); // UTF-8 BOM for Excel compatibility
 
                 // Write company header
-                fputcsv($file, ['CELERGENE BIOTECH']);
+                fputcsv($file, [strtoupper(env('APP_NAME_DISPLAY')).' BIOTECH']);
                 fputcsv($file, ['━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━']);
                 fputcsv($file, ['SALES REPORT']);
 
@@ -498,7 +498,7 @@ class ReportComponent extends Component
 
             $row = 1;
 
-            $sheet->setCellValue('A' . $row, 'CELERGENE BIOTECH');
+            $sheet->setCellValue('A' . $row,  strtoupper(env('APP_NAME_DISPLAY')).' BIOTECH');
             $sheet->getStyle('A' . $row)->applyFromArray([
                 'font' => [
                     'bold' => true,

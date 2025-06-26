@@ -19,7 +19,7 @@ class WelcomeMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Your Celergen Login Registration')
+        return $this->subject('Your '.env('APP_NAME_DISPLAY').' Login Registration')
                     ->view('frontend.emails.welcome');
     }
 }

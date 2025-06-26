@@ -36,7 +36,7 @@ class OrderConfirmation extends Mailable
                     'customer' => $this->customer,
                     'order_id' => $this->order_id,
                     'company_details' => [
-                        'name' => 'Celergen',
+                        'name' => env('APP_NAME_DISPLAY'),
                         'address' => config('app.company_address', ''),
                         'phone' => config('app.company_phone', ''),
                         'email' => config('app.company_email', ''),

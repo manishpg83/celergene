@@ -130,7 +130,7 @@ class AddInventory extends Component
             ]);
             $this->quantity = $newRemaining;
         });
-       
+
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         $this->dispatch('$refresh');
         $this->refreshLatestStockData();
