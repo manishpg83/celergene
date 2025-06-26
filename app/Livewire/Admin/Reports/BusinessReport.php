@@ -66,8 +66,10 @@ class BusinessReport extends Component
             $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
             $invoices = OrderInvoice::with(['customer', 'invoiceDetails'])
+                ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->where('status', '!=', 'cancelled')
+                ->where('order_master.order_status', '!=', 'Cancelled')
                 ->where(function ($query) {
                     $query->whereRaw("invoice_number NOT LIKE 'SHIP-%'")
                         ->orWhereNull('invoice_number');

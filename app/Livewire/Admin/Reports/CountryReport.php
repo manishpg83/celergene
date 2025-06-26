@@ -65,8 +65,10 @@ class CountryReport extends Component
         $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
         $query = OrderInvoice::with(['invoiceDetails'])
+            ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->where('invoice_category', '!=', 'shipping');
+            ->where('invoice_category', '!=', 'shipping')
+            ->where('order_master.order_status', '!=', 'Cancelled');
 
         if ($this->selectedCountry) {
             $query->whereHas('customer', function ($q) {
