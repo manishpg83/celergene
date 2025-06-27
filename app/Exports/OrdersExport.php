@@ -14,7 +14,7 @@ class OrdersExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSi
 {
     protected $filters;
 
-    public function __construct($filters = [])
+    public function __construct($filters)
     {
         $this->filters = $filters;
     }
@@ -24,7 +24,7 @@ class OrdersExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSi
         $currentYearStart = now()->startOfYear()->format('Y-m-d');
         $currentYearEnd = now()->endOfYear()->format('Y-m-d');
 
-        return OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+        $query = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->filters['search'] ?? null, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('order_id', 'like', '%' . $search . '%')
@@ -55,10 +55,10 @@ class OrdersExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSi
             ->when($this->filters['statusFilter'] ?? null !== '', function ($query) {
                 $query->where('order_status', $this->filters['statusFilter']);
             })
-            ->when($this->filters['showCancelled'] ?? null == 1, function ($query) {
+            ->when(isset($this->filters['showCancelled']) && $this->filters['showCancelled'] == 1, function ($query) {
                 $query->where('order_status', 'Cancelled');
             })
-            ->when($this->filters['showCancelled'] ?? null == 0, function ($query) {
+            ->when(isset($this->filters['showCancelled']) && $this->filters['showCancelled'] == 0, function ($query) {
                 $query->where('order_status', '!=', 'Cancelled');
             })
             ->when($this->filters['paymentModeFilter'] ?? null !== '', function ($query) {
@@ -69,6 +69,8 @@ class OrdersExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSi
             })
             ->where('parent_order_id', null) // Only main orders
             ->orderBy($this->filters['sortField'] ?? 'created_at', $this->filters['sortDirection'] ?? 'desc');
+
+        return $query;
     }
 
     public function headings(): array

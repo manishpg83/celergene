@@ -37,7 +37,7 @@ class OrderList extends Component
     public $paymentModeFilter = '';
     public $orderTypeFilter = '';
     public $workflow_type = OrderWorkflowType::STANDARD->value;
-    public $showCancelled = false;
+    public $showCancelled = 0;
 
     public $perpagerecords = [
         10 => '10',
@@ -53,6 +53,10 @@ class OrderList extends Component
     protected $listeners = ['closeModal'];
 
     protected $updatesQueryString = ['search', 'perPage', 'selectedEntityId', 'statusFilter', 'paymentModeFilter'];
+
+    protected $casts = [
+        'showCancelled' => 'integer',
+    ];
 
     public function mount()
     {
@@ -364,7 +368,7 @@ class OrderList extends Component
             'dateStart' => $this->dateStart,
             'dateEnd' => $this->dateEnd,
             'statusFilter' => $this->statusFilter,
-            'showCancelled' => $this->showCancelled,
+            'showCancelled' => (int) $this->showCancelled,
             'paymentModeFilter' => $this->paymentModeFilter,
             'orderTypeFilter' => $this->orderTypeFilter,
             'sortField' => $this->sortField,
@@ -383,7 +387,7 @@ class OrderList extends Component
     }
 
     public function updatingShowCancelled()
-    {
+    {        
         $this->resetPage();
     }
 
