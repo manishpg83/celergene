@@ -71,7 +71,7 @@
                                                 </svg>
                                             </div>
                                             <div class="total-detail">
-                                                <span class="text">Total Orders</span>
+                                                <span class="text">Total Sales (YTD)</span>
                                                 <h2 class="title"><a href="{{ route('myorders') }}">{{ $totalOrders }}</a>
                                                 </h2>
                                             </div>

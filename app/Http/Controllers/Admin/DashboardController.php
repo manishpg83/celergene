@@ -23,6 +23,17 @@ class DashboardController extends Controller
                 $query->where('order_status', '!=', 'Cancelled');
             });
 
+        /*  $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
+        $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
+
+        $baseOrderQuery = OrderInvoice::where('invoice_category', '!=', 'shipping')
+            ->whereYear('created_at', $currentYear)
+             ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
+            ->whereBetween('order_invoice.created_at', [$startDate, $endDate])
+            ->where('order_invoice.status', '!=', 'cancelled')
+            ->where('order_master.order_status', '!=', 'Cancelled'); */
+
+
         $totalOrders = $baseOrderQuery->count();
 
         $totalRevenue = $baseOrderQuery->sum('total');
