@@ -21,18 +21,20 @@
         <div class="header" style="text-align: left; font-size: 14px; line-height: 1.8;">
             <span>Dear {{ $billingAddress['name'] }},</span><br>
             <span style="display: inline-block; margin-top: 6px;">
-                Thank you for visiting our store.<br>
+                Thank you for visiting <a href="https://celergenswiss.com"
+                    target="_blank">https://celergenswiss.com</a>.<br>
                 We noticed you searched for our products but left before completing the purchase.<br>
                 We value your time and have provided a link below for you to complete your purchase at your convenience.
             </span>
+
         </div>
 
         <!-- Payment Button -->
         @if ($paymentLink)
             <div style="text-align: center; margin: 30px 0;">
                 <a href="{{ $paymentLink }}"
-                    style="display: inline-block; background-color: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
-                    Complete Payment Now
+                    style="display: inline-block; background-color: #001d35; color: white; padding: 3px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
+                    Make Payment
                 </a>
             </div>
         @endif
@@ -117,7 +119,8 @@
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            <strong>Sub Total</strong></td>
+                            <strong>Sub Total</strong>
+                        </td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
                             ${{ number_format($order->subtotal, 2) }}</td>
@@ -126,7 +129,8 @@
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            <strong>Freight</strong></td>
+                            <strong>Freight</strong>
+                        </td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
                             {{ ($order->freight ?? 0) > 0 ? '$' . number_format($order->freight, 2) : 'Free' }}</td>
@@ -135,7 +139,8 @@
                         <td style="font-family: Helvetica, Arial, sans-serif; padding: 12px; border-bottom: none;"></td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee;">
-                            <strong>Net Total</strong></td>
+                            <strong>Net Total</strong>
+                        </td>
                         <td
                             style="font-family: Helvetica, Arial, sans-serif; padding: 12px; text-align: right; border-bottom: 1px solid #eee; font-weight: bold; font-size: 16px;">
                             ${{ number_format($order->total, 2) }}</td>
