@@ -5,12 +5,34 @@
             <h4 class="mb-1 text-2xl ml-2">Orders List</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-4">
-            <div class="d-flex gap-4">
-                <div class="btn-group"><button
-                        class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
-                        tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog"
-                        aria-expanded="false"><span><i class="ti ti-upload me-1 ti-xs"></i>Export</span></button>
-                </div>
+            <div class="btn-group">
+                <button
+                    class="btn btn-secondary buttons-collection dropdown-toggle btn-label-secondary me-4 waves-effect waves-light"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span><i class="ti ti-upload me-1 ti-xs"></i>Export</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="#" wire:click.prevent="exportExcel">
+                            <span wire:loading.remove wire:target="exportExcel">
+                                <i class="ti ti-file-spreadsheet me-2"></i>Export to Excel
+                            </span>
+                            <span wire:loading wire:target="exportExcel">
+                                <i class="ti ti-loader me-2"></i>Exporting...
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" wire:click.prevent="exportCsv">
+                            <span wire:loading.remove wire:target="exportCsv">
+                                <i class="ti ti-file-text me-2"></i>Export to CSV
+                            </span>
+                            <span wire:loading wire:target="exportCsv">
+                                <i class="ti ti-loader me-2"></i>Exporting...
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </div>
             <a href="{{ route('admin.orders.add') }}" class="btn btn-primary">
                 <i class="ti ti-plus ti-xs me-md-2"></i>Add Order

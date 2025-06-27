@@ -36,6 +36,8 @@ return new class extends Migration {
             $table->foreignId('modified_by')->nullable()->constrained('users')->onDelete('set null');
             $table->string('payment_terms')->nullable();
             $table->enum('delivery_status', ['Pending', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');
+            $table->boolean('payment_reminder_sent')->default(false);
+            $table->timestamp('payment_reminder_sent_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

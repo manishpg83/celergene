@@ -10,6 +10,9 @@ use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Exports\InventoryHistoryExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -55,7 +58,7 @@ class AddInventory extends Component
     {
         $this->inventory_id = request()->query('id');
         $this->minExpireDate = date('Y-m');
-        
+
 
         $this->batchNumbers = BatchNumber::pluck('batch_number', 'id')->toArray();
         if ($this->inventory_id) {
@@ -85,7 +88,7 @@ class AddInventory extends Component
             ->where('product_id', $this->product_code)
             ->orderBy('created_at', 'desc')
             ->paginate(25);
-    }   
+    }
     public function saveInventory()
     {
         DB::transaction(function () {
@@ -133,7 +136,6 @@ class AddInventory extends Component
         notyf()->success($this->inventory_id ? 'Inventory updated successfully.' : 'Inventory added successfully.');
         $this->dispatch('$refresh');
         $this->refreshLatestStockData();
-
     }
     public function refreshLatestStockData()
     {
@@ -156,6 +158,57 @@ class AddInventory extends Component
     {
         $this->reset(['destination_warehouse_id', 'transfer_quantity', 'transfer_reason']);
         $this->dispatchBrowserEvent('openTransferModal');
+    }
+
+    public function exportExcel()
+    {
+        if (!$this->inventory_id || !$this->isEditMode) {
+            notyf()->error('No inventory data to export.');
+            return;
+        }
+
+        $stockCount = Stock::where('inventory_id', $this->inventory_id)
+            ->where('product_id', $this->product_code)
+            ->count();
+
+        if ($stockCount == 0) {
+            notyf()->warning('No stock history data available to export.');
+            return;
+        }
+
+        $inventory = Inventory::find($this->inventory_id);
+        $fileName = 'inventory_history_' . $inventory->product->product_code . '_' . date('Y_m_d_H_i_s') . '.xlsx';
+
+        return Excel::download(
+            new InventoryHistoryExport($this->inventory_id, $this->product_code),
+            $fileName
+        );
+    }
+
+    public function exportCsv()
+    {
+        if (!$this->inventory_id || !$this->isEditMode) {
+            notyf()->error('No inventory data to export.');
+            return;
+        }
+
+        $stockCount = Stock::where('inventory_id', $this->inventory_id)
+            ->where('product_id', $this->product_code)
+            ->count();
+
+        if ($stockCount == 0) {
+            notyf()->warning('No stock history data available to export.');
+            return;
+        }
+
+        $inventory = Inventory::find($this->inventory_id);
+        $fileName = 'inventory_history_' . $inventory->product->product_code . '_' . date('Y_m_d_H_i_s') . '.csv';
+
+        return Excel::download(
+            new InventoryHistoryExport($this->inventory_id, $this->product_code),
+            $fileName,
+            \Maatwebsite\Excel\Excel::CSV
+        );
     }
 
     public function transferStock()
