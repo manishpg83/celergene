@@ -79,6 +79,9 @@ class YtdReport extends Component
 
         $invoices = OrderInvoice::where('invoice_category', '!=', 'shipping')
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereHas('order', function ($query) {
+                $query->where('order_status', '!=', 'Cancelled');
+            })
             ->with(['order', 'invoiceDetails'])
             ->get();
 
@@ -134,7 +137,8 @@ class YtdReport extends Component
         $orderType = $this->reportType === 'online_countries' ? 'online' : 'offline';
 
         $invoices = OrderInvoice::whereHas('order', function ($query) use ($orderType) {
-            $query->where('order_type', $orderType);
+            $query->where('order_type', $orderType)
+                ->where('order_status', '!=', 'Cancelled');
         })
             ->where('invoice_category', '!=', 'shipping')
             ->whereBetween('created_at', [$startDate, $endDate])

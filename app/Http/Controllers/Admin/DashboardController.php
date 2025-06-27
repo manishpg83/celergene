@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\OrderInvoice;
 use App\Models\OrderMaster;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class DashboardController extends Controller
 {
@@ -14,16 +17,22 @@ class DashboardController extends Controller
     {
         $currentYear = now()->year;
 
-        $baseOrderQuery = OrderMaster::whereYear('order_date', $currentYear)
-            ->where('order_status', '!=', 'Cancelled');
+        $baseOrderQuery = OrderInvoice::where('invoice_category', '!=', 'shipping')
+            ->whereYear('created_at', $currentYear)
+            ->whereHas('order', function ($query) {
+                $query->where('order_status', '!=', 'Cancelled');
+            });
 
         $totalOrders = $baseOrderQuery->count();
+
         $totalRevenue = $baseOrderQuery->sum('total');
+
         $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
         $totalCustomers = Customer::whereYear('created_at', $currentYear)->count();
 
         $products = Product::latest()->take(5)->get();
-
+        $baseOrderQuery = OrderMaster::whereYear('order_date', $currentYear)
+            ->where('order_status', '!=', 'Cancelled');
         $orders = (clone $baseOrderQuery)
             ->with('customer')
             ->where('order_type', 'offline')

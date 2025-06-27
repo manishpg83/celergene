@@ -109,7 +109,10 @@ class DebtorsList extends Component
         $query = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
             ->where('invoice_category', '!=', 'shipping')
             ->whereHas('order', function($query) {
-                $query->whereRaw('(SELECT COALESCE(SUM(amount), 0) FROM payments WHERE payments.order_id = order_master.order_id) < order_master.total');
+                $query->where('total', '>', 0)
+                      ->whereNotIn('order_status', ['Paid', 'Cancelled', 'FOC'])
+                      ->where('workflow_type', '!=', 'consignment')
+                      ->whereRaw('(SELECT COALESCE(SUM(amount), 0) FROM payments WHERE payments.order_id = order_master.order_id) < order_master.total');
             })
             ->when($this->search, function ($query) {
                 $query->where('invoice_number', 'like', '%' . $this->search . '%')

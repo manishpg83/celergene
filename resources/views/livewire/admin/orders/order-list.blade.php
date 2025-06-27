@@ -212,7 +212,8 @@
                                                 @if ($order->order_status === 'Paid') bg-success 
                                                 @elseif ($order->order_status === 'Pending') bg-warning 
                                                 @elseif ($order->order_status === 'Cancelled') bg-danger 
-                                                @elseif ($order->order_status === 'Sales Transfered to US') bg-info @endif">
+                                                @elseif ($order->order_status === 'Sales Transfered to US') bg-info
+                                                @elseif ($order->order_status === 'FOC') bg-danger @endif">
                                                 {{ $order->order_status }}
                                             </span>
                                         </td>

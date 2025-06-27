@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Mail\DebtorReminderMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Attributes\AsScheduled;
+use Illuminate\Support\Facades\DB;
 
 
 #[AsScheduled('weeklyOn(3, "08:00", timezone: "Asia/Singapore")')]
@@ -21,34 +22,28 @@ class SendDebtorReminderMail extends Command
     {
         $oneWeekAgo = Carbon::now()->subWeek();
 
-        $invoices = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
-            ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
-            ->whereNotIn('order_master.order_status', ['Paid', 'Cancelled'])
-            ->where('order_invoice.invoice_category', '!=', 'shipping')
-            ->where('order_invoice.created_at', '<=', $oneWeekAgo)
+        $debtors = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
+            ->where('invoice_category', '!=', 'shipping')
+            ->where('created_at', '<=', $oneWeekAgo) // Add the one week filter
+            ->whereHas('order', function ($query) {
+                $query->where('total', '>', 0)
+                    ->whereNotIn('order_status', ['Paid', 'Cancelled', 'FOC'])
+                    ->where('workflow_type', '!=', 'consignment')
+                    ->whereRaw('(SELECT COALESCE(SUM(amount), 0) FROM payments WHERE payments.order_id = order_master.order_id) < order_master.total');
+            })
             ->get();
 
-        $debtors = $invoices->filter(function ($invoice) {
-            $order = $invoice->order;
+        foreach ($debtors as $invoice) {
+            $invoice->overdue_days = (int) Carbon::parse($invoice->created_at)->diffInDays(now());
 
-            if (!$order) {
-                return false;
-            }
+            $invoice->totalPaid = $invoice->order->payments->sum('amount');
 
-            $totalOrderAmount = $order->total_amount;
-            $totalPaid = $order->payments->sum('amount');
-            $latestStatus = $order->payments->sortByDesc('payment_date')->first()?->status;
+            $invoice->pendingAmount = max(0, $invoice->order->total - $invoice->totalPaid);
 
-            if (
-                $totalPaid < $totalOrderAmount ||
-                !in_array($latestStatus, ['fully paid with bank charges', 'fully paid without bank charges'])
-            ) {
-                $invoice->overdue_days = (int) Carbon::parse($invoice->created_at)->diffInDays(now());
-                return true;
-            }
-
-            return false;
-        });
+            $invoice->currencySymbol = DB::table('currency')
+                ->where('id', $invoice->order->currency_id)
+                ->value('symbol') ?? '';
+        }
 
         $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
