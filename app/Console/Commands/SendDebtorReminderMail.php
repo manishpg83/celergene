@@ -43,7 +43,7 @@ class SendDebtorReminderMail extends Command
                 $totalPaid < $totalOrderAmount ||
                 !in_array($latestStatus, ['fully paid with bank charges', 'fully paid without bank charges'])
             ) {
-                $invoice->overdue_days = Carbon::parse($invoice->created_at)->diffInDays(now());
+                $invoice->overdue_days = (int) Carbon::parse($invoice->created_at)->diffInDays(now());
                 return true;
             }
 
