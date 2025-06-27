@@ -30,7 +30,7 @@
                         <div class="text-center mb-2">
                             <i class="fas fa-dollar-sign fa-2x text-primary"></i>
                         </div>
-                        <h6 class="text-secondary">Total Order</h6>
+                        <h6 class="text-secondary">Total Sales (YTD)</h6>
                         <p class="h4 font-weight-bold mb-0">${{ number_format($totalRevenue, 2) }}</p>
                     </div>
                 </div>
