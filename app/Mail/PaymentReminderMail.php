@@ -26,7 +26,7 @@ class PaymentReminderMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Complete Your Payment - Order #' . $this->order->order_number)
+        return $this->subject('Complete Your Payment - Order #' . $this->order->id)
                     ->view('frontend.emails.payment-reminder')
                     ->with([
                         'order' => $this->order,
