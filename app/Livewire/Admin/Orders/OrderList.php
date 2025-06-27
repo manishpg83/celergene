@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use App\Models\OrderInvoice;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrdersExport;
 use App\Enums\OrderWorkflowType;
 use App\Mail\OrderStatusChanged;
 use App\Models\OrderInvoiceDetail;
@@ -264,6 +266,112 @@ class OrderList extends Component
         }
     }
 
+    public function exportExcel()
+    {
+        try {
+            if (!$this->hasDataToExport()) {
+                notyf()->warning('No data available to export with current filters.');
+                return;
+            }
+
+            $filters = $this->getFiltersArray();
+            $filename = 'orders_export_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+            return Excel::download(new OrdersExport($filters), $filename);
+        } catch (\Exception $e) {
+            Log::error('Excel export failed: ' . $e->getMessage());
+            notyf()->error('Failed to export Excel file. Please try again.');
+        }
+    }
+
+    public function exportCsv()
+    {
+        try {
+            if (!$this->hasDataToExport()) {
+                notyf()->warning('No data available to export with current filters.');
+                return;
+            }
+
+            $filters = $this->getFiltersArray();
+            $filename = 'orders_export_' . now()->format('Y-m-d_H-i-s') . '.csv';
+
+            return Excel::download(new OrdersExport($filters), $filename, \Maatwebsite\Excel\Excel::CSV);
+        } catch (\Exception $e) {
+            Log::error('CSV export failed: ' . $e->getMessage());
+            notyf()->error('Failed to export CSV file. Please try again.');
+        }
+    }
+
+    private function hasDataToExport()
+    {
+        $currentYearStart = now()->startOfYear()->format('Y-m-d');
+        $currentYearEnd = now()->endOfYear()->format('Y-m-d');
+
+        $count = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('order_id', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('customer', function ($customerQuery) {
+                            $customerQuery->where('first_name', 'like', '%' . $this->search . '%')
+                                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('entity', function ($entityQuery) {
+                            $entityQuery->where('company_name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhere('total', 'like', '%' . $this->search . '%')
+                        ->orWhere('order_date', 'like', '%' . $this->search . '%')
+                        ->orWhere('payment_mode', 'like', '%' . $this->search . '%')
+                        ->orWhere('order_type', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->selectedEntityId, function ($query) {
+                $query->where('entity_id', $this->selectedEntityId);
+            })
+            ->when($this->dateStart && $this->dateEnd, function ($query) {
+                $query->whereDate('order_date', '>=', $this->dateStart)
+                    ->whereDate('order_date', '<=', $this->dateEnd);
+            })
+            ->when(!$this->dateStart && !$this->dateEnd, function ($query) use ($currentYearStart, $currentYearEnd) {
+                $query->whereDate('order_date', '>=', $currentYearStart)
+                    ->whereDate('order_date', '<=', $currentYearEnd);
+            })
+            ->when($this->statusFilter !== '', function ($query) {
+                $query->where('order_status', $this->statusFilter);
+            })
+            ->when($this->showCancelled == 1, function ($query) {
+                $query->where('order_status', 'Cancelled');
+            })
+            ->when($this->showCancelled == 0, function ($query) {
+                $query->where('order_status', '!=', 'Cancelled');
+            })
+            ->when($this->paymentModeFilter !== '', function ($query) {
+                $query->where('payment_mode', $this->paymentModeFilter);
+            })
+            ->when($this->orderTypeFilter !== '', function ($query) {
+                $query->where('order_type', $this->orderTypeFilter);
+            })
+            ->where('parent_order_id', null)
+            ->count();
+
+        return $count > 0;
+    }
+
+    private function getFiltersArray()
+    {
+        return [
+            'search' => $this->search,
+            'selectedEntityId' => $this->selectedEntityId,
+            'dateStart' => $this->dateStart,
+            'dateEnd' => $this->dateEnd,
+            'statusFilter' => $this->statusFilter,
+            'showCancelled' => $this->showCancelled,
+            'paymentModeFilter' => $this->paymentModeFilter,
+            'orderTypeFilter' => $this->orderTypeFilter,
+            'sortField' => $this->sortField,
+            'sortDirection' => $this->sortDirection,
+        ];
+    }
+
     public function updatingStatusFilter()
     {
         $this->resetPage();
@@ -283,7 +391,7 @@ class OrderList extends Component
     {
         $currentYearStart = now()->startOfYear()->format('Y-m-d');
         $currentYearEnd = now()->endOfYear()->format('Y-m-d');
-    
+
         $orders = OrderMaster::with(['customer', 'orderDetails.product', 'entity'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
@@ -316,11 +424,9 @@ class OrderList extends Component
                 $query->where('order_status', $this->statusFilter);
             })
             ->when($this->showCancelled == 1, function ($query) {
-                // When showCancelled is true (1), show ONLY cancelled orders
                 $query->where('order_status', 'Cancelled');
             })
             ->when($this->showCancelled == 0, function ($query) {
-                // When showCancelled is false (0), exclude cancelled orders
                 $query->where('order_status', '!=', 'Cancelled');
             })
             ->when($this->paymentModeFilter !== '', function ($query) {
@@ -331,12 +437,12 @@ class OrderList extends Component
             })
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
-    
+
         $this->orderStatus = [];
         foreach ($orders as $order) {
             $this->orderStatus[$order->order_id] = $order->order_status;
         }
-    
+
         return view('livewire.admin.orders.order-list', [
             'orders' => $orders,
             'perpagerecords' => $this->perpagerecords,

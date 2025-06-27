@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 class OrderMaster extends Model
 {
     protected $table = 'order_master';
-    protected $primaryKey = 'order_id'; 
+    protected $primaryKey = 'order_id';
     public $incrementing = true;
 
     protected $fillable = [
-        'order_date', 
+        'order_date',
         'order_number',
         'customer_id',
         'entity_id',
@@ -37,8 +37,10 @@ class OrderMaster extends Model
         'remarks',
         'is_generated',
         'delivery_status',
+        'payment_reminder_sent',
+        'payment_reminder_sent_at',
         'order_status',
-        'order_type',  
+        'order_type',
         'created_by',
         'modified_by',
     ];
@@ -48,7 +50,7 @@ class OrderMaster extends Model
         'discount' => 'decimal:2',
         'tax' => 'decimal:2',
         'total' => 'decimal:2',
-        'order_date' => 'datetime', 
+        'order_date' => 'datetime',
         'workflow_type' => OrderWorkflowType::class,
         'is_initial_consignment' => 'boolean',
         'total_order_quantity' => 'decimal:2',
@@ -142,13 +144,13 @@ class OrderMaster extends Model
         switch ($this->workflow_type) {
             case OrderWorkflowType::STANDARD:
                 break;
-            
+
             case OrderWorkflowType::MULTI_DELIVERY:
                 if (!$this->total_order_quantity) {
                     throw new \InvalidArgumentException('Total order quantity must be set for multi-delivery workflow');
                 }
                 break;
-            
+
             case OrderWorkflowType::CONSIGNMENT:
                 if (!$this->is_initial_consignment && !$this->parent_order_id) {
                     throw new \InvalidArgumentException('Consignment orders must have a parent order or be marked as initial');
@@ -160,8 +162,8 @@ class OrderMaster extends Model
     public static function generateOrderNumber($workflowType = null, $parentOrderId = null)
     {
         $currentDate = now();
-        $financialYear = $currentDate->month >= 4 
-            ? $currentDate->year 
+        $financialYear = $currentDate->month >= 4
+            ? $currentDate->year
             : $currentDate->year - 1;
 
 
@@ -179,7 +181,7 @@ class OrderMaster extends Model
 
         $lastOrder = $query->orderBy('order_number', 'desc')->first();
 
-        if (!$lastOrder) {          
+        if (!$lastOrder) {
             $generatedOrderNumber = $financialYear . '0001';
             return $generatedOrderNumber;
         }
@@ -194,8 +196,8 @@ class OrderMaster extends Model
     public static function generateCustomerOrderNumber($workflowType = null, $parentOrderId = null)
     {
         $currentDate = now();
-        $financialYear = $currentDate->month >= 4 
-            ? $currentDate->year 
+        $financialYear = $currentDate->month >= 4
+            ? $currentDate->year
             : $currentDate->year - 1;
 
 
@@ -213,7 +215,7 @@ class OrderMaster extends Model
 
         $lastOrder = $query->orderBy('order_number', 'desc')->first();
 
-        if (!$lastOrder) {          
+        if (!$lastOrder) {
             $generatedOrderNumber = $financialYear . '0001';
             return $generatedOrderNumber;
         }
@@ -246,7 +248,7 @@ class OrderMaster extends Model
 
     public function canCreateMoreDeliveries(): bool
     {
-        return $this->workflow_type === OrderWorkflowType::MULTI_DELIVERY 
+        return $this->workflow_type === OrderWorkflowType::MULTI_DELIVERY
             && $this->remaining_quantity > 0;
     }
 
@@ -260,5 +262,4 @@ class OrderMaster extends Model
             default => 'secondary',
         };
     }
-
 }

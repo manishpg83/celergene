@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserOrderConfirmation;
 use App\Models\Payment;
 use App\Models\User;
+use App\Mail\PaymentReminderMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -60,7 +61,7 @@ class PayPalWebhookController extends Controller
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            Log::error('PayPal Webhook Error: '.$e->getMessage(), [
+            Log::error('PayPal Webhook Error: ' . $e->getMessage(), [
                 'webhook_data' => $webhookData ?? null,
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -82,7 +83,7 @@ class PayPalWebhookController extends Controller
                     'updated_at' => now(),
                 ]);
         } catch (\Exception $e) {
-            Log::error('Error updating order status: '.$e->getMessage(), [
+            Log::error('Error updating order status: ' . $e->getMessage(), [
                 'order_id' => $orderId,
                 'status' => $status,
                 'trace' => $e->getTraceAsString(),
@@ -116,7 +117,7 @@ class PayPalWebhookController extends Controller
                     $order = DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->first();
-                        $customer = DB::table('customers')
+                    $customer = DB::table('customers')
                         ->where('id', $order->customer_id)
                         ->first();
 
@@ -145,24 +146,24 @@ class PayPalWebhookController extends Controller
                             $customer->shipping_postal_code_1,
                             $customer->shipping_country_1
                         ]));
-                        
+
                         $shippingAddress2 = implode(', ', array_filter([
                             $customer->shipping_address_2,
                             $customer->shipping_city_2,
                             $customer->shipping_state_2,
                             $customer->shipping_postal_code_2,
                             $customer->shipping_country_2
-                        ]));                      
+                        ]));
 
                         if ($order->shipping_address === $shippingAddress2) {
                             $addressIndex = 2;
                         }
-                        
+
                         $shippingName = trim($customer->{"shipping_address_receiver_name_{$addressIndex}"} . ' ' . $customer->{"shipping_address_receiver_lname_{$addressIndex}"});
                         $shippingCompany = $customer->{"shipping_company_name_{$addressIndex}"};
                         $shippingPhone = $customer->{"shipping_phone_{$addressIndex}"};
                     }
-                   
+
                     $shippingAddress = $order->shipping_address;
                     $orderNumber = $order->order_id;
                     $orderId = $order->order_id;
@@ -187,7 +188,7 @@ class PayPalWebhookController extends Controller
 
             throw new \Exception('Payment verification failed');
         } catch (\Exception $e) {
-            Log::error('PayPal Success Callback Error: '.$e->getMessage(), [
+            Log::error('PayPal Success Callback Error: ' . $e->getMessage(), [
                 'token' => $token ?? null,
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -199,25 +200,115 @@ class PayPalWebhookController extends Controller
 
     public function cancel(Request $request)
     {
+        try {
+            $token = $request->query('token');
+            if ($token) {
+                Payment::where('transaction_id', $token)
+                    ->update(['status' => 'cancelled']);
 
-        $token = $request->query('token');
-        if ($token) {
+                $payment = Payment::where('transaction_id', $token)->first();
+                if ($payment) {
+                    DB::table('order_master')
+                        ->where('order_id', $payment->order_id)
+                        ->update([
+                            'order_status' => 'Cancelled',
+                            'updated_at' => now(),
+                        ]);
 
-            Payment::where('transaction_id', $token)
-                ->update(['status' => 'cancelled']);
+                    $order = DB::table('order_master')
+                        ->where('order_id', $payment->order_id)
+                        ->first();
 
-            $payment = Payment::where('transaction_id', $token)->first();
-            if ($payment) {
-                DB::table('order_master')
-                    ->where('order_id', $payment->order_id)
-                    ->update([
-                        'order_status' => 'Cancelled',
-                        'updated_at' => now(),
-                    ]);
+                    if ($order && !$order->payment_reminder_sent) {
+                        $customer = DB::table('customers')
+                            ->where('id', $order->customer_id)
+                            ->first();
+
+                        $orderDetails = DB::table('order_details')
+                            ->leftJoin('products', 'order_details.product_id', '=', 'products.id')
+                            ->where('order_details.order_id', $order->order_id)
+                            ->select(
+                                'order_details.*',
+                                'products.product_name'
+                            )
+                            ->get();
+
+                        if ($customer) {
+                            $paymentLink = $this->generatePaymentLink($order);
+
+                            Mail::to($customer->billing_email)
+                                ->send(new PaymentReminderMail($order, $customer, $orderDetails, $paymentLink));
+
+                            DB::table('order_master')
+                                ->where('order_id', $order->order_id)
+                                ->update([
+                                    'payment_reminder_sent' => 1,
+                                    'payment_reminder_sent_at' => now()
+                                ]);
+
+                            Log::info('Payment reminder sent', [
+                                'order_id' => $order->order_id,
+                                'order_number' => $order->order_number,
+                                'customer_email' => $customer->billing_email
+                            ]);
+                        }
+                    }
+                }
             }
+
+            return redirect()->route('home')
+                ->with('info', 'Payment was cancelled. We\'ve sent you an email with payment details to complete your purchase later.');
+        } catch (\Exception $e) {
+            Log::error('PayPal cancel error: ' . $e->getMessage());
+            return redirect()->route('home')
+                ->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    private function generatePaymentLink($order)
+    {
+        try {
+            $provider = new PayPalClient;
+            $provider->getAccessToken();
+
+            $paypalOrder = [
+                'intent' => 'CAPTURE',
+                'application_context' => [
+                    'return_url' => route('paypal.success'),
+                    'cancel_url' => route('paypal.cancel'),
+                ],
+                'purchase_units' => [
+                    [
+                        'reference_id' => $order->order_number,
+                        'amount' => [
+                            'currency_code' => config('paypal.currency', 'USD'),
+                            'value' => number_format($order->total, 2, '.', ''),
+                        ],
+                        'description' => "Order #{$order->order_number}",
+                    ]
+                ]
+            ];
+
+            $response = $provider->createOrder($paypalOrder);
+
+            if (isset($response['id']) && $response['id']) {
+                // Update payment record with new transaction ID
+                Payment::where('order_id', $order->order_id)
+                    ->update([
+                        'transaction_id' => $response['id'],
+                        'status' => 'pending',
+                        'updated_at' => now()
+                    ]);
+
+                $approveLink = collect($response['links'])
+                    ->firstWhere('rel', 'approve')['href'] ?? null;
+
+                return $approveLink;
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to generate payment link: ' . $e->getMessage());
         }
 
-        return redirect()->route('checkout')
-            ->with('warning', 'Your payment was cancelled. Please try again.');
+        return null;
     }
 }
