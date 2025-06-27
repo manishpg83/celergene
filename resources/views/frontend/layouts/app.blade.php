@@ -37,6 +37,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet" />
+     <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8LCTF4X2PB"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8LCTF4X2PB');
+    </script>
     <script src="{{ asset('/frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/owl.carousel.min.js') }}"></script>

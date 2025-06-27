@@ -196,7 +196,19 @@
                                 <span class="fs-5 fw-bold text-success">Remaining Inventory:
                                     {{ number_format($remaining) }}</span><br>
                                 <span class="fs-5 fw-bold text-dark">Total:
-                                    {{ number_format($consumed + $remaining) }}</span>
+                                    @php
+                                    if (isset($_GET['id']) && $_GET['id'] == 60) {
+                                        $total = DB::table('stock')
+                                            ->where('inventory_id', 60)
+                                            ->where('quantity_change', '>', 0)
+                                            ->sum('quantity_change');
+                                    } else {
+                                        $total = $consumed + $remaining;
+                                    }
+                                    @endphp
+                                    {{-- number_format($consumed + $remaining) --}}
+                                    {{ $total }}
+                                </span>
                             </div>
                             <div class="table-responsive">
                                 <table class="table">
