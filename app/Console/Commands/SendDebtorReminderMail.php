@@ -22,8 +22,9 @@ class SendDebtorReminderMail extends Command
         $oneWeekAgo = Carbon::now()->subWeek();
 
         $invoices = OrderInvoice::with(['customer', 'createdBy', 'order.payments'])
-             ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
+            ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
             ->where('order_master.order_status', '!=', 'Cancelled')
+            ->where('order_invoice.invoice_category', '!=', 'shipping')
             ->where('order_invoice.created_at', '<=', $oneWeekAgo)
             ->get();
 
