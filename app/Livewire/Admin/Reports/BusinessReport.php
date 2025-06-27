@@ -67,8 +67,8 @@ class BusinessReport extends Component
 
             $invoices = OrderInvoice::with(['customer', 'invoiceDetails'])
                 ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->where('status', '!=', 'cancelled')
+                ->whereBetween('order_invoice.created_at', [$startDate, $endDate])
+                ->where('order_invoice.status', '!=', 'cancelled')
                 ->where('order_master.order_status', '!=', 'Cancelled')
                 ->where(function ($query) {
                     $query->whereRaw("invoice_number NOT LIKE 'SHIP-%'")
