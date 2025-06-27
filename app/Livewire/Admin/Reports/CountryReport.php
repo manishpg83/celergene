@@ -66,8 +66,8 @@ class CountryReport extends Component
 
         $query = OrderInvoice::with(['invoiceDetails'])
             ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->where('invoice_category', '!=', 'shipping')
+            ->whereBetween('order_invoice.created_at', [$startDate, $endDate])
+            ->where('order_invoice.invoice_category', '!=', 'shipping')
             ->where('order_master.order_status', '!=', 'Cancelled');
 
         if ($this->selectedCountry) {
