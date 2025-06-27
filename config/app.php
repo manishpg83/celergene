@@ -14,6 +14,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Celergen'),
+    
+    'app_name_display' => env('APP_NAME_DISPLAY', 'Celergen'),
 
     //'asset_url' => env('ASSET_URL', 'https://www.example.com'),
 

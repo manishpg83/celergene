@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exports;
 
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -9,59 +10,83 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class YtdCombinedReportExport implements FromArray, WithTitle, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $year;
-    protected $customerTypes;
-    protected $countriesByCustomerType;
+    protected $orderTypesData;
+    protected $countriesByOrderType;
+    protected $currentReportType;
 
-    public function __construct($year, $customerTypes, $countriesByCustomerType)
+    public function __construct($year, $orderTypesData, $countriesByOrderType, $currentReportType = 'order_types')
     {
         $this->year = $year;
-        $this->customerTypes = $customerTypes;
-        $this->countriesByCustomerType = $countriesByCustomerType;
+        $this->orderTypesData = $orderTypesData;
+        $this->countriesByOrderType = $countriesByOrderType;
+        $this->currentReportType = $currentReportType;
     }
 
     public function array(): array
     {
         $rows = [];
-        $rows[] = [env('APP_NAME_DISPLAY')." - YTD - {$this->year}", "", ""];
+        $rows[] = [config('app.name') . " - YTD Report - {$this->year}", "", ""];
         $rows[] = ["", "", ""];
-        // Section 1: Customer Type Sales
-        $rows[] = ["YTD SALES BY CUSTOMER TYPE - {$this->year}", "", ""];
-        $rows[] = ['Customer Type', 'No. of Boxes', 'Total Amount (USD)'];
-        foreach ($this->customerTypes as $row) {
-            $rows[] = [$row['type'], $row['boxes'], $row['amount']];
+
+        $rows[] = ["YTD SALES BY ORDER TYPE - {$this->year}", "", ""];
+        $rows[] = ['Order Type', 'No. of Boxes', 'Total Amount (USD)'];
+
+        foreach ($this->orderTypesData as $row) {
+            if ($this->currentReportType === 'online_countries' && $row['type'] !== 'Online') {
+                continue;
+            }
+            if ($this->currentReportType === 'corporate_countries' && $row['type'] !== 'Offline (Corporate & Individual)') {
+                continue;
+            }
+
+            $rows[] = [
+                $row['type'],
+                number_format($row['boxes']),
+                number_format($row['amount'], 2)
+            ];
         }
-
         $rows[] = ["", "", ""];
         $rows[] = ["", "", ""];
 
-        // Sections for each customer type's countries
-        foreach ($this->countriesByCustomerType as $customerTypeId => $data) {
+        foreach ($this->countriesByOrderType as $orderTypeId => $data) {
             if (empty($data['countries'])) {
                 continue;
             }
 
-            $customerTypeName = $data['name'];
-            $rows[] = ["YTD SALES BY COUNTRY ({$customerTypeName}) - {$this->year}", "", ""];
+            if ($this->currentReportType === 'online_countries' && $orderTypeId !== 'online') {
+                continue;
+            }
+            if ($this->currentReportType === 'corporate_countries' && $orderTypeId !== 'offline') {
+                continue;
+            }
+
+            $rows[] = ["YTD SALES BY COUNTRY ({$data['name']}) - {$this->year}", "", ""];
             $rows[] = ['Country', 'No. of Boxes', 'Total Amount (USD)'];
 
-            // Calculate grand total for this customer type's countries
             $totalBoxes = 0;
             $totalAmount = 0;
 
             foreach ($data['countries'] as $row) {
-                $rows[] = [$row['country'], $row['boxes'], $row['amount']];
+                $rows[] = [
+                    $row['country'],
+                    number_format($row['boxes']),
+                    number_format($row['amount'], 2)
+                ];
                 $totalBoxes += $row['boxes'];
                 $totalAmount += $row['amount'];
             }
 
-            // Add grand total row for this customer type
-            $rows[] = ['Grand Total', $totalBoxes, $totalAmount];
+            $rows[] = [
+                'Grand Total',
+                number_format($totalBoxes),
+                number_format($totalAmount, 2)
+            ];
 
-            $rows[] = ["", "", ""];
             $rows[] = ["", "", ""];
         }
 
@@ -70,64 +95,65 @@ class YtdCombinedReportExport implements FromArray, WithTitle, WithHeadings, Sho
 
     public function headings(): array
     {
-        // Laravel Excel needs this even if it's handled in the array method
         return [];
     }
+
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet;
-                $rows = $this->array();
+                $highestRow = $sheet->getHighestRow();
+
+                $sheet->getStyle("A1:C{$highestRow}")->applyFromArray([
+                    'font' => ['name' => 'Arial', 'size' => 10],
+                ]);
+
+                $sheet->getStyle("B1:C{$highestRow}")->applyFromArray([
+                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_RIGHT],
+                ]);
 
                 $currentRow = 1;
+                foreach ($sheet->getRowIterator() as $row) {
+                    $cellValue = $sheet->getCell('A' . $currentRow)->getValue();
 
-                foreach ($rows as $row) {
-                    $isMainHeader = isset($row[0]) && str_starts_with($row[0], env('APP_NAME_DISPLAY')." - YTD");
-                    $isSectionHeader = isset($row[0]) && str_starts_with($row[0], 'YTD SALES');
-                    $isGrandTotal = isset($row[0]) && $row[0] === 'Grand Total';
-
-                    if ($isMainHeader) {
+                    if (str_contains($cellValue, config('app.name'))) {
                         $sheet->mergeCells("A{$currentRow}:C{$currentRow}");
                         $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
                             'font' => ['bold' => true, 'size' => 14],
-                            'alignment' => ['horizontal' => 'center'],
+                            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
                         ]);
-                    }
-
-                    if ($isSectionHeader) {
-                        // Merge and bold the header
+                    } elseif (str_starts_with($cellValue, 'YTD SALES')) {
                         $sheet->mergeCells("A{$currentRow}:C{$currentRow}");
                         $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
-                            'font' => ['bold' => true],
-                            'alignment' => ['horizontal' => 'center'],
+                            'font' => ['bold' => true, 'size' => 12],
+                            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
                         ]);
-                    }
-
-                    if ($isGrandTotal) {
+                    } elseif (in_array($cellValue, ['Order Type', 'Country'])) {
                         $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
                             'font' => ['bold' => true],
-                            'fill' => [
-                                'fillType' => Fill::FILL_SOLID,
-                                'startColor' => ['argb' => 'FFEFEFEF'],
-                            ],
+                            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']],
+                        ]);
+                    } elseif ($cellValue === 'Grand Total') {
+                        $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
+                            'font' => ['bold' => true],
+                            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFEFEFEF']],
                         ]);
                     }
 
-                    // Apply border to all cells in row if it's a data row (skip empty)
-                    if (!empty(array_filter($row))) {
-                        $range = "A{$currentRow}:C{$currentRow}";
-                        $sheet->getStyle($range)->applyFromArray([
+                    if (!empty($cellValue)) {
+                        $sheet->getStyle("A{$currentRow}:C{$currentRow}")->applyFromArray([
                             'borders' => [
-                                'allBorders' => [
-                                    'borderStyle' => Border::BORDER_THIN,
-                                    'color' => ['argb' => 'FF000000'],
-                                ],
+                                'allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['argb' => 'FF000000']],
                             ],
                         ]);
                     }
 
                     $currentRow++;
+                }
+
+                foreach (range('A', 'C') as $column) {
+                    $sheet->getColumnDimension($column)->setAutoSize(true);
                 }
             }
         ];

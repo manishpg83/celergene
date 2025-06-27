@@ -4,10 +4,10 @@ namespace App\Livewire\Admin\Reports;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\CustomerType;
 use App\Models\OrderInvoice;
 use Livewire\WithPagination;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\YtdCombinedReportExport;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,17 +17,17 @@ class YtdReport extends Component
     use WithPagination;
 
     public $year;
-    public $reportType = 'customer_types';
+    public $reportType = 'order_types';
     public $loading = false;
     public $perPage = 25;
-    public $customerTypes = [];
+    public $orderTypesData = [];
     public $countriesData = [];
-
     protected $paginationTheme = 'tailwind';
+
     public $reportTypes = [
-        'customer_types' => 'YTD SALES BY CUSTOMER TYPE',
-        'online_countries' => 'YTD SALES BY COUNTRY (ONLINE)',
-        'corporate_countries' => 'YTD SALES BY COUNTRY (CORPORATE CLIENTS)',
+        'order_types' => 'YTD SALES BY ORDER TYPE',
+        'online_countries' => 'YTD SALES BY COUNTRY (ONLINE ORDERS)',
+        'corporate_countries' => 'YTD SALES BY COUNTRY (OFFLINE ORDERS)',
     ];
 
     public function mount()
@@ -58,51 +58,71 @@ class YtdReport extends Component
     {
         $this->loading = true;
 
-        if ($this->reportType === 'customer_types') {
-            $this->loadCustomerTypeData();
-        } else {
-            $this->loadCountriesData();
+        try {
+            if ($this->reportType === 'order_types') {
+                $this->loadOrderTypeData();
+            } else {
+                $this->loadCountriesData();
+            }
+        } catch (\Exception $e) {
+            Log::error('Error loading data: ' . $e->getMessage());
+            $this->dispatch('notify-error', message: 'Failed to load report data');
+        } finally {
+            $this->loading = false;
         }
-
-        $this->loading = false;
     }
 
-    protected function loadCustomerTypeData()
+    protected function loadOrderTypeData()
     {
         $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
         $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
-        $types = CustomerType::all();
+        $invoices = OrderInvoice::where('invoice_category', '!=', 'shipping')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->with(['order', 'invoiceDetails'])
+            ->get();
 
-        $this->customerTypes = [];
-        $grandTotalBoxes = 0;
-        $grandTotalAmount = 0;
+        $groupedInvoices = $invoices->groupBy(function ($invoice) {
+            return $invoice->order->order_type ?? 'unknown';
+        });
 
-        foreach ($types as $type) {
-            $invoices = OrderInvoice::whereHas('customer', function ($query) use ($type) {
-                $query->where('customer_type_id', $type->id);
-            })->where('invoice_category', '!=', 'shipping')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->get();
+        $onlineTotalAmount = 0;
+        $onlineTotalBoxes = 0;
+        $offlineTotalAmount = 0;
+        $offlineTotalBoxes = 0;
 
-            $totalAmount = $invoices->sum('total');
-            $totalBoxes = $invoices->sum(function ($invoice) {
-                return $invoice->invoiceDetails->sum('quantity');
-            });
+        foreach ($groupedInvoices as $orderType => $typeInvoices) {
+            $typeAmount = $typeInvoices->sum('total');
+            $typeBoxes = $typeInvoices->sum(fn($inv) => $inv->invoiceDetails->sum('quantity'));
 
-            $this->customerTypes[] = [
-                'type' => $type->customer_type,
-                'boxes' => $totalBoxes,
-                'amount' => $totalAmount
-            ];
-
-            $grandTotalBoxes += $totalBoxes;
-            $grandTotalAmount += $totalAmount;
+            if (strtolower($orderType) === 'online') {
+                $onlineTotalAmount += $typeAmount;
+                $onlineTotalBoxes += $typeBoxes;
+            } else {
+                $offlineTotalAmount += $typeAmount;
+                $offlineTotalBoxes += $typeBoxes;
+            }
         }
-        $this->customerTypes[] = [
-            'type' => 'Grand Total',
-            'boxes' => $grandTotalBoxes,
-            'amount' => $grandTotalAmount
+
+        $grandTotalAmount = $onlineTotalAmount + $offlineTotalAmount;
+        $grandTotalBoxes = $onlineTotalBoxes + $offlineTotalBoxes;
+
+        $this->orderTypesData = [
+            [
+                'type' => 'Online',
+                'boxes' => $onlineTotalBoxes,
+                'amount' => $onlineTotalAmount
+            ],
+            [
+                'type' => 'Offline (Corporate & Individual)',
+                'boxes' => $offlineTotalBoxes,
+                'amount' => $offlineTotalAmount
+            ],
+            [
+                'type' => 'Grand Total',
+                'boxes' => $grandTotalBoxes,
+                'amount' => $grandTotalAmount
+            ]
         ];
     }
 
@@ -111,17 +131,19 @@ class YtdReport extends Component
         $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
         $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
-        $customerTypeId = $this->reportType === 'online_countries' ? 1 : 2;
+        $orderType = $this->reportType === 'online_countries' ? 'online' : 'offline';
 
-        $invoices = OrderInvoice::whereHas('customer', function ($query) use ($customerTypeId) {
-            $query->where('customer_type_id', $customerTypeId);
+        $invoices = OrderInvoice::whereHas('order', function ($query) use ($orderType) {
+            $query->where('order_type', $orderType);
         })
             ->where('invoice_category', '!=', 'shipping')
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->with('customer')
+            ->with(['customer', 'invoiceDetails'])
             ->get();
 
-        $grouped = $invoices->groupBy('customer.billing_country');
+        $grouped = $invoices->groupBy(function ($invoice) {
+            return $invoice->customer->billing_country ?? 'Unknown';
+        });
 
         $this->countriesData = [];
 
@@ -131,13 +153,11 @@ class YtdReport extends Component
                 return $invoice->invoiceDetails->sum('quantity');
             });
 
-            if ($country) {
-                $this->countriesData[] = [
-                    'country' => $country,
-                    'boxes' => $totalBoxes,
-                    'amount' => $totalAmount
-                ];
-            }
+            $this->countriesData[] = [
+                'country' => $country,
+                'boxes' => $totalBoxes,
+                'amount' => $totalAmount
+            ];
         }
 
         usort($this->countriesData, function ($a, $b) {
@@ -147,66 +167,148 @@ class YtdReport extends Component
 
     public function exportExcel()
     {
-        $this->loadAllDataForExport();
+        try {
+            $countriesData = $this->getCountriesDataForExport();
+            $orderTypesData = $this->getOrderTypesDataForExport();
 
-        return Excel::download(
-            new YtdCombinedReportExport(
-                $this->year,
-                $this->customerTypes,
-                $this->allCountriesByCustomerType
-            ),
-            "ytd-report-{$this->year}.xlsx"
-        );
+            return Excel::download(
+                new YtdCombinedReportExport(
+                    $this->year,
+                    $orderTypesData,
+                    $countriesData,
+                    $this->reportType
+                ),
+                $this->generateExportFilename('xlsx')
+            );
+        } catch (\Exception $e) {
+            $this->dispatch('notify-error', message: 'Export failed: ' . $e->getMessage());
+        }
     }
 
     public function exportCsv()
     {
-        $this->loadAllDataForExport();
+        try {
+            $countriesData = $this->getCountriesDataForExport();
+            $orderTypesData = $this->getOrderTypesDataForExport();
 
-        return Excel::download(
-            new YtdCombinedReportExport(
-                $this->year,
-                $this->customerTypes,
-                $this->allCountriesByCustomerType
-            ),
-            "ytd-report-{$this->year}.csv",
-            \Maatwebsite\Excel\Excel::CSV
-        );
+            return Excel::download(
+                new YtdCombinedReportExport(
+                    $this->year,
+                    $orderTypesData,
+                    $countriesData,
+                    $this->reportType
+                ),
+                $this->generateExportFilename('csv'),
+                \Maatwebsite\Excel\Excel::CSV
+            );
+        } catch (\Exception $e) {
+            $this->dispatch('notify-error', message: 'Export failed: ' . $e->getMessage());
+        }
     }
-    protected function loadAllDataForExport()
+
+    protected function getOrderTypesDataForExport()
     {
-        $currentReportType = $this->reportType;
+        switch ($this->reportType) {
+            case 'online_countries':
+                return array_filter($this->orderTypesData, function ($item) {
+                    return $item['type'] === 'Online';
+                });
 
-        $this->reportType = 'customer_types';
-        $this->loadCustomerTypeData();
+            case 'corporate_countries':
+                return array_filter($this->orderTypesData, function ($item) {
+                    return $item['type'] === 'Offline (Corporate & Individual)';
+                });
 
-        $allCustomerTypes = CustomerType::all();
+            default: // order_types
+                return $this->orderTypesData;
+        }
+    }
 
-        $this->allCountriesByCustomerType = [];
+    protected function getCountriesDataForExport()
+    {
+        switch ($this->reportType) {
+            case 'online_countries':
+                return [
+                    'online' => [
+                        'name' => 'Online',
+                        'countries' => $this->countriesData
+                    ]
+                ];
 
-        foreach ($allCustomerTypes as $customerType) {
-            $this->allCountriesByCustomerType[$customerType->id] = [
-                'name' => $customerType->customer_type,
-                'countries' => $this->getCountriesDataByType($customerType->id)
+            case 'corporate_countries':
+                return [
+                    'offline' => [
+                        'name' => 'Offline (Corporate & Individual)',
+                        'countries' => $this->countriesData
+                    ]
+                ];
+
+            default: // order_types
+                return [
+                    'online' => [
+                        'name' => 'Online',
+                        'countries' => $this->getCountriesDataByType('online')
+                    ],
+                    'offline' => [
+                        'name' => 'Offline (Corporate & Individual)',
+                        'countries' => $this->getCountriesDataByType('offline')
+                    ]
+                ];
+        }
+    }
+    protected function prepareExportData()
+    {
+        $data = [
+            'orderTypesData' => $this->orderTypesData,
+            'countriesData' => []
+        ];
+
+        if ($this->reportType === 'order_types') {
+            $data['countriesData'] = [
+                'online' => [
+                    'name' => 'Online',
+                    'countries' => $this->getCountriesDataByType('online')
+                ],
+                'offline' => [
+                    'name' => 'Offline',
+                    'countries' => $this->getCountriesDataByType('offline')
+                ]
+            ];
+        } else {
+            $orderType = $this->reportType === 'online_countries' ? 'online' : 'offline';
+            $data['countriesData'] = [
+                $orderType => [
+                    'name' => ucfirst($orderType),
+                    'countries' => $this->countriesData
+                ]
             ];
         }
 
-        $this->reportType = $currentReportType;
+        return $data;
     }
 
-    protected function getCountriesDataByType($customerTypeId)
+    protected function generateExportFilename($extension)
+    {
+        $reportTypeName = strtolower(str_replace(' ', '-', $this->reportTypes[$this->reportType]));
+        return "ytd-{$reportTypeName}-{$this->year}.{$extension}";
+    }
+
+    protected function getCountriesDataByType($orderType)
     {
         $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
         $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
-        $invoices = OrderInvoice::whereHas('customer', function ($query) use ($customerTypeId) {
-            $query->where('customer_type_id', $customerTypeId);
+        $invoices = OrderInvoice::whereHas('order', function ($query) use ($orderType) {
+            $query->where('order_type', $orderType);
         })
+            ->where('invoice_category', '!=', 'shipping')
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->with('customer')
+            ->with(['customer', 'invoiceDetails'])
             ->get();
 
-        $grouped = $invoices->groupBy('customer.shipping_country_1');
+        $grouped = $invoices->groupBy(function ($invoice) {
+            return $invoice->customer->billing_country ?? 'Unknown';
+        });
 
         $countriesData = [];
 
@@ -216,13 +318,11 @@ class YtdReport extends Component
                 return $invoice->invoiceDetails->sum('quantity');
             });
 
-            if ($country) {
-                $countriesData[] = [
-                    'country' => $country,
-                    'boxes' => $totalBoxes,
-                    'amount' => $totalAmount
-                ];
-            }
+            $countriesData[] = [
+                'country' => $country,
+                'boxes' => $totalBoxes,
+                'amount' => $totalAmount
+            ];
         }
 
         usort($countriesData, function ($a, $b) {
@@ -231,29 +331,34 @@ class YtdReport extends Component
 
         return $countriesData;
     }
-    protected function paginateCollection(Collection $items, $perPage = 15, $page = null, $options = [])
+
+    protected function paginateCollection(Collection $items, $perPage = 15, $page = null)
     {
         $page = $page ?: LengthAwarePaginator::resolveCurrentPage();
         $results = $items->slice(($page - 1) * $perPage, $perPage)->values();
 
-        return new LengthAwarePaginator($results, $items->count(), $perPage, $page, [
-            'path' => request()->url(),
-            'query' => request()->query(),
-        ]);
+        return new LengthAwarePaginator(
+            $results,
+            $items->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
     }
+
     public function render()
     {
-        $data = $this->reportType === 'customer_types'
-            ? collect($this->customerTypes)
+        $data = $this->reportType === 'order_types'
+            ? collect($this->orderTypesData)
             : collect($this->countriesData);
 
-        $paginated = $this->reportType === 'customer_types'
+        $paginated = $this->reportType === 'order_types'
             ? $data
             : $this->paginateCollection($data, $this->perPage);
 
         return view('livewire.admin.reports.ytd-report', [
             'data' => $paginated,
-            'isCustomerTypeReport' => $this->reportType === 'customer_types',
+            'isOrderTypeReport' => $this->reportType === 'order_types',
         ]);
     }
 }
