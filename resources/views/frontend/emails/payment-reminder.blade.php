@@ -21,12 +21,10 @@
         <div class="header" style="text-align: left; font-size: 14px; line-height: 1.8;">
             <span>Dear {{ $billingAddress['name'] }},</span><br>
             <span style="display: inline-block; margin-top: 6px;">
-                Thank you for visiting <a href="https://celergenswiss.com"
-                    target="_blank">https://celergenswiss.com</a>.<br>
+                Thank you for visiting <a href="{{ env('APP_URL') }}" target="_blank">{{ env('APP_URL') }}</a>.<br>
                 We noticed you searched for our products but left before completing the purchase.<br>
                 We value your time and have provided a link below for you to complete your purchase at your convenience.
             </span>
-
         </div>
 
         <!-- Payment Button -->
@@ -82,7 +80,7 @@
         <!-- Order Info -->
         <div style="font-size: 14px; margin-bottom: 10px;">
             <strong>Order Date:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}<br>
-            <strong>Order No:</strong> #{{ $order->order_number }}
+            <strong>Order No:</strong> #{{ $order->order_id }}
         </div>
 
         <!-- Order Table -->
@@ -152,7 +150,7 @@
         {{--         <!-- Second Payment Button -->
         @if ($paymentLink)
         <div style="text-align: center; margin: 30px 0;">
-            <a href="{{ $paymentLink }}" 
+            <a href="{{ $paymentLink }}"
                style="display: inline-block; background-color: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
                 Make Payment
             </a>
