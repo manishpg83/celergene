@@ -41,8 +41,8 @@ class SendPaymentReminders extends Command
                     }
 
                     // Check if reminder already sent or if it's too soon to send another
-                    if ($order->payment_reminder_sent && 
-                        $order->payment_reminder_sent_at && 
+                    if ($order->payment_reminder_sent &&
+                        $order->payment_reminder_sent_at &&
                         Carbon::parse($order->payment_reminder_sent_at)->diffInHours(now()) < 24) {
                         continue; // Skip if reminder sent in last 24 hours
                     }
@@ -84,16 +84,15 @@ class SendPaymentReminders extends Command
                             ]);
 
                         $emailsSent++;
-                        $this->info("Reminder sent for Order #{$order->order_number} to {$customer->billing_email}");
+                        $this->info("Reminder sent for Order #{$order->order_id} to {$customer->billing_email}");
 
                         Log::info('Payment reminder sent via cron', [
                             'order_id' => $order->order_id,
-                            'order_number' => $order->order_number,
                             'customer_email' => $customer->billing_email,
                             'payment_id' => $payment->id
                         ]);
                     } else {
-                        $this->error("Failed to generate payment link for Order #{$order->order_number}");
+                        $this->error("Failed to generate payment link for Order #{$order->order_id}");
                         $errors++;
                     }
 
