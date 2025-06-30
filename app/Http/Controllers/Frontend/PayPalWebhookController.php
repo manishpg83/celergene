@@ -114,14 +114,14 @@ class PayPalWebhookController extends Controller
                         'payment_date' => now(),
                     ]);
 
+                    $this->updateOrder($payment->order_id, 'Paid');
+
                     $order = DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->first();
                     $customer = DB::table('customers')
                         ->where('id', $order->customer_id)
                         ->first();
-
-
 
                     $user = User::find($customer->user_id);
 

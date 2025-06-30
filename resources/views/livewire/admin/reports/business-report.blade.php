@@ -59,6 +59,7 @@
                             <tr>
                                 <th>Country</th>
                                 <th>Full Name</th>
+                                <th>Customer Type</th>
                                 <th>Currency</th>
                                 @foreach(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $month)
                                     <th>{{ $month }} Qty</th>
@@ -73,6 +74,7 @@
                                 <tr>
                                     <td>{{ $customer['country'] }}</td>
                                     <td>{{ $customer['fullname'] }}</td>
+                                    <td>{{ $customer['customer_type'] ?: '-' }}</td>
                                     <td>{{ $customer['currencycode'] }}</td>
                                     @foreach(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $month)
                                         <td>{{ $customer[$month . 'Qty'] ?: '-' }}</td>
@@ -85,7 +87,7 @@
                         </tbody>
                         <tfoot class="sticky-bottom bg-light">
                             <tr>
-                                <th colspan="3">Grand Total</th>
+                                <th colspan="4">Grand Total</th>
                                 @foreach(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $month)
                                     <th>{{ array_sum(array_column($customers, $month . 'Qty')) ?: '-' }}</th>
                                     <th>{{ number_format(array_sum(array_column($customers, $month . 'USD')), 2) ?: '-' }}</th>

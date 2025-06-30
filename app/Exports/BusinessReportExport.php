@@ -29,7 +29,7 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
         $rows = [];
         // Add header row
         $headers = [
-            'Country', 'Full Name', 'Currency Code',
+            'Country', 'Full Name','Customer Type', 'Currency Code',
             'Jan Qty', 'Jan ' . $this->currency,
             'Feb Qty', 'Feb ' . $this->currency,
             'Mar Qty', 'Mar ' . $this->currency,
@@ -53,6 +53,7 @@ class BusinessReportExport implements FromArray, WithTitle, WithHeadings, WithEv
             $dataRow = [
                 $row['country'],
                 $row['fullname'],
+                $row['customer_type'],
                 $row['currencycode'],
                 $row['JanQty'], $row['JanUSD'],
                 $row['FebQty'], $row['FebUSD'],

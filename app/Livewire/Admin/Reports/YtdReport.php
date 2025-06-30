@@ -304,7 +304,10 @@ class YtdReport extends Component
 
         $invoices = OrderInvoice::whereHas('order', function ($query) use ($orderType) {
             $query->where('order_type', $orderType);
+            $query->where('order_type', $orderType)
+                ->where('order_status', '!=', 'Cancelled');
         })
+
             ->where('invoice_category', '!=', 'shipping')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->with(['customer', 'invoiceDetails'])

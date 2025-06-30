@@ -65,7 +65,7 @@ class BusinessReport extends Component
             $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
             $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
 
-            $invoices = OrderInvoice::with(['customer', 'invoiceDetails'])
+            $invoices = OrderInvoice::with(['customer.customerType', 'invoiceDetails'])
                 ->join('order_master', 'order_invoice.order_id', '=', 'order_master.order_id')
                 ->whereBetween('order_invoice.created_at', [$startDate, $endDate])
                 ->where('order_invoice.status', '!=', 'cancelled')
@@ -94,6 +94,7 @@ class BusinessReport extends Component
                 $customerData = [
                     "country" => $customer->billing_country ?? null,
                     "fullname" => $fullname,
+                    "customer_type" => $customer->customerType ? $customer->customerType->customer_type : null,
                     "currencycode" => $this->currency,
                     "JanQty" => 0,
                     "JanUSD" => 0,

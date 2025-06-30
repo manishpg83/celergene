@@ -7,11 +7,9 @@ use App\Models\OrderInvoice;
 use Carbon\Carbon;
 use App\Mail\DebtorReminderMail;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Console\Scheduling\Attributes\AsScheduled;
 use Illuminate\Support\Facades\DB;
 
 
-#[AsScheduled('weeklyOn(3, "08:00", timezone: "Asia/Singapore")')]
 class SendDebtorReminderMail extends Command
 {
     protected $signature = 'debtors:remind';
@@ -48,8 +46,8 @@ class SendDebtorReminderMail extends Command
         $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
         if ($debtors->count() > 0) {
-            //Mail::to($adminEmail)->send(new DebtorReminderMail($debtors));
-            //Mail::to('manish.bhuvait@gmail.com')->send(new DebtorReminderMail($debtors));
+            Mail::to($adminEmail)->send(new DebtorReminderMail($debtors));
+            Mail::to('manish.bhuvait@gmail.com')->send(new DebtorReminderMail($debtors));
             $this->info('Reminder email sent successfully.');
         } else {
             $this->info('No overdue invoices found.');
