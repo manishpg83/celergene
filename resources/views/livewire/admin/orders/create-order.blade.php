@@ -61,10 +61,10 @@
                                         Address:</label>
                                     <select wire:model.live="selected_shipping_address" id="selected_shipping_address"
                                         class="form-select @error('selected_shipping_address') is-invalid @enderror">
+                                        <option value="">Select an address</option>
                                         @foreach ($shipping_addresses as $key => $address)
                                             @if ($address)
-                                                <option value="{{ $key }}">Address {{ $key }}
-                                                </option>
+                                                <option value="{{ $key }}">{{ $address }}</option>
                                             @endif
                                         @endforeach
                                     </select>

@@ -46,7 +46,7 @@ class CreateOrder extends Component
     public float $actual_freight = 0;
     public $payment_mode = 'Bank Transfer';
     public $invoice_status = 'Pending';
-    public $selected_shipping_address = 1;
+    public $selected_shipping_address = '';
     public $shipping_addresses = [];
     public $is_generated = false;
     public $workflow_type = OrderWorkflowType::STANDARD->value;
@@ -137,18 +137,15 @@ class CreateOrder extends Component
 
     public function updatedSelectedShippingAddress($value)
     {
-        Log::info('Selected shipping address updated.', ['value' => $value]);
         $this->updateShippingAddress();
     }
 
     private function updateShippingAddresses()
-    {
-        Log::info('Updating shipping addresses.', ['customer_id' => $this->customer_id]);
+    {       
 
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
-            if ($customer) {
-                Log::info('Customer found.', ['customer' => $customer->id]);
+            if ($customer) {                
 
                 $this->shipping_addresses = [
                     1 => $this->formatAddress($customer, 1),
@@ -156,7 +153,6 @@ class CreateOrder extends Component
                     3 => $this->formatAddress($customer, 3),
                 ];
 
-                Log::info('Formatted shipping addresses.', ['addresses' => $this->shipping_addresses]);
 
                 $this->updateShippingAddress();
             } else {
@@ -171,7 +167,6 @@ class CreateOrder extends Component
 
     private function formatAddress($customer, $index)
     {
-        Log::debug("Formatting address for index {$index}.");
 
         $receiver = $customer["shipping_address_receiver_name_{$index}"];
         $address = $customer["shipping_address_{$index}"];
@@ -182,11 +177,9 @@ class CreateOrder extends Component
 
         if ($receiver || $address || $country || $postalCode || $phone || $company) {
             $formatted = implode(", ", array_filter([$company, $receiver, $address, $country, $postalCode, $phone]));
-            Log::debug("Formatted address {$index}: {$formatted}");
             return $formatted;
         }
 
-        Log::debug("No address data for index {$index}.");
         return null;
     }
 
@@ -194,7 +187,6 @@ class CreateOrder extends Component
     {
         $selected = $this->selected_shipping_address;
         $address = $this->shipping_addresses[$selected] ?? '';
-        Log::info('Setting shipping address.', ['selected' => $selected, 'address' => $address]);
         $this->shipping_address = $address;
     }
 
