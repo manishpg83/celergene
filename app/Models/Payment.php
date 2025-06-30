@@ -19,6 +19,7 @@ class Payment extends Model
         'payment_date',
         'payment_details',
         'bank_charge',
+        'payment_mail_sent',
     ];
 
     public function order()

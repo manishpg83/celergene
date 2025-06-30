@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('payment_date')->nullable();
             $table->text('payment_details')->nullable();
             $table->decimal('bank_charge', 10, 2)->default(0);
+            $table->boolean('payment_mail_sent')->default(0);
             $table->timestamps();
         });
     }

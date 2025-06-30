@@ -37,8 +37,6 @@ class OrderMaster extends Model
         'remarks',
         'is_generated',
         'delivery_status',
-        'payment_reminder_sent',
-        'payment_reminder_sent_at',
         'order_status',
         'order_type',
         'created_by',

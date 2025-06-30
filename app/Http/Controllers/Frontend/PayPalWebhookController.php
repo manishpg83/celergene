@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Mail\PaymentReminderMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -61,11 +60,7 @@ class PayPalWebhookController extends Controller
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            Log::error('PayPal Webhook Error: ' . $e->getMessage(), [
-                'webhook_data' => $webhookData ?? null,
-                'trace' => $e->getTraceAsString(),
-            ]);
-
+            notyf()->error('Webhook processing failed');
             return response()->json([
                 'status' => 'error',
                 'message' => 'Webhook processing failed',
@@ -83,11 +78,7 @@ class PayPalWebhookController extends Controller
                     'updated_at' => now(),
                 ]);
         } catch (\Exception $e) {
-            Log::error('Error updating order status: ' . $e->getMessage(), [
-                'order_id' => $orderId,
-                'status' => $status,
-                'trace' => $e->getTraceAsString(),
-            ]);
+            notyf()->error('Error updating order status');
         }
     }
 
@@ -181,20 +172,15 @@ class PayPalWebhookController extends Controller
 
                     session()->forget('cart');
 
-                    return redirect()->route('order.success')
-                        ->with('success', 'Your payment has been processed successfully!');
+                    notyf()->success('Your payment has been processed successfully!');
+                    return redirect()->route('order.success');
                 }
             }
 
             throw new \Exception('Payment verification failed');
         } catch (\Exception $e) {
-            Log::error('PayPal Success Callback Error: ' . $e->getMessage(), [
-                'token' => $token ?? null,
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return redirect()->route('checkout.error')
-                ->with('error', 'There was an error processing your payment. Please contact support.');
+            notyf()->error('There was an error processing your payment. Please contact support.');
+            return redirect()->route('checkout.error');
         }
     }
 
@@ -203,11 +189,11 @@ class PayPalWebhookController extends Controller
         try {
             $token = $request->query('token');
             if ($token) {
-                Payment::where('transaction_id', $token)
-                    ->update(['status' => 'cancelled']);
-
                 $payment = Payment::where('transaction_id', $token)->first();
+
                 if ($payment) {
+                    $payment->update(['status' => 'cancelled']);
+
                     DB::table('order_master')
                         ->where('order_id', $payment->order_id)
                         ->update([
@@ -219,7 +205,7 @@ class PayPalWebhookController extends Controller
                         ->where('order_id', $payment->order_id)
                         ->first();
 
-                    if ($order && !$order->payment_reminder_sent) {
+                    if ($order && !$payment->payment_mail_sent) {
                         $customer = DB::table('customers')
                             ->where('id', $order->customer_id)
                             ->first();
@@ -236,32 +222,22 @@ class PayPalWebhookController extends Controller
                         if ($customer) {
                             $paymentLink = $this->generatePaymentLink($order);
 
-                            Mail::to($customer->billing_email)
-                                ->send(new PaymentReminderMail($order, $customer, $orderDetails, $paymentLink));
+                            if ($paymentLink) {
+                                Mail::to($customer->billing_email)
+                                    ->send(new PaymentReminderMail($order, $customer, $orderDetails, $paymentLink));
 
-                            DB::table('order_master')
-                                ->where('order_id', $order->order_id)
-                                ->update([
-                                    'payment_reminder_sent' => 1,
-                                    'payment_reminder_sent_at' => now()
-                                ]);
-
-                            Log::info('Payment reminder sent', [
-                                'order_id' => $order->order_id,
-                                'order_number' => $order->order_number,
-                                'customer_email' => $customer->billing_email
-                            ]);
+                                $payment->update(['payment_mail_sent' => 1]);
+                            }
                         }
                     }
                 }
             }
 
-            return redirect()->route('home')
-                ->with('info', 'Payment was cancelled. We\'ve sent you an email with payment details to complete your purchase later.');
+            notyf()->info('Payment was cancelled. We\'ve sent you an email with payment details to complete your purchase later.');
+            return redirect()->route('home');
         } catch (\Exception $e) {
-            Log::error('PayPal cancel error: ' . $e->getMessage());
-            return redirect()->route('home')
-                ->with('error', 'Something went wrong. Please try again.');
+            notyf()->error('Something went wrong. Please try again.');
+            return redirect()->route('home');
         }
     }
 
@@ -292,7 +268,6 @@ class PayPalWebhookController extends Controller
             $response = $provider->createOrder($paypalOrder);
 
             if (isset($response['id']) && $response['id']) {
-                // Update payment record with new transaction ID
                 Payment::where('order_id', $order->order_id)
                     ->update([
                         'transaction_id' => $response['id'],
@@ -306,7 +281,7 @@ class PayPalWebhookController extends Controller
                 return $approveLink;
             }
         } catch (\Exception $e) {
-            Log::error('Failed to generate payment link: ' . $e->getMessage());
+            notyf()->error('Failed to generate payment link');
         }
 
         return null;

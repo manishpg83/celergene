@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schedule;
 use App\Console\Commands\SendDebtorReminderMail;
 
 Schedule::command('payment:send-reminders')
-    ->everyFiveMinutes()
+    ->everyMinute()
     ->withoutOverlapping()
     ->runInBackground();
 
