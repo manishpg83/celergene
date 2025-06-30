@@ -403,12 +403,12 @@ class Checkout extends Component
             }
 
             $orderNumber = OrderMaster::generateOrderNumber();
-
+            $billing_name = $this->billing_fname. ' '.$this->billing_lname;
+            $shipping_name = $this->shipping_firstname. ' '.$this->shipping_lastname;
+            
             $shippingAddress = $this->useBillingAddress
-            ? "{$this->billing_address}, {$this->billing_city}, {$this->billing_state}, {$this->billing_postal_code}, {$this->billing_country}"
-            : "{$this->shipping_address1}, {$this->shipping_city}, {$this->shipping_state}, {$this->shipping_zip}, {$this->shipping_country}";        
-        
-
+            ? "{$this->billing_company_name }, {$billing_name}, {$this->billing_address}, {$this->billing_country}, {$this->billing_postal_code}, {$this->billing_phone}"
+            : "{$this->shipping_company_name }, {$shipping_name}, {$this->shipping_address1}, {$this->shipping_country}, {$this->shipping_zip}, {$this->shipping_phone}";
 
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
