@@ -137,22 +137,33 @@ class CreateOrder extends Component
 
     public function updatedSelectedShippingAddress($value)
     {
+        Log::info('Selected shipping address updated.', ['value' => $value]);
         $this->updateShippingAddress();
     }
 
     private function updateShippingAddresses()
     {
+        Log::info('Updating shipping addresses.', ['customer_id' => $this->customer_id]);
+
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
             if ($customer) {
+                Log::info('Customer found.', ['customer' => $customer->id]);
+
                 $this->shipping_addresses = [
                     1 => $this->formatAddress($customer, 1),
                     2 => $this->formatAddress($customer, 2),
                     3 => $this->formatAddress($customer, 3),
                 ];
+
+                Log::info('Formatted shipping addresses.', ['addresses' => $this->shipping_addresses]);
+
                 $this->updateShippingAddress();
+            } else {
+                Log::warning('Customer not found.', ['customer_id' => $this->customer_id]);
             }
         } else {
+            Log::info('No customer ID set.');
             $this->shipping_addresses = [];
             $this->shipping_address = '';
         }
@@ -160,6 +171,8 @@ class CreateOrder extends Component
 
     private function formatAddress($customer, $index)
     {
+        Log::debug("Formatting address for index {$index}.");
+
         $receiver = $customer["shipping_address_receiver_name_{$index}"];
         $address = $customer["shipping_address_{$index}"];
         $country = $customer["shipping_country_{$index}"];
@@ -168,16 +181,23 @@ class CreateOrder extends Component
         $company = $customer["shipping_company_name_{$index}"];
 
         if ($receiver || $address || $country || $postalCode || $phone || $company) {
-            return implode(", ", array_filter([$company, $receiver, $address, $country, $postalCode, $phone]));
+            $formatted = implode(", ", array_filter([$company, $receiver, $address, $country, $postalCode, $phone]));
+            Log::debug("Formatted address {$index}: {$formatted}");
+            return $formatted;
         }
 
+        Log::debug("No address data for index {$index}.");
         return null;
     }
 
     private function updateShippingAddress()
     {
-        $this->shipping_address = $this->shipping_addresses[$this->selected_shipping_address] ?? '';
+        $selected = $this->selected_shipping_address;
+        $address = $this->shipping_addresses[$selected] ?? '';
+        Log::info('Setting shipping address.', ['selected' => $selected, 'address' => $address]);
+        $this->shipping_address = $address;
     }
+
 
     public function addOrderDetail()
     {
