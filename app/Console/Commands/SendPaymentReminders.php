@@ -20,7 +20,8 @@ class SendPaymentReminders extends Command
             $this->info('Starting payment reminder check...');
 
             $pendingPayments = Payment::where('status', 'pending')
-                ->where('created_at', '<=', Carbon::now()->subMinutes(6))
+                ->where('created_at', '<=', Carbon::now()->subMinutes(5))
+                ->where('created_at', '>=', Carbon::now()->subMinutes(6))
                 ->where('payment_mail_sent', 0)
                 ->get();
 
