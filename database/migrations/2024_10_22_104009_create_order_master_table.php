@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->decimal('tax', 10, 2)->default(0.00);
             $table->decimal('total', 10, 2);
             $table->text('remarks')->nullable();
-            $table->enum('payment_mode', ['Credit Card', 'Bank Transfer', 'Cash']);
+            $table->enum('payment_mode', ['Credit Card', 'Bank Transfer', 'Cash', 'PayPal']);
             $table->enum('order_status', ['Pending', 'Paid', 'Cancelled', 'Sales Transfered to US', 'FOC'])->default('Pending');
             $table->enum('order_type', ['Regular','Zero Value','Partial','Online','Offline'])->default('Regular');
             $table->enum('workflow_type', ['standard', 'multi_delivery', 'consignment'])->default('standard');
