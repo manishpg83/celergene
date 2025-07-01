@@ -326,22 +326,47 @@
 
                     <!-- Payment Method Selection Section -->
                     <!-- Simplified Payment Method Selection -->
-                    <div class="payment-methods mb-4">
-                        <h5 class="mb-3">Select Payment Method</h5>
-                        <div class="form-group">
-                            <select class="form-control" wire:model="paymentMethod">
-                                <option value="">-- Select Payment Method --</option>
-                                <option value="paypal">PayPal</option>
-                                <option value="alipay">Alipay</option>
-                            </select>
+                    <!-- Payment Method Section -->
+                    <div class="payment-methods mt-4 pt-4 border-t border-gray-300">
+                        <div class="section-title font-bold text-gray-800 mb-3 ml-2">
+                            Payment Method
                         </div>
 
-                        @if ($paymentMethod === 'paypal')
-                            <small class="text-muted">Pay securely with your PayPal account</small>
-                        @elseif($paymentMethod === 'alipay')
-                            <small class="text-muted">Pay with Alipay for fast and secure checkout</small>
-                        @endif
+                        <div class="d-flex gap-3 px-2 ml-2">
+                            <!-- PayPal Option -->
+                            <label class="d-flex align-items-center cursor-pointer p-2 border rounded bg-white"
+                                style="border-color: #d3d3d3; transition: all 0.2s;"
+                                onmouseover="this.style.borderColor='silver'"
+                                onmouseout="this.style.borderColor='#d3d3d3'">
+                                <input type="radio" name="paymentMethod" value="paypal" wire:model="paymentMethod"
+                                    class="mr-2" style="accent-color: silver; width: 16px; height: 16px;">
+                                <i class="fab fa-paypal mr-2" style="color: #003087; font-size: 20px;"></i>
+                                <span class="font-medium">PayPal</span>
+                            </label>
+
+                            <!-- Alipay Option -->
+                            <label class="d-flex align-items-center cursor-pointer p-2 border rounded bg-white"
+                                style="border-color: #d3d3d3; transition: all 0.2s;"
+                                onmouseover="this.style.borderColor='silver'"
+                                onmouseout="this.style.borderColor='#d3d3d3'">
+                                <input type="radio" name="paymentMethod" value="alipay" wire:model="paymentMethod"
+                                    class="mr-4" style="accent-color: silver; width: 16px; height: 16px;">
+                                <i class="fab fa-alipay mr-2" style="color: #00AAEE; font-size: 20px;"></i>
+                                <span class="font-medium">Alipay</span>
+                            </label>
+                        </div>
+
+                        @error('paymentMethod')
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
+
+
+
+                    <!-- Add this in your head section for icons -->
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
                             @if (count($cartItems) > 0)
