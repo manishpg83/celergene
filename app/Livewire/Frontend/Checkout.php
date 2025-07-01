@@ -53,6 +53,11 @@ class Checkout extends Component
     public $cartItems = [];
     public $subtotal = 0;
     public $total = 0;
+    public $paymentMethod = 'paypal';
+    public $availablePaymentMethods = [
+        'paypal' => 'PayPal',
+        'alipay' => 'Alipay'
+    ];
 
     protected $listeners = [
         'receiveCartData',
@@ -294,6 +299,7 @@ class Checkout extends Component
                 'shipping_country' => 'required',
                 'shipping_phone' => 'required',
                 'shipping_email' => 'required|email',
+                'paymentMethod' => 'required|in:paypal,alipay',
             ]);
         }
 
@@ -403,12 +409,12 @@ class Checkout extends Component
             }
 
             $orderNumber = OrderMaster::generateOrderNumber();
-            $billing_name = $this->billing_fname. ' '.$this->billing_lname;
-            $shipping_name = $this->shipping_firstname. ' '.$this->shipping_lastname;
-            
+            $billing_name = $this->billing_fname . ' ' . $this->billing_lname;
+            $shipping_name = $this->shipping_firstname . ' ' . $this->shipping_lastname;
+
             $shippingAddress = $this->useBillingAddress
-            ? "{$this->billing_company_name }, {$billing_name}, {$this->billing_address}, {$this->billing_country}, {$this->billing_postal_code}, {$this->billing_phone}"
-            : "{$this->shipping_company_name }, {$shipping_name}, {$this->shipping_address1}, {$this->shipping_country}, {$this->shipping_zip}, {$this->shipping_phone}";
+                ? "{$this->billing_company_name}, {$billing_name}, {$this->billing_address}, {$this->billing_country}, {$this->billing_postal_code}, {$this->billing_phone}"
+                : "{$this->shipping_company_name}, {$shipping_name}, {$this->shipping_address1}, {$this->shipping_country}, {$this->shipping_zip}, {$this->shipping_phone}";
 
             $orderId = DB::table('order_master')->insertGetId([
                 'order_number' => $orderNumber,
@@ -420,7 +426,7 @@ class Checkout extends Component
                 'total' => $this->subtotal,
                 'order_status' => 'Pending',
                 'order_type' => 'Online',
-                'payment_mode' => 'Credit Card',
+                'payment_mode' => $this->paymentMethod === 'alipay' ? 'Alipay' : 'PayPal',
                 'shipping_address' => $shippingAddress,
                 'use_billing_as_shipping' => $this->useBillingAddress ? 1 : 0,
                 'created_by' => $this->user->id,
@@ -446,16 +452,18 @@ class Checkout extends Component
             }
 
             $this->generateInvoice($orderId);
-            $this->redirectToPaypal($orderId, $orderNumber);
+            $redirectUrl = $this->redirectToPayment($orderId, $orderNumber);
 
-            DB::commit();
+            if ($redirectUrl) {
+                // For Livewire to properly handle the redirect
+                $this->dispatchBrowserEvent('redirect-to-payment', ['url' => $redirectUrl]);
+                return;
+            }
 
-            session()->flash('order_number', $orderNumber);
-            return true;
+            throw new \Exception('No redirect URL received from payment provider');
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error('Order Processing Error', ['error' => $e->getMessage()]);
-            session()->flash('error', 'Order processing error: ' . $e->getMessage());
+            session()->flash('error', $e->getMessage());
             return null;
         }
     }
@@ -596,62 +604,109 @@ class Checkout extends Component
     }
 
 
-    private function redirectToPaypal($orderId, $orderNumber)
+    private function redirectToPayment($orderId, $orderNumber)
     {
         try {
             $provider = new PayPalClient;
+            $provider->setApiCredentials(config('paypal'));
+            $token = $provider->getAccessToken();
 
-            $provider->getAccessToken();
+            $requestId = Str::random(32);
+            $provider->setRequestHeaders([
+                'PayPal-Request-Id' => $requestId,
+                'Prefer' => 'return=representation'
+            ]);
 
             $order = [
                 'intent' => 'CAPTURE',
                 'application_context' => [
-                    'return_url' => route('paypal.success'),
-                    'cancel_url' => route('paypal.cancel'),
+                    'return_url' => route('payment.success'),
+                    'cancel_url' => route('payment.cancel'),
+                    'brand_name' => config('app.name'),
+                    'user_action' => 'PAY_NOW',
+                    'shipping_preference' => 'NO_SHIPPING'
                 ],
                 'purchase_units' => [
                     [
                         'reference_id' => $orderNumber,
+                        'custom_id' => $orderId,
+                        'description' => 'Order #' . $orderNumber,
                         'amount' => [
                             'currency_code' => config('paypal.currency', 'USD'),
                             'value' => number_format($this->total, 2, '.', ''),
-                        ],
-                        'description' => "Order #{$orderNumber}",
+                            'breakdown' => [
+                                'item_total' => [
+                                    'currency_code' => config('paypal.currency', 'USD'),
+                                    'value' => number_format($this->subtotal, 2, '.', '')
+                                ]
+                            ]
+                        ]
                     ]
                 ]
             ];
 
+            if ($this->paymentMethod === 'alipay') {
+                $order['payment_source'] = [
+                    'alipay' => [
+                        'name' => $this->billing_fname . ' ' . $this->billing_lname,
+                        'country_code' => $this->getCountryCode($this->billing_country),
+                        'email' => $this->billing_email
+                    ]
+                ];
+            }
+
             $response = $provider->createOrder($order);
 
-            if (isset($response['id']) && $response['id']) {
+            if (isset($response['id'])) {
                 Payment::create([
                     'order_id' => $orderId,
-                    'payment_method' => 'PayPal',
+                    'payment_method' => $this->paymentMethod === 'alipay' ? 'Alipay' : 'PayPal',
                     'transaction_id' => $response['id'],
                     'amount' => $this->total,
                     'currency' => config('paypal.currency', 'USD'),
                     'status' => 'pending',
                 ]);
 
-                $approveLink = collect($response['links'])
-                    ->firstWhere('rel', 'approve')['href'] ?? null;
+                $redirectLink = $this->getRedirectLink($response);
 
-                if ($approveLink) {
-                    return redirect($approveLink);
+                if ($redirectLink) {
+                    return $redirectLink;
                 }
             }
 
-            throw new \Exception('Failed to create PayPal order: ' . json_encode($response));
+            throw new \Exception('Failed to create payment order: ' . json_encode($response));
         } catch (\Exception $e) {
-            Log::error('PayPal Integration Error: ' . $e->getMessage(), [
-                'order_id' => $orderId,
-                'order_number' => $orderNumber,
+            Log::error('Payment Redirect Error', [
+                'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            session()->flash('error', 'Payment processing failed. Please try again later.');
-            return redirect()->route('checkout.error');
+            throw $e;
         }
+    }
+
+    private function getRedirectLink(array $response): ?string
+    {
+        if ($this->paymentMethod === 'alipay') {
+            $link = collect($response['links'])
+                ->firstWhere('rel', 'payer-action');
+        } else {
+            $link = collect($response['links'])
+                ->firstWhere('rel', 'approve');
+        }
+
+        return $link['href'] ?? null;
+    }
+
+    private function getCountryCode(string $countryName): string
+    {
+        $countries = [
+            'China' => 'CN',
+            'United States' => 'US',
+            'Hong Kong' => 'HK',
+            'Singapore' => 'SG'
+        ];
+
+        return $countries[$countryName] ?? 'US';
     }
 
     public function render()

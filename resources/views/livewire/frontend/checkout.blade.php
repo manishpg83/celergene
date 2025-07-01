@@ -323,6 +323,25 @@
                             {{ session('error') }}
                         </div>
                     @endif
+
+                    <!-- Payment Method Selection Section -->
+                    <!-- Simplified Payment Method Selection -->
+                    <div class="payment-methods mb-4">
+                        <h5 class="mb-3">Select Payment Method</h5>
+                        <div class="form-group">
+                            <select class="form-control" wire:model="paymentMethod">
+                                <option value="">-- Select Payment Method --</option>
+                                <option value="paypal">PayPal</option>
+                                <option value="alipay">Alipay</option>
+                            </select>
+                        </div>
+
+                        @if ($paymentMethod === 'paypal')
+                            <small class="text-muted">Pay securely with your PayPal account</small>
+                        @elseif($paymentMethod === 'alipay')
+                            <small class="text-muted">Pay with Alipay for fast and secure checkout</small>
+                        @endif
+                    </div>
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
                             @if (count($cartItems) > 0)
@@ -342,4 +361,37 @@
             </div>
         </div>
     </form>
+    <style>
+        .payment-methods {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .payment-options .form-check {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        .payment-options .form-check:hover {
+            background-color: #f8f9fa;
+        }
+
+        .payment-logo {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('redirect-to-payment', (event) => {
+                window.location.href = event.url;
+            });
+        });
+    </script>
 </div>

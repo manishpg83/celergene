@@ -92,6 +92,14 @@ class PayPalWebhookController extends Controller
             if (! $token) {
                 throw new \Exception('PayPal token not found in request');
             }
+            $paymentSource = $request->query('payment_source');
+            $isAlipay = ($paymentSource === 'alipay');
+
+            if ($isAlipay) {
+                $response = $provider->showOrderDetails($token);
+            } else {
+                $response = $provider->capturePaymentOrder($token);
+            }
 
             $response = $provider->capturePaymentOrder($token);
 
