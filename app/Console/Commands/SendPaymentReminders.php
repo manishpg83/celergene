@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Payment;
 use App\Mail\PaymentReminderMail;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Payment;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SendPaymentReminders extends Command
 {
@@ -19,11 +20,30 @@ class SendPaymentReminders extends Command
         try {
             $this->info('Starting payment reminder check...');
 
-            $pendingPayments = Payment::where('status', 'pending')
+            $allPendingPayments = Payment::where('status', 'pending')
+                ->where('payment_mail_sent', 0)
+                ->get();
+
+            $this->info("Total pending payments (no time filter): {$allPendingPayments->count()}");
+
+            $currentTimeFilterPayments = Payment::where('status', 'pending')
                 ->where('created_at', '<=', Carbon::now()->subMinutes(5))
                 ->where('created_at', '>=', Carbon::now()->subMinutes(6))
                 ->where('payment_mail_sent', 0)
                 ->get();
+
+            $this->info("Payments with 5-6 minute time filter: {$currentTimeFilterPayments->count()}");
+
+            $startTime = Carbon::now()->subMinutes(6);
+            $endTime = Carbon::now()->subMinutes(5);
+            $this->info("Looking for payments between: {$startTime} and {$endTime}");
+
+            $pendingPayments = Payment::where('status', 'pending')
+                ->where('created_at', '<=', Carbon::now()->subMinutes(1)) 
+                ->where('payment_mail_sent', 0)
+                ->get();
+
+            $this->info("Found {$pendingPayments->count()} pending payments to process");
 
             $emailsSent = 0;
             $errors = 0;
@@ -36,7 +56,6 @@ class SendPaymentReminders extends Command
 
                     if (!$order) {
                         $this->warn("Order not found for payment ID: {$payment->id}");
-                        notyf()->error("Order not found for payment ID: {$payment->id}");
                         continue;
                     }
 
@@ -46,7 +65,6 @@ class SendPaymentReminders extends Command
 
                     if (!$customer) {
                         $this->warn("Customer not found for order ID: {$order->order_id}");
-                        notyf()->error("Customer not found for order ID: {$order->order_id}");
                         continue;
                     }
 
@@ -69,24 +87,19 @@ class SendPaymentReminders extends Command
 
                         $emailsSent++;
                         $this->info("Reminder sent for Payment ID #{$payment->id}, Order #{$order->order_id} to {$customer->billing_email}");
-                        notyf()->success("Reminder sent for Order #{$order->order_id}");
                     } else {
                         $this->error("Failed to generate payment link for Payment ID #{$payment->id}, Order #{$order->order_id}");
-                        notyf()->error("Failed to generate payment link for Order #{$order->order_id}");
                         $errors++;
                     }
                 } catch (\Exception $e) {
                     $this->error("Error processing payment ID {$payment->id}: " . $e->getMessage());
-                    notyf()->error("Error processing payment ID {$payment->id}");
                     $errors++;
                 }
             }
 
             $this->info("Payment reminder check completed. Emails sent: {$emailsSent}, Errors: {$errors}");
-            notyf()->success("Payment reminders sent: {$emailsSent}");
         } catch (\Exception $e) {
             $this->error('Payment reminder cron failed: ' . $e->getMessage());
-            notyf()->error('Payment reminder cron failed');
         }
     }
 
