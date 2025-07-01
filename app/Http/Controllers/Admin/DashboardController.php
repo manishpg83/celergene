@@ -15,6 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $currentMonth = now()->month;
         $currentYear = now()->year;
 
         $baseOrderQuery = OrderInvoice::where('invoice_category', '!=', 'shipping')
@@ -22,6 +23,14 @@ class DashboardController extends Controller
             ->whereHas('order', function ($query) {
                 $query->where('order_status', '!=', 'Cancelled');
             });
+
+        $baseOrderQuery2 = OrderInvoice::where('invoice_category', '!=', 'shipping')
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereHas('order', function ($query) {
+                $query->where('order_status', '!=', 'Cancelled');
+            });
+        $averagePurchase = $baseOrderQuery2->sum('total');
 
         /*  $startDate = Carbon::create($this->year, 1, 1)->startOfDay();
         $endDate = Carbon::create($this->year, 12, 31)->endOfDay();
@@ -38,7 +47,7 @@ class DashboardController extends Controller
 
         $totalRevenue = $baseOrderQuery->sum('total');
 
-        $averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
+        //$averagePurchase = $totalOrders ? $totalRevenue / $totalOrders : 0;
         $totalCustomers = Customer::whereYear('created_at', $currentYear)->count();
 
         $products = Product::latest()->take(5)->get();
