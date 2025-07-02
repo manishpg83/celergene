@@ -49,7 +49,6 @@
     <script src="{{ asset('/frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('/frontend/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('/frontend/js/dashboard-account.js') }}"></script>
 
     <!-- Favicon -->
     @livewireStyles

@@ -1,7 +1,7 @@
 (function($) {
-	
+
 var handleChart = function(){
-	
+
 	var screenWidth = $(window).width();
 
 	var handleSalesChart = function(){
@@ -73,7 +73,7 @@ var handleChart = function(){
 					offsetX: -10,
 					style: {
 						fontSize: '13px',
-						colors:'#888888', 
+						colors:'#888888',
 					},
 					formatter: function (value) {
 						return "$" + value;
@@ -92,7 +92,7 @@ var handleChart = function(){
 					show: true,
 					style: {
 						fontSize: '13px',
-						colors:'#888888', 
+						colors:'#888888',
 					}
 				},
 				crosshairs: {
@@ -110,7 +110,7 @@ var handleChart = function(){
 			fill: {
 				opacity: 0.9,
 				colors:'var(--secondary)',
-				type: 'gradient', 
+				type: 'gradient',
 				gradient: {
 					colorStops:[
 						{
@@ -152,29 +152,29 @@ var handleChart = function(){
 		var chartBar1 = new ApexCharts(document.querySelector("#handleSalesChart"), options);
 		chartBar1.render();
 	}
-	
+
 	/* Function ============ */
 		return {
 			init:function(){
 			},
-			
-			
+
+
 			load:function(){
 				handleSalesChart();
 			},
-			
+
 			resize:function(){
 			}
 		}
-	
+
 	}();
 
-	
+
 	jQuery(window).on('load',function(){
 		setTimeout(function(){
 			handleChart.load();
-		}, 1000); 
-		
+		}, 1000);
+
 	});
 
 })(jQuery);

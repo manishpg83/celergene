@@ -1106,7 +1106,7 @@ var Glower = function () {
 			counter();
 			masonryBox();
 			//handleMultipleImageSize();
-			handleOpenModal();
+			//handleOpenModal();
 			handleIsotope();
 			jQuery('.modal').on('show.bs.modal', reposition);
 		},
