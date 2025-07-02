@@ -332,37 +332,36 @@
                             Payment Method
                         </div>
 
-                        <div class="d-flex gap-3 px-2 ml-2">
+                        <div class="flex gap-3 px-2 ml-2">
                             <!-- PayPal Option -->
-                            <label class="d-flex align-items-center cursor-pointer p-2 border rounded bg-white"
-                                style="border-color: #d3d3d3; transition: all 0.2s;"
-                                onmouseover="this.style.borderColor='silver'"
-                                onmouseout="this.style.borderColor='#d3d3d3'">
+                            <label
+                                class="flex items-center cursor-pointer p-2 border rounded bg-white hover:border-gray-400 transition"
+                                :class="paymentMethod === 'paypal' ? 'border-gray-400' : 'border-gray-300'">
                                 <input type="radio" name="paymentMethod" value="paypal" wire:model="paymentMethod"
-                                    class="mr-2" style="accent-color: silver; width: 16px; height: 16px;">
-                                <i class="fab fa-paypal mr-2" style="color: #003087; font-size: 20px;"></i>
+                                    class="mr-3 w-4 h-4 text-silver focus:ring-silver" />
+                                <i class="fab fa-paypal text-[#003087] text-xl mr-2"></i>
                                 <span class="font-medium">PayPal</span>
                             </label>
 
                             <!-- Alipay Option -->
-                            <label class="d-flex align-items-center cursor-pointer p-2 border rounded bg-white"
-                                style="border-color: #d3d3d3; transition: all 0.2s;"
-                                onmouseover="this.style.borderColor='silver'"
-                                onmouseout="this.style.borderColor='#d3d3d3'">
+                            <label
+                                class="flex items-center cursor-pointer p-2 border rounded bg-white hover:border-gray-400 transition"
+                                :class="paymentMethod === 'alipay' ? 'border-gray-400' : 'border-gray-300'">
                                 <input type="radio" name="paymentMethod" value="alipay" wire:model="paymentMethod"
-                                    class="mr-4" style="accent-color: silver; width: 16px; height: 16px;">
-                                <i class="fab fa-alipay mr-2" style="color: #00AAEE; font-size: 20px;"></i>
+                                    class="mr-3 w-4 h-4 text-silver focus:ring-silver" />
+                                <i class="fab fa-alipay text-[#00AAEE] text-xl mr-2"></i>
                                 <span class="font-medium">Alipay</span>
                             </label>
                         </div>
 
                         @error('paymentMethod')
-                            <div class="error-message">
+                            <div class="text-red-600 mt-2 text-sm flex items-center gap-1">
                                 <i class="fas fa-exclamation-circle"></i>
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
+
 
 
 
