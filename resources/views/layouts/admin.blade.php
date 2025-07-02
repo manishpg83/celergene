@@ -137,21 +137,27 @@
                     let billingAddress = $('#billing_address').val();
                     let billingCountry = $('#billing_country').val();
                     let billingPostalCode = $('#billing_postal_code').val();
+                    let mobile_number = $('#mobile_number').val();
+                    let company_name = $('#company_name').val();
 
                     $('#shipping_address_receiver_name_1').val($('#first_name').val() + ' ' + $(
                         '#last_name').val());
                     $('#shipping_address_1').val(billingAddress);
                     $('#shipping_country_1').val(billingCountry);
                     $('#shipping_postal_code_1').val(billingPostalCode);
+                    $('#shipping_phone_1').val(mobile_number);
+                    $('#shipping_company_name_1').val(company_name);
                 } else {
                     $('#shipping_address_receiver_name_1').val('');
                     $('#shipping_address_1').val('');
                     $('#shipping_country_1').val('');
                     $('#shipping_postal_code_1').val('');
+                    $('#shipping_phone_1').val('');
+                    $('#shipping_company_name_1').val('');
                 }
             });
         });
-    </script>  
+    </script>
     <script>
         document.addEventListener('livewire:load', function() {
             const modal = new bootstrap.Modal(document.getElementById('editOrderDateModal'));
@@ -190,7 +196,7 @@
             });
         });
     </script>
-    
+
 </body>
 
 </html>
