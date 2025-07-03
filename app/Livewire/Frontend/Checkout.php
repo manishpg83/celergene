@@ -455,8 +455,7 @@ class Checkout extends Component
             $redirectUrl = $this->redirectToPayment($orderId, $orderNumber);
 
             if ($redirectUrl) {
-                // For Livewire to properly handle the redirect
-                $this->dispatchBrowserEvent('redirect-to-payment', ['url' => $redirectUrl]);
+                $this->dispatch('redirect-to-payment', url: $redirectUrl);
                 return;
             }
 
