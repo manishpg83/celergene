@@ -453,13 +453,13 @@ class Checkout extends Component
 
             $this->generateInvoice($orderId);
             $redirectUrl = $this->redirectToPayment($orderId, $orderNumber);
-
+            DB::commit();
             if ($redirectUrl) {
                 $this->dispatch('redirect-to-payment', url: $redirectUrl);
                 return;
             }
 
-            throw new \Exception('No redirect URL received from payment provider');
+            //throw new \Exception('No redirect URL received from payment provider');
         } catch (\Exception $e) {
             Log::error('Order Processing Error', ['error' => $e->getMessage()]);
             session()->flash('error', $e->getMessage());
@@ -673,13 +673,18 @@ class Checkout extends Component
                 }
             }
 
-            throw new \Exception('Failed to create payment order: ' . json_encode($response));
+            if (isset($response['error']['details'][0]['issue']) && $response['error']['details'][0]['issue'] === 'COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE') {
+                notyf()->error('Alipay is not supported for the selected country. Please choose another payment method or change your country.');
+                return null;
+            }
         } catch (\Exception $e) {
-            Log::error('Payment Redirect Error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            throw $e;
+            if (strpos($e->getMessage(), 'COUNTRY_NOT_SUPPORTED_BY_PAYMENT_SOURCE') !== false) {
+                notyf()->error('Alipay is not supported for the selected country. Please choose another payment method or change your country.');
+                Log::warning('Alipay country not supported (exception)', ['error' => $e->getMessage()]);
+                return null;
+            }
+            notyf()->error('There was an error processing your payment. Please try again or contact support.');
+            return null;
         }
     }
 

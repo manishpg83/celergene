@@ -90,6 +90,7 @@ class PayPalWebhookController extends Controller
 
             $token = $request->query('token');
             if (! $token) {
+                \Log::error('PayPal token not found in request', ['request' => $request->all()]);
                 throw new \Exception('PayPal token not found in request');
             }
             $paymentSource = $request->query('payment_source');
@@ -101,11 +102,8 @@ class PayPalWebhookController extends Controller
                 $response = $provider->capturePaymentOrder($token);
             }
 
-            $response = $provider->capturePaymentOrder($token);
-
             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
                 $payment = Payment::where('transaction_id', $token)->first();
-
                 if ($payment) {
                     $payment->update([
                         'status' => 'completed',
@@ -182,11 +180,16 @@ class PayPalWebhookController extends Controller
 
                     notyf()->success('Your payment has been processed successfully!');
                     return redirect()->route('order.success');
+                } else {
+                    \Log::error('No Payment record found for token', ['token' => $token]);
                 }
+            } else {
+                \Log::error('PayPal payment not completed', ['response' => $response, 'token' => $token]);
             }
 
             throw new \Exception('Payment verification failed');
         } catch (\Exception $e) {
+            \Log::error('Exception in PayPal success', ['error' => $e->getMessage()]);
             notyf()->error('There was an error processing your payment. Please contact support.');
             return redirect()->route('checkout.error');
         }
