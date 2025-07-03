@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
                 Thank you for your payment.<br>
                 Your order details are attached below.
             </span>
-        </div>        
+        </div>
 
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 10px;">
             <div style="width: 48%; min-width: 250px;">
@@ -36,12 +36,12 @@
             <div style="width: 48%; min-width: 250px;">
                 <div style="margin: 0; white-space: pre-line;">
                     <strong>Shipping Address:</strong><br>
-                    {{ $shippingName }}
-                    {{ $shippingCompany }}
+                    {{-- $shippingName --}}
+                    {{-- $shippingCompany --}}
                     {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
-                    {{ $shippingPhone }}
+                    {{-- $shippingPhone --}}
                 </div>
-            </div>       
+            </div>
         </div>
 
         <div style="font-size: 14px; margin-bottom: 10px;">
