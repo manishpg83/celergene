@@ -68,9 +68,10 @@ Route::get('/celergen-video', [HomeController::class, 'celergenvideo'])->name('c
 Route::get('/celergen-video/{videoId}', [HomeController::class, 'celergenvideo'])->name('show.video');
 Route::get('/celergen-features', [HomeController::class, 'celergenfeatures'])->name('celergenfeatures');
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+// In your routes/web.php file
 Route::post('/paypal-webhook', [PayPalWebhookController::class, 'handle'])->name('paypal.webhook');
-Route::get('/paypal/success', [PayPalWebhookController::class, 'success'])->name('paypal.success');
-Route::get('/paypal/cancel', [PayPalWebhookController::class, 'cancel'])->name('paypal.cancel');
+Route::get('/payment/success', [PayPalWebhookController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [PayPalWebhookController::class, 'cancel'])->name('payment.cancel');
 Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacypolicy');
 Route::get('/authenticity', [HomeController::class, 'authenticity'])->name('authenticity');
 Route::get('/terms-and-condition', [HomeController::class, 'termsandcondition'])->name('termsandcondition');
