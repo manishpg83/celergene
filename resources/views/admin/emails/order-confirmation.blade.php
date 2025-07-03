@@ -42,31 +42,11 @@
                 <div class="address-title" style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">
                     Shipping Address:
                 </div>
-                @if ($order->shipping_address)
-                    @php
-                        $shippingDetails = explode(',', $order->shipping_address);
-                        $name = trim($shippingDetails[0] ?? '');
-                        $address = trim($shippingDetails[1] ?? '');
-                        $country = trim($shippingDetails[2] ?? '');
-                        $postalCode = trim($shippingDetails[3] ?? '');
-                    @endphp
-                    @if ($name)
-                        <p>{{ $name }}</p>
-                    @endif
-                    @if ($address)
-                        <p>{{ $address }}</p>
-                    @endif
-                    @if ($country)
-                        <p>{{ $country }}</p>
-                    @endif
-                    @if ($postalCode)
-                        <p>{{ $postalCode }}</p>
-                    @endif
-                @else
-                    <p>No shipping address provided.</p>
-                @endif
+                @php
+                    $addressParts = array_map('trim', explode(',', $order->shipping_address));
+                @endphp
+                {!! implode('<br>', array_filter($addressParts)) !!}
             </div>
-
         </div>
 
         <div>
