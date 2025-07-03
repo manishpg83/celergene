@@ -323,6 +323,49 @@
                             {{ session('error') }}
                         </div>
                     @endif
+
+                    <!-- Payment Method Selection Section -->
+                    <!-- Simplified Payment Method Selection -->
+                    <!-- Payment Method Section -->
+                    <div class="payment-methods mt-4 pt-4 border-t border-gray-300">
+                        <div class="section-title font-bold text-gray-800 mb-3 ml-2">
+                            Payment Method
+                        </div>
+
+                        <div class="flex gap-3 px-2 ml-2">
+                            <!-- PayPal Option -->
+                            <label
+                                class="flex items-center cursor-pointer p-2 border rounded bg-white hover:border-gray-400 transition"
+                                :class="paymentMethod === 'paypal' ? 'border-gray-400' : 'border-gray-300'">
+                                <input type="radio" name="paymentMethod" value="paypal" wire:model="paymentMethod"
+                                    class="mr-3 w-4 h-4 text-silver focus:ring-silver" />
+                                <i class="fab fa-paypal text-[#003087] text-xl mr-2"></i>
+                                <span class="font-medium">PayPal</span>
+                            </label>
+
+                            <!-- Alipay Option -->
+                            <label
+                                class="flex items-center cursor-pointer p-2 border rounded bg-white hover:border-gray-400 transition"
+                                :class="paymentMethod === 'alipay' ? 'border-gray-400' : 'border-gray-300'">
+                                <input type="radio" name="paymentMethod" value="alipay" wire:model="paymentMethod"
+                                    class="mr-3 w-4 h-4 text-silver focus:ring-silver" />
+                                <i class="fab fa-alipay text-[#00AAEE] text-xl mr-2"></i>
+                                <span class="font-medium">Alipay</span>
+                            </label>
+                        </div>
+
+                        @error('paymentMethod')
+                            <div class="text-red-600 mt-2 text-sm flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+
+
+
+                    <!-- Add this in your head section for icons -->
                     <div id="paypalinfo" style="margin-top:10px;">
                         <div class="col-xl-12 col-l-12 col-m-12" align="right">
                             @if (count($cartItems) > 0)
@@ -342,4 +385,37 @@
             </div>
         </div>
     </form>
+    <style>
+        .payment-methods {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .payment-options .form-check {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        .payment-options .form-check:hover {
+            background-color: #f8f9fa;
+        }
+
+        .payment-logo {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('redirect-to-payment', (event) => {
+                window.location.href = event.url;
+            });
+        });
+    </script>
 </div>
