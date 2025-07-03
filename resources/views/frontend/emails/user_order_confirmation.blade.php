@@ -36,9 +36,9 @@
             <div style="width: 48%; min-width: 250px;">
                 <div style="margin: 0; white-space: pre-line;">
                     <strong>Shipping Address:</strong><br>
+                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
                     {{-- $shippingName --}}
                     {{-- $shippingCompany --}}
-                    {!! implode('<br>', array_filter(array_map('trim', explode(',', $shippingAddress)))) !!}
                     {{-- $shippingPhone --}}
                 </div>
             </div>
