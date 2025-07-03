@@ -32,7 +32,8 @@
 
 
             <div class="clearfix m-l20">
-                <div class="badge-{{ strtolower($order->order_status) }}" style="max-width: 50%;">{{ ucfirst($order->order_status) }}</div>
+                <div class="badge-{{ strtolower($order->order_status) }}" style="max-width: 50%;">
+                    {{ ucfirst($order->order_status) }}</div>
                 <h4 class="mb-0">Order #{{ $formatted_order_number }}</h4>
             </div>
         </div>
@@ -46,13 +47,22 @@
             <div class="col-sm-6">
                 <div class="shiping-tracker-detail">
                     <span>Billing Address</span>
-                    <h6 class="title">{{ $order->customer->billing_address ?? 'N/A' }}</h6>
+                    <h6 class="title">{!! $order->customer->formatted_billing_address !!}</h6>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="shiping-tracker-detail">
                     <span>Shipping Address</span>
-                    <h6 class="title">{{ $order->shipping_address ?? 'N/A' }}</h6>
+                    @php
+                        $shippingParts = explode(',', $order->shipping_address);
+                    @endphp
+
+                    <h6 class="title">
+                        @foreach ($shippingParts as $part)
+                            {{ trim($part) }}<br>
+                        @endforeach
+                    </h6>
+
                 </div>
             </div>
         </div>
