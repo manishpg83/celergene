@@ -102,4 +102,18 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFormattedBillingAddressAttribute()
+    {
+        return collect([
+            "{$this->billing_fname} {$this->billing_lname}",
+            $this->billing_company_name,
+            $this->billing_address,
+            $this->billing_address_2,
+            "{$this->billing_city}, {$this->billing_state}",
+            "{$this->billing_country} - {$this->billing_postal_code}",
+            "Phone: {$this->billing_phone}",
+        ])->filter()->implode('<br>');
+    }
+
 }
