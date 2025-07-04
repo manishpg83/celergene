@@ -329,7 +329,7 @@
                     <!-- Payment Method Section -->
                     <div class="payment-methods mt-4 pt-4 border-t border-gray-300">
                         <div class="section-title font-bold text-gray-800 mb-3 ml-2">
-                            Payment Method
+                            PAYMENT METHOD
                         </div>
 
                         <div class="flex gap-3 px-2 ml-2">
