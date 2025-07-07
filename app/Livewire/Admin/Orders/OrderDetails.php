@@ -498,7 +498,6 @@ class OrderDetails extends Component
     {
         $customer = $this->order->customer;
         $parts = [];
-        Log::info($this->order->order_type);
         if ($this->order->order_type == 'Online') {
             if ($customer->billing_company_name) {
                 $parts[] = $customer->billing_company_name;
