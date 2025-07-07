@@ -527,9 +527,6 @@ class OrderDetails extends Component
         if ($customer->billing_state) {
             $cityStatePostal[] = $customer->billing_state;
         }
-        if ($customer->billing_postal_code) {
-            $cityStatePostal[] = $customer->billing_postal_code;
-        }
 
         if (!empty($cityStatePostal)) {
             $parts[] = implode(' ', $cityStatePostal);
@@ -538,7 +535,10 @@ class OrderDetails extends Component
         if ($customer->billing_country) {
             $parts[] = $customer->billing_country;
         }
-
+        
+        if ($customer->billing_postal_code) {
+            $parts[] = $customer->billing_postal_code;
+        }
         if ($customer->billing_phone) {
             $parts[] = 'Phone: ' . $customer->billing_phone;
         }
