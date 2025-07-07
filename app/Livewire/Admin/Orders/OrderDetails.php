@@ -108,16 +108,16 @@ class OrderDetails extends Component
             $this->order->modified_by = Auth::id();
             $this->order->save();
 
-            if($this->orderStatus == 'Cancelled'){
+            if ($this->orderStatus == 'Cancelled') {
                 $deliveryOrders = DeliveryOrder::where('order_id', $this->order_id)->get();
-                
-                foreach($deliveryOrders as $deliveryOrder) {
+
+                foreach ($deliveryOrders as $deliveryOrder) {
                     $deliveryDetails = DeliveryOrderDetail::where('delivery_order_id', $deliveryOrder->id)->get();
-                   
-                    foreach($deliveryDetails as $detail) {
+
+                    foreach ($deliveryDetails as $detail) {
                         $inventory = Inventory::find($detail->inventory_id);
-                        
-                        if($inventory) {
+
+                        if ($inventory) {
                             $totalQuantity = $detail->quantity + $detail->sample_quantity;
                             $inventory->increment('remaining', $totalQuantity);
                             $inventory->decrement('consumed', $totalQuantity);
@@ -133,7 +133,7 @@ class OrderDetails extends Component
             $adminEmail = env('ADMIN_EMAIL', 'developer@predsolutions.com');
 
             if ($oldStatus != $this->orderStatus && $this->order->customer && $this->order->customer->email) {
-                if($this->orderStatus == 'Paid'){
+                if ($this->orderStatus == 'Paid') {
                     try {
                         Mail::to($adminEmail)
                             ->send(new OrderStatusChanged($this->order, $oldStatus, $this->orderStatus));
@@ -143,7 +143,6 @@ class OrderDetails extends Component
                         notyf()->error('Order updated but email notification failed.');
                     }
                 }
-
             }
         } catch (\Exception $e) {
             Log::error('Order details update failed: ' . $e->getMessage());
@@ -500,12 +499,12 @@ class OrderDetails extends Component
         $customer = $this->order->customer;
         $parts = [];
 
-        if ($customer->billing_fname || $customer->billing_lname) {
-            $parts[] = trim($customer->billing_fname . ' ' . $customer->billing_lname);
-        }
-
         if ($customer->billing_company_name) {
             $parts[] = $customer->billing_company_name;
+        }
+
+        if ($customer->billing_fname || $customer->billing_lname) {
+            $parts[] = trim($customer->billing_fname . ' ' . $customer->billing_lname);
         }
 
         if ($customer->billing_address) {
