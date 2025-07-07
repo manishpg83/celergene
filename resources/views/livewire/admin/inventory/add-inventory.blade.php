@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label">Total Quantity</label>
-                                            <p class="form-control-plaintext fw-bold">{{ $remaining + $consumed }}</p>
+                                            <p class="form-control-plaintext fw-bold">{{ $total_qty }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -196,18 +196,7 @@
                                 <span class="fs-5 fw-bold text-success">Remaining Inventory:
                                     {{ number_format($remaining) }}</span><br>
                                 <span class="fs-5 fw-bold text-dark">Total:
-                                    @php
-                                    if (isset($_GET['id']) && $_GET['id'] == 60) {
-                                        $total = DB::table('stock')
-                                            ->where('inventory_id', 60)
-                                            ->where('quantity_change', '>', 0)
-                                            ->sum('quantity_change');
-                                    } else {
-                                        $total = $consumed + $remaining;
-                                    }
-                                    @endphp
-                                    {{-- number_format($consumed + $remaining) --}}
-                                    {{ $total }}
+                                    {{ number_format($total_qty) }}
                                 </span>
                             </div>
                             <div class="table-responsive">

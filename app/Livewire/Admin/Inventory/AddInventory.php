@@ -26,6 +26,7 @@ class AddInventory extends Component
     public $batch_number;
     public $expiry;
     public $quantity;
+    public $total_qty = 0;
     public $consumed = 0;
     public $remaining;
     public $minExpireDate;
@@ -67,6 +68,7 @@ class AddInventory extends Component
                 $this->fill($inventory->toArray());
                 $this->expiry = $inventory->expiry ? date('Y-m', strtotime($inventory->expiry)) : $this->expiry;
                 $this->isEditMode = true;
+                $this->total_qty = $inventory->total_qty;
 
                 $this->quantity = 0;
                 $this->remaining = $inventory->remaining;
@@ -97,9 +99,12 @@ class AddInventory extends Component
             $oldQuantity = $oldInventory ? $oldInventory->quantity : 0;
             $oldRemaining = $oldInventory ? $oldInventory->remaining : 0;
             $oldConsumed = $oldInventory ? $oldInventory->consumed : 0;
+            $oldTotalQty = $oldInventory ? $oldInventory->total_qty : 0;
 
             $newQuantity = $oldQuantity + $this->quantity;
             $newRemaining = $oldRemaining + $this->quantity;
+
+            $newTotalQty = $this->quantity > 0 ? $oldTotalQty + $this->quantity : $oldTotalQty;
 
             if (!$this->expiry) {
                 $this->expiry = (date('Y') + 1) . '-12';
@@ -114,6 +119,7 @@ class AddInventory extends Component
                     'batch_number' => $this->batch_number,
                     'expiry' => $formattedExpireDate,
                     'quantity' => $newQuantity,
+                    'total_qty' => $newTotalQty,
                     'consumed' => $oldConsumed,
                     'remaining' => $newRemaining,
                     'created_by' => $this->inventory_id ? $oldInventory->created_by : Auth::id(),
@@ -151,7 +157,9 @@ class AddInventory extends Component
             $this->reason = $latestStock->reason;
         }
 
-        $this->remaining = Inventory::find($this->inventory_id)?->remaining;
+        $inventory = Inventory::find($this->inventory_id);
+        $this->remaining = $inventory?->remaining;
+        $this->total_qty = $inventory?->total_qty;
     }
 
     public function initiateTransfer()
@@ -240,6 +248,7 @@ class AddInventory extends Component
                 [
                     'expiry' => $formattedExpireDate,
                     'quantity' => 0,
+                    'total_qty' => 0,
                     'consumed' => 0,
                     'remaining' => 0,
                     'created_by' => Auth::id(),
@@ -249,6 +258,7 @@ class AddInventory extends Component
 
             $destinationInventory->quantity += $this->transfer_quantity;
             $destinationInventory->remaining += $this->transfer_quantity;
+            $destinationInventory->total_qty += $this->transfer_quantity;
             $destinationInventory->save();
 
             Stock::create([

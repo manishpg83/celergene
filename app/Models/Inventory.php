@@ -18,6 +18,7 @@ class Inventory extends Model
         'batch_number',
         'expiry',
         'quantity',
+        'total_qty',
         'consumed',
         'remaining',
         'created_by',
@@ -39,5 +40,4 @@ class Inventory extends Model
     {
         return $this->belongsTo(User::class, 'modified_by');
     }
-
 }

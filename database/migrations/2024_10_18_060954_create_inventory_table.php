@@ -22,6 +22,7 @@ class CreateInventoryTable extends Migration
             $table->integer('quantity');
             $table->integer('consumed')->default(0);
             $table->integer('remaining')->computed('quantity - consumed');
+            $table->integer('total_qty')->default(0);
             $table->string('created_by');
             $table->string('modified_by')->nullable();
             $table->softDeletes();
