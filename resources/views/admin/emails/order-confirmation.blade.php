@@ -24,6 +24,9 @@
                 <div class="address-title"
                     style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 16px;">Billing Address:</div>
                 <p>
+                    {{ $customer->company_name }}
+                </p>
+                <p>
                     {{ $customer->salutation ? $customer->salutation  : '' }} {{ $customer->first_name }} {{ $customer->last_name }}
                 </p>
                 @if ($customer->billing_address)

@@ -141,11 +141,11 @@ class CreateOrder extends Component
     }
 
     private function updateShippingAddresses()
-    {       
+    {
 
         if ($this->customer_id) {
             $customer = Customer::find($this->customer_id);
-            if ($customer) {                
+            if ($customer) {
 
                 $this->shipping_addresses = [
                     1 => $this->formatAddress($customer, 1),
@@ -172,7 +172,7 @@ class CreateOrder extends Component
         $address = $customer["shipping_address_{$index}"];
         $country = $customer["shipping_country_{$index}"];
         $postalCode = $customer["shipping_postal_code_{$index}"];
-        $phone = $customer["shipping_phone_{$index}"];
+        $phone = $customer["shipping_phone_{$index}"] ?: '--';
         $company = $customer["shipping_company_name_{$index}"];
 
         if ($receiver || $address || $country || $postalCode || $phone || $company) {

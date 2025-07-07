@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <title>Invoice #{{ $order->customer->first_name }} {{ $order->customer->last_name }}</title>
-       <!-- Icons -->
-       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/fontawesome.css') }}" />
-       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/tabler-icons.css') }}" />
-       <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/flag-icons.css') }}" />
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/admin/assets/vendor/fonts/flag-icons.css') }}" />
     <style>
         body {
-            font-family:  Arial, sans-serif,'DejaVu Sans';
+            font-family: Arial, sans-serif, 'DejaVu Sans';
             font-size: 12px;
             color: #333;
             margin: 0;
@@ -221,7 +221,9 @@
     <div class="addresses">
         <div class="billing-address">
             <strong>Billing Address</strong><br>
-            {{ $order->customer->salutation ? $order->customer->salutation : '' }} {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
+            {{ $order->customer->company_name }}<br>
+            {{ $order->customer->salutation ? $order->customer->salutation : '' }} {{ $order->customer->first_name }}
+            {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
             VAT No: {{ $order->customer->vat_number }}<br><br>
             {{ $order->customer->billing_country }}<br>
@@ -239,7 +241,7 @@
 
             {!! nl2br(e(str_replace(',', "\n", implode(', ', $addressParts)))) !!}
 
-            @if($phoneNumber)
+            @if ($phoneNumber)
                 <br>PHONE : {{ $phoneNumber }}
             @endif
         </div>
@@ -274,8 +276,10 @@
                     <td style="width: 42%;">{{ $detail->getDisplayDescription() }}</td>
                     <td style="width: 12%;">{{ $detail->quantity }}</td>
                     <td style="width: 12%;">{{ $detail->sample_quantity ?? 0 }}</td>
-                    <td style="width: 10%;">{{ $order->currency->symbol ?? '$' }} {{ number_format($detail->unit_price, 2) }}</td>
-                    <td style="width: 14%;">{{ $order->currency->symbol ?? '$' }} {{ number_format($detail->total, 2) }}</td>
+                    <td style="width: 10%;">{{ $order->currency->symbol ?? '$' }}
+                        {{ number_format($detail->unit_price, 2) }}</td>
+                    <td style="width: 14%;">{{ $order->currency->symbol ?? '$' }}
+                        {{ number_format($detail->total, 2) }}</td>
                 </tr>
             @endforeach
 
@@ -327,7 +331,7 @@
             <table>
                 <tr>
                     <td>SUBTOTAL</td>
-                    <td>{{ $order->currency->symbol ?? '$'}} {{ number_format($invoice->subtotal, 2) }}</td>
+                    <td>{{ $order->currency->symbol ?? '$' }} {{ number_format($invoice->subtotal, 2) }}</td>
                 </tr>
                 {{-- <tr>
                     <td>TOTAL DISCOUNT</td>
@@ -335,15 +339,18 @@
                 </tr> --}}
                 <tr>
                     <td>FREIGHT</td>
-                    <td><span style="color: green">{{ $order->currency->symbol ?? '$' }} {{ number_format($invoice->freight, 2) }}</span></td>
+                    <td><span style="color: green">{{ $order->currency->symbol ?? '$' }}
+                            {{ number_format($invoice->freight, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td>TAX</td>
-                    <td><span style="color: green">{{ $order->currency->symbol ?? '$' }} {{ number_format($invoice->tax, 2) }}</span></td>
+                    <td><span style="color: green">{{ $order->currency->symbol ?? '$' }}
+                            {{ number_format($invoice->tax, 2) }}</span></td>
                 </tr>
                 <tr>
                     <td><strong>TOTAL</strong></td>
-                    <td><strong>{{ $order->currency->code ?? 'USD'}} {{ $order->currency->symbol ?? '$'}} {{ number_format($invoice->total, 2) }}</strong></td>
+                    <td><strong>{{ $order->currency->code ?? 'USD' }} {{ $order->currency->symbol ?? '$' }}
+                            {{ number_format($invoice->total, 2) }}</strong></td>
                 </tr>
             </table>
         </div>

@@ -220,6 +220,7 @@
     <div class="addresses">
         <div class="billing-address">
             <strong>Billing Address</strong><br>
+            {{ $order->customer->company_name }}<br>
             {{ $order->customer->salutation ? $order->customer->salutation : '' }} {{ $order->customer->first_name }} {{ $order->customer->last_name }}<br>
             {{ $order->customer->billing_address }}<br>
             VAT No: {{ $order->customer->vat_number }}<br><br>
