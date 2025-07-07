@@ -172,7 +172,7 @@ class CreateOrder extends Component
         $address = $customer["shipping_address_{$index}"];
         $country = $customer["shipping_country_{$index}"];
         $postalCode = $customer["shipping_postal_code_{$index}"];
-        $phone = $customer["shipping_phone_{$index}"] ?: '--';
+        $phone = $customer["shipping_phone_{$index}"] ?: 'N/A';
         $company = $customer["shipping_company_name_{$index}"];
 
         if ($receiver || $address || $country || $postalCode || $phone || $company) {
