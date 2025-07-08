@@ -197,8 +197,6 @@ class PayPalWebhookController extends Controller
 
     public function cancel(Request $request)
     {
-        \Log::error('Exception in cancel', ['error' => $request]);
-        \Log::error('Exception in cancel1', ['error' => var_dump($request)]);
         try {
             $token = $request->query('token');
             if ($token) {
@@ -249,6 +247,7 @@ class PayPalWebhookController extends Controller
             notyf()->info('Payment was cancelled. We\'ve sent you an email with payment details to complete your purchase later.');
             return redirect()->route('home');
         } catch (\Exception $e) {
+            \Log::error('Exception in generatePaymentLink', ['error' => $e->getMessage()]);
             notyf()->error('Something went wrong. Please try again.');
             return redirect()->route('home');
         }
