@@ -292,6 +292,7 @@ class PayPalWebhookController extends Controller
                 return $approveLink;
             }
         } catch (\Exception $e) {
+            \Log::error('Exception in generatePaymentLink', ['error' => $e->getMessage()]);
             notyf()->error('Failed to generate payment link');
         }
 
