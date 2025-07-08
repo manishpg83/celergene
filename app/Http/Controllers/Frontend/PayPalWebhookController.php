@@ -261,8 +261,8 @@ class PayPalWebhookController extends Controller
             $paypalOrder = [
                 'intent' => 'CAPTURE',
                 'application_context' => [
-                    'return_url' => route('paypal.success'),
-                    'cancel_url' => route('paypal.cancel'),
+                    'return_url' => route('payment.success'),
+                    'cancel_url' => route('payment.cancel'),
                 ],
                 'purchase_units' => [
                     [
