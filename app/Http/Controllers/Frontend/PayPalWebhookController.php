@@ -197,6 +197,8 @@ class PayPalWebhookController extends Controller
 
     public function cancel(Request $request)
     {
+        \Log::error('Exception in cancel', ['error' => $request]);
+        \Log::error('Exception in cancel1', ['error' => var_dump($request)]);
         try {
             $token = $request->query('token');
             if ($token) {
